@@ -1,14 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Cardwall</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cardwall</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- For ng start local dev only. This loads all the config data -->
+    <script>
+      window.TeamDynamix = window.TeamDynamix || {};
+      window.TeamDynamix.Config = window.TeamDynamix.Config || {};
+
+      window.TeamDynamix.Config.IsDebug = true;
+
+      window.TeamDynamix.Config.BearerAuthToken =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImFzdHJlZXQiLCJpc3MiOiJURCIsImF1ZCI6Imh0dHBzOi8vd3d3LnRlYW1keW5hbWl4LmNvbS8iLCJleHAiOjE1NDgyNTA3MTksIm5iZiI6MTU0ODE2NDMxOX0.kvfOGxXnD1enTi9VEF00xGUB37GrZRhWLMQEkNAotwU';
+
+      window.TeamDynamix.Config.UID = 'ce9058f7-c42c-4bc0-999f-4e482dc4f6c1';
+      window.TeamDynamix.Config.BEID = '06e58e3d-0b6a-41f1-b7e2-9f642cd6c078';
+      window.TeamDynamix.Config.BEIDInt = 91;
+
+      window.TeamDynamix.Config.BasePath = '/tddev/TDNext/';
+      window.TeamDynamix.Config.UserProfilePathBase = 'http://192.168.1.14/TDDev/TDPortal/Images/Profile?fileName=';
+      window.TeamDynamix.Config.ApiBasePath = 'http://192.168.1.14/TDDev/TDWebApi/api/';
+      window.TeamDynamix.Config.SignalRBasePath = 'http://192.168.1.14/TDDev/TDSignalR/signalr';
+      window.TeamDynamix.Config.TDNextBasePath = 'http://192.168.1.14/TDDev/TDNext/';
+      window.TeamDynamix.Config.TaskDetailBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskDet.aspx';
+      window.TeamDynamix.Config.TaskAlertsBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskAlerts.aspx';
+      window.TeamDynamix.Config.TaskResourcesBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskResources.aspx';
+      window.TeamDynamix.Config.TaskIssuesBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskIssues.aspx';
+      window.TeamDynamix.Config.TaskTimeTypesBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskAccounts.aspx';
+      window.TeamDynamix.Config.TaskWorkBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskWork.aspx';
+      window.TeamDynamix.Config.TaskUpdateBasePath = '/tddev/TDNext/Apps/Projects/Tasks/TaskUpdate.aspx';
+      window.TeamDynamix.Config.AddTicketPath = '/tddev/TDNext/Apps/Projects/Plans/AddTaskFromTicket';
+      window.TeamDynamix.Config.PlanDetailsPath = '/tddev/TDNext/Apps/Projects/Tasks/PlanDetails.aspx';
+      window.TeamDynamix.Config.PlanFeedPath = '/tddev/TDNext/Apps/Projects/Tasks/PlanFeed.aspx';
+      window.TeamDynamix.Config.PlanResourceAllocationViewPath = '/tddev/TDNext/Apps/Projects/Tasks/TaskResourceAllocation.aspx';
+      window.TeamDynamix.Config.BurndownReportPath = '/tddev/TDNext/Apps/Projects/Tasks/PlanBurnDown.aspx';
+      window.TeamDynamix.Config.AppsBasePath = '/tddev/TDNext/Apps/';
+      window.TeamDynamix.Config.HomePath = '/tddev/TDNext/Apps/Projects/Plans';
+      window.TeamDynamix.Config.IsSourceControlEnabled = true;
+
+      window.TeamDynamix.Config.CanUpdateTasks = true;
+      window.TeamDynamix.Config.CanUpdateMyTasksOnly = false;
+      window.TeamDynamix.Config.CanAddTasks = true;
+      window.TeamDynamix.Config.CanDeleteTasks = true;
+      window.TeamDynamix.Config.CanEditTasks = true;
+
+      window.TeamDynamix.Config.CanAddIssues = true;
+      window.TeamDynamix.Config.CanDeleteIssues = true;
+
+      window.TeamDynamix.Config.CanAddPlans = true;
+      window.TeamDynamix.Config.CanDeletePlans = true;
+      window.TeamDynamix.Config.CanEditPlans = true;
+
+      window.TeamDynamix.Config.HasAnalysis = true;
+      window.TeamDynamix.Config.IsTDNext = true;
+
+      window.TeamDynamix.Config.KillSwitch = false;
+
+      window['__Zone_disable_IE_check'] = true;
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>
