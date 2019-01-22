@@ -39,6 +39,7 @@
     "@angular/language-service": "^7.2.1",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
+    "@types/jest": "^23.3.13",
     "@types/node": "~6.0.60",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",

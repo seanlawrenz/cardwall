@@ -292,7 +292,7 @@
   dependencies:
     "@types/jasmine" "*"
 
-"@types/jest@^23.3.1":
+"@types/jest@^23.3.1", "@types/jest@^23.3.13":
   version "23.3.13"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
 
