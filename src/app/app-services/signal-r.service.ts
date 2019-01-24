@@ -54,44 +54,46 @@ export class SignalRService {
     if (!this.hubUrl) {
       throw new Error('hubName must be set before SignalR can be initialized.');
     }
-    return Observable.create(observer => {
-      const { next, error, complete } = observer;
-      this.connection = $.hubConnection();
-      this.connection.url = this.hubUrl;
-      this.connection.logging = !environment.production;
-      this.connection.error(
-        function(err) {
-          console.error(err);
-        }.bind(this),
-      );
-      this.connection.stateChanged(state => this.onConnectionStateChanged(state));
-      this.proxy = this.connection.createHubProxy(this.hubName);
-      this.subscribeToHubEvents(this.proxy);
 
-      this.connection
-        .start()
-        .done(data => {
-          console.log(`Now connected ${data.transport.name}, connection ID= ${data.id}`);
-          if (callback) {
-            const result: Observable<any> = callback();
+    return this.buildConnection(callback);
+    // return Observable.create(observer => {
+    //   const { next, error, complete } = observer;
+    //   this.connection = $.hubConnection();
+    //   this.connection.url = this.hubUrl;
+    //   this.connection.logging = !environment.production;
+    //   this.connection.error(
+    //     function(err) {
+    //       console.error(err);
+    //     }.bind(this),
+    //   );
+    //   this.connection.stateChanged(state => this.onConnectionStateChanged(state));
+    //   this.proxy = this.connection.createHubProxy(this.hubName);
+    //   this.subscribeToHubEvents(this.proxy);
 
-            if (result) {
-              result.subscribe(r => {
-                next(r);
-                complete();
-              });
-            } else {
-              complete();
-            }
-          }
-        })
-        .fail(
-          ((err: any) => {
-            console.error(err);
-            complete();
-          }).bind(this),
-        );
-    });
+    //   this.connection
+    //     .start()
+    //     .done(data => {
+    //       console.log(`Now connected ${data.transport.name}, connection ID= ${data.id}`);
+    //       if (callback) {
+    //         const result: Observable<any> = callback();
+
+    //         if (result) {
+    //           result.subscribe(r => {
+    //             next(r);
+    //             complete();
+    //           });
+    //         } else {
+    //           complete();
+    //         }
+    //       }
+    //     })
+    //     .fail(
+    //       ((err: any) => {
+    //         console.error(err);
+    //         complete();
+    //       }).bind(this),
+    //     );
+    // });
   }
 
   private buildConnection(callback?: Function): Observable<any> {

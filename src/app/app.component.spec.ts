@@ -1,22 +1,26 @@
-import { TestBed, async, ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { getQueriesForElement } from 'dom-testing-library';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import { ConfigService, SignalRService } from './app-services';
+import { mockConfigService } from './test/mocks';
 
-function render(component: any) {
-  TestBed.configureTestingModule({
-    declarations: [component],
-    providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
-  }).compileComponents();
+describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let app: AppComponent;
 
-  const fixture = TestBed.createComponent(component);
-  const container = fixture.debugElement.nativeElement;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      providers: [SignalRService, { provide: ConfigService, useValue: mockConfigService }],
+    }).compileComponents();
+  }));
 
-  return getQueriesForElement(container);
-}
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+  });
 
-test('renders a counter', () => {
-  const { getByText } = render(AppComponent);
-  const text = getByText(`Welcome to app!`);
-  expect(text).toBeTruthy();
+  it('should create the app', () => {
+    expect(app).toBeTruthy();
+  });
 });
