@@ -38,8 +38,7 @@ interface SignalR {
   isDisconnecting(connection: SignalR): boolean;
 
   // createHubProxy(hubName: string): SignalR;
-
-  start(callback: () => void | ConnectionSettings): any; // JQueryPromise<any>;
+  start(callback?: () => void | ConnectionSettings): any; // JQueryPromise<any>;
   // start(callback: () => void): any; // JQueryPromise<any>;
   // start(settings: ConnectionSettings): any; // JQueryPromise<any>;
   // start(settings: ConnectionSettings, callback: () => void): any; // JQueryPromise<any>;

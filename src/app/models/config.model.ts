@@ -1,0 +1,54 @@
+export interface Config {
+  UID: string;
+  BEID: string;
+  BEIDInt: number;
+  BearerAuthToken: string;
+  BasePath: string;
+  UserProfilePathBase: string;
+  ApiBasePath: string;
+  TDNextBasePath: string;
+  SignalRBasePath: string;
+  CanUpdateTasks: boolean;
+  CanUpdateMyTasksOnly: boolean;
+  CanAddTasks: boolean;
+  CanDeleteTasks: boolean;
+  CanEditTasks: boolean;
+  CanAddPlans: boolean;
+  CanDeletePlans: boolean;
+  CanEditPlans: boolean;
+  CanAddIssues: boolean;
+  CanDeleteIssues: boolean;
+  TaskDetailBasePath: string;
+  TaskAlertsBasePath: string;
+  TaskResourcesBasePath: string;
+  TaskIssuesBasePath: string;
+  TaskTimeTypesBasePath: string;
+  TaskWorkBasePath: string;
+  AppsBasePath: string;
+  TaskUpdateBasePath: string;
+  AddTicketPath: string;
+  PlanDetailsPath: string;
+  PlanFeedPath: string;
+  PlanResourceAllocationViewPath: string;
+  HomePath: string;
+  IsDebug: boolean;
+  IsSourceControlEnabled: boolean;
+
+
+  SignalRHubName?: string;
+  WorkdaysPerWeek?: number;
+  HoursPerDay?: number;
+  PlanCustomViewPath?: string;
+  PrintViewPath?: string;
+  BurndownReportPath?: string;
+  AddExternalRelationshipPath?: string;
+  ExportPath?: string;
+  ReferrerUrl?: string;
+  PlanPrioritizationViewPath?: string;
+  PlanBackupsViewPath?: string;
+  DateFormatString?: string;
+  DateFormatStringNoDayOfWeek?: string;
+  IsElectron?: boolean;
+  IsTDNext?: boolean;
+  HasAnalysis?: boolean;
+}
