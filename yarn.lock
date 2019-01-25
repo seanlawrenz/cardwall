@@ -2469,6 +2469,10 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
 
+faker@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
+
 fast-deep-equal@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.1.0.tgz#c053477817c86b51daa853c81e059b733d023614"
@@ -3641,6 +3645,12 @@ jasmine-core@~2.6.2:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.6.4.tgz#dec926cd0a9fa287fb6db5c755fa487e74cecac5"
 
+jasmine-marbles@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/jasmine-marbles/-/jasmine-marbles-0.4.1.tgz#5e0b492c124b3a34f958c40c0587f3abccea6485"
+  dependencies:
+    lodash "^4.5.0"
+
 jasmine-spec-reporter@~4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-4.1.1.tgz#5a6d58ab5d61bea7309fbc279239511756b1b588"
@@ -4309,7 +4319,7 @@ lodash.tail@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
 
-lodash@4.17.11, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@~4.17.10:
+lodash@4.17.11, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.5.0, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -6700,6 +6710,12 @@ terser@^3.8.1:
     commander "~2.17.1"
     source-map "~0.6.1"
     source-map-support "~0.5.6"
+
+test-data-bot@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/test-data-bot/-/test-data-bot-0.7.0.tgz#8284259d6b6a784b0e75659356ad1b40b54e643c"
+  dependencies:
+    faker "4.1.0"
 
 test-exclude@^4.2.1:
   version "4.2.3"

@@ -8,9 +8,8 @@ describe('BacklogBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BacklogBaseComponent ]
-    })
-    .compileComponents();
+      declarations: [BacklogBaseComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

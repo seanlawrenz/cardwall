@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./backlog-base.component.scss'],
 })
 export class BacklogBaseComponent implements OnInit {
+  projects = '';
   constructor() {}
 
   ngOnInit() {}

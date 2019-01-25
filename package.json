@@ -52,10 +52,12 @@
     "cypress-testing-library": "^2.3.5",
     "dom-testing-library": "^3.16.4",
     "jasmine-core": "~2.6.2",
+    "jasmine-marbles": "^0.4.1",
     "jasmine-spec-reporter": "~4.1.0",
     "jest": "^23.6.0",
     "jest-dom": "^3.0.0",
     "jest-preset-angular": "^6.0.2",
+    "test-data-bot": "^0.7.0",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
     "typescript": "~3.2.4"
