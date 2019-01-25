@@ -12,9 +12,9 @@
     "typeRoots": ["node_modules/@types", "typings"],
     "lib": ["es2017", "dom"],
     "module": "es2015",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@app/*": ["src/app/*"]
+      "@app/*": ["app/*"]
     }
   }
 }
