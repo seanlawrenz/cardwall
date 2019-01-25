@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
 import { ConfigService, SignalRService } from './app-services';
@@ -12,6 +13,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
+      imports: [RouterTestingModule],
       providers: [SignalRService, { provide: ConfigService, useValue: mockConfigService }],
     }).compileComponents();
   }));
