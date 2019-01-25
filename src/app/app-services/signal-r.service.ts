@@ -40,7 +40,7 @@ export class SignalRService {
     }
   }
 
-  public initialize(callback?: Function) {
+  initialize(callback?: Function) {
     // Validate our inputs
     if (!this.hubName) {
       throw new Error('hubUrl must be set before SignalR can be initialized.');
@@ -50,6 +50,20 @@ export class SignalRService {
     }
 
     return this.buildConnectObservable(callback);
+  }
+
+  invoke(method: string, ...params: any[]): Observable<any> {
+    if (this.connectionState !== ConnectionState.disconnected) {
+      const pInvoke: any = this.proxy.invoke(method, ...params);
+      return from(pInvoke);
+    } else {
+      return this.initialize(() => this.performInvoke(method, ...params));
+    }
+  }
+
+  private performInvoke(method: string, ...params: any[]): Observable<any> {
+    const pInvoke: any = this.proxy.invoke(method, ...params);
+    return from(pInvoke);
   }
 
   private buildConnectObservable(callback?: Function): Observable<any> {
@@ -68,25 +82,33 @@ export class SignalRService {
       this.proxy = this.connection.createHubProxy(this.hubName);
       this.subscribeToHubEvents(this.proxy);
 
-      this.connection.start().done(data => {
-        console.log(`Now connected ${data.transport.name}, connection ID= ${data.id}`);
+      this.connection
+        .start()
+        .done(data => {
+          console.log(`Now connected ${data.transport.name}, connection ID= ${data.id}`);
 
-        if (callback) {
-          const result = callback();
-          if (result) {
-            result.subscribe(res => {
-              observer.next(res);
+          if (callback) {
+            const result = callback();
+            if (result) {
+              result.subscribe(res => {
+                observer.next(res);
+                observer.complete();
+              });
+            } else {
+              observer.next(this.connectionState);
               observer.complete();
-            });
+            }
           } else {
             observer.next(this.connectionState);
             observer.complete();
           }
-        } else {
-          observer.next(this.connectionState);
-          observer.complete();
-        }
-      });
+        })
+        .fail(
+          (err => {
+            console.error(`Could not connect ${err}`);
+            observer.complete();
+          }).bind(this),
+        );
     });
 
     // signalRInit$.subscribe(data => console.log(data));

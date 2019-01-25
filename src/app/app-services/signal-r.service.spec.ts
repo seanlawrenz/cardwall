@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async } from '@angular/core/testing';
 
 import { SignalRService } from './signal-r.service';
 import { ConfigService } from './config.service';
@@ -37,6 +37,15 @@ describe('SignalRService', () => {
       service.initialize(callback.callbackTest);
       async(() => {
         expect(spy).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('invoking functions', () => {
+    it('should invoke a signalr method', () => {
+      const response = service.invoke('madeUpMethod', []);
+      async(() => {
+        expect(response).not.toBeUndefined();
       });
     });
   });
