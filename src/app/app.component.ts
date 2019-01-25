@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
   constructor(private signalRService: SignalRService) {}
 
   ngOnInit() {
-    this.signalRService.initialize().subscribe(() => {
-      console.log('signalR logged in');
+    this.signalRService.initialize().subscribe(data => {
+      console.log('signalR logged in', data);
     });
   }
 }
