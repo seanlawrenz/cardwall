@@ -29,4 +29,8 @@ export class BacklogBaseComponent implements OnInit {
     this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
     this.loading$ = this.appStore.pipe(select(fromRoot.isLoading));
   }
+
+  addCardWallsToBacklog(plans: PlanIdentifier[]) {
+    console.log(plans);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PlanIdentifier } from '@app/models';
+import { PlanIdentifier, ErrorToDisplay } from '@app/models';
 
 import { find } from 'lodash';
 
@@ -18,6 +18,10 @@ export class AddBoardDiagramComponent implements OnInit {
   @Output() plansToAdd = new EventEmitter<PlanIdentifier[]>();
   selectedPlans: PlanIdentifier[] = [];
   plansToDisplay: DisplayPlanIdentifier[] = [];
+  errors: ErrorToDisplay = {
+    isError: false,
+    message: '',
+  };
   constructor() {}
 
   ngOnInit() {
@@ -39,7 +43,14 @@ export class AddBoardDiagramComponent implements OnInit {
     });
 
     Promise.all(updatedSelected).then(() => {
-      this.plansToAdd.emit(this.selectedPlans);
+      if (this.selectedPlans.length > 0) {
+        this.plansToAdd.emit(this.selectedPlans);
+      } else {
+        this.errors = {
+          isError: true,
+          message: 'At lease one card must be selected',
+        };
+      }
     });
   }
 }
