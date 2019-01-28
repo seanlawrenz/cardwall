@@ -103,11 +103,11 @@
   "defaultProject": "cardwall",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
+      "prefix": "td",
       "styleext": "scss"
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "td"
     }
   }
 }
