@@ -1,3 +1,44 @@
-<div *ngFor="let plan of planIdentifiers">
-  <p>{{ plan.planName }}</p>
+<button type="button" class="btn btn-primary" (click)="addCardwallTemplate.show()">Add Card Wall</button>
+
+<div bsModal #addCardwallTemplate="bs-modal" class="modal fade dialog-box" tabindex="-1" role="dialog" aria-labelledby="dialog-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="dialog-name">Add Cardwalls to Backlog</h3>
+        <button type="button" class="close pull-right" (click)="addCardwallTemplate.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body dialog-box-max-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>Project Name</th>
+              <th>Plan Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let displayPlan of plansToDisplay"
+              [ngClass]="{ 'table-success': displayPlan.isSelected }"
+              (click)="updateSelectedPlans(displayPlan)"
+            >
+              <th scope="row"><input type="checkbox" [checked]="displayPlan.isSelected" /></th>
+              <td>{{ displayPlan.plan.projectName }}</td>
+              <td>{{ displayPlan.plan.planName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+          <span class="fa fa-plus"></span>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

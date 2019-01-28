@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../state/backlog.actions';
 import { hot, cold, getTestScheduler } from 'jasmine-marbles';
@@ -6,7 +7,6 @@ import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 import { BacklogBaseComponent } from './backlog-base.component';
 import { mockPlans } from '@app/test/data';
 import { last } from 'rxjs/operators';
-import { AddBoardDiagramComponent } from '../components/add-board-diagram/add-board-diagram.component';
 
 describe('BacklogBaseComponent', () => {
   let component: BacklogBaseComponent;
@@ -18,8 +18,9 @@ describe('BacklogBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogBaseComponent, AddBoardDiagramComponent],
+      declarations: [BacklogBaseComponent],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
