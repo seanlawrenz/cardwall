@@ -7,4 +7,13 @@
     height: 600px;
     overflow-y: auto;
   }
+
+  &-display {
+    &-left {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
 }

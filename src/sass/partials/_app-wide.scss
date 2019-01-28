@@ -1,3 +1,11 @@
 .tdNg {
 
 }
+
+.fa {
+  &.fa-times {
+    &:hover {
+      color: inherit;
+    }
+  }
+}
