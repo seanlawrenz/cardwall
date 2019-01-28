@@ -1,2 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// Update to TDStyles
+@import url(http://192.168.1.14/tddev/TDNext/Styles/TDStyles.min.css?v=20190121143146);
+
+@import './sass//mixins';
+@import './sass/base';
+
+@import './sass/partials/dialog-box';
