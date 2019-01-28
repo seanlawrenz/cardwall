@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,7 @@ import { PlanIdentifier } from '@app/models';
   selector: 'app-backlog-base',
   templateUrl: './backlog-base.component.html',
   styleUrls: ['./backlog-base.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BacklogBaseComponent implements OnInit {
   projects = '';

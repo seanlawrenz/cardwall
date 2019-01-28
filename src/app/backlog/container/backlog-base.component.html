@@ -1,5 +1,7 @@
 <div>
-  <div *ngIf="!(loading$ | async); else loadingSkeleton"><div *ngIf="(planIdentifiers$ | async)">got them</div></div>
+  <div *ngIf="!(loading$ | async); else loadingSkeleton">
+    <td-add-board-diagram [planIdentifiers]="planIdentifiers$ | async"></td-add-board-diagram>
+  </div>
 
   <ng-template #loadingSkeleton>...Loading</ng-template>
 </div>

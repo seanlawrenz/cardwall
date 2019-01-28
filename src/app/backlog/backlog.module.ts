@@ -11,6 +11,7 @@ import { BacklogEffects } from './state/backlog.effects';
 
 // Container
 import { BacklogBaseComponent } from './container/backlog-base.component';
+import { AddBoardDiagramComponent } from './components/add-board-diagram/add-board-diagram.component';
 
 // Components
 
@@ -31,7 +32,7 @@ const backlogRoutes: Routes = [
     StoreModule.forFeature('backlog', reducer),
     EffectsModule.forFeature([BacklogEffects]),
   ],
-  declarations: [BacklogBaseComponent],
+  declarations: [BacklogBaseComponent, AddBoardDiagramComponent],
   exports: [BacklogBaseComponent],
 })
 export class BacklogModule {}

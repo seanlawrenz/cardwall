@@ -9,7 +9,7 @@ import { ShowLoader, HideLoader } from '@app/store/actions/loading.actions';
 
 import { BacklogActionTypes, GetAvailableBoards, GetAvailableBoardsSuccess, GetAvailableBoardsFail } from './backlog.actions';
 
-import { PlanIdentifier } from '@app/models';
+import { PlanIdentifier, SignalRResult } from '@app/models';
 
 // Loading
 type showLoadingTypes = GetAvailableBoards;
@@ -39,7 +39,8 @@ export class BacklogEffects {
     ofType(BacklogActionTypes.GET_AVAILABLE_BOARDS),
     mergeMap((action: GetAvailableBoards) => {
       return this.signalRService.invoke('AvailableCardWallList', []).pipe(
-        map((plans: PlanIdentifier[]) => {
+        map((res: SignalRResult) => {
+          const plans: PlanIdentifier[] = res.item;
           return new GetAvailableBoardsSuccess(plans);
         }),
         catchError(err => of(new GetAvailableBoardsFail(err))),

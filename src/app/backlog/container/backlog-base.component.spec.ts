@@ -6,6 +6,7 @@ import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 import { BacklogBaseComponent } from './backlog-base.component';
 import { mockPlans } from '@app/test/data';
 import { last } from 'rxjs/operators';
+import { AddBoardDiagramComponent } from '../components/add-board-diagram/add-board-diagram.component';
 
 describe('BacklogBaseComponent', () => {
   let component: BacklogBaseComponent;
@@ -17,7 +18,7 @@ describe('BacklogBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogBaseComponent],
+      declarations: [BacklogBaseComponent, AddBoardDiagramComponent],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
     }).compileComponents();
   }));
