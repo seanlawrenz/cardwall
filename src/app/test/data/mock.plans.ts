@@ -2,8 +2,8 @@ import { build, fake } from 'test-data-bot';
 import { PlanIdentifier } from '@app/models';
 
 const mockPlansBuild = build('plans').fields({
-  planId: fake(f => f.random.number()),
-  projectId: fake(f => f.random.number()),
+  planID: fake(f => f.random.number()),
+  projectID: fake(f => f.random.number()),
   planName: fake(f => f.random.word()),
   projectName: fake(f => f.random.word()),
 });

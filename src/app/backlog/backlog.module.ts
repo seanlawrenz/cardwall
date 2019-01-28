@@ -9,6 +9,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducer } from './state/backlog.reducer';
 import { BacklogEffects } from './state/backlog.effects';
 
+// Libraries
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 // Container
 import { BacklogBaseComponent } from './container/backlog-base.component';
 import { AddBoardDiagramComponent } from './components/add-board-diagram/add-board-diagram.component';
@@ -28,6 +31,7 @@ const backlogRoutes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule.forRoot(),
     RouterModule.forChild(backlogRoutes),
     StoreModule.forFeature('backlog', reducer),
     EffectsModule.forFeature([BacklogEffects]),
