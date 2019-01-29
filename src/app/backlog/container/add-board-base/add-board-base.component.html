@@ -10,7 +10,7 @@
   <div *ngIf="!(loading$ | async); else loadingSpinner">
     <td-add-board-diagram
       [planIdentifiers]="planIdentifiers$ | async"
-      (plansToAdd)="addCardWallsToBacklog($event)"
+      (plansToAdd)="addPlansToBacklog($event)"
       (hideDialog)="dialogRef.hide()"
     ></td-add-board-diagram>
   </div>

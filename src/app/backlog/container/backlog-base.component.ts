@@ -1,8 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { PlanIdentifier } from '@app/models';
-import { NotificationService } from '@app/app-services/notification.service';
-
 @Component({
   selector: 'app-backlog-base',
   templateUrl: './backlog-base.component.html',
@@ -12,7 +9,7 @@ import { NotificationService } from '@app/app-services/notification.service';
 export class BacklogBaseComponent implements OnInit {
   projects = '';
 
-  constructor(private notificationService: NotificationService) {}
+  constructor() {}
 
   ngOnInit() {}
 }

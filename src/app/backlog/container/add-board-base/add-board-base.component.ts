@@ -51,12 +51,12 @@ export class AddBoardBaseComponent implements OnInit {
     this.loading$ = this.appStore.pipe(select(fromRoot.isLoading));
   }
 
-  addCardWallsToBacklog(plans: PlanIdentifier[]) {
+  addPlansToBacklog(plans: PlanIdentifier[]) {
     if (plans.length === 0) {
       this.notificationService.warning('No Card Wall Selected', 'You must select at least 1 Cardwall to add');
       return;
     }
 
-    this.dialogService.hide(1);
+    this.dialogRef.hide();
   }
 }
