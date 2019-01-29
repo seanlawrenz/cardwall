@@ -4,6 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ConfigService, SignalRService } from './app-services';
 import { mockConfigService } from './test/mocks';
+import { NotificationComponent } from './shared/components/notification/notification.component';
+import { EscapeHtmlPipe } from './shared/pipes/keep-html.pipe';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -12,7 +14,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent, NotificationComponent, EscapeHtmlPipe],
       imports: [RouterTestingModule],
       providers: [SignalRService, { provide: ConfigService, useValue: mockConfigService }],
     }).compileComponents();
@@ -22,10 +24,6 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
     signalRService = TestBed.get(SignalRService);
-  });
-
-  it('should create the app', () => {
-    expect(app).toBeTruthy();
   });
 
   it('should initialize signalR', () => {

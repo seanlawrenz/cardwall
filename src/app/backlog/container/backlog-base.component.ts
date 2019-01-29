@@ -7,6 +7,7 @@ import * as fromBacklog from '../state';
 import * as backlogActions from '../state/backlog.actions';
 
 import { PlanIdentifier } from '@app/models';
+import { NotificationService } from '@app/app-services/notification.service';
 
 @Component({
   selector: 'app-backlog-base',
@@ -20,7 +21,11 @@ export class BacklogBaseComponent implements OnInit {
   errorMessage$: Observable<string>;
   loading$: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.State>, private appStore: Store<fromRoot.State>) {}
+  constructor(
+    private store: Store<fromBacklog.State>,
+    private appStore: Store<fromRoot.State>,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit() {
     this.store.dispatch(new backlogActions.GetAvailableBoards());
@@ -31,6 +36,8 @@ export class BacklogBaseComponent implements OnInit {
   }
 
   addCardWallsToBacklog(plans: PlanIdentifier[]) {
-    console.log(plans);
+    if (plans.length === 0) {
+      this.notificationService.warning('No Card Wall Selected', 'You must select at least 1 Cardwall to add');
+    }
   }
 }

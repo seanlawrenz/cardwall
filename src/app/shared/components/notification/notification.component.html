@@ -1,0 +1,15 @@
+<div class="tdNg-notification">
+  <div
+    *ngFor="let notification of notifications"
+    class="alert {{ getAlertClass(notification.Type) }}"
+    role="alert"
+    (click)="onClick(notification)"
+    [style.cursor]="getCursorStyle(notification)"
+  >
+    <button type="button" class="close" (click)="remove(notification)"><span aria-hidden="true">&times;</span></button>
+    <p>
+      <strong>{{ notification.Title }}</strong>
+    </p>
+    <p [innerHTML]="notification.Description | keepHtml"></p>
+  </div>
+</div>

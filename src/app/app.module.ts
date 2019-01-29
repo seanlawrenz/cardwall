@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 // App Level Components
 import { AppComponent } from './app.component';
 
+// Modules
+import { TDXAgilePipesModule } from './shared/pipes';
+import { SharedModule } from './shared/shared.module';
+
 // Routing
 import { AppRoutingModule } from './app.router';
 import { CustomSerializer } from './store/utils/custom-route-serializer';
@@ -19,8 +23,10 @@ import { RootStoreModule } from './store';
     BrowserModule,
     AppRoutingModule,
     RootStoreModule,
+    SharedModule,
     StoreRouterConnectingModule.forRoot({ serializer: CustomSerializer }),
     StoreDevtoolsModule.instrument({ maxAge: 50 }),
+    TDXAgilePipesModule.forRoot(),
   ],
   bootstrap: [AppComponent],
 })
