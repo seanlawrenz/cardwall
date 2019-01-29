@@ -41,6 +41,7 @@ export class AddBoardDiagramComponent implements OnInit {
 
     Promise.all(updatedSelected).then(() => {
       this.plansToAdd.emit(this.selectedPlans);
+      this.selectedPlans = [];
     });
   }
 

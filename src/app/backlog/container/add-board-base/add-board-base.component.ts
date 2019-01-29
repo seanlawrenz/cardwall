@@ -57,6 +57,14 @@ export class AddBoardBaseComponent implements OnInit {
       return;
     }
 
+    if (plans.length > 10) {
+      this.notificationService.warning(
+        'Too many Cardwalls Selected',
+        `You have ${plans.length} selected, but Backlog Manager can only add up to 10 at a time. Please select 10 and retry.`,
+      );
+      return;
+    }
+
     this.dialogRef.hide();
   }
 }
