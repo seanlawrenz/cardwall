@@ -16,9 +16,10 @@ interface DisplayPlanIdentifier {
 export class AddBoardDiagramComponent implements OnInit {
   @Input() planIdentifiers: PlanIdentifier[];
   @Output() plansToAdd = new EventEmitter<PlanIdentifier[]>();
+  @Output() hideDialog = new EventEmitter<void>();
+
   selectedPlans: PlanIdentifier[] = [];
   plansToDisplay: DisplayPlanIdentifier[] = [];
-  constructor() {}
 
   ngOnInit() {
     this.planIdentifiers.map((plan: PlanIdentifier) => {
@@ -41,5 +42,9 @@ export class AddBoardDiagramComponent implements OnInit {
     Promise.all(updatedSelected).then(() => {
       this.plansToAdd.emit(this.selectedPlans);
     });
+  }
+
+  hide() {
+    this.hideDialog.emit();
   }
 }
