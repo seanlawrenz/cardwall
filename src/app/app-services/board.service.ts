@@ -5,6 +5,7 @@ import { Board, SignalRResult } from '@app/models';
 import { Observable, of } from 'rxjs';
 
 import { split } from 'lodash';
+import { uniqueValuesInArray } from '@app/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,6 @@ export class BoardService {
   constructor(private signalR: SignalRService) {}
 
   getBoardsFromParams(params: string): Observable<Board[]> {
-    console.log(params);
     const boards: Board[] = [];
     // If the backlog manager starts with no params then return empty array
     if (params === undefined) {
@@ -21,7 +21,7 @@ export class BoardService {
     }
 
     return new Observable(observer => {
-      const paramsSplitIntoProjectPlanPairs: string[] = split(params, ',');
+      const paramsSplitIntoProjectPlanPairs: string[] = uniqueValuesInArray(split(params, ','));
       const projectPlanPairsSplitIntoPairs: Array<string[]> = paramsSplitIntoProjectPlanPairs.map(pair => split(pair, '_'));
 
       const fetchBoardFromSignalR = (projectPlanPairs: Array<string[]>, i: number) => {

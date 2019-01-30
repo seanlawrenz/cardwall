@@ -41,7 +41,7 @@ describe('BoardService', () => {
     }));
 
     it('should return an array of boards', async(() => {
-      service.getBoardsFromParams('233386_90067305,233386_90067305').subscribe(boards => {
+      service.getBoardsFromParams('233386_90067305,233386_90067309').subscribe(boards => {
         expect(boards).toEqual([mockBoardExample, mockBoardExample2]);
       });
     }));
