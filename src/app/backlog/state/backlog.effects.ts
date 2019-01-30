@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
-import { SignalRService } from '@app/app-services';
-import { Action } from '@ngrx/store';
+import { BoardService, SignalRService } from '@app/app-services';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, Observable } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { of, Observable, empty } from 'rxjs';
+import { mergeMap, map, catchError, withLatestFrom, mapTo, switchMap, exhaustMap } from 'rxjs/operators';
+
+import { fromRoot } from '@app/store';
 
 import { ShowLoader, HideLoader } from '@app/store/actions/loading.actions';
 
-import { BacklogActionTypes, GetAvailableBoards, GetAvailableBoardsSuccess, GetAvailableBoardsFail } from './backlog.actions';
+import * as backlogActions from './backlog.actions';
 
-import { PlanIdentifier, SignalRResult } from '@app/models';
+import { PlanIdentifier, SignalRResult, Board } from '@app/models';
 
 // Loading
-type showLoadingTypes = GetAvailableBoards;
-type hideLoadingTypes = GetAvailableBoardsSuccess | GetAvailableBoardsFail;
+type showLoadingTypes = backlogActions.GetAvailableBoards;
+type hideLoadingTypes = backlogActions.GetAvailableBoardsSuccess | backlogActions.GetAvailableBoardsFail;
 
-const showLoadingActions = [BacklogActionTypes.GET_AVAILABLE_BOARDS];
-const hideLoadingActions = [BacklogActionTypes.GET_AVAILABLE_BOARDS_SUCCESS, BacklogActionTypes.GET_AVAILABLE_BOARDS_FAIL];
+const showLoadingActions = [backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS];
+const hideLoadingActions = [
+  backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS_SUCCESS,
+  backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS_FAIL,
+];
 
 @Injectable()
 export class BacklogEffects {
-  constructor(private actions$: Actions, private signalRService: SignalRService) {}
+  constructor(
+    private actions$: Actions,
+    private signalRService: SignalRService,
+    private boardService: BoardService,
+    private store: Store<fromRoot.State>,
+  ) {}
 
   @Effect()
   showLoader$: Observable<Action> = this.actions$.pipe(
@@ -36,14 +46,35 @@ export class BacklogEffects {
 
   @Effect()
   loadPlans$ = this.actions$.pipe(
-    ofType(BacklogActionTypes.GET_AVAILABLE_BOARDS),
-    mergeMap((action: GetAvailableBoards) => {
+    ofType(backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS),
+    mergeMap((action: backlogActions.GetAvailableBoards) => {
       return this.signalRService.invoke('AvailableCardWallList', []).pipe(
         map((res: SignalRResult) => {
           const plans: PlanIdentifier[] = res.item;
-          return new GetAvailableBoardsSuccess(plans);
+          return new backlogActions.GetAvailableBoardsSuccess(plans);
         }),
-        catchError(err => of(new GetAvailableBoardsFail(err))),
+        catchError(err => of(new backlogActions.GetAvailableBoardsFail(err))),
+      );
+    }),
+  );
+
+  @Effect()
+  loadPlansOnParams$ = this.actions$.pipe(
+    ofType(backlogActions.BacklogActionTypes.GET_BOARDS_IN_PARAMS),
+    withLatestFrom(this.store.select(fromRoot.getRouterState), (action, router) => {
+      const {
+        state: {
+          queryParams: { boards },
+        },
+      } = router;
+      return {
+        boards,
+      };
+    }),
+    exhaustMap(payload => {
+      return this.boardService.getBoardsFromParams(payload.boards).pipe(
+        map((boards: Board[]) => new backlogActions.GetBoardsSuccess(boards)),
+        catchError(err => of(new backlogActions.GetBoardsError(err))),
       );
     }),
   );

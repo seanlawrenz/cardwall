@@ -4,11 +4,13 @@ import { PlanIdentifier } from '@app/models';
 export interface BacklogState {
   planList: PlanIdentifier[];
   error: string;
+  boards: any;
 }
 
 export const BACKLOG_STATE: BacklogState = {
   planList: [],
   error: '',
+  boards: [],
 };
 
 export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogState => {
@@ -23,6 +25,12 @@ export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogS
       return {
         ...state,
         error: action.payload,
+      };
+
+    case BacklogActionTypes.GET_BOARDS_SUCCESS:
+      return {
+        ...state,
+        boards: action.payload,
       };
 
     default:

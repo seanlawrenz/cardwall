@@ -1,3 +1,4 @@
+export * from './board.model';
 export * from './config.model';
 export * from './connection.model';
 export * from './errors.model';

@@ -1,4 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import * as fromBacklog from '../state';
+import * as backlogActions from '../state/backlog.actions';
 
 @Component({
   selector: 'app-backlog-base',
@@ -8,8 +13,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class BacklogBaseComponent implements OnInit {
   projects = '';
+  plans$: Observable<any>;
 
-  constructor() {}
+  constructor(private store: Store<fromBacklog.State>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(new backlogActions.GetBoardsInParams());
+    this.store.pipe(select(fromBacklog.getBoard)).subscribe(board => {
+      console.log('from effects', board);
+    });
+  }
 }

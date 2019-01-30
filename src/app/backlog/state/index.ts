@@ -17,3 +17,8 @@ export const getPlansError = createSelector(
   getBacklogFeatureState,
   state => state.error,
 );
+
+export const getBoard = createSelector(
+  getBacklogFeatureState,
+  state => state.boards,
+);
