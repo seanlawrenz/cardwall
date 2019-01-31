@@ -1,1 +1,4 @@
-<div><td-backlog-container [boards]="boards$ | async"></td-backlog-container></div>
+<div>
+  <div *ngIf="(boardsLoading$ | async)">...Loading</div>
+  <td-backlog-container [boards]="boards$ | async"></td-backlog-container>
+</div>

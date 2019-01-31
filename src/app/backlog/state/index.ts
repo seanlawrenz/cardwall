@@ -22,3 +22,8 @@ export const getBoards = createSelector(
   getBacklogFeatureState,
   state => state.boards,
 );
+
+export const isBoardsLoading = createSelector(
+  getBacklogFeatureState,
+  state => state.boardsLoading,
+);
