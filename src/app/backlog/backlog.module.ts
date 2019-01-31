@@ -19,9 +19,11 @@ import { BacklogBaseComponent } from './container/backlog-base.component';
 import { AddBoardBaseComponent } from './container/add-board-base/add-board-base.component';
 
 // Components
+/* tslint:disable:max-line-length */
 import { BacklogContainerComponent } from './components/backlog-container/backlog-container.component';
 import { AddBoardDiagramComponent } from './components/backlog-container/add-board-diagram/add-board-diagram.component';
 import { BacklogNavComponent } from './components/backlog-container/backlog-nav/backlog-nav.component';
+import { BacklogMoveToolbarComponent } from './components/backlog-container/backlog-nav/backlog-move-toolbar/backlog-move-toolbar.component';
 
 const backlogRoutes: Routes = [
   {
@@ -43,7 +45,14 @@ const backlogRoutes: Routes = [
     SharedModule,
     TooltipModule,
   ],
-  declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent, BacklogContainerComponent, BacklogNavComponent],
+  declarations: [
+    BacklogBaseComponent,
+    AddBoardDiagramComponent,
+    AddBoardBaseComponent,
+    BacklogContainerComponent,
+    BacklogNavComponent,
+    BacklogMoveToolbarComponent,
+  ],
   exports: [BacklogBaseComponent],
 })
 export class BacklogModule {}

@@ -8,6 +8,10 @@
       }
     }
   }
+
+  &-divider {
+    border-right: 2px solid $darkGrey;
+  }
 }
 
 .fa {
