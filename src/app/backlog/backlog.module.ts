@@ -12,6 +12,7 @@ import { BacklogEffects } from './state/backlog.effects';
 
 // Libraries
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // Container
 import { BacklogBaseComponent } from './container/backlog-base.component';
@@ -40,6 +41,7 @@ const backlogRoutes: Routes = [
     StoreModule.forFeature('backlog', reducer),
     EffectsModule.forFeature([BacklogEffects]),
     SharedModule,
+    TooltipModule,
   ],
   declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent, BacklogContainerComponent, BacklogNavComponent],
   exports: [BacklogBaseComponent],

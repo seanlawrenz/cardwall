@@ -4,8 +4,7 @@ import { NotificationComponent } from './components/notification/notification.co
 
 // Libraries
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
-// Pipes
+import { DirectiveModule } from './directives';
 import { TDXAgilePipesModule } from './pipes';
 
 // Components
@@ -13,7 +12,7 @@ import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [NotificationComponent, ButtonComponent],
-  imports: [CommonModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
+  imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [ButtonComponent, NotificationComponent],
 })
 export class SharedModule {}

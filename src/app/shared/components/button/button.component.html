@@ -1,11 +1,12 @@
 <button
-  tooltip="tooltipText"
+  [tooltip]="tooltipText"
   placement="tooltipPlacement"
   container="body"
   class="btn"
   (click)="actionOnClick()"
   [ngClass]="{ disabled: disabled }"
   [class]="cssClass"
+  [delay]="500"
 >
   <span [ngClass]="{ 'white-text': useWhiteText }">
     <span aria-hidden="true" [class]="effectiveIcon"></span>
