@@ -52,20 +52,6 @@ describe('Backlog effects', () => {
     expect(effects).toBeTruthy();
   });
 
-  // describe('getting boards from the params', () => {
-  //   it('should return an empty array if no params', () => {
-  //     const params = { state: { queryParams: {} } };
-  //     successfulSignalRResult = { isSuccessful: true, item: [] };
-  //     action = new backlogActions.GetBoardsInParams();
-  //     outcome = new backlogActions.GetAvailableBoardsSuccess([]);
-  //     actions.stream = hot('-a', { a: action });
-  //     store.select = jest.fn(() => of(params));
-  //     expected = cold('--b', { b: outcome });
-  //     boardSvc.getBoardsFromParams = jest.fn(() => successfulSignalRResult);
-  //     expect(effects.loadPlansOnParams$).toBeObservable({});
-  //   });
-  // });
-
   describe('loadPlans', () => {
     it('should return a list of plans', () => {
       successfulSignalRResult = {
@@ -78,7 +64,25 @@ describe('Backlog effects', () => {
       response = cold('-a|', { a: successfulSignalRResult });
       expected = cold('--b', { b: outcome });
       signalR.invoke = jest.fn(() => response);
-      expect(effects.loadPlans$).toBeObservable(expected);
+      expect(effects.loadPlansIdentifiers$).toBeObservable(expected);
     });
   });
+
+  // This is not testing. I keep getting You provided 'undefined' where a stream was expected.
+  // no matter what I do.
+  // ToDo find out how to test this.
+
+  // describe('loadPlansOnParams', () => {
+  //   it('should return an empty array if params are empty', () => {
+  //     const mockParams = { state: { queryParams: {} } };
+  //     action = new backlogActions.GetBoardsInParams();
+  //     outcome = new backlogActions.GetBoardsSuccess([]);
+  //     store.select = jest.fn(() => mockParams);
+  //     action.stream = hot('-a', { a: action });
+  //     response = cold('-a|', { a: [] });
+  //     expected = cold('--b', { b: outcome });
+  //     boardSvc.getBoardsFromParams = jest.fn(() => []);
+  //     expect(effects.loadPlansOnParams$).toBeObservable(expected);
+  //   });
+  // });
 });

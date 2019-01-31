@@ -45,7 +45,7 @@ export class BacklogEffects {
   );
 
   @Effect()
-  loadPlans$ = this.actions$.pipe(
+  loadPlansIdentifiers$ = this.actions$.pipe(
     ofType(backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS),
     mergeMap((action: backlogActions.GetAvailableBoards) => {
       return this.signalRService.invoke('AvailableCardWallList', []).pipe(
