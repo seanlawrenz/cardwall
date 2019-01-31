@@ -1,15 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import * as actions from '../../state/backlog.actions';
 import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 
-import { mockPlans } from '@app/test/data';
+import { mockPlans, mockPlan1, mockPlan2 } from '@app/test/data';
 import { last } from 'rxjs/operators';
 
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 
 import { AddBoardBaseComponent } from './add-board-base.component';
+import { Router } from '@angular/router';
 
 describe('AddBoardBaseComponent', () => {
   let component: AddBoardBaseComponent;
@@ -18,11 +20,12 @@ describe('AddBoardBaseComponent', () => {
   let store;
   let spy;
   let expected;
+  let router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddBoardBaseComponent],
-      imports: [ModalModule.forRoot()],
+      imports: [RouterTestingModule, ModalModule.forRoot()],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }, BsModalService],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -31,6 +34,8 @@ describe('AddBoardBaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddBoardBaseComponent);
     component = fixture.componentInstance;
+    component.dialogRef = { hide: jest.fn(), setClass: jest.fn() };
+    router = TestBed.get(Router);
     fixture.detectChanges();
   });
 
@@ -87,6 +92,38 @@ describe('AddBoardBaseComponent', () => {
         });
         getTestScheduler().flush();
       });
+    });
+  });
+
+  describe('addPlansToBacklog', () => {
+    it('should update the route', () => {
+      spy = spyOn(router, 'navigate');
+      component.addPlansToBacklog([mockPlan1, mockPlan2]);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not update the route if no plans selected', () => {
+      spy = spyOn(router, 'navigate');
+      component.addPlansToBacklog([]);
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should not update if too many plans selected', () => {
+      spy = spyOn(router, 'navigate');
+      component.addPlansToBacklog([
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+        mockPlan1,
+      ]);
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
+import { Component, OnInit, Output, ChangeDetectionStrategy, TemplateRef, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -11,6 +12,8 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { PlanIdentifier } from '@app/models';
 import { NotificationService } from '@app/app-services/notification.service';
 
+import { join } from 'lodash';
+
 @Component({
   selector: 'td-add-board-base',
   templateUrl: './add-board-base.component.html',
@@ -18,6 +21,7 @@ import { NotificationService } from '@app/app-services/notification.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddBoardBaseComponent implements OnInit {
+  @Output() plansUpdated = new EventEmitter<void>();
   // Store
   planIdentifiers$: Observable<PlanIdentifier[]>;
   errorMessage$: Observable<string>;
@@ -35,6 +39,8 @@ export class AddBoardBaseComponent implements OnInit {
     private appStore: Store<fromRoot.State>,
     private dialogService: BsModalService,
     private notificationService: NotificationService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {}
@@ -51,7 +57,7 @@ export class AddBoardBaseComponent implements OnInit {
     this.loading$ = this.appStore.pipe(select(fromRoot.isLoading));
   }
 
-  addPlansToBacklog(plans: PlanIdentifier[]) {
+  addPlansToBacklog(plans: PlanIdentifier[]): string {
     if (plans.length === 0) {
       this.notificationService.warning('No Card Wall Selected', 'You must select at least 1 Cardwall to add');
       return;
@@ -64,6 +70,13 @@ export class AddBoardBaseComponent implements OnInit {
       );
       return;
     }
+
+    let createQueryParams = join(plans.map(plan => `${plan.projectID}_${plan.planID}`));
+    const currentparams = this.route.snapshot.queryParamMap.get('boards');
+    if (currentparams !== null) {
+      createQueryParams = `${currentparams},${createQueryParams}`;
+    }
+    this.router.navigate([], { relativeTo: this.route, queryParams: { boards: createQueryParams }, queryParamsHandling: 'merge' });
 
     this.dialogRef.hide();
   }
