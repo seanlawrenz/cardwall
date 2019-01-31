@@ -4,7 +4,7 @@ import { SignalRService } from './signal-r.service';
 import { Board, SignalRResult } from '@app/models';
 import { Observable, of } from 'rxjs';
 
-import { split } from 'lodash';
+import { split, remove } from 'lodash';
 import { uniqueValuesInArray } from '@app/utils';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class BoardService {
     }
 
     return new Observable(observer => {
-      const paramsSplitIntoProjectPlanPairs: string[] = uniqueValuesInArray(split(params, ','));
+      const paramsSplitIntoProjectPlanPairs: string[] = remove(uniqueValuesInArray(split(params, ',')), pair => pair !== '');
       const projectPlanPairsSplitIntoPairs: Array<string[]> = paramsSplitIntoProjectPlanPairs.map(pair => split(pair, '_'));
 
       const fetchBoardFromSignalR = (projectPlanPairs: Array<string[]>, i: number) => {

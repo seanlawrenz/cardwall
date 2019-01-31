@@ -40,6 +40,12 @@ describe('BoardService', () => {
       });
     }));
 
+    it('should handle a bad url that has an extra comma at the end', async(() => {
+      service.getBoardsFromParams('233386_90067305,233386_90067309,').subscribe(boards => {
+        expect(boards).toEqual([mockBoardExample, mockBoardExample2]);
+      });
+    }));
+
     it('should return an array of boards', async(() => {
       service.getBoardsFromParams('233386_90067305,233386_90067309').subscribe(boards => {
         expect(boards).toEqual([mockBoardExample, mockBoardExample2]);

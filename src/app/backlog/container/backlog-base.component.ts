@@ -19,7 +19,7 @@ export class BacklogBaseComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new backlogActions.GetBoardsInParams());
-    this.store.pipe(select(fromBacklog.getBoard)).subscribe(board => {
+    this.store.pipe(select(fromBacklog.getBoards)).subscribe(board => {
       console.log('from effects', board);
     });
   }

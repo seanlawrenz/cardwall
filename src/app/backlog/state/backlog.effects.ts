@@ -9,6 +9,7 @@ import { fromRoot } from '@app/store';
 
 import { ShowLoader, HideLoader } from '@app/store/actions/loading.actions';
 
+import * as fromBacklog from '../state';
 import * as backlogActions from './backlog.actions';
 
 import { PlanIdentifier, SignalRResult, Board } from '@app/models';
@@ -47,8 +48,15 @@ export class BacklogEffects {
   @Effect()
   loadPlansIdentifiers$ = this.actions$.pipe(
     ofType(backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS),
-    mergeMap((action: backlogActions.GetAvailableBoards) => {
-      return this.signalRService.invoke('AvailableCardWallList', []).pipe(
+    withLatestFrom(this.store.select(fromBacklog.getBoards), (action, boards) => {
+      if (boards.length > 0) {
+        return boards.map(board => board.id);
+      } else {
+        return [];
+      }
+    }),
+    mergeMap(boards => {
+      return this.signalRService.invoke('AvailableCardWallList', boards).pipe(
         map((res: SignalRResult) => {
           const plans: PlanIdentifier[] = res.item;
           return new backlogActions.GetAvailableBoardsSuccess(plans);
