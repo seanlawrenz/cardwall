@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '@app/shared/shared.module';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -19,6 +20,7 @@ import { AddBoardBaseComponent } from './container/add-board-base/add-board-base
 // Components
 import { BacklogContainerComponent } from './components/backlog-container/backlog-container.component';
 import { AddBoardDiagramComponent } from './components/backlog-container/add-board-diagram/add-board-diagram.component';
+import { BacklogNavComponent } from './components/backlog-container/backlog-nav/backlog-nav.component';
 
 const backlogRoutes: Routes = [
   {
@@ -37,8 +39,9 @@ const backlogRoutes: Routes = [
     RouterModule.forChild(backlogRoutes),
     StoreModule.forFeature('backlog', reducer),
     EffectsModule.forFeature([BacklogEffects]),
+    SharedModule,
   ],
-  declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent, BacklogContainerComponent],
+  declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent, BacklogContainerComponent, BacklogNavComponent],
   exports: [BacklogBaseComponent],
 })
 export class BacklogModule {}

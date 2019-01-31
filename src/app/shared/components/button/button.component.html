@@ -1,0 +1,14 @@
+<button
+  tooltip="tooltipText"
+  placement="tooltipPlacement"
+  container="body"
+  class="btn"
+  (click)="actionOnClick()"
+  [ngClass]="{ disabled: disabled }"
+  [class]="cssClass"
+>
+  <span [ngClass]="{ 'white-text': useWhiteText }">
+    <span aria-hidden="true" [class]="effectiveIcon"></span>
+    <ng-content></ng-content>
+  </span>
+</button>
