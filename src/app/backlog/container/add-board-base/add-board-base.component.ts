@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ChangeDetectionStrategy, TemplateRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -21,7 +21,6 @@ import { join } from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddBoardBaseComponent implements OnInit {
-  @Output() plansUpdated = new EventEmitter<void>();
   // Store
   planIdentifiers$: Observable<PlanIdentifier[]>;
   errorMessage$: Observable<string>;

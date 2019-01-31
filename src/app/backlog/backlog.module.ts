@@ -14,10 +14,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Container
 import { BacklogBaseComponent } from './container/backlog-base.component';
-import { AddBoardDiagramComponent } from './components/add-board-diagram/add-board-diagram.component';
 import { AddBoardBaseComponent } from './container/add-board-base/add-board-base.component';
 
 // Components
+import { BacklogContainerComponent } from './components/backlog-container/backlog-container.component';
+import { AddBoardDiagramComponent } from './components/backlog-container/add-board-diagram/add-board-diagram.component';
 
 const backlogRoutes: Routes = [
   {
@@ -37,7 +38,7 @@ const backlogRoutes: Routes = [
     StoreModule.forFeature('backlog', reducer),
     EffectsModule.forFeature([BacklogEffects]),
   ],
-  declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent],
+  declarations: [BacklogBaseComponent, AddBoardDiagramComponent, AddBoardBaseComponent, BacklogContainerComponent],
   exports: [BacklogBaseComponent],
 })
 export class BacklogModule {}

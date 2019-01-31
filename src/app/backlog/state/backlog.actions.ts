@@ -6,7 +6,6 @@ export enum BacklogActionTypes {
   GET_AVAILABLE_BOARDS_SUCCESS = '[BACKLOG] GET AVAILABLE BOARDS SUCCESS',
   GET_AVAILABLE_BOARDS_FAIL = '[BACKLOG] GET AVAILABLE BOARDS FAIL',
   GET_BOARDS_IN_PARAMS = 'GET_BOARDS_IN_PARAMS',
-  GET_BOARDS = 'GET_BOARDS',
   GET_BOARDS_SUCCESS = 'GET_BOARDS_SUCCESS',
   GET_BOARDS_FAIL = 'GET_BOARDS_FAIL',
 }
@@ -27,11 +26,6 @@ export class GetAvailableBoardsFail implements Action {
 
 export class GetBoardsInParams implements Action {
   readonly type = BacklogActionTypes.GET_BOARDS_IN_PARAMS;
-}
-
-export class GetBoards implements Action {
-  readonly type = BacklogActionTypes.GET_BOARDS;
-  constructor(public payload: any) {}
 }
 
 export class GetBoardsSuccess implements Action {
