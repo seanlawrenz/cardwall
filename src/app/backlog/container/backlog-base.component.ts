@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as fromBacklog from '../state';
 import * as backlogActions from '../state/backlog.actions';
-import { Board } from '@app/models';
+import { Plan } from '@app/models';
 
 @Component({
   selector: 'app-backlog-base',
@@ -14,7 +14,7 @@ import { Board } from '@app/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BacklogBaseComponent implements OnInit, OnDestroy {
-  boards$: Observable<Board[]>;
+  plans$: Observable<Plan[]>;
   boardsLoading$: Observable<boolean>;
   routerSubscription: Subscription;
 
@@ -33,7 +33,7 @@ export class BacklogBaseComponent implements OnInit, OnDestroy {
 
   getBoardsInParams() {
     this.store.dispatch(new backlogActions.GetBoardsInParams());
-    this.boards$ = this.store.pipe(select(fromBacklog.getBoards));
+    this.plans$ = this.store.pipe(select(fromBacklog.getBoards));
     this.boardsLoading$ = this.store.pipe(select(fromBacklog.isBoardsLoading));
   }
 }
