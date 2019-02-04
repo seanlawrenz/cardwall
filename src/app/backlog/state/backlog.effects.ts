@@ -12,7 +12,7 @@ import { ShowLoader, HideLoader } from '@app/store/actions/loading.actions';
 import * as fromBacklog from '../state';
 import * as backlogActions from './backlog.actions';
 
-import { PlanIdentifier, SignalRResult, Board } from '@app/models';
+import { PlanIdentifier, SignalRResult, Plan } from '@app/models';
 
 // Loading
 type showLoadingTypes = backlogActions.GetAvailableBoards;
@@ -81,7 +81,7 @@ export class BacklogEffects {
     }),
     exhaustMap(payload => {
       return this.boardService.getBoardsFromParams(payload.boards).pipe(
-        map((boards: Board[]) => new backlogActions.GetBoardsSuccess(boards)),
+        map((plans: Plan[]) => new backlogActions.GetBoardsSuccess(plans)),
         catchError(err => of(new backlogActions.GetBoardsError(err))),
       );
     }),

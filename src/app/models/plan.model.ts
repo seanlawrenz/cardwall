@@ -31,4 +31,7 @@ export interface Plan {
   isTicketToTaskEnabled: boolean;
   isReportsEnabled: boolean;
   isTemplate: boolean;
+  erroredDuringFetching?: boolean;
+  message?: string;
+  reason?: string;
 }

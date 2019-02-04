@@ -1,2 +1,7 @@
-<div><td-backlog-container [plans]="plans$ | async"></td-backlog-container></div>
+<div>
+  <td-backlog-container [plans]="plans$ | async"></td-backlog-container>
+  <div *ngIf="(errorMessage$ | async)" class="tdNg-backlog-container">
+    {{ errorMessage$ }}
+  </div>
+</div>
 <div *ngIf="(boardsLoading$ | async)">...Loading</div>

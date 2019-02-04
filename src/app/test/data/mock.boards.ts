@@ -1,5 +1,5 @@
 import { build, fake } from 'test-data-bot';
-import { Board, BoardColors } from '@app/models';
+import { BoardColors, Plan } from '@app/models';
 
 const mockBoardColorsBuilder = build('board colors').fields({
   cssClass: fake(f => f.random.word()),
@@ -35,9 +35,10 @@ export const mockBoardBuilder = build('board').fields({
   name: fake(f => f.random.word()),
   priorities: [],
   projectId: fake(f => f.random.number()),
+  projectName: fake(f => f.random.word()),
   resources: [],
   statusTypes: fake(f => f.random.word()),
   useRemainingHours: fake(f => f.random.boolean()),
 });
 
-export const mockBoard: Board = mockBoardBuilder();
+export const mockBoard: Plan = mockBoardBuilder();

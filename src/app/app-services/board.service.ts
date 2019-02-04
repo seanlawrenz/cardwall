@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SignalRService } from './signal-r.service';
-import { Board, SignalRResult } from '@app/models';
+import { Plan, SignalRResult } from '@app/models';
 import { Observable, of } from 'rxjs';
 
 import { split, remove } from 'lodash';
@@ -13,11 +13,11 @@ import { uniqueValuesInArray } from '@app/utils';
 export class BoardService {
   constructor(private signalR: SignalRService) {}
 
-  getBoardsFromParams(params: string): Observable<Board[]> {
-    const boards: Board[] = [];
+  getBoardsFromParams(params: string): Observable<Plan[]> {
+    const plans: Plan[] = [];
     // If the backlog manager starts with no params then return empty array
     if (params === undefined) {
-      return of(boards);
+      return of(plans);
     }
 
     return new Observable(observer => {
@@ -29,9 +29,16 @@ export class BoardService {
         const planId: number = parseInt(projectPlanPairs[i][1], 10);
 
         this.signalR.invoke('BoardGet', planId, projectId).subscribe((res: SignalRResult) => {
-          boards.push(res.item);
-          if (boards.length === projectPlanPairs.length) {
-            observer.next(boards);
+          const plan: Plan = res.item;
+          if (!res.isSuccessful) {
+            plan.erroredDuringFetching = true;
+            plan.message = res.message;
+            plan.reason = res.reason;
+            plan.id = planId;
+          }
+          plans.push(res.item);
+          if (plans.length === projectPlanPairs.length) {
+            observer.next(plans);
             observer.complete();
           } else {
             fetchBoardFromSignalR(projectPlanPairs, i + 1);

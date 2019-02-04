@@ -7,12 +7,23 @@ import { mockBoard } from '@app/test/data';
 const mockBoardExample = Object.assign({}, mockBoard, { projectId: 233386, id: 90067305 });
 const mockBoardExample2 = Object.assign({}, mockBoard, { projectId: 233386, id: 90067305 });
 
+const failedMessage = 'Cannot Get Board';
+const failedReason = 'You do not have access to this project';
+
 const mockInvoke = () => {
-  return { subscribe: jest.fn(cb => cb({ item: mockBoardExample, mockBoardExample2 })) };
+  return { subscribe: jest.fn(cb => cb({ isSuccessful: true, item: mockBoardExample, mockBoardExample2 })) };
+};
+
+const failedMockInvoke = () => {
+  return { subscribe: jest.fn(cb => cb({ isSuccessful: false, item: mockBoardExample, message: failedMessage, reason: failedReason })) };
 };
 
 const mockSignalR = {
   invoke: mockInvoke,
+};
+
+const failedMockService = {
+  invoke: failedMockInvoke,
 };
 
 describe('BoardService', () => {
@@ -52,4 +63,28 @@ describe('BoardService', () => {
       });
     }));
   });
+});
+
+describe('Board Service', () => {
+  let service: BoardService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: SignalRService, useValue: failedMockService }],
+    });
+  });
+
+  beforeEach(() => {
+    service = TestBed.get(BoardService);
+  });
+
+  it('should return an error on a board that user has no access to', async(() => {
+    const failedBoardReq = Object.assign({}, mockBoardExample, {
+      erroredDuringFetching: true,
+      message: failedMessage,
+      reason: failedReason,
+    });
+    service.getBoardsFromParams('233386_90067305').subscribe(boards => {
+      expect(boards).toEqual([failedBoardReq]);
+    });
+  }));
 });

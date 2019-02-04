@@ -16,6 +16,7 @@ import { Plan } from '@app/models';
 export class BacklogBaseComponent implements OnInit, OnDestroy {
   plans$: Observable<Plan[]>;
   boardsLoading$: Observable<boolean>;
+  errorMessage$: Observable<string>;
   routerSubscription: Subscription;
 
   constructor(private store: Store<fromBacklog.State>, private rootStore: Store<fromRoot.State>) {}
@@ -35,5 +36,6 @@ export class BacklogBaseComponent implements OnInit, OnDestroy {
     this.store.dispatch(new backlogActions.GetBoardsInParams());
     this.plans$ = this.store.pipe(select(fromBacklog.getBoards));
     this.boardsLoading$ = this.store.pipe(select(fromBacklog.isBoardsLoading));
+    this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
   }
 }
