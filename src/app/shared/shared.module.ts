@@ -10,10 +10,11 @@ import { TDXAgilePipesModule } from './pipes';
 // Components
 import { ButtonComponent } from './components/button/button.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
-  declarations: [ButtonComponent, FilterToolbarComponent, NotificationComponent],
+  declarations: [ButtonComponent, FilterToolbarComponent, NotificationComponent, LoadingSpinnerComponent],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
-  exports: [ButtonComponent, FilterToolbarComponent, NotificationComponent],
+  exports: [ButtonComponent, FilterToolbarComponent, LoadingSpinnerComponent, NotificationComponent],
 })
 export class SharedModule {}

@@ -25,6 +25,7 @@ import { AddBoardDiagramComponent } from './components/backlog-container/add-boa
 import { BacklogNavComponent } from './components/backlog-container/backlog-nav/backlog-nav.component';
 import { BacklogMoveToolbarComponent } from './components/backlog-container/backlog-nav/backlog-move-toolbar/backlog-move-toolbar.component';
 import { BoardsViewComponent } from './components/backlog-container/boards-view/boards-view.component';
+import { BacklogLoaderComponent } from './components/backlog-loader/backlog-loader.component';
 
 const backlogRoutes: Routes = [
   {
@@ -54,6 +55,7 @@ const backlogRoutes: Routes = [
     BacklogNavComponent,
     BacklogMoveToolbarComponent,
     BoardsViewComponent,
+    BacklogLoaderComponent,
   ],
   exports: [BacklogBaseComponent],
 })
