@@ -1,4 +1,7 @@
-<td-button icon="columns" (onClick)="addCardwallsRequested(addCardwallTemplate)">Add Card Wall</td-button>
+<div (click)="addCardwallsRequested(addCardwallTemplate)">
+  <ng-content></ng-content>
+</div>
+
 <ng-template #addCardwallTemplate>
   <div class="modal-header">
     <h3 id="dialog-name">Add Cardwalls to Backlog</h3>

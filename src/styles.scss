@@ -6,7 +6,10 @@
 @import './sass//mixins';
 @import './sass/base';
 
-@import './sass/partials/app-wide';
 @import './sass/partials/dialog-box';
 @import './sass/partials/navbar';
 @import './sass/partials/tooltip';
+
+@import './sass//partials/backlog';
+
+@import './sass/partials/app-wide';

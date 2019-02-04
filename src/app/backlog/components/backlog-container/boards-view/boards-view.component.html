@@ -1,11 +1,13 @@
-<div *ngFor="let board of plans">
-  <div class="panel">
-    <div class="panel-heading panel-hoverable plan-drag-handle cursor-move">
-      <div class="row">
-        <div class="col-md-9 col-sm-7 col-xs-12">
-          <span>{{ board.projectName }} / {{ board.name }}</span>
-        </div>
-      </div>
+<div class="tdNg-backlog-container">
+  <div *ngFor="let board of plans"></div>
+  <div *ngIf="plans.length === 0">
+    <div class="alert alert-primary" role="alert">
+      No Card Walls have been selected.
+      <br />
+      <td-add-board-base>
+        <strong class="cursor-pointer">Add an existing Card Wall</strong>
+        to get started
+      </td-add-board-base>
     </div>
   </div>
 </div>
