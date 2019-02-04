@@ -1,0 +1,11 @@
+<span
+  class="badge badge-primary"
+  *ngIf="storyPoints > 0"
+  [ngClass]="{ 'border border-white': isSelected }"
+  [tdTooltip]="getStoryPointsTooltip()"
+  placement="left"
+>
+  {{ storyPoints }}
+</span>
+
+<span class="badge badge-secondary" *ngIf="storyPoints <= 0" [tdTooltip]="getStoryPointsTooltip()" placement="left">-</span>

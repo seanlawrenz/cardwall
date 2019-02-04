@@ -1,17 +1,16 @@
 <div class="tdNg-backlog-container">
-  <div *ngFor="let board of plans">
-    <div *ngIf="!board.erroredDuringFetching; else boardErrorDuringFetch">
-      <div data-testId="plans">
-        {{ board.name }}
-      </div>
+  <div *ngFor="let plan of plans">
+    <div *ngIf="!plan.erroredDuringFetching; else boardErrorDuringFetch">
+      <td-backlog-board-header [plan]="plan"></td-backlog-board-header>
     </div>
+
     <ng-template #boardErrorDuringFetch>
       <div class="alert alert-warning">
-        <strong>Card Wall {{ board.id }} did not load.</strong>
+        <strong>Card Wall {{ plan.id }} did not load.</strong>
         <br />
-        {{ board.message }}
+        {{ plan.message }}
         <br />
-        {{ board.reason }}
+        {{ plan.reason }}
       </div>
     </ng-template>
   </div>
