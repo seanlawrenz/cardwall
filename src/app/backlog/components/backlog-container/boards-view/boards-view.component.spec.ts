@@ -33,13 +33,6 @@ describe('BoardsViewComponent', () => {
     expect(text.nativeElement.textContent).toContain('No Card Walls have been selected');
   });
 
-  it('should show the board names if card walls', () => {
-    component.plans = [mockBoard];
-    fixture.detectChanges();
-    text = fixture.debugElement.query(By.css('div[data-testId="plans"]'));
-    expect(text.nativeElement.textContent).toContain(mockBoard.name);
-  });
-
   it('should show a warning for boards that failed', () => {
     const failedMockBoard = Object.assign({}, mockBoard, {
       erroredDuringFetching: true,
@@ -50,7 +43,5 @@ describe('BoardsViewComponent', () => {
     fixture.detectChanges();
     text = fixture.debugElement.query(By.css('.alert-warning'));
     expect(text.nativeElement.textContent).toContain('Cannot Get Board');
-    const loadedBoardText = fixture.debugElement.query(By.css('div[data-testId="plans"]'));
-    expect(loadedBoardText.nativeElement.textContent).toContain(mockBoard.name);
   });
 });
