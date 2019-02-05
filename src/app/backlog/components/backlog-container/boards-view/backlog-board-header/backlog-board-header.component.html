@@ -3,7 +3,11 @@
     <div class="tdNg-flex-row-center">
       <td-expand-collapse-glyph></td-expand-collapse-glyph>
 
-      <div class="btn-link gutter-left">{{ plan.projectName }} {{ plan.name }}</div>
+      <div class="btn-link gutter-left">
+        <a [href]="getProjectUrl()" target="_blank" tooltip="View this project in another tab">{{ plan.projectName }}</a>
+        /
+        <a [href]="getCardwallUrl()" target="_blank" tooltip="View this cardwall in another tab">{{ plan.name }}</a>
+      </div>
 
       <td-button icon="times"></td-button>
 

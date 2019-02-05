@@ -2,7 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 import { BacklogBoardHeaderComponent } from './backlog-board-header.component';
+import { ConfigService } from '@app/app-services';
 import { mockBoard, mockCard, mockList } from '@app/test/data';
+import { mockConfigService } from '@app/test/mocks';
 import { Card, List, Plan } from '@app/models';
 
 describe('BacklogBoardHeaderComponent', () => {
@@ -12,6 +14,7 @@ describe('BacklogBoardHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogBoardHeaderComponent],
+      providers: [{ provide: ConfigService, useValue: mockConfigService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

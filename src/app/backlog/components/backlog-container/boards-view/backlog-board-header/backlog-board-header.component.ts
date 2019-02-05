@@ -4,6 +4,7 @@ import { Plan } from '@app/models';
 import { Card, List } from '@app/models';
 
 import { flatMap, flatMapDeep, sum } from 'lodash';
+import { ConfigService } from '@app/app-services';
 
 @Component({
   selector: 'td-backlog-board-header',
@@ -16,7 +17,7 @@ export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
   estimatedHours = 0;
   storyPoints = 0;
 
-  constructor() {}
+  constructor(private configService: ConfigService) {}
 
   ngOnInit() {
     this.updateSummaryData();
@@ -41,5 +42,13 @@ export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
     this.cardCount = sumArray(flatPlanCardsLength(activeLists));
     this.estimatedHours = sumArray(flatMapHours(flatPlanCards(activeLists)));
     this.storyPoints = sumArray(flatMapStoryPoints(flatPlanCards(activeLists)));
+  }
+
+  getProjectUrl() {
+    return `${this.configService.config.BasePath}/Apps/Projects/TeamManagement/ProjectDetails.aspx?PID=${this.plan.projectId}`;
+  }
+
+  getCardwallUrl() {
+    return `${this.configService.config.BasePath}/Apps/Projects/Agile/cardwall/project/${this.plan.projectId}/board/${this.plan.id}`;
   }
 }
