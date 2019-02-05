@@ -1,3 +1,6 @@
+import { List } from './list.model';
+import { Resources } from './resources.model';
+
 export interface BoardColors {
   cssClass: string;
   label: string;
@@ -19,12 +22,12 @@ export interface Board {
   isTemplate: boolean;
   isTicketToTaskEnabled: boolean;
   isTimeEntryEnabled: boolean;
-  lists: any[];
+  lists: List[];
   myWorkTaskIDs: any[];
   name: string;
   priorities: any[];
   projectId: number;
-  resources: any[];
+  resources: Resources[];
   statusTypes: any;
   useRemainingHours: boolean;
 }

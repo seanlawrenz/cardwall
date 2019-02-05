@@ -1,4 +1,4 @@
-import { BoardColors } from './board.model';
+import { Board } from './board.model';
 
 export interface PlanIdentifier {
   planID: number;
@@ -7,30 +7,8 @@ export interface PlanIdentifier {
   projectName: string;
 }
 
-export interface Plan {
-  id: number;
-  name: string;
-  description: string;
-  projectId: number;
+export interface Plan extends Board {
   projectName: string;
-  useRemainingHours: boolean;
-  iAmProjectManager: boolean;
-  iCanEditPlans: boolean;
-  lists: any[];
-  priorities: any[];
-  resources: any[];
-  statusTypes: any[];
-  colors: BoardColors[];
-  myWorkTaskIDs: any[];
-  isResourceAssignmentEnabled: boolean;
-  isFeedEnabled: boolean;
-  isAttachmentsEnabled: boolean;
-  isTimeEntryEnabled: boolean;
-  isTaskUpdateEnabled: boolean;
-  isIssuesEnabled: boolean;
-  isTicketToTaskEnabled: boolean;
-  isReportsEnabled: boolean;
-  isTemplate: boolean;
   erroredDuringFetching?: boolean;
   message?: string;
   reason?: string;
