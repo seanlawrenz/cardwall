@@ -7,13 +7,15 @@
 
       <td-button icon="times"></td-button>
 
-      <div><strong>12</strong></div>
+      <div>
+        <strong>{{ cardCount }}</strong>
+      </div>
     </div>
 
     <div class="d-none d-md-block">
       <div class="tdNg-flex-row-center">
-        <div class="text-small">23 Est Hours</div>
-        <td-story-point-indicator class="gutter-left" [storyPoints]="2" [isSummary]="true"></td-story-point-indicator>
+        <div class="text-small">{{ estimatedHours }} Est Hours</div>
+        <td-story-point-indicator class="gutter-left" [storyPoints]="storyPoints" [isSummary]="true"></td-story-point-indicator>
       </div>
     </div>
   </div>
