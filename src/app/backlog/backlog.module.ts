@@ -27,7 +27,8 @@ import { BacklogMoveToolbarComponent } from './components/backlog-container/back
 import { BoardsViewComponent } from './components/backlog-container/boards-view/boards-view.component';
 import { BacklogLoaderComponent } from './components/backlog-loader/backlog-loader.component';
 import { BacklogBoardHeaderComponent } from './components/backlog-container/boards-view/backlog-board-header/backlog-board-header.component';
-import { BacklogListComponent } from './components/backlog-container/boards-view/backlog-board-header/backlog-list/backlog-list.component';
+import { BacklogListComponent } from './components/backlog-container/boards-view/backlog-list/backlog-list.component';
+import { BacklogCardComponent } from './components/backlog-container/boards-view/backlog-card/backlog-card.component';
 
 const backlogRoutes: Routes = [
   {
@@ -60,6 +61,7 @@ const backlogRoutes: Routes = [
     BacklogLoaderComponent,
     BacklogBoardHeaderComponent,
     BacklogListComponent,
+    BacklogCardComponent,
   ],
   exports: [BacklogBaseComponent],
 })
