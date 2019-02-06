@@ -77,6 +77,8 @@ export class AddBoardBaseComponent implements OnInit {
     }
     this.router.navigate([], { relativeTo: this.route, queryParams: { boards: createQueryParams }, queryParamsHandling: 'merge' });
 
+    this.store.dispatch(new backlogActions.AddBoard(createQueryParams));
+
     this.dialogRef.hide();
   }
 }

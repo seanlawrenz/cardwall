@@ -19,5 +19,11 @@ export class RemoveBoardComponent implements OnInit {
 
   ngOnInit() {}
 
-  removePlan() {}
+  removePlan() {
+    const paramsToRemove = `${this.plan.projectId}_${this.plan.id}`;
+    const currentparams = this.route.snapshot.queryParamMap.get('boards');
+    const newParams = filter(split(currentparams, ','), pair => pair !== paramsToRemove);
+    this.router.navigate([], { relativeTo: this.route, queryParams: { boards: newParams }, queryParamsHandling: 'merge' });
+    this.store.dispatch(new backlogActions.RemoveBoard({ planId: this.plan.id }));
+  }
 }

@@ -46,7 +46,12 @@ export class BoardService {
         });
       };
 
-      fetchBoardFromSignalR(projectPlanPairsSplitIntoPairs, 0);
+      if (projectPlanPairsSplitIntoPairs.length > 0) {
+        fetchBoardFromSignalR(projectPlanPairsSplitIntoPairs, 0);
+      } else {
+        observer.next([]);
+        observer.complete();
+      }
     });
   }
 }

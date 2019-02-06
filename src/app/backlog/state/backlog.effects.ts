@@ -86,4 +86,30 @@ export class BacklogEffects {
       );
     }),
   );
+
+  @Effect()
+  loadPlans = this.actions$.pipe(
+    ofType(backlogActions.BacklogActionTypes.ADD_BOARD),
+    withLatestFrom(this.store.select(fromBacklog.getBoards), (action: { payload: string }, plans: Plan[]) => ({
+      plansToAdd: action.payload,
+      currentlyLoadedPlans: plans,
+    })),
+    mergeMap(payload =>
+      this.boardService
+        .getBoardsFromParams(payload.plansToAdd)
+        .pipe(map((plansReturnFromServer: Plan[]) => new backlogActions.GetBoardsSuccess(plansReturnFromServer))),
+    ),
+  );
+
+  @Effect()
+  removeBoard$ = this.actions$.pipe(
+    ofType(backlogActions.BacklogActionTypes.REMOVE_BOARD),
+    withLatestFrom(this.store.select(fromBacklog.getBoards), (action: { payload: { planId: number }; type: string }, plans: Plan[]) => {
+      const {
+        payload: { planId },
+      } = action;
+      return plans.filter(plan => plan.id !== planId);
+    }),
+    map(plans => new backlogActions.GetBoardsSuccess(plans)),
+  );
 }
