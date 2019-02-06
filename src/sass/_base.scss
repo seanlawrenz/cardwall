@@ -6,3 +6,13 @@ $tdGrey: #646464;
 $lightGrey: #f5f5f5;
 $grey: #dcdcdc;
 $darkGrey: #cdcdcd;
+
+$break-extra-wide: '(max-width: 1140px)';
+$break-wide: '(max-width: 1023px)';
+$break-wide-to-narrow: '(max-width: 1023px) and (min-width: 768px)';
+$break-narrow: '(max-width: 767px)';
+$break-extra-narrow: '(max-width: 520px)';
+$break-extra-wide-up: '(min-width: 1141px)';
+$break-wide-up: '(min-width: 1024px)';
+$break-narrow-up: '(min-width: 768px)';
+$break-extra-narrow-up: '(min-width: 521px)';

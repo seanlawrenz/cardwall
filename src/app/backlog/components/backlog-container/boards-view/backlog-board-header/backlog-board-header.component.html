@@ -23,4 +23,18 @@
       </div>
     </div>
   </div>
+
+  <div class="card">
+    <div *ngIf="plan.lists && plan.lists.length > 0; else planWithoutList">
+      <div *ngFor="let list of plan.lists">
+        <td-backlog-list [list]="list"></td-backlog-list>
+      </div>
+    </div>
+
+    <ng-template #planWithoutList>
+      <div class="alert alert-warning">
+        This Card Wall does not have any active lists defined.
+      </div>
+    </ng-template>
+  </div>
 </div>

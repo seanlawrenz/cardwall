@@ -1,0 +1,10 @@
+<div *ngIf="list.active">
+  <div class="container-fluid tdNg-backlog-list-container">
+    <div class="">
+      <td-expand-collapse-glyph></td-expand-collapse-glyph>
+      <span class="gutter-left">{{ list.title | trimTextToLimit: 90 }}</span>
+      <span class="gutter-left">{{ list.cards.length }}</span>
+      <span class="gutter-left text-small text-muted ">{{ list.id }}</span>
+    </div>
+  </div>
+</div>

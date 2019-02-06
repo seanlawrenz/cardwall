@@ -25,6 +25,8 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [
+    DirectiveModule,
+    TDXAgilePipesModule,
     ButtonComponent,
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,

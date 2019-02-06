@@ -17,6 +17,8 @@ export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
   estimatedHours = 0;
   storyPoints = 0;
 
+  isExpanded = true;
+
   constructor(private configService: ConfigService) {}
 
   ngOnInit() {

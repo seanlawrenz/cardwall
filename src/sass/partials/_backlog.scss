@@ -1,5 +1,26 @@
 .tdNg {
-  &-backlog-container {
-    padding: 1em;
+  &-backlog {
+    &-container {
+      padding: 1em;
+    }
+
+    &-list {
+      &-container {
+        margin: 0 1em;
+        padding: 1em 0;
+
+        @media #{$break-narrow-up} {
+          margin: 0 2em;
+        }
+      }
+    }
+
+    &-toolbar {
+      display: none;
+
+      @media screen and (min-width: 1215px) {
+        display: block;
+      }
+    }
   }
 }

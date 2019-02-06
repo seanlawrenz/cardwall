@@ -6,10 +6,12 @@ import { ConfigService } from '@app/app-services';
 import { mockBoard, mockCard, mockList } from '@app/test/data';
 import { mockConfigService } from '@app/test/mocks';
 import { Card, List, Plan } from '@app/models';
+import { By } from '@angular/platform-browser';
 
 describe('BacklogBoardHeaderComponent', () => {
   let component: BacklogBoardHeaderComponent;
   let fixture: ComponentFixture<BacklogBoardHeaderComponent>;
+  let text;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -61,6 +63,27 @@ describe('BacklogBoardHeaderComponent', () => {
         component.updateSummaryData();
         expect(component.cardCount).toEqual(0);
       }).not.toThrowError();
+    });
+  });
+
+  describe('showing the list', () => {
+    it('should show the warning if there are no lists on the plans', () => {
+      component.plan = mockBoard;
+      fixture.detectChanges();
+
+      text = fixture.debugElement.query(By.css('.alert-warning'));
+
+      expect(text.nativeElement.textContent).toContain('This Card Wall does not have any active lists defined.');
+    });
+
+    it('should show the lists', () => {
+      const mockPlanWithList = Object.assign({}, mockBoard, { lists: [mockList] });
+      component.plan = mockPlanWithList;
+      fixture.detectChanges();
+
+      text = fixture.debugElement.query(By.css('.alert-warning'));
+
+      expect(text).toBeNull();
     });
   });
 });
