@@ -9,7 +9,9 @@
         <a [href]="getCardwallUrl()" target="_blank" tooltip="View this cardwall in another tab">{{ plan.name }}</a>
       </div>
 
-      <td-button icon="times"></td-button>
+      <td-remove-board [plan]="plan">
+        <td-button icon="times"></td-button>
+      </td-remove-board>
 
       <div>
         <strong>{{ cardCount }}</strong>
