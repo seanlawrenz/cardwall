@@ -1,7 +1,7 @@
 <div class="card tdNg-comp-card-margin" data-testId="plans">
-  <div class="card-header tdNg-flex-row-center just">
+  <div class="card-header tdNg-flex-row-center just" (click)="toggleExpanded()">
     <div class="tdNg-flex-row-center">
-      <td-expand-collapse-glyph [isExpanded]="true"></td-expand-collapse-glyph>
+      <td-expand-collapse-glyph [isExpanded]="isExpanded"></td-expand-collapse-glyph>
 
       <div class="btn-link gutter-left">
         <a [href]="getProjectUrl()" target="_blank" tooltip="View this project in another tab">{{ plan.projectName }}</a>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div *ngIf="isExpanded" class="card">
     <div *ngIf="plan.lists && plan.lists.length > 0; else planWithoutList">
       <div *ngFor="let list of plan.lists">
         <td-backlog-list [list]="list"></td-backlog-list>

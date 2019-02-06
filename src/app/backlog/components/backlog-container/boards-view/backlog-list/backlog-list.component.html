@@ -1,13 +1,13 @@
 <div *ngIf="list.active">
   <div class="container-fluid tdNg-backlog-list-container">
-    <div>
-      <td-expand-collapse-glyph [isExpanded]="true"></td-expand-collapse-glyph>
+    <div (click)="toggleExpanded()">
+      <td-expand-collapse-glyph [isExpanded]="isExpanded"></td-expand-collapse-glyph>
       <span class="gutter-left">{{ list.title | trimTextToLimit: 90 }}</span>
       <span class="gutter-left">{{ list.cards.length }}</span>
       <span class="gutter-left text-small text-muted ">{{ list.id }}</span>
     </div>
 
-    <div>
+    <div *ngIf="isExpanded">
       <div *ngFor="let card of list.cards">
         <td-backlog-card [card]="card"></td-backlog-card>
       </div>

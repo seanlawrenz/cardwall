@@ -3,6 +3,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { BacklogMoveToolbarComponent } from './backlog-move-toolbar.component';
 import { ButtonComponent } from '@app/shared/components/button/button.component';
+import { Store } from '@ngrx/store';
 
 describe('BacklogMoveToolbarComponent', () => {
   let component: BacklogMoveToolbarComponent;
@@ -11,6 +12,7 @@ describe('BacklogMoveToolbarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogMoveToolbarComponent, ButtonComponent],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
       imports: [TooltipModule.forRoot()],
     }).compileComponents();
   }));

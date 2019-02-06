@@ -13,6 +13,7 @@ import { ConfigService } from '@app/app-services';
 })
 export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
   @Input() plan: Plan;
+
   cardCount = 0;
   estimatedHours = 0;
   storyPoints = 0;
@@ -52,5 +53,9 @@ export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
 
   getCardwallUrl() {
     return `${this.configService.config.BasePath}/Apps/Projects/Agile/cardwall/project/${this.plan.projectId}/board/${this.plan.id}`;
+  }
+
+  toggleExpanded() {
+    this.isExpanded = this.isExpanded === true ? false : true;
   }
 }
