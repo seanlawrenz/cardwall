@@ -9,8 +9,8 @@ import * as backlogActions from '../../state/backlog.actions';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
-import { PlanIdentifier } from '@app/models';
 import { NotificationService } from '@app/app-services/notification.service';
+import { PlanIdentifier } from '@app/models';
 
 import { join } from 'lodash';
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationComponent } from './components/notification/notification.component';
 
 // Libraries
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -20,7 +19,6 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     LoadingSpinnerComponent,
-    NotificationComponent,
     StoryPointIndicatorComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
@@ -31,7 +29,6 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     LoadingSpinnerComponent,
-    NotificationComponent,
     StoryPointIndicatorComponent,
   ],
 })

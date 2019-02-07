@@ -4,8 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ConfigService, SignalRService } from './app-services';
 import { mockConfigService } from './test/mocks';
-import { NotificationComponent } from './shared/components/notification/notification.component';
-import { EscapeHtmlPipe } from './shared/pipes/keep-html.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -14,9 +13,10 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, NotificationComponent, EscapeHtmlPipe],
+      declarations: [AppComponent],
       imports: [RouterTestingModule],
       providers: [SignalRService, { provide: ConfigService, useValue: mockConfigService }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

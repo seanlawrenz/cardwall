@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 // App Level Components
 import { AppComponent } from './app.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationComponent } from './notifications/notification/notification.component';
 
 // Modules
 import { DirectiveModule } from './shared/directives';
@@ -22,7 +24,7 @@ import { RootStoreModule } from './store';
 import { SortablejsModule } from 'angular-sortablejs';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NotificationsComponent, NotificationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

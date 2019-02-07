@@ -1,25 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Notification, NotificationType } from '@app/models';
-import { Subscription } from 'rxjs';
-import { NotificationService } from '@app/app-services/notification.service';
 
 @Component({
   selector: 'td-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
 })
-export class NotificationComponent implements OnInit, OnDestroy {
-  notifications: Notification[];
-  notificationSub: Subscription;
-  constructor(private notificationService: NotificationService) {}
+export class NotificationComponent {
+  @Input() notifications: Notification[];
 
-  ngOnInit() {
-    this.notificationSub = this.notificationService.notificationChanged$.subscribe(notifications => (this.notifications = notifications));
-  }
-
-  ngOnDestroy() {
-    this.notificationSub.unsubscribe();
-  }
+  @Output() removeNotification = new EventEmitter<Notification>();
 
   getAlertClass(notificationType: NotificationType): string {
     let result = '';
@@ -49,7 +39,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   remove(notification: Notification) {
-    this.notificationService.remove(notification);
+    this.removeNotification.emit(notification);
   }
 
   onClick(notification: Notification) {
