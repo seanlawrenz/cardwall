@@ -23,3 +23,8 @@ export const isListsExpanded = createSelector(
   getUIState,
   state => state.expandLists,
 );
+
+export const isBoardsExpanded = createSelector(
+  getUIState,
+  state => state.expandBoards,
+);

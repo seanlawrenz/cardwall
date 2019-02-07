@@ -1,7 +1,10 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
-import { Plan } from '@app/models';
+import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 
-import { Card, List } from '@app/models';
+import { Store, select } from '@ngrx/store';
+import { fromRoot } from '@app/store';
+import { Subscription } from 'rxjs';
+
+import { Card, List, Plan } from '@app/models';
 
 import { flatMap, flatMapDeep, sum } from 'lodash';
 import { ConfigService } from '@app/app-services';
@@ -11,23 +14,31 @@ import { ConfigService } from '@app/app-services';
   templateUrl: './backlog-board-header.component.html',
   styleUrls: ['./backlog-board-header.component.scss'],
 })
-export class BacklogBoardHeaderComponent implements OnInit, OnChanges {
+export class BacklogBoardHeaderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() plan: Plan;
+
+  expandedSub: Subscription;
+  isExpanded = true;
 
   cardCount = 0;
   estimatedHours = 0;
   storyPoints = 0;
 
-  isExpanded = true;
-
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService, private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.updateSummaryData();
+    this.expandedSub = this.store.pipe(select(fromRoot.isBoardsExpanded)).subscribe((expand: boolean) => {
+      this.isExpanded = expand;
+    });
   }
 
   ngOnChanges() {
     this.updateSummaryData();
+  }
+
+  ngOnDestroy() {
+    this.expandedSub.unsubscribe();
   }
 
   updateSummaryData() {
