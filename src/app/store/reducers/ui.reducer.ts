@@ -3,11 +3,13 @@ import { UIActionTypes, UIActions } from '../actions/ui.actions';
 export interface UIState {
   expandLists: boolean;
   expandBoards: boolean;
+  showSpinner: boolean;
 }
 
 export const UI_STATE: UIState = {
   expandLists: true,
   expandBoards: true,
+  showSpinner: false,
 };
 
 export const reducer = (state = UI_STATE, action: UIActions): UIState => {
@@ -37,6 +39,18 @@ export const reducer = (state = UI_STATE, action: UIActions): UIState => {
           expandBoards: false,
         };
       }
+
+    case UIActionTypes.SHOW_SPINNER:
+      return {
+        ...state,
+        showSpinner: true,
+      };
+
+    case UIActionTypes.HIDE_SPINNER:
+      return {
+        ...state,
+        showSpinner: false,
+      };
 
     default:
       return state;

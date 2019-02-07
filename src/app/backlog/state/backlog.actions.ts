@@ -63,4 +63,6 @@ export type BacklogActions =
   | GetPlansInParams
   | GetPlansSuccess
   | GetPlansError
-  | ReorderPlans;
+  | ReorderPlans
+  | AddBoard
+  | RemoveBoard;

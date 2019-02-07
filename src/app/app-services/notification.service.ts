@@ -17,21 +17,26 @@ export class NotificationService {
     }
 
     this.store.dispatch(new notifyActions.AddNotification(notification));
+    return notification;
   }
 
-  warning(title: string, body: string, dismissAfterSeconds: number = 0, onClick: () => void = null) {
-    this.add(new Notification(title, body, NotificationType.Warning, dismissAfterSeconds, onClick));
+  remove(notification: Notification) {
+    this.store.dispatch(new notifyActions.RemoveNotification(notification));
   }
 
-  danger(title: string, body: string, dismissAfterSeconds: number = 0, onClick: () => void = null) {
-    this.add(new Notification(title, body, NotificationType.Danger, dismissAfterSeconds, onClick));
+  warning(title: string, body: string, dismissAfterSeconds: number = 0, onClick: () => void = null): Notification {
+    return this.add(new Notification(title, body, NotificationType.Warning, dismissAfterSeconds, onClick));
   }
 
-  info(title: string, body: string, dismissAfterSeconds: number = 2, onClick: () => void = null) {
-    this.add(new Notification(title, body, NotificationType.Info, dismissAfterSeconds, onClick));
+  danger(title: string, body: string, dismissAfterSeconds: number = 0, onClick: () => void = null): Notification {
+    return this.add(new Notification(title, body, NotificationType.Danger, dismissAfterSeconds, onClick));
   }
 
-  success(title: string, body: string, dismissAfterSeconds: number = 2, onClick: () => void = null) {
-    this.add(new Notification(title, body, NotificationType.Success, dismissAfterSeconds, onClick));
+  info(title: string, body: string, dismissAfterSeconds: number = 2, onClick: () => void = null): Notification {
+    return this.add(new Notification(title, body, NotificationType.Info, dismissAfterSeconds, onClick));
+  }
+
+  success(title: string, body: string, dismissAfterSeconds: number = 2, onClick: () => void = null): Notification {
+    return this.add(new Notification(title, body, NotificationType.Success, dismissAfterSeconds, onClick));
   }
 }

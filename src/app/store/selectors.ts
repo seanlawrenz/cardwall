@@ -30,6 +30,11 @@ export const isBoardsExpanded = createSelector(
   state => state.expandBoards,
 );
 
+export const isSpinnerShowing = createSelector(
+  getUIState,
+  state => state.showSpinner,
+);
+
 // Notifications
 export const getNotificationState = createFeatureSelector<fromNotify.NotifyState>('notifications');
 

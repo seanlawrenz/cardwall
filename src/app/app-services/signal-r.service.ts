@@ -1,8 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, from, of, observable } from 'rxjs';
 import { ConfigService } from './config.service';
-import { ConnectionState } from '@app/models';
+import { NotificationService } from './notification.service';
+import { ConnectionState, Notification } from '@app/models';
 import { environment } from '../../environments/environment.prod';
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +15,15 @@ export class SignalRService {
 
   private connection: HubConnection;
   private proxy: HubProxy;
+  private lastNotification: Notification;
+  private hasBeenConnected = false;
 
   hubUrl: string;
   hubName = 'CardWallHub';
 
   connectionState: number = ConnectionState.disconnected;
 
-  constructor(configService: ConfigService) {
+  constructor(configService: ConfigService, private notifyService: NotificationService, private spinnerService: SpinnerService) {
     this.hubUrl = configService.config.SignalRBasePath;
   }
 
@@ -169,7 +173,39 @@ export class SignalRService {
 
     const oldName: string = SignalRService.getConnectionStateName(state.oldState);
     const newName: string = SignalRService.getConnectionStateName(state.newState);
-
     console.log(`Connection state changed from ${oldName} to ${newName}`);
+
+    if (this.lastNotification) {
+      this.notifyService.remove(this.lastNotification);
+      this.lastNotification = null;
+    }
+
+    /* tslint:disable:max-line-length */
+    switch (state.newState) {
+      case ConnectionState.reconnecting:
+        this.spinnerService.showSpinner();
+        this.lastNotification = this.notifyService.warning(
+          newName,
+          `You have temporarily lost connection to TeamDynamix and will not be able to carry out actions or receive updates until the connection is restored. Check your internet connection.`,
+        );
+        break;
+
+      case ConnectionState.disconnected:
+        this.spinnerService.showSpinner();
+        this.lastNotification = this.notifyService.danger(
+          newName,
+          `The application has lost connection to TeamDynamix for an extended period of time and will not be able to carry out actions or receive updates until the connection is restored and the page is refreshed.`,
+        );
+        break;
+
+      case ConnectionState.connected:
+        this.spinnerService.hideSpinner();
+        if (this.hasBeenConnected) {
+          this.lastNotification = this.notifyService.success(newName, 'Your connection has been restored.', 5);
+        } else {
+          this.hasBeenConnected = true;
+        }
+        break;
+    }
   }
 }

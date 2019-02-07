@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ConfigService, SignalRService } from './app-services';
 import { mockConfigService } from './test/mocks';
+import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 describe('AppComponent', () => {
@@ -15,7 +16,11 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [RouterTestingModule],
-      providers: [SignalRService, { provide: ConfigService, useValue: mockConfigService }],
+      providers: [
+        SignalRService,
+        { provide: ConfigService, useValue: mockConfigService },
+        { provide: Store, useValue: { dispatch: jest.fn() } },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

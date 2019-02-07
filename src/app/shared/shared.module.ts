@@ -11,6 +11,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph/expand-collapse-glyph.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     LoadingSpinnerComponent,
+    SpinnerComponent,
     StoryPointIndicatorComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
@@ -29,6 +31,7 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     LoadingSpinnerComponent,
+    SpinnerComponent,
     StoryPointIndicatorComponent,
   ],
 })
