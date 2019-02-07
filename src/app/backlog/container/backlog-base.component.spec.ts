@@ -7,14 +7,13 @@ import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 import * as backlogActions from '../state/backlog.actions';
 
 import { BacklogBaseComponent } from './backlog-base.component';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { mockBoard } from '@app/test/data';
 
 describe('BacklogBaseComponent', () => {
   let component: BacklogBaseComponent;
   let fixture: ComponentFixture<BacklogBaseComponent>;
   const unsubscribe = new Subject<void>();
-  const routerSub = new Subscription();
   let action;
   let store;
   let spy;
@@ -31,7 +30,6 @@ describe('BacklogBaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BacklogBaseComponent);
     component = fixture.componentInstance;
-    component.routerSubscription = routerSub;
     store = TestBed.get(Store);
   });
 

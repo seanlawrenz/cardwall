@@ -7,8 +7,11 @@ import { mockBoard, mockCard, mockList } from '@app/test/data';
 import { mockConfigService } from '@app/test/mocks';
 import { Card, List, Plan } from '@app/models';
 import { By } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 describe('BacklogBoardHeaderComponent', () => {
+  const mockSub: Subscription = new Subscription();
   let component: BacklogBoardHeaderComponent;
   let fixture: ComponentFixture<BacklogBoardHeaderComponent>;
   let text;
@@ -16,7 +19,10 @@ describe('BacklogBoardHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogBoardHeaderComponent],
-      providers: [{ provide: ConfigService, useValue: mockConfigService }],
+      providers: [
+        { provide: ConfigService, useValue: mockConfigService },
+        { provide: Store, useValue: { pipe: jest.fn(), select: jest.fn() } },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -24,6 +30,11 @@ describe('BacklogBoardHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BacklogBoardHeaderComponent);
     component = fixture.componentInstance;
+    component.expandedSub = mockSub;
+    // Removing the subscription of the expand for now.
+    component.ngOnInit = () => {
+      component.updateSummaryData();
+    };
   });
 
   it('should create', () => {

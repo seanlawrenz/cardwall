@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
 
 import { RemoveBoardComponent } from './remove-board.component';
 
@@ -8,9 +10,10 @@ describe('RemoveBoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RemoveBoardComponent ]
-    })
-    .compileComponents();
+      declarations: [RemoveBoardComponent],
+      imports: [RouterTestingModule],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

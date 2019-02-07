@@ -71,9 +71,10 @@ export class AddBoardBaseComponent implements OnInit {
     }
 
     let createQueryParams = join(plans.map(plan => `${plan.projectID}_${plan.planID}`));
-    const currentparams = this.route.snapshot.queryParamMap.get('boards');
-    if (currentparams !== null) {
-      createQueryParams = `${currentparams},${createQueryParams}`;
+    const currentParams = this.route.snapshot.queryParamMap.get('boards');
+
+    if (currentParams !== null && currentParams !== '') {
+      createQueryParams = `${currentParams},${createQueryParams}`;
     }
     this.router.navigate([], { relativeTo: this.route, queryParams: { boards: createQueryParams }, queryParamsHandling: 'merge' });
 
