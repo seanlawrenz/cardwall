@@ -16,11 +16,11 @@ describe('Backlog effects', () => {
   let effects: BacklogEffects;
   let signalR: SignalRService;
   let boardSvc: BoardService;
-  let action;
-  let outcome;
-  let response;
-  let expected;
-  let successfulSignalRResult: SignalRResult;
+  // let action;
+  // let outcome;
+  // let response;
+  // let expected;
+  // let successfulSignalRResult: SignalRResult;
   let store;
 
   beforeEach(() => {

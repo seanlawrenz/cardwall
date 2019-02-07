@@ -15,13 +15,13 @@ import * as backlogActions from './backlog.actions';
 import { PlanIdentifier, SignalRResult, Plan } from '@app/models';
 
 // Loading
-type showLoadingTypes = backlogActions.GetAvailableBoards;
-type hideLoadingTypes = backlogActions.GetAvailableBoardsSuccess | backlogActions.GetAvailableBoardsFail;
+type showLoadingTypes = backlogActions.GetAvailablePlans;
+type hideLoadingTypes = backlogActions.GetAvailablePlansSuccess | backlogActions.GetAvailablePlansFail;
 
-const showLoadingActions = [backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS];
+const showLoadingActions = [backlogActions.BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS];
 const hideLoadingActions = [
-  backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS_SUCCESS,
-  backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS_FAIL,
+  backlogActions.BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS,
+  backlogActions.BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_FAIL,
 ];
 
 @Injectable()
@@ -47,7 +47,7 @@ export class BacklogEffects {
 
   @Effect()
   loadPlansIdentifiers$ = this.actions$.pipe(
-    ofType(backlogActions.BacklogActionTypes.GET_AVAILABLE_BOARDS),
+    ofType(backlogActions.BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS),
     withLatestFrom(this.store.select(fromBacklog.getBoards), (action, boards) => {
       if (boards.length > 0) {
         return boards.map(board => board.id);
@@ -59,16 +59,16 @@ export class BacklogEffects {
       return this.signalRService.invoke('AvailableCardWallList', boards).pipe(
         map((res: SignalRResult) => {
           const plans: PlanIdentifier[] = res.item;
-          return new backlogActions.GetAvailableBoardsSuccess(plans);
+          return new backlogActions.GetAvailablePlansSuccess(plans);
         }),
-        catchError(err => of(new backlogActions.GetAvailableBoardsFail(err))),
+        catchError(err => of(new backlogActions.GetAvailablePlansFail(err))),
       );
     }),
   );
 
   @Effect()
   loadPlansOnParams$ = this.actions$.pipe(
-    ofType(backlogActions.BacklogActionTypes.GET_BOARDS_IN_PARAMS),
+    ofType(backlogActions.BacklogActionTypes.GET_PLANS_IN_PARAMS),
     withLatestFrom(this.store.select(fromRoot.getRouterState), (action, router) => {
       const {
         state: {
@@ -81,15 +81,15 @@ export class BacklogEffects {
     }),
     exhaustMap(payload => {
       return this.boardService.getBoardsFromParams(payload.boards).pipe(
-        map((plans: Plan[]) => new backlogActions.GetBoardsSuccess(plans)),
-        catchError(err => of(new backlogActions.GetBoardsError(err))),
+        map((plans: Plan[]) => new backlogActions.GetPlansSuccess(plans)),
+        catchError(err => of(new backlogActions.GetPlansError(err))),
       );
     }),
   );
 
   @Effect()
   loadPlans = this.actions$.pipe(
-    ofType(backlogActions.BacklogActionTypes.ADD_BOARD),
+    ofType(backlogActions.BacklogActionTypes.ADD_PLANS),
     withLatestFrom(this.store.select(fromBacklog.getBoards), (action: { payload: string }, plans: Plan[]) => ({
       plansToAdd: action.payload,
       currentlyLoadedPlans: plans,
@@ -97,19 +97,19 @@ export class BacklogEffects {
     mergeMap(payload =>
       this.boardService
         .getBoardsFromParams(payload.plansToAdd)
-        .pipe(map((plansReturnFromServer: Plan[]) => new backlogActions.GetBoardsSuccess(plansReturnFromServer))),
+        .pipe(map((plansReturnFromServer: Plan[]) => new backlogActions.GetPlansSuccess(plansReturnFromServer))),
     ),
   );
 
   @Effect()
   removeBoard$ = this.actions$.pipe(
-    ofType(backlogActions.BacklogActionTypes.REMOVE_BOARD),
+    ofType(backlogActions.BacklogActionTypes.REMOVE_PLAN),
     withLatestFrom(this.store.select(fromBacklog.getBoards), (action: { payload: { planId: number }; type: string }, plans: Plan[]) => {
       const {
         payload: { planId },
       } = action;
       return plans.filter(plan => plan.id !== planId);
     }),
-    map(plans => new backlogActions.GetBoardsSuccess(plans)),
+    map(plans => new backlogActions.GetPlansSuccess(plans)),
   );
 }

@@ -17,25 +17,25 @@ export const BACKLOG_STATE: BacklogState = {
 
 export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogState => {
   switch (action.type) {
-    case BacklogActionTypes.GET_AVAILABLE_BOARDS_SUCCESS:
+    case BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS:
       return {
         ...state,
         planList: action.payload,
       };
 
-    case BacklogActionTypes.GET_AVAILABLE_BOARDS_FAIL:
+    case BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_FAIL:
       return {
         ...state,
         error: action.payload,
       };
 
-    case BacklogActionTypes.GET_BOARDS_IN_PARAMS:
+    case BacklogActionTypes.GET_PLANS_IN_PARAMS:
       return {
         ...state,
         boardsLoading: true,
       };
 
-    case BacklogActionTypes.GET_BOARDS_SUCCESS:
+    case BacklogActionTypes.GET_PLANS_SUCCESS:
       return {
         ...state,
         boards: action.payload,
@@ -43,7 +43,7 @@ export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogS
         boardsLoading: false,
       };
 
-    case BacklogActionTypes.GET_BOARDS_FAIL:
+    case BacklogActionTypes.GET_PLANS_FAIL:
       return {
         ...state,
         error: action.payload,

@@ -45,7 +45,7 @@ describe('AddBoardBaseComponent', () => {
 
   describe('getAvailableBoards', () => {
     it('should dispatch get available boards action', () => {
-      action = new actions.GetAvailableBoards();
+      action = new actions.GetAvailablePlans();
       store = TestBed.get(Store);
       spy = jest.spyOn(store, 'dispatch');
       component.getAvailableBoards();

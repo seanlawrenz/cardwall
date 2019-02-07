@@ -40,7 +40,7 @@ describe('BacklogBaseComponent', () => {
 
   describe('get Boards In Params', () => {
     it('should dispatch at the getBords in params', () => {
-      action = new backlogActions.GetBoardsInParams();
+      action = new backlogActions.GetPlansInParams();
       spy = jest.spyOn(store, 'dispatch');
 
       component.getBoardsInParams();

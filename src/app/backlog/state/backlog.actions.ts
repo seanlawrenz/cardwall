@@ -2,58 +2,58 @@ import { Action } from '@ngrx/store';
 import { PlanIdentifier, Board } from '@app/models';
 
 export enum BacklogActionTypes {
-  GET_AVAILABLE_BOARDS = '[BACKLOG] GET AVAILABLE BOARDS',
-  GET_AVAILABLE_BOARDS_SUCCESS = '[BACKLOG] GET AVAILABLE BOARDS SUCCESS',
-  GET_AVAILABLE_BOARDS_FAIL = '[BACKLOG] GET AVAILABLE BOARDS FAIL',
-  GET_BOARDS_IN_PARAMS = '[BACKLOG] GET_BOARDS_IN_PARAMS',
-  GET_BOARDS_SUCCESS = '[BACKLOG] GET_BOARDS_SUCCESS',
-  GET_BOARDS_FAIL = '[BACKLOG] GET_BOARDS_FAIL',
-  ADD_BOARD = '[BACKLOG] ADD BOARD',
-  REMOVE_BOARD = '[BACKLOG] REMOVE BOARD',
+  GET_AVAILABLE_PLAN_IDENTIFERS = '[BACKLOG] GET AVAILABLE PLAN IDENTIFERS',
+  GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS = '[BACKLOG] GET AVAILABLE PLAN IDENTIFERS SUCCESS',
+  GET_AVAILABLE_PLAN_IDENTIFERS_FAIL = '[BACKLOG] GET AVAILABLE PLAN IDENTIFERS FAIL',
+  GET_PLANS_IN_PARAMS = '[BACKLOG] GET PLANS IN PARAMS',
+  GET_PLANS_SUCCESS = '[BACKLOG] GET PLANS SUCCESS',
+  GET_PLANS_FAIL = '[BACKLOG] GET PLANS FAIL',
+  ADD_PLANS = '[BACKLOG PLAN] ADD PLANS',
+  REMOVE_PLAN = '[BACKLOG PLAN] REMOVE PLAN',
 }
 
-export class GetAvailableBoards implements Action {
-  readonly type = BacklogActionTypes.GET_AVAILABLE_BOARDS;
+export class GetAvailablePlans implements Action {
+  readonly type = BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS;
 }
 
-export class GetAvailableBoardsSuccess implements Action {
-  readonly type = BacklogActionTypes.GET_AVAILABLE_BOARDS_SUCCESS;
+export class GetAvailablePlansSuccess implements Action {
+  readonly type = BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS;
   constructor(public payload: PlanIdentifier[]) {}
 }
 
-export class GetAvailableBoardsFail implements Action {
-  readonly type = BacklogActionTypes.GET_AVAILABLE_BOARDS_FAIL;
+export class GetAvailablePlansFail implements Action {
+  readonly type = BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_FAIL;
   constructor(public payload: string) {}
 }
 
-export class GetBoardsInParams implements Action {
-  readonly type = BacklogActionTypes.GET_BOARDS_IN_PARAMS;
+export class GetPlansInParams implements Action {
+  readonly type = BacklogActionTypes.GET_PLANS_IN_PARAMS;
 }
 
 export class AddBoard implements Action {
-  readonly type = BacklogActionTypes.ADD_BOARD;
+  readonly type = BacklogActionTypes.ADD_PLANS;
   constructor(public payload: string) {}
 }
 
 export class RemoveBoard implements Action {
-  readonly type = BacklogActionTypes.REMOVE_BOARD;
+  readonly type = BacklogActionTypes.REMOVE_PLAN;
   constructor(public payload: { planId: number }) {}
 }
 
-export class GetBoardsSuccess implements Action {
-  readonly type = BacklogActionTypes.GET_BOARDS_SUCCESS;
+export class GetPlansSuccess implements Action {
+  readonly type = BacklogActionTypes.GET_PLANS_SUCCESS;
   constructor(public payload: Board[]) {}
 }
 
-export class GetBoardsError implements Action {
-  readonly type = BacklogActionTypes.GET_BOARDS_FAIL;
+export class GetPlansError implements Action {
+  readonly type = BacklogActionTypes.GET_PLANS_FAIL;
   constructor(public payload: string) {}
 }
 
 export type BacklogActions =
-  | GetAvailableBoards
-  | GetAvailableBoardsSuccess
-  | GetAvailableBoardsFail
-  | GetBoardsInParams
-  | GetBoardsSuccess
-  | GetBoardsError;
+  | GetAvailablePlans
+  | GetAvailablePlansSuccess
+  | GetAvailablePlansFail
+  | GetPlansInParams
+  | GetPlansSuccess
+  | GetPlansError;

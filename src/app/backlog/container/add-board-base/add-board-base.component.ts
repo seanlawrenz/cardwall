@@ -50,7 +50,7 @@ export class AddBoardBaseComponent implements OnInit {
   }
 
   getAvailableBoards() {
-    this.store.dispatch(new backlogActions.GetAvailableBoards());
+    this.store.dispatch(new backlogActions.GetAvailablePlans());
     this.planIdentifiers$ = this.store.pipe(select(fromBacklog.getPlans));
     this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
     this.loading$ = this.appStore.pipe(select(fromRoot.isLoading));

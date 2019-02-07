@@ -25,7 +25,7 @@ export class BacklogBaseComponent implements OnInit {
   }
 
   getBoardsInParams() {
-    this.store.dispatch(new backlogActions.GetBoardsInParams());
+    this.store.dispatch(new backlogActions.GetPlansInParams());
     this.plans$ = this.store.pipe(select(fromBacklog.getBoards));
     this.boardsLoading$ = this.store.pipe(select(fromBacklog.isBoardsLoading));
     this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
