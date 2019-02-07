@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { PlanIdentifier, Board } from '@app/models';
+import { PlanIdentifier, Plan } from '@app/models';
 
 export enum BacklogActionTypes {
   GET_AVAILABLE_PLAN_IDENTIFERS = '[BACKLOG] GET AVAILABLE PLAN IDENTIFERS',
@@ -10,6 +10,7 @@ export enum BacklogActionTypes {
   GET_PLANS_FAIL = '[BACKLOG] GET PLANS FAIL',
   ADD_PLANS = '[BACKLOG PLAN] ADD PLANS',
   REMOVE_PLAN = '[BACKLOG PLAN] REMOVE PLAN',
+  REORDER_PLANS = '[BACKLOG PLANS] REORDER PLANS',
 }
 
 export class GetAvailablePlans implements Action {
@@ -42,12 +43,17 @@ export class RemoveBoard implements Action {
 
 export class GetPlansSuccess implements Action {
   readonly type = BacklogActionTypes.GET_PLANS_SUCCESS;
-  constructor(public payload: Board[]) {}
+  constructor(public payload: Plan[]) {}
 }
 
 export class GetPlansError implements Action {
   readonly type = BacklogActionTypes.GET_PLANS_FAIL;
   constructor(public payload: string) {}
+}
+
+export class ReorderPlans implements Action {
+  readonly type = BacklogActionTypes.REORDER_PLANS;
+  constructor(public payload: Plan[]) {}
 }
 
 export type BacklogActions =
@@ -56,4 +62,5 @@ export type BacklogActions =
   | GetAvailablePlansFail
   | GetPlansInParams
   | GetPlansSuccess
-  | GetPlansError;
+  | GetPlansError
+  | ReorderPlans;

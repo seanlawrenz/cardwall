@@ -4,15 +4,15 @@ import { PlanIdentifier } from '@app/models';
 export interface BacklogState {
   planList: PlanIdentifier[];
   error: string;
-  boards: any;
-  boardsLoading: boolean;
+  plans: any;
+  plansLoading: boolean;
 }
 
 export const BACKLOG_STATE: BacklogState = {
   planList: [],
   error: '',
-  boards: [],
-  boardsLoading: false,
+  plans: [],
+  plansLoading: false,
 };
 
 export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogState => {
@@ -32,22 +32,28 @@ export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogS
     case BacklogActionTypes.GET_PLANS_IN_PARAMS:
       return {
         ...state,
-        boardsLoading: true,
+        plansLoading: true,
       };
 
     case BacklogActionTypes.GET_PLANS_SUCCESS:
       return {
         ...state,
-        boards: action.payload,
+        plans: action.payload,
         error: '',
-        boardsLoading: false,
+        plansLoading: false,
       };
 
     case BacklogActionTypes.GET_PLANS_FAIL:
       return {
         ...state,
         error: action.payload,
-        boardsLoading: false,
+        plansLoading: false,
+      };
+
+    case BacklogActionTypes.REORDER_PLANS:
+      return {
+        ...state,
+        plans: action.payload,
       };
 
     default:

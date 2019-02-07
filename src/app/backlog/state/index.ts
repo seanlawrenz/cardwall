@@ -20,10 +20,10 @@ export const getPlansError = createSelector(
 
 export const getBoards = createSelector(
   getBacklogFeatureState,
-  state => state.boards,
+  state => state.plans,
 );
 
 export const isBoardsLoading = createSelector(
   getBacklogFeatureState,
-  state => state.boardsLoading,
+  state => state.plansLoading,
 );
