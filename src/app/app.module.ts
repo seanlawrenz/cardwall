@@ -18,6 +18,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RootStoreModule } from './store';
 
+// 3rd Party
+import { SortablejsModule } from 'angular-sortablejs';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -26,9 +29,10 @@ import { RootStoreModule } from './store';
     RootStoreModule,
     DirectiveModule,
     SharedModule,
-    TDXAgilePipesModule.forRoot(),
+    SortablejsModule,
     StoreRouterConnectingModule.forRoot({ serializer: CustomSerializer }),
     StoreDevtoolsModule.instrument({ maxAge: 50 }),
+    TDXAgilePipesModule.forRoot(),
   ],
   bootstrap: [AppComponent],
 })

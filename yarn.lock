@@ -612,6 +612,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular-sortablejs@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/angular-sortablejs/-/angular-sortablejs-2.6.0.tgz#d41a5dcaf1dd08bcd79677b1fc0c64fb872fe2d3"
+
 ansi-colors@^3.0.0:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.3.tgz#57d35b8686e851e2cc04c403f1c00203976a1813"
@@ -6280,6 +6284,10 @@ socks@~2.2.0:
   dependencies:
     ip "^1.1.5"
     smart-buffer "^4.0.1"
+
+sortablejs@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.8.1.tgz#d19b66cf10aab9521a565b79766f2f3291c18278"
 
 source-list-map@^2.0.0:
   version "2.0.1"

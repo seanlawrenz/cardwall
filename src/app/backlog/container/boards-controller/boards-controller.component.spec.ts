@@ -2,23 +2,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { BoardsViewComponent } from './boards-view.component';
+import { BoardsControllerComponent } from './boards-controller.component';
 import { mockBoard } from '@app/test/data';
 
-describe('BoardsViewComponent', () => {
-  let component: BoardsViewComponent;
-  let fixture: ComponentFixture<BoardsViewComponent>;
+describe('BoardsControllerComponent', () => {
+  let component: BoardsControllerComponent;
+  let fixture: ComponentFixture<BoardsControllerComponent>;
   let text;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BoardsViewComponent],
+      declarations: [BoardsControllerComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoardsViewComponent);
+    fixture = TestBed.createComponent(BoardsControllerComponent);
     component = fixture.componentInstance;
     component.plans = [];
     fixture.detectChanges();
