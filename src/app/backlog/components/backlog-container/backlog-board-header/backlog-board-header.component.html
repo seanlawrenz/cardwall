@@ -28,9 +28,7 @@
 
   <div *ngIf="isExpanded" class="card">
     <div *ngIf="plan.lists && plan.lists.length > 0; else planWithoutList">
-      <div *ngFor="let list of plan.lists">
-        <td-backlog-list [list]="list"></td-backlog-list>
-      </div>
+      <td-backlog-list-controller [lists]="plan.lists"></td-backlog-list-controller>
     </div>
 
     <ng-template #planWithoutList>

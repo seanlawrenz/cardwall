@@ -1,4 +1,4 @@
-<div *ngIf="list.active">
+<div *ngIf="list.active && list.id > 0">
   <div class="tdNg-backlog-list-container">
     <div (click)="toggleExpanded()" class="tdNg-backlog-list-card-row-spacer">
       <td-expand-collapse-glyph [isExpanded]="isExpanded"></td-expand-collapse-glyph>

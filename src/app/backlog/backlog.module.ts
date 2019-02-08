@@ -20,6 +20,7 @@ import { BacklogBaseComponent } from './container/backlog-base.component';
 import { AddBoardBaseComponent } from './container/add-board-base/add-board-base.component';
 import { BacklogMoveToolbarComponent } from './container/backlog-move-toolbar/backlog-move-toolbar.component';
 import { BoardsControllerComponent } from './container/boards-controller/boards-controller.component';
+import { BacklogListControllerComponent } from './container/backlog-list-controller/backlog-list-controller.component';
 import { RemoveBoardComponent } from './container/remove-board/remove-board.component';
 
 // Components
@@ -66,6 +67,7 @@ const backlogRoutes: Routes = [
     BacklogCardComponent,
     RemoveBoardComponent,
     BoardsControllerComponent,
+    BacklogListControllerComponent,
   ],
   exports: [BacklogBaseComponent],
 })
