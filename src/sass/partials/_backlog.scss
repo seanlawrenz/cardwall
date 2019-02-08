@@ -2,6 +2,10 @@
   &-backlog {
     &-container {
       padding: 1em;
+
+      ul {
+        list-style-position: inside;
+      }
     }
 
     &-list {
@@ -13,6 +17,10 @@
           margin: 0 2em;
         }
       }
+
+      &-card-row-spacer {
+        margin-bottom: 0.5em;
+      }
     }
 
     &-toolbar {
@@ -20,6 +28,14 @@
 
       @media screen and (min-width: 1215px) {
         display: block;
+      }
+    }
+
+    &-card {
+      &-row {
+        border-radius: 0 !important;
+        margin-bottom: 3px;
+
       }
     }
   }

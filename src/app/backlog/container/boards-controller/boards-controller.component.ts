@@ -18,6 +18,7 @@ export class BoardsControllerComponent implements OnInit {
 
   sortableOptions: SortablejsOptions = {
     group: 'backlogPlans',
+    handle: '.plan-drag-handle',
     onEnd: () => this.sortPlans(),
   };
 
