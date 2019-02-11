@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { List } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 
+import { Store } from '@ngrx/store';
+import * as fromBacklog from '../../state';
+import * as backlogActions from '../../state/backlog.actions';
+
 @Component({
   selector: 'td-backlog-list-controller',
   templateUrl: './backlog-list-controller.component.html',
@@ -9,15 +13,18 @@ import { SortablejsOptions } from 'angular-sortablejs';
 })
 export class BacklogListControllerComponent implements OnInit {
   @Input() lists: List[];
+  @Input() projectId: number;
+  @Input() planId: number;
   listsOnView: List[];
 
-  constructor() {}
+  constructor(private store: Store<fromBacklog.State>) {}
 
   sortableOptions: SortablejsOptions = {
     group: {
       name: 'backlog-lists',
       pull: false,
     },
+    handle: '.list-drag-handle',
     ghostClass: 'tdNg-backlog-dragging-overlay-blue',
     onEnd: event => this.listReorder(event),
   };
@@ -25,6 +32,14 @@ export class BacklogListControllerComponent implements OnInit {
   ngOnInit() {}
 
   listReorder(event) {
-    console.log('list reorder', this.lists);
+    const { newIndex, oldIndex } = event;
+    if (newIndex !== oldIndex) {
+      const payload = {
+        lists: this.lists,
+        projectId: this.projectId,
+        planId: this.planId,
+      };
+      this.store.dispatch(new backlogActions.ReorderListsOnPlans(payload));
+    }
   }
 }

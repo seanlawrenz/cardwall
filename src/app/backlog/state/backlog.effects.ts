@@ -4,6 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, Observable, empty } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, mapTo, switchMap, exhaustMap } from 'rxjs/operators';
+import { find } from 'lodash';
 
 import { fromRoot } from '@app/store';
 
@@ -12,7 +13,7 @@ import { ShowLoader, HideLoader } from '@app/store/actions/loading.actions';
 import * as fromBacklog from '../state';
 import * as backlogActions from './backlog.actions';
 
-import { PlanIdentifier, SignalRResult, Plan } from '@app/models';
+import { PlanIdentifier, SignalRResult, Plan, List } from '@app/models';
 
 // Loading
 type showLoadingTypes = backlogActions.GetAvailablePlans;
@@ -111,5 +112,31 @@ export class BacklogEffects {
       return plans.filter(plan => plan.id !== planId);
     }),
     map(plans => new backlogActions.GetPlansSuccess(plans)),
+  );
+
+  @Effect()
+  reorderListsOnPlans$ = this.actions$.pipe(
+    ofType(backlogActions.BacklogActionTypes.REORDER_LISTS),
+    withLatestFrom(
+      this.store.select(fromBacklog.getBoards),
+      (action: { payload: { lists: List[]; projectId: number; planId: number } }, plans: Plan[]) => {
+        const planForListReorder: Plan = find(
+          plans,
+          plan => plan.id === action.payload.planId && plan.projectId === action.payload.projectId,
+        );
+        return {
+          lists: action.payload.lists,
+          plan: planForListReorder,
+        };
+      },
+    ),
+    exhaustMap((payload: { lists: List[]; plan: Plan }) => {
+      const { lists, plan } = payload;
+      const listsIds: number[] = lists.map(list => list.id);
+
+      return this.signalRService
+        .invoke('ListReorder', listsIds, plan.projectId, plan.id)
+        .pipe(map(() => new backlogActions.UpdateListsOrder({ lists, projectId: plan.projectId, planId: plan.id })));
+    }),
   );
 }
