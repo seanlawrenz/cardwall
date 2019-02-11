@@ -5,23 +5,31 @@ import { Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
 import { BacklogEffects } from './backlog.effects';
 import { cold, hot } from 'jasmine-marbles';
-import { of } from 'rxjs';
 
 import * as backlogActions from './backlog.actions';
-import { mockPlans } from '@app/test/data';
+import { mockPlans, mockPlan1, mockBoard, mockBoardBuilder } from '@app/test/data';
 import { SignalRResult } from '@app/models';
 
+/**
+ * For testing effects that uses withLatestFrom the initialization order matter
+ * initialize the store first.
+ * Then for each block of tests initialize the mockActions and service mocks
+ * Finally before the expect test initialize the effects.
+ * This insures that the mocks are loaded into the effect with data and no observable fails
+ */
 describe('Backlog effects', () => {
   let actions: TestActions;
   let effects: BacklogEffects;
   let signalR: SignalRService;
   let boardSvc: BoardService;
-  // let action;
-  // let outcome;
-  // let response;
-  // let expected;
-  // let successfulSignalRResult: SignalRResult;
+  let action;
+  let outcome;
+  let response;
+  let expected;
+  let successfulSignalRResult: SignalRResult;
   let store;
+  let mockParams;
+  const mockBoard2 = mockBoardBuilder();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,49 +48,114 @@ describe('Backlog effects', () => {
         },
       ],
     });
-
-    actions = TestBed.get(Actions);
-    effects = TestBed.get(BacklogEffects);
-    signalR = TestBed.get(SignalRService);
-    boardSvc = TestBed.get(BoardService);
     store = TestBed.get(Store);
   });
 
   it('should be created', () => {
+    effects = TestBed.get(BacklogEffects);
     expect(effects).toBeTruthy();
   });
 
-  // This is not testing. I keep getting You provided 'undefined' where a stream was expected.
-  // no matter what I do.
-  // ToDo find out how to test this.
+  describe('loadPlans', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
 
-  // describe('loadPlans', () => {
-  //   it('should return a list of plans', () => {
-  //     successfulSignalRResult = {
-  //       isSuccessful: true,
-  //       item: mockPlans,
-  //     };
-  //     action = new backlogActions.GetAvailableBoards();
-  //     outcome = new backlogActions.GetAvailableBoardsSuccess(mockPlans);
-  //     actions.stream = hot('-a', { a: action });
-  //     response = cold('-a|', { a: successfulSignalRResult });
-  //     expected = cold('--b', { b: outcome });
-  //     signalR.invoke = jest.fn(() => response);
-  //     expect(effects.loadPlansIdentifiers$).toBeObservable(expected);
-  //   });
-  // });
+    describe('loadPlans', () => {
+      it('should return get available planSuccess action with the plans on success', () => {
+        successfulSignalRResult = {
+          isSuccessful: true,
+          item: mockPlans,
+        };
+        action = new backlogActions.GetAvailablePlans();
+        outcome = new backlogActions.GetAvailablePlansSuccess(mockPlans);
+        store.select = jest.fn(() => cold('r', { r: [mockPlan1] }));
+        actions.stream = hot('-a', { a: action });
+        response = cold('-a|', { a: successfulSignalRResult });
+        expected = cold('--b', { b: outcome });
+        signalR.invoke = jest.fn(() => response);
 
-  // describe('loadPlansOnParams', () => {
-  //   it('should return an empty array if params are empty', () => {
-  //     const mockParams = { state: { queryParams: {} } };
-  //     action = new backlogActions.GetBoardsInParams();
-  //     outcome = new backlogActions.GetBoardsSuccess([]);
-  //     store.select = jest.fn(() => mockParams);
-  //     action.stream = hot('-a', { a: action });
-  //     response = cold('-a|', { a: [] });
-  //     expected = cold('--b', { b: outcome });
-  //     boardSvc.getBoardsFromParams = jest.fn(() => []);
-  //     expect(effects.loadPlansOnParams$).toBeObservable(expected);
-  //   });
-  // });
+        effects = TestBed.get(BacklogEffects);
+
+        expect(effects.loadPlansIdentifiers$).toBeObservable(expected);
+      });
+    });
+  });
+
+  describe('loadPlansOnParams', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      boardSvc = TestBed.get(BoardService);
+    });
+
+    it('should return action of getPlanSuccess with no boards on Success', () => {
+      mockParams = { state: { queryParams: {} } };
+
+      action = new backlogActions.GetPlansInParams();
+      outcome = new backlogActions.GetPlansSuccess([]);
+
+      store.select = jest.fn(() => cold('a', { a: mockParams }));
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: [] });
+      expected = cold('--b', { b: outcome });
+      boardSvc.getBoardsFromParams = jest.fn(() => response);
+
+      effects = TestBed.get(BacklogEffects);
+      expect(effects.loadPlansOnParams$).toBeObservable(expected);
+    });
+
+    it('should return action of getPlanSuccess with plans that are on QueryParams', () => {
+      mockParams = {
+        state: { queryParams: { boards: `${mockBoard.projectId}_${mockBoard.id},${mockBoard2.projectId}_${mockBoard2.id}` } },
+      };
+
+      action = new backlogActions.GetPlansInParams();
+      outcome = new backlogActions.GetPlansSuccess([mockBoard, mockBoard2]);
+
+      store.select = jest.fn(() => cold('a', { a: mockParams }));
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: [mockBoard, mockBoard2] });
+      expected = cold('--b', { b: outcome });
+      boardSvc.getBoardsFromParams = jest.fn(() => response);
+
+      effects = TestBed.get(BacklogEffects);
+      expect(effects.loadPlansOnParams$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadPlans', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      boardSvc = TestBed.get(BoardService);
+    });
+
+    it('should return an action of getPlansSuccess with plans that are added for a backlog with no currently loaded plans', () => {
+      action = new backlogActions.AddBoard(`${mockBoard.projectId}_${mockBoard.id}`);
+      outcome = new backlogActions.GetPlansSuccess([mockBoard]);
+
+      store.select = jest.fn(() => cold('a', { a: [] }));
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: [mockBoard] });
+      expected = cold('--b', { b: outcome });
+      boardSvc.getBoardsFromParams = jest.fn(() => response);
+
+      effects = TestBed.get(BacklogEffects);
+      expect(effects.loadPlans).toBeObservable(expected);
+    });
+
+    it('should return an action of getPlansSuccess with the new plan an previously added plans', () => {
+      action = new backlogActions.AddBoard(`${mockBoard.projectId}_${mockBoard.id}`);
+      outcome = new backlogActions.GetPlansSuccess([mockBoard2, mockBoard]);
+
+      store.select = jest.fn(() => cold('a', { a: [mockBoard2] }));
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: [mockBoard2, mockBoard] });
+      expected = cold('--b', { b: outcome });
+      boardSvc.getBoardsFromParams = jest.fn(() => response);
+
+      effects = TestBed.get(BacklogEffects);
+      expect(effects.loadPlans).toBeObservable(expected);
+    });
+  });
 });
