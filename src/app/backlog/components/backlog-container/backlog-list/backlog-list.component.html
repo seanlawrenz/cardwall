@@ -8,7 +8,10 @@
     </div>
 
     <div *ngIf="isExpanded">
-      <td-backlog-card-controller [cards]="list.cards"></td-backlog-card-controller>
+      <td-backlog-card-controller
+        [cards]="list.cards"
+        [listInfo]="{ listId: list.id, projectId: list.projectId, planId: list.planId }"
+      ></td-backlog-card-controller>
     </div>
   </div>
 </div>

@@ -30,3 +30,10 @@ export interface Card {
   version: string;
   codeCount: number;
 }
+
+export enum CardMovementTypes {
+  START = 'START',
+  ADD = 'ADD',
+  UPDATE = 'UPDATE',
+  END = 'END',
+}
