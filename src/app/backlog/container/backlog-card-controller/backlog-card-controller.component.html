@@ -1,0 +1,5 @@
+<ul class="list-group" [sortablejs]="cards" [sortablejsOptions]="sortableOptions">
+  <li class="list-group-item tdNg-backlog-card-row" *ngFor="let card of cards">
+    <td-backlog-card [card]="card"></td-backlog-card>
+  </li>
+</ul>

@@ -8,11 +8,7 @@
     </div>
 
     <div *ngIf="isExpanded">
-      <ul class="list-group">
-        <li class="list-group-item tdNg-backlog-card-row" *ngFor="let card of list.cards">
-          <td-backlog-card [card]="card"></td-backlog-card>
-        </li>
-      </ul>
+      <td-backlog-card-controller [cards]="list.cards"></td-backlog-card-controller>
     </div>
   </div>
 </div>

@@ -18,6 +18,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 // Container
 import { BacklogBaseComponent } from './container/backlog-base.component';
 import { AddBoardBaseComponent } from './container/add-board-base/add-board-base.component';
+import { BacklogCardControllerComponent } from './container/backlog-card-controller/backlog-card-controller.component';
 import { BacklogMoveToolbarComponent } from './container/backlog-move-toolbar/backlog-move-toolbar.component';
 import { BoardsControllerComponent } from './container/boards-controller/boards-controller.component';
 import { BacklogListControllerComponent } from './container/backlog-list-controller/backlog-list-controller.component';
@@ -68,6 +69,7 @@ const backlogRoutes: Routes = [
     RemoveBoardComponent,
     BoardsControllerComponent,
     BacklogListControllerComponent,
+    BacklogCardControllerComponent,
   ],
   exports: [BacklogBaseComponent],
 })

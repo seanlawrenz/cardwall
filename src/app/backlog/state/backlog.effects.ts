@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BoardService, SignalRService } from '@app/app-services';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, Observable, empty } from 'rxjs';
-import { mergeMap, map, catchError, withLatestFrom, mapTo, switchMap, exhaustMap } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+import { mergeMap, map, catchError, withLatestFrom, exhaustMap } from 'rxjs/operators';
 import { find } from 'lodash';
 
 import { fromRoot } from '@app/store';
