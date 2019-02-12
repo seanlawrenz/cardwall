@@ -81,7 +81,7 @@ export class BacklogEffects {
       };
     }),
     exhaustMap(payload => {
-      return this.boardService.getBoardsFromParams(payload.boards).pipe(
+      return this.boardService.getPlansFromParams(payload.boards).pipe(
         map((plans: Plan[]) => new backlogActions.GetPlansSuccess(plans)),
         catchError(err => of(new backlogActions.GetPlansError(err))),
       );
@@ -97,21 +97,34 @@ export class BacklogEffects {
     })),
     mergeMap(payload =>
       this.boardService
-        .getBoardsFromParams(payload.plansToAdd)
+        .getPlansFromParams(payload.plansToAdd)
         .pipe(map((plansReturnFromServer: Plan[]) => new backlogActions.GetPlansSuccess(plansReturnFromServer))),
     ),
   );
 
   @Effect()
-  removeBoard$ = this.actions$.pipe(
+  removePlan$ = this.actions$.pipe(
     ofType(backlogActions.BacklogActionTypes.REMOVE_PLAN),
     withLatestFrom(this.store.select(fromBacklog.getBoards), (action: { payload: { planId: number }; type: string }, plans: Plan[]) => {
       const {
         payload: { planId },
       } = action;
-      return plans.filter(plan => plan.id !== planId);
+      return {
+        plans: plans.filter(plan => plan.id !== planId),
+        planToRemoveId: plans.filter(plan => plan.id === planId)[0].projectId,
+      };
     }),
-    map(plans => new backlogActions.GetPlansSuccess(plans)),
+    mergeMap(payload => {
+      const { plans, planToRemoveId } = payload;
+      // TODO: add something for response unsuccessful
+      // TODO: remove only if last project in plan
+      return this.signalRService.invoke('LeaveProjectGroup', planToRemoveId).pipe(
+        map(res => {
+          console.log(res);
+          return new backlogActions.GetPlansSuccess(plans);
+        }),
+      );
+    }),
   );
 
   @Effect()
