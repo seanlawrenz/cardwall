@@ -37,12 +37,15 @@ export class BoardService {
             plan.id = planId;
           }
           plans.push(res.item);
-          if (plans.length === projectPlanPairs.length) {
-            observer.next(plans);
-            observer.complete();
-          } else {
-            fetchBoardFromSignalR(projectPlanPairs, i + 1);
-          }
+          // SignalR needs to be told that we are on this boards group
+          this.signalR.invoke('JoinProjectGroup', projectId).subscribe(response => {
+            if (plans.length === projectPlanPairs.length) {
+              observer.next(plans);
+              observer.complete();
+            } else {
+              fetchBoardFromSignalR(projectPlanPairs, i + 1);
+            }
+          });
         });
       };
 

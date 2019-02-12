@@ -9,7 +9,7 @@ export const NOTIFY_STATE: NotifyState = {
   notifications: [],
 };
 
-export const reducer = (state = NOTIFY_STATE, action: NotifyActions): NotifyState => {
+export function reducer(state = NOTIFY_STATE, action: NotifyActions): NotifyState {
   let notifications: Notification[];
   switch (action.type) {
     case NotificationTypes.ADD_NOTIFICATION:
@@ -31,4 +31,4 @@ export const reducer = (state = NOTIFY_STATE, action: NotifyActions): NotifyStat
     default:
       return state;
   }
-};
+}

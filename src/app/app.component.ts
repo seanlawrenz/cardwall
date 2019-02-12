@@ -13,11 +13,7 @@ import * as $ from 'jquery';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private signalRService: SignalRService) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.signalRService.initialize().subscribe(data => {
-      console.log('signalR logged in', data);
-    });
-  }
+  ngOnInit() {}
 }

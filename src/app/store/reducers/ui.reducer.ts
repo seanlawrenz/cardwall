@@ -12,7 +12,7 @@ export const UI_STATE: UIState = {
   showSpinner: false,
 };
 
-export const reducer = (state = UI_STATE, action: UIActions): UIState => {
+export function reducer(state = UI_STATE, action: UIActions): UIState {
   switch (action.type) {
     case UIActionTypes.EXPAND_ALL:
       if (state.expandBoards === true) {
@@ -55,4 +55,4 @@ export const reducer = (state = UI_STATE, action: UIActions): UIState => {
     default:
       return state;
   }
-};
+}

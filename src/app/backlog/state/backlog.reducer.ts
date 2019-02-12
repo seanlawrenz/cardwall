@@ -17,7 +17,7 @@ export const BACKLOG_STATE: BacklogState = {
   plansLoading: false,
 };
 
-export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogState => {
+export function reducer(state = BACKLOG_STATE, action: BacklogActions): BacklogState {
   switch (action.type) {
     case BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS:
       return {
@@ -72,4 +72,4 @@ export const reducer = (state = BACKLOG_STATE, action: BacklogActions): BacklogS
     default:
       return state;
   }
-};
+}
