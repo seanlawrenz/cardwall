@@ -12,3 +12,5 @@ export const uniqueValuesInArray = (arr: Array<any>) => {
   }
   return out;
 };
+
+export * from './relativeMoveCardId';

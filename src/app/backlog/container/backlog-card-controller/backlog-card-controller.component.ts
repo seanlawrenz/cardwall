@@ -1,10 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
-import { Store } from '@ngrx/store';
-import * as fromBacklog from '@app/backlog/state';
-import * as backlogActions from '@app/backlog/state/backlog.actions';
-
 import { CardService } from '@app/app-services/card.service';
 import { Card } from '@app/models';
 
@@ -73,6 +69,10 @@ export class BacklogCardControllerComponent implements OnInit {
   }
 
   private dragCardEnd(newIndex, oldIndex) {
-    console.log('hello');
+    const { dragCard } = this.cardService;
+    // Move within this list
+    if (dragCard.listId === this.listInfo.listId) {
+      this.cardService.moveCardWithInSameList(this.cards, newIndex);
+    }
   }
 }

@@ -37,3 +37,13 @@ export enum CardMovementTypes {
   UPDATE = 'UPDATE',
   END = 'END',
 }
+
+export interface CardOrderInfo {
+  cardID: number;
+  order: number;
+}
+
+export interface CardOperationInfo {
+  card: Card;
+  orders: CardOrderInfo[];
+}

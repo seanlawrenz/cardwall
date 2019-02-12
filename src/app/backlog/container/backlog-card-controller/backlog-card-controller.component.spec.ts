@@ -18,7 +18,9 @@ describe('BacklogCardControllerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [BacklogCardControllerComponent, BacklogCardComponent],
       imports: [SortablejsModule],
-      providers: [CardService],
+      providers: [
+        { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
+      ],
     }).compileComponents();
   }));
 
@@ -92,13 +94,28 @@ describe('BacklogCardControllerComponent', () => {
         expect(spy).not.toHaveBeenCalled();
       });
 
-      // it('should tell if the card was moved within the same list', () => {
-      //   component.cards = [mockCardFromMockList, mockCard];
-      //   mockEventFromSortable = { newIndex: 1, oldIndex: 0 };
-      //   cardSvc.dragCard = mockCardFromMockList;
+      it('should tell if the card was moved within the same list (same list)', () => {
+        spy = spyOn(cardSvc, 'moveCardWithInSameList');
+        component.cards = [mockCardFromMockList, mockCard];
+        mockEventFromSortable = { newIndex: 1, oldIndex: 0 };
+        cardSvc.dragCard = mockCardFromMockList;
 
-      //   expect(spy).toHaveBeenCalledWith(backlogActions.moveCardWithInList())
-      // })
+        component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
+
+        expect(spy).toHaveBeenCalledWith(component.cards, 1);
+      });
+
+      it('should tell if the card was moved within the same list (not same list)', () => {
+        spy = spyOn(cardSvc, 'moveCardWithInSameList');
+        const mockCard2 = mockCardBuilder();
+        component.cards = [mockCard2, mockCard];
+        mockEventFromSortable = { newIndex: 1, oldIndex: 0 };
+        cardSvc.dragCard = mockCard2;
+
+        component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
+
+        expect(spy).not.toHaveBeenCalled();
+      });
     });
   });
 });

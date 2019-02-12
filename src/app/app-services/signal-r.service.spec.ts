@@ -1,16 +1,22 @@
-import { async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 
 import { SignalRService } from './signal-r.service';
 import { ConfigService } from './config.service';
 import { ConnectionState } from '@app/models';
 
 import { mockConfigService } from '@app/test/mocks';
+import { Store } from '@ngrx/store';
 
 describe('SignalRService', () => {
   let service: SignalRService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: ConfigService, useValue: mockConfigService }, { provide: Store, useValue: { dispatch: jest.fn() } }],
+    });
+  });
 
   it('should be created', () => {
-    service = new SignalRService(mockConfigService as ConfigService);
+    service = TestBed.get(SignalRService);
     expect(service).toBeTruthy();
   });
 

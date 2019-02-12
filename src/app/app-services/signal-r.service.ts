@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, from, of, observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { NotificationService } from './notification.service';
-import { ConnectionState, Notification } from '@app/models';
+import { ConnectionState, Notification, Card, CardOperationInfo } from '@app/models';
 import { environment } from '../../environments/environment.prod';
 import { SpinnerService } from './spinner.service';
 
@@ -53,6 +53,7 @@ export class SignalRService {
       throw new Error('hubName must be set before SignalR can be initialized.');
     }
 
+    console.log('inializing signal r');
     return this.buildConnectObservable(callback);
   }
 
@@ -115,56 +116,58 @@ export class SignalRService {
         );
     });
 
-    // signalRInit$.subscribe(data => console.log(data));
     return signalRInit$;
   }
 
   private subscribeToHubEvents(proxy: any): void {
+    console.log('subscribing to event');
     // New Card Created
-    // proxy.on('CardCreateReceive', (info: CardOperationInfo): void => {
-    //   this.cardCreated.emit(info);
-    //   this.afterEventPublished.emit('cardCreated');
-    // });
+    proxy.on(
+      'CardCreateReceive',
+      (info: CardOperationInfo): void => {
+        console.log('CardCreateReceive');
+      },
+    );
     // Card Updated
-    // proxy.on('CardUpdateReceive', (card: Card): void => {
-    //   this.cardUpdated.emit(card);
-    //   this.afterEventPublished.emit('cardUpdated');
-    // });
+    proxy.on(
+      'CardUpdateReceive',
+      (card: Card): void => {
+        console.log('CardUpdateReceive');
+      },
+    );
     // Card Published
-    // proxy.on('CardPublishReceive', (card: Card): void => {
-    //   this.cardPublished.emit(card);
-    //   this.afterEventPublished.emit('cardPublished');
-    // });
+    proxy.on(
+      'CardPublishReceive',
+      (card: Card): void => {
+        console.log('CardPublishReceive');
+      },
+    );
     // CardReorderReceive
-    // proxy.on('CardReorderReceive', reorder => {
-    //   this.cardReordered.emit(reorder);
-    //   this.afterEventPublished.emit('cardReordered');
-    // });
+    proxy.on('CardReorderReceive', reorder => {
+      console.log('card reorder recieved', reorder);
+      // this.cardReordered.emit(reorder);
+      // this.afterEventPublished.emit('cardReordered');
+    });
     // CardDeleteReceive
-    // proxy.on('CardDeleteReceive', card => {
-    //   this.cardDeleted.emit(card);
-    //   this.afterEventPublished.emit('cardDeleted');
-    // });
+    proxy.on('CardDeleteReceive', card => {
+      console.log('CardDeleteReceive');
+    });
     // ListUpdateReceive
-    // proxy.on('ListUpdateReceive', list => {
-    //   this.listUpdated.emit(list);
-    //   this.afterEventPublished.emit('listUpdated');
-    // });
+    proxy.on('ListUpdateReceive', list => {
+      console.log('List update recived');
+    });
     // ListCreateReceive
-    // proxy.on('ListCreateReceive', list => {
-    //   this.listCreated.emit(list);
-    //   this.afterEventPublished.emit('afterEventPublished');
-    // });
+    proxy.on('ListCreateReceive', list => {
+      console.log('ListCreateReceive');
+    });
     // ListReorderReceive
-    // proxy.on('ListReorderReceive', reorder => {
-    //   this.listReordered.emit(reorder);
-    //   this.afterEventPublished.emit('listReordered');
-    // });
+    proxy.on('ListReorderReceive', reorder => {
+      console.log('ListReorderReceive');
+    });
     // Notification Received
-    // proxy.on('NotificationReceive', BrowserNotification => {
-    //   this.notificationReceived.emit(BrowserNotification);
-    //   this.afterEventPublished.emit('notificationReceived');
-    // });
+    proxy.on('NotificationReceive', BrowserNotification => {
+      console.log('NotificationReceive');
+    });
   }
 
   private onConnectionStateChanged(state: SignalRStateChange): void {
