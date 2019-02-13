@@ -1,3 +1,5 @@
+import { find } from 'lodash';
+
 export const uniqueValuesInArray = (arr: Array<any>) => {
   const seen = {};
   const out = [];
@@ -12,5 +14,11 @@ export const uniqueValuesInArray = (arr: Array<any>) => {
   }
   return out;
 };
+
+/**
+ * Finds an object on array via identifer and updates data
+ */
+export const updateDataOnCollection = (targetArray: any[], identifier: number, dataToReplaceWith: any) =>
+  Object.assign({}, find(targetArray, target => target.id === identifier), dataToReplaceWith);
 
 export * from './relativeMoveCardId';

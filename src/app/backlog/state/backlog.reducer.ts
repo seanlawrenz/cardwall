@@ -1,7 +1,7 @@
 import { BacklogActionTypes, BacklogActions } from './backlog.actions';
 import { PlanIdentifier } from '@app/models';
 
-import { find } from 'lodash';
+import { updateDataOnCollection } from '@app/utils';
 
 export interface BacklogState {
   planList: PlanIdentifier[];
@@ -60,10 +60,10 @@ export function reducer(state = BACKLOG_STATE, action: BacklogActions): BacklogS
 
     case BacklogActionTypes.UPDATE_LISTS_ORDER:
       const {
-        payload: { lists, projectId, planId },
+        payload: { lists, planId },
       } = action;
-      const planOnState = Object.assign({}, find(state.plans, plan => plan.id === planId && plan.projectId === projectId), lists);
-      const plans = state.plans.map(plan => (plan.id === planOnState ? planOnState : plan));
+      const planOnStateWithUpdatedData = updateDataOnCollection(state.plans, planId, lists);
+      const plans = state.plans.map(plan => (plan.id === planOnStateWithUpdatedData.id ? planOnStateWithUpdatedData : plan));
       return {
         ...state,
         plans,
