@@ -1,10 +1,8 @@
 import { BacklogActionTypes, BacklogActions } from './backlog.actions';
 import { PlanIdentifier, Plan, List, Card } from '@app/models';
 
-import { updateDataOnCollection } from '@app/utils';
+import { updateDataOnCollection, updateCardOrderInListWithinPlans } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
-
-import { find, findIndex } from 'lodash';
 
 export interface BacklogState {
   planList: PlanIdentifier[];
@@ -77,23 +75,9 @@ export function reducer(state = BACKLOG_STATE, action: BacklogActions | CardActi
         payload: { cardId, listId, index },
       } = action;
 
-      const updateCardOrderInListWithinPlans = () =>
-        state.plans.map(plan => {
-          const listToUpdate: List = find(plan.lists, list => list.id === listId);
-          if (listToUpdate) {
-            const currentIndex: number = findIndex(listToUpdate.cards, card => card.id === cardId);
-            const card: Card = listToUpdate.cards[currentIndex];
-            listToUpdate.cards.splice(currentIndex, 1);
-            listToUpdate.cards.splice(index, 0, card);
-            const i = findIndex(plan.lists, list => list.id === listId);
-            plan.lists[i].cards = listToUpdate.cards;
-          }
-          return plan;
-        });
-
       return {
         ...state,
-        plans: updateCardOrderInListWithinPlans(),
+        plans: updateCardOrderInListWithinPlans(state, listId, cardId, index),
       };
 
     default:
