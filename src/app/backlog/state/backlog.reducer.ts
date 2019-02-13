@@ -1,12 +1,15 @@
 import { BacklogActionTypes, BacklogActions } from './backlog.actions';
-import { PlanIdentifier } from '@app/models';
+import { PlanIdentifier, Plan, List, Card } from '@app/models';
 
 import { updateDataOnCollection } from '@app/utils';
+import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
+
+import { find, findIndex } from 'lodash';
 
 export interface BacklogState {
   planList: PlanIdentifier[];
   error: string;
-  plans: any;
+  plans: Plan[];
   plansLoading: boolean;
 }
 
@@ -17,7 +20,7 @@ export const BACKLOG_STATE: BacklogState = {
   plansLoading: false,
 };
 
-export function reducer(state = BACKLOG_STATE, action: BacklogActions): BacklogState {
+export function reducer(state = BACKLOG_STATE, action: BacklogActions | CardActions): BacklogState {
   switch (action.type) {
     case BacklogActionTypes.GET_AVAILABLE_PLAN_IDENTIFERS_SUCCESS:
       return {
@@ -67,6 +70,30 @@ export function reducer(state = BACKLOG_STATE, action: BacklogActions): BacklogS
       return {
         ...state,
         plans,
+      };
+
+    case CardActionTypes.CARD_REORDER_WITHIN_LIST:
+      const {
+        payload: { cardId, listId, index },
+      } = action;
+
+      const updateCardOrderInListWithinPlans = () =>
+        state.plans.map(plan => {
+          const listToUpdate: List = find(plan.lists, list => list.id === listId);
+          if (listToUpdate) {
+            const currentIndex: number = findIndex(listToUpdate.cards, card => card.id === cardId);
+            const card: Card = listToUpdate.cards[currentIndex];
+            listToUpdate.cards.splice(currentIndex, 1);
+            listToUpdate.cards.splice(index, 0, card);
+            const i = findIndex(plan.lists, list => list.id === listId);
+            plan.lists[i].cards = listToUpdate.cards;
+          }
+          return plan;
+        });
+
+      return {
+        ...state,
+        plans: updateCardOrderInListWithinPlans(),
       };
 
     default:

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { PlanIdentifier, Plan, List, Card } from '@app/models';
+import { PlanIdentifier, Plan, List, Card, CardReorder } from '@app/models';
 
 export enum BacklogActionTypes {
   GET_AVAILABLE_PLAN_IDENTIFERS = '[BACKLOG] GET AVAILABLE PLAN IDENTIFERS',

@@ -47,3 +47,9 @@ export interface CardOperationInfo {
   card: Card;
   orders: CardOrderInfo[];
 }
+
+export interface CardReorder {
+  cardId: number;
+  index: number;
+  listId: number;
+}

@@ -1,10 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, from, of, observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { ConfigService } from './config.service';
 import { NotificationService } from './notification.service';
-import { ConnectionState, Notification, Card, CardOperationInfo } from '@app/models';
+import { ConnectionState, Notification, Card, CardOperationInfo, CardReorder } from '@app/models';
 import { environment } from '../../environments/environment.prod';
 import { SpinnerService } from './spinner.service';
+import { Store } from '@ngrx/store';
+import { fromRoot } from '@app/store';
+import * as cardActions from '@app/store/actions/card.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +26,12 @@ export class SignalRService {
 
   connectionState: number = ConnectionState.disconnected;
 
-  constructor(configService: ConfigService, private notifyService: NotificationService, private spinnerService: SpinnerService) {
+  constructor(
+    configService: ConfigService,
+    private notifyService: NotificationService,
+    private spinnerService: SpinnerService,
+    private store: Store<fromRoot.State>,
+  ) {
     this.hubUrl = configService.config.SignalRBasePath;
   }
 
@@ -120,7 +128,6 @@ export class SignalRService {
   }
 
   private subscribeToHubEvents(proxy: any): void {
-    console.log('subscribing to event');
     // New Card Created
     proxy.on(
       'CardCreateReceive',
@@ -143,10 +150,9 @@ export class SignalRService {
       },
     );
     // CardReorderReceive
-    proxy.on('CardReorderReceive', reorder => {
-      console.log('card reorder recieved', reorder);
-      // this.cardReordered.emit(reorder);
-      // this.afterEventPublished.emit('cardReordered');
+    proxy.on('CardReorderReceive', (reorder: CardReorder) => {
+      console.log('card reorder receive', reorder);
+      this.store.dispatch(new cardActions.CardReorderWithinList(reorder));
     });
     // CardDeleteReceive
     proxy.on('CardDeleteReceive', card => {
