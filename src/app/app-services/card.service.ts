@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { Card, CardOperationInfo, SignalRResult } from '@app/models';
 import { SignalRService } from './signal-r.service';
@@ -11,14 +10,13 @@ import { NotificationService } from './notification.service';
   providedIn: 'root',
 })
 export class CardService {
-  dragCard: Card;
   constructor(private signalRService: SignalRService, private notifyService: NotificationService) {}
 
   moveCardToListInSameBoard(cards: Card[], listId: number, newIndex: number) {}
 
   moveCardWithInSameList(cards: Card[], newIndex): any {
-    const { projectId, planId, listId, id } = this.dragCard;
-    const relativeCardId: number = getRelativeMoveCardId(cards, this.dragCard, newIndex);
+    const { projectId, planId, listId, id } = cards[newIndex];
+    const relativeCardId: number = getRelativeMoveCardId(cards, cards[newIndex], newIndex);
     this.signalRService
       .invoke('CardReorderRelativeTo', projectId, planId, listId, id, relativeCardId)
       .subscribe((response: SignalRResult) => {

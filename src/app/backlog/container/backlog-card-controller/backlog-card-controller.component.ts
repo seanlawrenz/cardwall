@@ -47,31 +47,33 @@ export class BacklogCardControllerComponent implements OnInit {
     const { newIndex, oldIndex } = event;
     switch (type) {
       case CardMovementTypes.START:
-        this.cardService.dragCard = this.cards[oldIndex];
+        event.clone.cardData = this.cards[oldIndex];
         break;
 
       case CardMovementTypes.ADD:
+        const {
+          clone: { cardData },
+        } = event;
         const { listId, projectId, planId } = this.listInfo;
-        this.cardService.dragCard.listId = listId;
+        cardData.listId = listId;
 
-        if (this.cardService.dragCard.projectId !== projectId || this.cardService.dragCard.planId !== planId) {
-          this.cardService.dragCard.projectId = projectId;
-          this.cardService.dragCard.planId = planId;
+        if (cardData.projectId !== projectId || cardData.planId !== planId) {
+          cardData.projectId = projectId;
+          cardData.planId = planId;
         }
         break;
 
       case CardMovementTypes.END:
-        if (newIndex === oldIndex && this.cardService.dragCard.listId === this.listInfo.listId) {
+        if (newIndex === oldIndex && event.clone.cardData.listId === this.listInfo.listId) {
           return;
         }
-        this.dragCardEnd(newIndex, oldIndex);
+        this.dragCardEnd(event.clone.cardData, newIndex, oldIndex);
     }
   }
 
-  private dragCardEnd(newIndex, oldIndex) {
-    const { dragCard } = this.cardService;
+  private dragCardEnd(card: Card, newIndex: number, oldIndex: number) {
     // Move within this list
-    if (dragCard.listId === this.listInfo.listId) {
+    if (card.listId === this.listInfo.listId) {
       this.cardService.moveCardWithInSameList(this.cards, newIndex);
     }
   }

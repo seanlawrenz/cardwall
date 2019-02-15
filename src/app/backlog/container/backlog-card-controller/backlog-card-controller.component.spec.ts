@@ -5,12 +5,17 @@ import { BacklogCardControllerComponent, CardMovementTypes } from './backlog-car
 import { BacklogCardComponent } from '@app/backlog/components/backlog-container/backlog-card/backlog-card.component';
 import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services/card.service';
+import { Card } from '@app/models';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
   let fixture: ComponentFixture<BacklogCardControllerComponent>;
   let cardSvc: CardService;
-  let mockEventFromSortable;
+  let mockEventFromSortable: { clone: { cardData: Card }; newIndex: number; oldIndex: number } = {
+    clone: { cardData: null },
+    newIndex: null,
+    oldIndex: null,
+  };
   let spy;
   const mockCardFromMockList = Object.assign({}, mockCard, { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId });
 
@@ -36,15 +41,15 @@ describe('BacklogCardControllerComponent', () => {
 
   describe('cardMovement', () => {
     describe('START', () => {
-      it('should add the card to the service on drag start', () => {
+      it('should add the card data to the event object on drag start', () => {
         const xtraCard = mockCardBuilder();
         const xtraCard2 = mockCardBuilder();
         component.cards = [xtraCard2, mockCardFromMockList, xtraCard];
-        mockEventFromSortable = { oldIndex: 1 };
+        mockEventFromSortable = { oldIndex: 1, newIndex: undefined, clone: { cardData: null } };
         fixture.detectChanges();
 
         component.cardMovement(mockEventFromSortable, CardMovementTypes.START);
-        expect(cardSvc.dragCard).toEqual(mockCardFromMockList);
+        expect(mockEventFromSortable.clone.cardData).toEqual(mockCardFromMockList);
       });
     });
 
@@ -52,28 +57,28 @@ describe('BacklogCardControllerComponent', () => {
       beforeEach(() => {
         component.listInfo = { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId };
         component.cards = [];
-        cardSvc.dragCard = mockCardBuilder();
+        mockEventFromSortable.clone.cardData = mockCardBuilder();
       });
 
       it('should update the dragCard data', () => {
         fixture.detectChanges();
 
-        component.cardMovement({}, CardMovementTypes.ADD);
-        expect(cardSvc.dragCard.listId).toEqual(mockList.id);
+        component.cardMovement(mockEventFromSortable, CardMovementTypes.ADD);
+        expect(mockEventFromSortable.clone.cardData.listId).toEqual(mockList.id);
       });
 
       it('should update the planId data', () => {
         fixture.detectChanges();
-        component.cardMovement({}, CardMovementTypes.ADD);
+        component.cardMovement(mockEventFromSortable, CardMovementTypes.ADD);
 
-        expect(cardSvc.dragCard.planId).toEqual(mockList.planId);
+        expect(mockEventFromSortable.clone.cardData.planId).toEqual(mockList.planId);
       });
 
       it('should update the projectId data', () => {
         fixture.detectChanges();
-        component.cardMovement({}, CardMovementTypes.ADD);
+        component.cardMovement(mockEventFromSortable, CardMovementTypes.ADD);
 
-        expect(cardSvc.dragCard.projectId).toEqual(mockList.projectId);
+        expect(mockEventFromSortable.clone.cardData.projectId).toEqual(mockList.projectId);
       });
     });
 
@@ -85,8 +90,7 @@ describe('BacklogCardControllerComponent', () => {
         // The <any> type is to allow a spyon private method
         component.cards = [];
         spy = jest.spyOn(<any>component, 'dragCardEnd');
-        mockEventFromSortable = { newIndex: 0, oldIndex: 0 };
-        cardSvc.dragCard = mockCardFromMockList;
+        mockEventFromSortable = { newIndex: 0, oldIndex: 0, clone: { cardData: mockCardFromMockList } };
 
         component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
         fixture.detectChanges();
@@ -97,8 +101,7 @@ describe('BacklogCardControllerComponent', () => {
       it('should tell if the card was moved within the same list (same list)', () => {
         spy = spyOn(cardSvc, 'moveCardWithInSameList');
         component.cards = [mockCardFromMockList, mockCard];
-        mockEventFromSortable = { newIndex: 1, oldIndex: 0 };
-        cardSvc.dragCard = mockCardFromMockList;
+        mockEventFromSortable = { newIndex: 1, oldIndex: 0, clone: { cardData: mockCardFromMockList } };
 
         component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
 
@@ -109,8 +112,7 @@ describe('BacklogCardControllerComponent', () => {
         spy = spyOn(cardSvc, 'moveCardWithInSameList');
         const mockCard2 = mockCardBuilder();
         component.cards = [mockCard2, mockCard];
-        mockEventFromSortable = { newIndex: 1, oldIndex: 0 };
-        cardSvc.dragCard = mockCard2;
+        mockEventFromSortable = { newIndex: 1, oldIndex: 0, clone: { cardData: mockCard2 } };
 
         component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
 
