@@ -165,9 +165,12 @@ describe('Backlog effects', () => {
       signalR = TestBed.get(SignalRService);
     });
 
-    it('should remove the plan from the list of plans on state and remove plan from signalr', () => {
+    it('should remove the plan from the list of plans on state and remove plan from signalr group if last of the projects', () => {
       const mockBoard1: Plan = mockBoardBuilder();
       const mockBoard3: Plan = mockBoardBuilder();
+      mockBoard1.projectId = 1;
+      mockBoard3.projectId = 3;
+      mockBoard2.projectId = 2;
       action = new backlogActions.RemoveBoard({ planId: mockBoard2.id });
       outcome = new backlogActions.GetPlansSuccess([mockBoard1, mockBoard3]);
 
@@ -179,6 +182,27 @@ describe('Backlog effects', () => {
 
       effects = TestBed.get(BacklogEffects);
       expect(effects.removePlan$).toBeObservable(expected);
+    });
+
+    it('should remove the plan but not call to remove from signalR group if other plans are part of the project', () => {
+      const mockBoard1: Plan = mockBoardBuilder();
+      const mockBoard3: Plan = mockBoardBuilder();
+      mockBoard1.projectId = 1;
+      mockBoard3.projectId = 1;
+      mockBoard2.projectId = 1;
+      const spy = jest.spyOn(signalR, 'invoke');
+
+      action = new backlogActions.RemoveBoard({ planId: mockBoard2.id });
+      outcome = new backlogActions.GetPlansSuccess([mockBoard1, mockBoard3]);
+
+      store.select = jest.fn(() => cold('a', { a: [mockBoard1, mockBoard2, mockBoard3] }));
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: { isSuccessful: true } });
+      expected = cold('-b', { b: outcome });
+
+      effects = TestBed.get(BacklogEffects);
+      expect(effects.removePlan$).toBeObservable(expected);
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

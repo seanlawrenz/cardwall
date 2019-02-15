@@ -111,19 +111,23 @@ export class BacklogEffects {
       } = action;
       return {
         plans: plans.filter(plan => plan.id !== planId),
-        planToRemoveId: plans.filter(plan => plan.id === planId)[0].projectId,
+        planToRemoveProjectId: plans.filter(plan => plan.id === planId)[0].projectId,
       };
     }),
     mergeMap(payload => {
-      const { plans, planToRemoveId } = payload;
-      // TODO: add something for response unsuccessful
-      // TODO: remove only if last project in plan
-      return this.signalRService.invoke('LeaveProjectGroup', planToRemoveId).pipe(
-        map(res => {
-          console.log(res);
-          return new backlogActions.GetPlansSuccess(plans);
-        }),
-      );
+      const { plans, planToRemoveProjectId } = payload;
+
+      // Need to remove from this project signalR group if this is last of it's projects;
+      const listOfProjectIds = plans.map(plan => plan.projectId);
+      const index = listOfProjectIds.indexOf(planToRemoveProjectId);
+      if (index === -1) {
+        // TODO: add something for response unsuccessful
+        return this.signalRService
+          .invoke('LeaveProjectGroup', planToRemoveProjectId)
+          .pipe(map(() => new backlogActions.GetPlansSuccess(plans)));
+      } else {
+        return of(new backlogActions.GetPlansSuccess(plans));
+      }
     }),
   );
 
