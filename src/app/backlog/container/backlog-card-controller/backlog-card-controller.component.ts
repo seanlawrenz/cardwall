@@ -2,7 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
 import { CardService } from '@app/app-services/card.service';
-import { Card } from '@app/models';
+import { Card, List } from '@app/models';
+
+import { Store } from '@ngrx/store';
+import * as fromBacklog from '@app/backlog/state';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -39,7 +42,7 @@ export class BacklogCardControllerComponent implements OnInit {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
-  constructor(private cardService: CardService) {}
+  constructor(private cardService: CardService, private store: Store<fromBacklog.State>) {}
 
   ngOnInit() {}
 
@@ -71,10 +74,24 @@ export class BacklogCardControllerComponent implements OnInit {
     }
   }
 
+  /**
+   * The end of a drag is called on the component that the drag orginated from.
+   * This card could be heading to a new list in a new plan or project.
+   */
   private dragCardEnd(card: Card, newIndex: number, oldIndex: number) {
     // Move within this list
     if (card.listId === this.listInfo.listId) {
       this.cardService.moveCardWithInSameList(this.cards, newIndex);
+    }
+
+    // Move to new lists within this board
+    if (card.listId !== this.listInfo.listId && card.planId === this.listInfo.planId) {
+      // Get the list to where this card is heading
+      this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
+        this.cardService
+          .moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex)
+          .subscribe(() => console.log('we are done'));
+      });
     }
   }
 }

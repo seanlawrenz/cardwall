@@ -2,6 +2,8 @@ import { fromRoot } from '@app/store';
 import { BacklogState } from './backlog.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import { find } from 'lodash';
+
 export interface State extends fromRoot.State {
   backlog: BacklogState;
 }
@@ -27,3 +29,15 @@ export const isBoardsLoading = createSelector(
   getBacklogFeatureState,
   state => state.plansLoading,
 );
+
+export const getBoardById = boardId =>
+  createSelector(
+    getBoards,
+    plans => find(plans, plan => plan.id === boardId),
+  );
+
+export const getListById = (boardId, listId) =>
+  createSelector(
+    getBoardById(boardId),
+    board => find(board.lists, list => list.id === listId),
+  );

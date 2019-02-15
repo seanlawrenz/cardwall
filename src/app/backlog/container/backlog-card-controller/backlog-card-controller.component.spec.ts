@@ -6,6 +6,8 @@ import { BacklogCardComponent } from '@app/backlog/components/backlog-container/
 import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services/card.service';
 import { Card } from '@app/models';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -17,6 +19,7 @@ describe('BacklogCardControllerComponent', () => {
     oldIndex: null,
   };
   let spy;
+  let store;
   const mockCardFromMockList = Object.assign({}, mockCard, { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId });
 
   beforeEach(async(() => {
@@ -25,6 +28,7 @@ describe('BacklogCardControllerComponent', () => {
       imports: [SortablejsModule],
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
+        { provide: Store, useValue: { select: jest.fn() } },
       ],
     }).compileComponents();
   }));
@@ -117,6 +121,34 @@ describe('BacklogCardControllerComponent', () => {
         component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
 
         expect(spy).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('dragCardEnd', () => {
+      beforeEach(() => {
+        store = TestBed.get(Store);
+        component.listInfo = { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId };
+      });
+      it('should call moveCardWithInSameList if card was moved within list', () => {
+        spy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
+        component.cards = [mockCard, mockCardFromMockList];
+
+        component['dragCardEnd'](mockCardFromMockList, 0, 1);
+
+        expect(spy).toHaveBeenCalledWith(component.cards, 0);
+      });
+
+      it('should call moveCardToListInSameBoard if moved to new list', () => {
+        jest.spyOn(store, 'select').mockImplementationOnce(jest.fn(() => of({ cards: [] })));
+        spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard');
+        const moveSpy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
+        mockCard.listId = 1;
+        mockCard.planId = mockList.planId;
+
+        component['dragCardEnd'](mockCard, 0, 1);
+
+        expect(spy).toHaveBeenCalled();
+        expect(moveSpy).not.toHaveBeenCalled();
       });
     });
   });
