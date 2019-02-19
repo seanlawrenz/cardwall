@@ -53,3 +53,8 @@ export interface CardReorder {
   index: number;
   listId: number;
 }
+
+export interface CardRemovedFromListInfo {
+  cardId: number;
+  oldListId: number;
+}

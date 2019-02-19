@@ -88,9 +88,9 @@ export class BacklogCardControllerComponent implements OnInit {
     if (card.listId !== this.listInfo.listId && card.planId === this.listInfo.planId) {
       // Get the list to where this card is heading
       this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
-        this.cardService
-          .moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex)
-          .subscribe(() => console.log('we are done'));
+        this.cardService.moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex).subscribe(() => {
+          // placeholder for ending the saving service
+        });
       });
     }
   }

@@ -1,7 +1,7 @@
 import { BacklogActionTypes, BacklogActions } from './backlog.actions';
 import { PlanIdentifier, Plan, List, Card } from '@app/models';
 
-import { updateDataOnCollection, updateCardOrderInListWithinPlans } from '@app/utils';
+import { updateDataOnCollection, backlogCardReorder, removeCardFromListInPlans } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
 
 export interface BacklogState {
@@ -77,7 +77,18 @@ export function reducer(state = BACKLOG_STATE, action: BacklogActions | CardActi
 
       return {
         ...state,
-        plans: updateCardOrderInListWithinPlans(state, listId, cardId, index),
+        plans: backlogCardReorder(state.plans, listId, cardId, index),
+      };
+
+    case CardActionTypes.CARD_UPDATE_RECEIVED:
+      return {
+        ...state,
+      };
+
+    case CardActionTypes.CARD_REMOVED_FROM_LIST:
+      return {
+        ...state,
+        plans: removeCardFromListInPlans(state.plans, action.payload.oldListId, action.payload.cardId),
       };
 
     default:

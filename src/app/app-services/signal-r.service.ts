@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { ConfigService } from './config.service';
 import { NotificationService } from './notification.service';
-import { ConnectionState, Notification, Card, CardOperationInfo, CardReorder } from '@app/models';
+import { ConnectionState, Notification, Card, CardOperationInfo, CardReorder, CardRemovedFromListInfo } from '@app/models';
 import { environment } from '../../environments/environment.prod';
 import { SpinnerService } from './spinner.service';
 import { Store } from '@ngrx/store';
@@ -139,7 +139,8 @@ export class SignalRService {
     proxy.on(
       'CardUpdateReceive',
       (card: Card): void => {
-        console.log('CardUpdateReceive');
+        console.log('cArd update', card);
+        this.store.dispatch(new cardActions.CardUpdateReceived(card));
       },
     );
     // Card Published
@@ -149,10 +150,19 @@ export class SignalRService {
         console.log('CardPublishReceive');
       },
     );
+    // Card removed from list
+    proxy.on('CardRemovedFromList', (event: CardRemovedFromListInfo) => {
+      console.log('Card removed from list');
+      // Alert to others in group only
+      this.store.dispatch(new cardActions.CardRemovedFromList(event));
+    });
     // CardReorderReceive
     proxy.on('CardReorderReceive', (reorder: CardReorder) => {
-      console.log('card reorder receive', reorder);
+      console.log('card reorder', reorder);
       this.store.dispatch(new cardActions.CardReorderWithinList(reorder));
+    });
+    proxy.on('CardMoveToDifferentList', somthing => {
+      console.log('card moved to different list', somthing);
     });
     // CardDeleteReceive
     proxy.on('CardDeleteReceive', card => {
