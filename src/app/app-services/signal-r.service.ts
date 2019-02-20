@@ -150,12 +150,6 @@ export class SignalRService {
         console.log('CardPublishReceive');
       },
     );
-    // Card removed from list
-    proxy.on('CardRemovedFromList', (event: CardRemovedFromListInfo) => {
-      console.log('Card removed from list');
-      // Alert to others in group only
-      this.store.dispatch(new cardActions.CardRemovedFromList(event));
-    });
     // CardReorderReceive
     proxy.on('CardReorderReceive', (reorder: CardReorder) => {
       console.log('card reorder', reorder);

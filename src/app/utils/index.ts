@@ -22,4 +22,4 @@ export const updateDataOnCollection = (targetArray: any[], identifier: number, d
   Object.assign({}, find(targetArray, target => target.id === identifier), dataToReplaceWith);
 
 export * from './relativeMoveCardId';
-export * from './updateCardOrders';
+export * from './cardMoveOperations';
