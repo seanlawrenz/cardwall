@@ -1,10 +1,31 @@
 <div *ngIf="list.active && list.id > 0">
   <div class="tdNg-backlog-list-container">
-    <div (click)="toggleExpanded()" class="tdNg-backlog-list-card-row-spacer list-drag-handle">
-      <td-expand-collapse-glyph [isExpanded]="isExpanded"></td-expand-collapse-glyph>
+    <div class="tdNg-backlog-list-card-row-spacer list-drag-handle">
+      <td-expand-collapse-glyph (click)="toggleExpanded()" [isExpanded]="isExpanded"></td-expand-collapse-glyph>
       <span class="gutter-left">{{ list.title | trimTextToLimit: 90 }}</span>
       <span class="gutter-left">{{ list.cards.length }}</span>
       <span class="gutter-left text-small text-muted ">{{ list.id }}</span>
+
+      <span class="btn-group" dropdown role="toolbar" container="body">
+        <button role="toolbar" class="btn btn-link" aria-haspopup="true" dropdownToggle>
+          <span aria-hidden="true" class="fa fa-fw fa-plus"></span>
+        </button>
+
+        <ul *dropdownMenu class="dropdown-menu tdNg-dropdown">
+          <li role="menuitem">
+            <a href="javascript:void(0);" class="dropdown-item">
+              <span class="fa fa-fw fa-plus" aria-hidden="true"></span>
+              Add New Card
+            </a>
+          </li>
+          <li role="menuitem">
+            <a href="javascript:void(0);" class="dropdown-item">
+              <span class="fa fa-fw fa-tags" aria-hidden="true"></span>
+              Convert Tickets to Cards
+            </a>
+          </li>
+        </ul>
+      </span>
     </div>
 
     <div *ngIf="isExpanded">
