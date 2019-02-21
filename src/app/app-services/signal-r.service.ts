@@ -132,14 +132,13 @@ export class SignalRService {
     proxy.on(
       'CardCreateReceive',
       (info: CardOperationInfo): void => {
-        console.log('CardCreateReceive');
+        this.store.dispatch(new cardActions.CardCreateFromServer(info));
       },
     );
     // Card Updated
     proxy.on(
       'CardUpdateReceive',
       (card: Card): void => {
-        console.log('cArd update', card);
         this.store.dispatch(new cardActions.CardUpdateReceived(card));
       },
     );
@@ -152,7 +151,6 @@ export class SignalRService {
     );
     // CardReorderReceive
     proxy.on('CardReorderReceive', (reorder: CardReorder) => {
-      console.log('card reorder', reorder);
       this.store.dispatch(new cardActions.CardReorderWithinList(reorder));
     });
     proxy.on('CardMoveToDifferentList', somthing => {
@@ -160,7 +158,7 @@ export class SignalRService {
     });
     // CardDeleteReceive
     proxy.on('CardDeleteReceive', card => {
-      console.log('CardDeleteReceive');
+      this.store.dispatch(new cardActions.CardDeleteFromServer(card));
     });
     // ListUpdateReceive
     proxy.on('ListUpdateReceive', list => {
