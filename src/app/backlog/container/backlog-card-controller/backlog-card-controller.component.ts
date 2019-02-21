@@ -6,6 +6,9 @@ import { Card, List } from '@app/models';
 
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '@app/backlog/state';
+import { SignalRService } from '@app/app-services';
+
+import { getRelativeMoveCardId } from '@app/utils';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -42,7 +45,7 @@ export class BacklogCardControllerComponent implements OnInit {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
-  constructor(private cardService: CardService, private store: Store<fromBacklog.State>) {}
+  constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.State>) {}
 
   ngOnInit() {}
 
@@ -75,7 +78,7 @@ export class BacklogCardControllerComponent implements OnInit {
   }
 
   /**
-   * The end of a drag is called on the component that the drag orginated from.
+   * The end of a drag is called on the component that the drag originated from.
    * This card could be heading to a new list in a new plan or project.
    */
   private dragCardEnd(card: Card, newIndex: number, oldIndex: number) {
@@ -91,6 +94,19 @@ export class BacklogCardControllerComponent implements OnInit {
         this.cardService.moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex).subscribe(() => {
           // placeholder for ending the saving service
         });
+      });
+    } else {
+      // Move outside of project or plan
+      const { projectId, planId, listId } = this.listInfo;
+      // Signal R wants original card with old plan, project and list data
+      const originatedCard = { ...card, projectId, planId, listId };
+      this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
+        const relativeMoveCardId = getRelativeMoveCardId(list.cards, card, newIndex);
+        this.signalRService
+          .invoke('CardMoveRelativeTo', originatedCard, card.projectId, card.planId, card.listId, relativeMoveCardId)
+          .subscribe(() => {
+            // placeholder for ending the saving service;
+          });
       });
     }
   }
