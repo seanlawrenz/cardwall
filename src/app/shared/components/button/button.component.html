@@ -1,14 +1,14 @@
 <button
-  [tooltip]="tooltipText"
-  placement="tooltipPlacement"
-  container="body"
+  [tdTooltip]="tooltipText"
+  [placement]="tooltipPlacement"
   class="btn"
   (click)="actionOnClick()"
   [ngClass]="{ disabled: disabled }"
   [class]="cssClass"
   [delay]="500"
-  style="font-size: inherit"
+  style="font-size: inherit; position: relative;"
   type="button"
+  attr.aria-label="{{ ariaLabel }}"
 >
   <span [ngClass]="{ 'white-text': useWhiteText }">
     <span aria-hidden="true" [class]="effectiveIcon"></span>

@@ -39,7 +39,7 @@ export class TdTooltipDirective implements OnDestroy {
   onMouseEnter() {
     this.getElemPosition();
 
-    if (!this.tooltip) {
+    if (!this.tooltip && this.tooltipText !== undefined) {
       this.create();
       this.setPosition();
       this.show();

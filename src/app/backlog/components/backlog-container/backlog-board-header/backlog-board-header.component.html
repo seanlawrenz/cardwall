@@ -4,13 +4,15 @@
       <td-expand-collapse-glyph [isExpanded]="isExpanded"></td-expand-collapse-glyph>
 
       <div class="btn-link gutter-left">
-        <a [href]="getProjectUrl()" target="_blank" tooltip="View this project in another tab">{{ plan.projectName }}</a>
+        <a [href]="getProjectUrl()" target="_blank" tdTooltip="View this project in another tab" aria-expanded="false" aria-haspopup="true">
+          {{ plan.projectName }}
+        </a>
         /
-        <a [href]="getCardwallUrl()" target="_blank" tooltip="View this cardwall in another tab">{{ plan.name }}</a>
+        <a [href]="getCardwallUrl()" target="_blank" tdTooltip="View this cardwall in another tab">{{ plan.name }}</a>
       </div>
 
       <td-remove-board [plan]="plan">
-        <td-button icon="times"></td-button>
+        <td-button icon="times" [tooltipText]="'Remove board'" ariaLabel="Remove board"></td-button>
       </td-remove-board>
 
       <div>

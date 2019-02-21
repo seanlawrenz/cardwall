@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TdTooltipDirective } from '@app/shared/directives/tooltip-directive';
 
 import { BacklogMoveToolbarComponent } from './backlog-move-toolbar.component';
 import { ButtonComponent } from '@app/shared/components/button/button.component';
@@ -11,9 +11,8 @@ describe('BacklogMoveToolbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogMoveToolbarComponent, ButtonComponent],
+      declarations: [BacklogMoveToolbarComponent, ButtonComponent, TdTooltipDirective],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
-      imports: [TooltipModule.forRoot()],
     }).compileComponents();
   }));
 

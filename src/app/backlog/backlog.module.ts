@@ -13,7 +13,6 @@ import { BacklogEffects } from './state/backlog.effects';
 // Libraries
 import { SortablejsModule } from 'angular-sortablejs';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 // Container
@@ -54,7 +53,6 @@ const backlogRoutes: Routes = [
     EffectsModule.forFeature([BacklogEffects]),
     SortablejsModule,
     SharedModule,
-    TooltipModule,
     BsDropdownModule.forRoot(),
   ],
   declarations: [

@@ -25,3 +25,13 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+
+// bootstrap accessibility
+.btn-link {
+  color: $accessibleBlue;
+
+  &:hover {
+    color: $accessibleBlueHover;
+  }
+}

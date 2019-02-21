@@ -12,6 +12,7 @@ export class ButtonComponent implements OnInit {
   @Input() tooltipPlacement = 'bottom';
   @Input() cssClass = 'btn-link';
   @Input() useWhiteText = false;
+  @Input() ariaLabel: string;
 
   @Output() onClick = new EventEmitter<any>();
 
