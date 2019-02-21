@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mockList, mockBoard } from '@app/test/data';
 import { Store } from '@ngrx/store';
 
-import * as backlogActions from '@app/backlog/state/backlog.actions';
+import * as backlogActions from '@app/backlog/state/actions';
 
 describe('BacklogListControllerComponent', () => {
   let component: BacklogListControllerComponent;

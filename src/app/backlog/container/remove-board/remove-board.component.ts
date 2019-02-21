@@ -5,7 +5,6 @@ import { Plan } from '@app/models';
 import { filter, join, split } from 'lodash';
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '../../state';
-import * as backlogActions from '../../state/backlog.actions';
 
 @Component({
   selector: 'td-remove-board',
@@ -15,7 +14,7 @@ import * as backlogActions from '../../state/backlog.actions';
 export class RemoveBoardComponent implements OnInit {
   @Input() plan: Plan;
 
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store<fromBacklog.State>) {}
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {}
 
@@ -24,6 +23,6 @@ export class RemoveBoardComponent implements OnInit {
     const currentparams = this.route.snapshot.queryParamMap.get('boards');
     const newParams = join(filter(split(currentparams, ','), pair => pair !== paramsToRemove), ',');
     this.router.navigate([], { relativeTo: this.route, queryParams: { boards: newParams }, queryParamsHandling: 'merge' });
-    this.store.dispatch(new backlogActions.RemoveBoard({ planId: this.plan.id }));
+    this.store.dispatch(new fromBacklog.RemovePlan({ planId: this.plan.id }));
   }
 }

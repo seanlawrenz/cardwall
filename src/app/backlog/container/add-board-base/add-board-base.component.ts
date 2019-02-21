@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
 import * as fromBacklog from '../../state';
-import * as backlogActions from '../../state/backlog.actions';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
@@ -34,7 +33,7 @@ export class AddBoardBaseComponent implements OnInit {
   };
 
   constructor(
-    private store: Store<fromBacklog.State>,
+    private store: Store<fromBacklog.BacklogState>,
     private appStore: Store<fromRoot.State>,
     private dialogService: BsModalService,
     private notificationService: NotificationService,
@@ -50,9 +49,9 @@ export class AddBoardBaseComponent implements OnInit {
   }
 
   getAvailableBoards() {
-    this.store.dispatch(new backlogActions.GetAvailablePlans());
-    this.planIdentifiers$ = this.store.pipe(select(fromBacklog.getPlans));
-    this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
+    this.store.dispatch(new fromBacklog.GetAvailablePlanIdentifers());
+    this.planIdentifiers$ = this.store.pipe(select(fromBacklog.getPlanIdentifiers));
+    this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlanIdentifiersError));
     this.loading$ = this.appStore.pipe(select(fromRoot.isLoading));
   }
 
@@ -78,7 +77,7 @@ export class AddBoardBaseComponent implements OnInit {
     }
     this.router.navigate([], { relativeTo: this.route, queryParams: { boards: createQueryParams }, queryParamsHandling: 'merge' });
 
-    this.store.dispatch(new backlogActions.AddBoard(createQueryParams));
+    this.store.dispatch(new fromBacklog.AddPlan(createQueryParams));
 
     this.dialogRef.hide();
   }

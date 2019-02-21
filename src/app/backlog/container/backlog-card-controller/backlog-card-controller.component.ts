@@ -45,7 +45,7 @@ export class BacklogCardControllerComponent implements OnInit {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
-  constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.State>) {}
+  constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {}
 

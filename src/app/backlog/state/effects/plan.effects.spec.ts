@@ -1,32 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { TestActions, getActions } from '@app/test/mocks';
-import { BoardService, SignalRService } from '@app/app-services';
 import { Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
-import { BacklogEffects } from './backlog.effects';
+import { SignalRService, BoardService } from '@app/app-services';
+import { TestActions, getActions } from '@app/test/mocks';
+
+import { mockBoard, mockBoardBuilder } from '@app/test/data';
+
+import * as backlogActions from '../actions';
+import { PlanEffects } from './plan.effects';
+import { SignalRResult, Plan } from '@app/models';
 import { cold, hot } from 'jasmine-marbles';
 
-import * as backlogActions from './backlog.actions';
-import { mockPlans, mockPlan1, mockBoard, mockBoardBuilder } from '@app/test/data';
-import { SignalRResult, Plan } from '@app/models';
-
-/**
- * For testing effects that uses withLatestFrom the initialization order matter
- * initialize the store first.
- * Then for each block of tests initialize the mockActions and service mocks
- * Finally before the expect test initialize the effects.
- * This insures that the mocks are loaded into the effect with data and no observable fails
- */
-describe('Backlog effects', () => {
+describe('Plan Effects', () => {
   let actions: TestActions;
-  let effects: BacklogEffects;
+  let effects: PlanEffects;
   let signalR: SignalRService;
   let boardSvc: BoardService;
   let action;
   let outcome;
   let response;
   let expected;
-  let successfulSignalRResult: SignalRResult;
   let store;
   let mockParams;
   const mockBoard2 = mockBoardBuilder();
@@ -34,7 +27,7 @@ describe('Backlog effects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BacklogEffects,
+        PlanEffects,
         { provide: Actions, useFactory: getActions },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
         { provide: BoardService, useValue: { getBoardsFromParams: jest.fn() } },
@@ -52,35 +45,8 @@ describe('Backlog effects', () => {
   });
 
   it('should be created', () => {
-    effects = TestBed.get(BacklogEffects);
+    effects = TestBed.get(PlanEffects);
     expect(effects).toBeTruthy();
-  });
-
-  describe('loadPlans', () => {
-    beforeEach(() => {
-      actions = TestBed.get(Actions);
-      signalR = TestBed.get(SignalRService);
-    });
-
-    describe('loadPlans', () => {
-      it('should return get available planSuccess action with the plans on success', () => {
-        successfulSignalRResult = {
-          isSuccessful: true,
-          item: mockPlans,
-        };
-        action = new backlogActions.GetAvailablePlans();
-        outcome = new backlogActions.GetAvailablePlansSuccess(mockPlans);
-        store.select = jest.fn(() => cold('r', { r: [mockPlan1] }));
-        actions.stream = hot('-a', { a: action });
-        response = cold('-a|', { a: successfulSignalRResult });
-        expected = cold('--b', { b: outcome });
-        signalR.invoke = jest.fn(() => response);
-
-        effects = TestBed.get(BacklogEffects);
-
-        expect(effects.loadPlansIdentifiers$).toBeObservable(expected);
-      });
-    });
   });
 
   describe('loadPlansOnParams', () => {
@@ -101,7 +67,7 @@ describe('Backlog effects', () => {
       expected = cold('--b', { b: outcome });
       boardSvc.getPlansFromParams = jest.fn(() => response);
 
-      effects = TestBed.get(BacklogEffects);
+      effects = TestBed.get(PlanEffects);
       expect(effects.loadPlansOnParams$).toBeObservable(expected);
     });
 
@@ -119,7 +85,7 @@ describe('Backlog effects', () => {
       expected = cold('--b', { b: outcome });
       boardSvc.getPlansFromParams = jest.fn(() => response);
 
-      effects = TestBed.get(BacklogEffects);
+      effects = TestBed.get(PlanEffects);
       expect(effects.loadPlansOnParams$).toBeObservable(expected);
     });
   });
@@ -131,7 +97,7 @@ describe('Backlog effects', () => {
     });
 
     it('should return an action of getPlansSuccess with plans that are added for a backlog with no currently loaded plans', () => {
-      action = new backlogActions.AddBoard(`${mockBoard.projectId}_${mockBoard.id}`);
+      action = new backlogActions.AddPlan(`${mockBoard.projectId}_${mockBoard.id}`);
       outcome = new backlogActions.GetPlansSuccess([mockBoard]);
 
       store.select = jest.fn(() => cold('a', { a: [] }));
@@ -140,22 +106,22 @@ describe('Backlog effects', () => {
       expected = cold('--b', { b: outcome });
       boardSvc.getPlansFromParams = jest.fn(() => response);
 
-      effects = TestBed.get(BacklogEffects);
-      expect(effects.loadPlans).toBeObservable(expected);
+      effects = TestBed.get(PlanEffects);
+      expect(effects.loadPlan$).toBeObservable(expected);
     });
 
     it('should return an action of getPlansSuccess with the new plan an previously added plans', () => {
-      action = new backlogActions.AddBoard(`${mockBoard.projectId}_${mockBoard.id}`);
-      outcome = new backlogActions.GetPlansSuccess([mockBoard2, mockBoard]);
+      action = new backlogActions.AddPlan(`${mockBoard.projectId}_${mockBoard.id}`);
 
+      outcome = new backlogActions.GetPlansSuccess([mockBoard2, mockBoard]);
       store.select = jest.fn(() => cold('a', { a: [mockBoard2] }));
       actions.stream = hot('-a', { a: action });
       response = cold('-a|', { a: [mockBoard2, mockBoard] });
       expected = cold('--b', { b: outcome });
       boardSvc.getPlansFromParams = jest.fn(() => response);
 
-      effects = TestBed.get(BacklogEffects);
-      expect(effects.loadPlans).toBeObservable(expected);
+      effects = TestBed.get(PlanEffects);
+      expect(effects.loadPlan$).toBeObservable(expected);
     });
   });
 
@@ -171,7 +137,7 @@ describe('Backlog effects', () => {
       mockBoard1.projectId = 1;
       mockBoard3.projectId = 3;
       mockBoard2.projectId = 2;
-      action = new backlogActions.RemoveBoard({ planId: mockBoard2.id });
+      action = new backlogActions.RemovePlan({ planId: mockBoard2.id });
       outcome = new backlogActions.GetPlansSuccess([mockBoard1, mockBoard3]);
 
       store.select = jest.fn(() => cold('a', { a: [mockBoard1, mockBoard2, mockBoard3] }));
@@ -180,7 +146,7 @@ describe('Backlog effects', () => {
       expected = cold('--b', { b: outcome });
       signalR.invoke = jest.fn(() => response);
 
-      effects = TestBed.get(BacklogEffects);
+      effects = TestBed.get(PlanEffects);
       expect(effects.removePlan$).toBeObservable(expected);
     });
 
@@ -192,7 +158,7 @@ describe('Backlog effects', () => {
       mockBoard2.projectId = 1;
       const spy = jest.spyOn(signalR, 'invoke');
 
-      action = new backlogActions.RemoveBoard({ planId: mockBoard2.id });
+      action = new backlogActions.RemovePlan({ planId: mockBoard2.id });
       outcome = new backlogActions.GetPlansSuccess([mockBoard1, mockBoard3]);
 
       store.select = jest.fn(() => cold('a', { a: [mockBoard1, mockBoard2, mockBoard3] }));
@@ -200,7 +166,7 @@ describe('Backlog effects', () => {
       response = cold('-a|', { a: { isSuccessful: true } });
       expected = cold('-b', { b: outcome });
 
-      effects = TestBed.get(BacklogEffects);
+      effects = TestBed.get(PlanEffects);
       expect(effects.removePlan$).toBeObservable(expected);
       expect(spy).not.toHaveBeenCalled();
     });

@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as actions from '../state/backlog.actions';
 import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 
-import * as backlogActions from '../state/backlog.actions';
+import * as backlogActions from '../state/actions';
 
 import { BacklogBaseComponent } from './backlog-base.component';
 import { Subject } from 'rxjs';

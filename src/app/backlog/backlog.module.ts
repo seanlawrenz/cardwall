@@ -7,8 +7,7 @@ import { SharedModule } from '@app/shared/shared.module';
 // ngrx
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducer } from './state/backlog.reducer';
-import { BacklogEffects } from './state/backlog.effects';
+import { reducers, effects } from './state';
 
 // Libraries
 import { SortablejsModule } from 'angular-sortablejs';
@@ -49,8 +48,8 @@ const backlogRoutes: Routes = [
     ReactiveFormsModule,
     ModalModule.forRoot(),
     RouterModule.forChild(backlogRoutes),
-    StoreModule.forFeature('backlog', reducer),
-    EffectsModule.forFeature([BacklogEffects]),
+    StoreModule.forFeature('backlog', reducers),
+    EffectsModule.forFeature(effects),
     SortablejsModule,
     SharedModule,
     BsDropdownModule.forRoot(),

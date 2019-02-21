@@ -2,8 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromBacklog from '../state';
-import * as backlogActions from '../state/backlog.actions';
+import { BacklogState } from '../state';
+import * as backlogSelector from '../state/selectors';
+import * as backlogActions from '../state/actions';
 import { Plan } from '@app/models';
 
 @Component({
@@ -18,7 +19,7 @@ export class BacklogBaseComponent implements OnInit {
   errorMessage$: Observable<string>;
   routerSubscription: Subscription;
 
-  constructor(private store: Store<fromBacklog.State>) {}
+  constructor(private store: Store<BacklogState>) {}
 
   ngOnInit() {
     this.getBoardsInParams();
@@ -26,8 +27,8 @@ export class BacklogBaseComponent implements OnInit {
 
   getBoardsInParams() {
     this.store.dispatch(new backlogActions.GetPlansInParams());
-    this.plans$ = this.store.pipe(select(fromBacklog.getBoards));
-    this.boardsLoading$ = this.store.pipe(select(fromBacklog.isBoardsLoading));
-    this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlansError));
+    this.plans$ = this.store.pipe(select(backlogSelector.getPlans));
+    this.boardsLoading$ = this.store.pipe(select(backlogSelector.isPlansLoading));
+    this.errorMessage$ = this.store.pipe(select(backlogSelector.getPlansError));
   }
 }

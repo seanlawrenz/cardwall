@@ -4,7 +4,6 @@ import { Plan } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '../../state';
-import * as backlogActions from '../../state/backlog.actions';
 
 @Component({
   selector: 'td-boards-controller',
@@ -14,7 +13,7 @@ import * as backlogActions from '../../state/backlog.actions';
 export class BoardsControllerComponent implements OnInit {
   @Input() plans: Plan[];
 
-  constructor(private location: Location, private store: Store<fromBacklog.State>) {}
+  constructor(private location: Location, private store: Store<fromBacklog.BacklogState>) {}
 
   sortableOptions: SortablejsOptions = {
     group: 'backlogPlans',
@@ -33,6 +32,6 @@ export class BoardsControllerComponent implements OnInit {
     url = url.slice(0, -1);
     this.location.go(url);
 
-    this.store.dispatch(new backlogActions.ReorderPlans(this.plans));
+    this.store.dispatch(new fromBacklog.ReorderPlans(this.plans));
   }
 }

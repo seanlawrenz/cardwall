@@ -8,7 +8,7 @@ import { BoardsControllerComponent } from './boards-controller.component';
 import { mockBoard } from '@app/test/data';
 
 import { Store } from '@ngrx/store';
-import * as backlogActions from '../../state/backlog.actions';
+import * as backlogActions from '../../state/actions';
 
 describe('BoardsControllerComponent', () => {
   let component: BoardsControllerComponent;

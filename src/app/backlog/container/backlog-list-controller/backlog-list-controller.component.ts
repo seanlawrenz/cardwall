@@ -4,7 +4,6 @@ import { SortablejsOptions } from 'angular-sortablejs';
 
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '../../state';
-import * as backlogActions from '../../state/backlog.actions';
 
 @Component({
   selector: 'td-backlog-list-controller',
@@ -17,7 +16,7 @@ export class BacklogListControllerComponent implements OnInit {
   @Input() planId: number;
   listsOnView: List[];
 
-  constructor(private store: Store<fromBacklog.State>) {}
+  constructor(private store: Store<fromBacklog.BacklogState>) {}
 
   sortableOptions: SortablejsOptions = {
     group: {
@@ -39,7 +38,7 @@ export class BacklogListControllerComponent implements OnInit {
         projectId: this.projectId,
         planId: this.planId,
       };
-      this.store.dispatch(new backlogActions.ReorderListsOnPlans(payload));
+      this.store.dispatch(new fromBacklog.ReorderListsOnPlans(payload));
     }
   }
 }

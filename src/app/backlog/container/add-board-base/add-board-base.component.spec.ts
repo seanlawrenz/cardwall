@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import * as actions from '../../state/backlog.actions';
+import * as actions from '../../state/actions';
 import { hot, cold, getTestScheduler } from 'jasmine-marbles';
 
 import { mockPlans, mockPlan1, mockPlan2 } from '@app/test/data';
@@ -45,7 +45,7 @@ describe('AddBoardBaseComponent', () => {
 
   describe('getAvailableBoards', () => {
     it('should dispatch get available boards action', () => {
-      action = new actions.GetAvailablePlans();
+      action = new actions.GetAvailablePlanIdentifers();
       store = TestBed.get(Store);
       spy = jest.spyOn(store, 'dispatch');
       component.getAvailableBoards();
