@@ -29,3 +29,9 @@ export const getListById = (planId, listId) =>
     getPlanById(planId),
     plan => find(plan.lists, list => list.id === listId),
   );
+
+export const getListsByPlan = planId =>
+  createSelector(
+    getPlanById(planId),
+    plan => plan.lists,
+  );

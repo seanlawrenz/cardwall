@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { withLatestFrom, exhaustMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { withLatestFrom, exhaustMap, map, catchError, mergeMap, first } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { SignalRService, BoardService } from '@app/app-services';
-import { Plan, List } from '@app/models';
+import { Plan } from '@app/models';
 
 import { fromRoot } from '@app/store';
 import * as planActions from '../actions';
 import * as selectors from '../selectors/plan.selectors';
-import { find } from 'lodash';
 
 @Injectable()
 export class PlanEffects {
@@ -86,23 +85,23 @@ export class PlanEffects {
   @Effect()
   reorderListsOnPlans$ = this.actions$.pipe(
     ofType(planActions.PlanListActionTypes.REORDER_LISTS),
-    withLatestFrom(
-      this.store.select(selectors.getPlans),
-      (action: { payload: { lists: List[]; projectId: number; planId: number } }, plans: Plan[]) => {
-        const planForListReorder = find(plans, plan => plan.id === action.payload.planId && plan.projectId === action.payload.projectId);
-        return {
-          lists: action.payload.lists,
-          plan: planForListReorder,
-        };
-      },
+    map((action: { payload: { projectId: number; planId: number } }) => action.payload),
+    mergeMap(({ projectId, planId }) =>
+      this.store.pipe(
+        select(selectors.getListsByPlan(planId)),
+        map(lists => ({
+          lists,
+          projectId,
+          planId,
+        })),
+      ),
     ),
-    exhaustMap((payload: { lists: List[]; plan: Plan }) => {
-      const { lists, plan } = payload;
+    exhaustMap(({ lists, projectId, planId }) => {
       const listsIds: number[] = lists.map(list => list.id);
 
       return this.signalR
-        .invoke('ListReorder', listsIds, plan.projectId, plan.id)
-        .pipe(map(() => new planActions.UpdateListsOrder({ lists, projectId: plan.projectId, planId: plan.id })));
+        .invoke('ListReorder', listsIds, projectId, planId)
+        .pipe(map(() => new planActions.UpdateListsOrder({ lists, projectId, planId })));
     }),
   );
 }

@@ -8,7 +8,7 @@ export enum PlanListActionTypes {
 
 export class ReorderListsOnPlans implements Action {
   readonly type = PlanListActionTypes.REORDER_LISTS;
-  constructor(public payload: { lists: List[]; projectId: number; planId: number }) {}
+  constructor(public payload: { projectId: number; planId: number }) {}
 }
 
 export class UpdateListsOrder implements Action {

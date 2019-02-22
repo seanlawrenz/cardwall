@@ -2,8 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { List } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 
-import { Store } from '@ngrx/store';
+import { Store, MemoizedSelector, select } from '@ngrx/store';
 import * as fromBacklog from '../../state';
+import { Observable, OperatorFunction } from 'rxjs';
 
 @Component({
   selector: 'td-backlog-list-controller',
@@ -11,9 +12,10 @@ import * as fromBacklog from '../../state';
   styleUrls: ['./backlog-list-controller.component.scss'],
 })
 export class BacklogListControllerComponent implements OnInit {
-  @Input() lists: List[];
   @Input() projectId: number;
   @Input() planId: number;
+
+  lists$: Observable<List[]>;
   listsOnView: List[];
 
   constructor(private store: Store<fromBacklog.BacklogState>) {}
@@ -28,13 +30,14 @@ export class BacklogListControllerComponent implements OnInit {
     onEnd: event => this.listReorder(event),
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.lists$ = this.store.pipe(select(fromBacklog.getListsByPlan(this.planId)));
+  }
 
   listReorder(event) {
     const { newIndex, oldIndex } = event;
     if (newIndex !== oldIndex) {
       const payload = {
-        lists: this.lists,
         projectId: this.projectId,
         planId: this.planId,
       };

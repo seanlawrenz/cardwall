@@ -30,7 +30,7 @@
 
   <div *ngIf="isExpanded" class="card">
     <div *ngIf="plan.lists && plan.lists.length > 0; else planWithoutList">
-      <td-backlog-list-controller [lists]="plan.lists" [projectId]="plan.projectId" [planId]="plan.id"></td-backlog-list-controller>
+      <td-backlog-list-controller [projectId]="plan.projectId" [planId]="plan.id"></td-backlog-list-controller>
     </div>
 
     <ng-template #planWithoutList>

@@ -1,5 +1,5 @@
-<div [sortablejs]="lists" [sortablejsOptions]="sortableOptions">
-  <div *ngFor="let list of lists">
+<div [sortablejs]="lists$ | async" [sortablejsOptions]="sortableOptions">
+  <div *ngFor="let list of (lists$ | async)">
     <td-backlog-list [list]="list"></td-backlog-list>
   </div>
 </div>
