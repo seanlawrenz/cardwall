@@ -8,6 +8,7 @@ import { SpinnerService } from './spinner.service';
 import { Store } from '@ngrx/store';
 import { fromRoot } from '@app/store';
 import * as cardActions from '@app/store/actions/card.actions';
+import * as listActions from '@app/store/actions/list.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -170,7 +171,7 @@ export class SignalRService {
     });
     // ListReorderReceive
     proxy.on('ListReorderReceive', reorder => {
-      console.log('ListReorderReceive');
+      this.store.dispatch(new listActions.ListReorder(reorder));
     });
     // Notification Received
     proxy.on('NotificationReceive', BrowserNotification => {

@@ -21,3 +21,9 @@ export interface List {
   statusTypeId?: number;
   title: string;
 }
+
+export interface ListReorderInfo {
+  planID: number;
+  projectID: number;
+  sortedListIDs: Array<number>;
+}
