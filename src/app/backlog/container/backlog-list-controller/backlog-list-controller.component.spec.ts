@@ -19,7 +19,7 @@ describe('BacklogListControllerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogListControllerComponent],
-      providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -34,25 +34,6 @@ describe('BacklogListControllerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngInit', () => {
-    it('should select getListsByPlan', () => {
-      spy = jest.spyOn(store, 'pipe').mockImplementationOnce(jest.fn(() => of([mockList])));
-
-      fixture.detectChanges();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should get lists for that plan', () => {
-      store.pipe = jest.fn(() => hot('-a', { a: [mockList] }));
-
-      fixture.detectChanges();
-
-      const expected = cold('-a', { a: [mockList] });
-      expect(component.lists$).toBeObservable(expected);
-    });
   });
 
   it('should dispatch an action on list reorder if there was reordering of lists', () => {

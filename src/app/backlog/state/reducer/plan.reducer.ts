@@ -3,6 +3,9 @@ import { Plan } from '@app/models';
 
 import { updateDataOnCollection, updateCardOrderInListInBacklog, updateCardInBacklog } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
+import { ListActionTypes, ListActions } from '@app/store/actions/list.actions';
+import { getPlanById } from '../selectors';
+import { updateListOrderInBacklog } from '@app/utils/listOperations';
 
 export interface PlanState {
   plans: Plan[];
@@ -16,7 +19,7 @@ export const initialState: PlanState = {
   plansLoading: false,
 };
 
-export function reducer(state = initialState, action: PlanActions | PlanListActions | CardActions): PlanState {
+export function reducer(state = initialState, action: PlanActions | PlanListActions | CardActions | ListActions): PlanState {
   switch (action.type) {
     case PlanActionTypes.GET_PLANS_IN_PARAMS:
       return {
@@ -50,6 +53,12 @@ export function reducer(state = initialState, action: PlanActions | PlanListActi
       return {
         ...state,
         plans: state.plans.map(plan => (plan.id === planOnStateWithUpdatedData.id ? planOnStateWithUpdatedData : plan)),
+      };
+
+    case ListActionTypes.LIST_REORDER:
+      return {
+        ...state,
+        plans: updateListOrderInBacklog(state.plans, action.payload),
       };
 
     case CardActionTypes.CARD_REORDER_WITHIN_LIST:
