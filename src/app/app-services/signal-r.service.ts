@@ -61,7 +61,6 @@ export class SignalRService {
       throw new Error('hubName must be set before SignalR can be initialized.');
     }
 
-    console.log('inializing signal r');
     return this.buildConnectObservable(callback);
   }
 
@@ -132,6 +131,7 @@ export class SignalRService {
     proxy.on(
       'CardCreateReceive',
       (info: CardOperationInfo): void => {
+        console.log(info);
         this.store.dispatch(new cardActions.CardCreateFromServer(info));
       },
     );

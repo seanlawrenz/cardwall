@@ -68,6 +68,8 @@ export function reducer(state = initialState, action: PlanActions | PlanListActi
         plans: updateCardInBacklog(state.plans, action.payload),
       };
 
+    case CardActionTypes.CARD_CREATE_FROM_SERVER:
+
     default:
       return state;
   }

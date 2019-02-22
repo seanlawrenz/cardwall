@@ -1,4 +1,4 @@
-import { Card, Plan } from '@app/models';
+import { Card, Plan, CardOperationInfo } from '@app/models';
 import { find, findIndex } from 'lodash';
 
 function insertItem(array, action) {
@@ -42,6 +42,23 @@ export const updateCardInBacklog = (plans: Plan[], updatedCard: Card): Plan[] =>
       plan.lists.map(list => {
         if (list.id === listId) {
           list.cards = updateCardInList(list.cards, updatedCard);
+        }
+      });
+    }
+    return plan;
+  });
+};
+
+export const createCardInBacklog = (plans: Plan[], info: CardOperationInfo): Plan[] => {
+  if (!info) {
+    return plans;
+  }
+  return plans.map(plan => {
+    const { card, orders } = info;
+    if (plan.id === card.planId) {
+      plan.lists.map(list => {
+        if (list.id === card.listId) {
+          list.cards = insertItem(list.cards, { item: card, index: 0 });
         }
       });
     }

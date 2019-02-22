@@ -1,7 +1,7 @@
-import { updateCardOrderInListInBacklog, updateCardInBacklog } from './cardMoveOperations';
+import { updateCardOrderInListInBacklog, updateCardInBacklog, createCardInBacklog } from './cardMoveOperations';
 
-import { List, Plan, Card } from '@app/models';
-import { mockBoardBuilder, mockListBuilder, mockCardBuilder } from '@app/test/data';
+import { List, Plan, Card, CardOperationInfo } from '@app/models';
+import { mockBoardBuilder, mockListBuilder, mockCardBuilder, mockList } from '@app/test/data';
 
 let plans: Plan[];
 const mockPlan: Plan = mockBoardBuilder();
@@ -71,5 +71,23 @@ describe('findCardInBacklogAndReplace', () => {
     mockPlan.lists = [mockListsFromPlan1, mockListsFromPlan2];
     plans = updateCardInBacklog([mockPlan, mockPlan2], updatedCard);
     expect(mockListsFromPlan1.cards[0]).toEqual(updatedCard);
+  });
+});
+
+describe('cardCreate', () => {
+  it('should return plans', () => {
+    plans = createCardInBacklog([mockPlan, mockPlan2], undefined);
+    expect(plans).toEqual([mockPlan, mockPlan2]);
+  });
+
+  it('should add a card to the plan that it belongs to', () => {
+    const newCard = { ...mockCard1, planId: mockPlan.id, listId: mockListsFromPlan1.id };
+    const cardOperation: CardOperationInfo = { card: newCard, orders: [{ cardID: newCard.id, order: 1 }] };
+    mockListsFromPlan1.cards = [];
+    mockPlan.lists = [mockListsFromPlan1];
+
+    plans = createCardInBacklog([mockPlan, mockPlan2], cardOperation);
+
+    expect(plans[0].lists[0].cards).toEqual([newCard]);
   });
 });
