@@ -14,6 +14,21 @@
   }
 }
 
+div.profile-image.board {
+  width: 28px;
+  height: 28px;
+  background-size: 100% 100%;
+  line-height: 28px;
+  font-size: 11px;
+  border-radius: 3px;
+  margin-right: 1em;
+}
+
+div.profile-image.picture > img {
+  width: 28px;
+  height: 28px;
+}
+
 .fa {
   &.fa-times {
     &:hover {
@@ -41,4 +56,10 @@
 
 .list-style-none {
   list-style: none;
+}
+
+.text-trim {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

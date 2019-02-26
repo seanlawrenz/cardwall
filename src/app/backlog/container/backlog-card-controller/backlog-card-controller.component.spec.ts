@@ -10,6 +10,10 @@ import { Card } from '@app/models';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SignalRService } from '@app/app-services';
+import { SubtasksIconComponent } from '@app/shared/components/subtasks-icon/subtasks-icon.component';
+import { CardResourceIconsComponent } from '@app/shared/components/card-resource-icons/card-resource-icons.component';
+import { ProfileImageComponent } from '@app/shared/components/profile-image/profile-image.component';
+import { TdTooltipDirective } from '@app/shared/directives/tooltip-directive';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -27,7 +31,15 @@ describe('BacklogCardControllerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogCardControllerComponent, BacklogCardComponent, GripComponent],
+      declarations: [
+        BacklogCardControllerComponent,
+        BacklogCardComponent,
+        GripComponent,
+        SubtasksIconComponent,
+        CardResourceIconsComponent,
+        ProfileImageComponent,
+        TdTooltipDirective,
+      ],
       imports: [SortablejsModule],
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },

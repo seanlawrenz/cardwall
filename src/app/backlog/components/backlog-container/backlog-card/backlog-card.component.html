@@ -11,4 +11,13 @@
     ></span>
   </div>
   {{ card.name }}
+
+  <!-- Tags -->
+  <div *ngIf="card.tags">
+    <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+      {{ tag }}
+    </span>
+  </div>
+
+  <td-card-resource-icons [card]="card" [maxInlineResources]="3" [expandsInline]="false"></td-card-resource-icons>
 </div>

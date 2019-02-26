@@ -1,4 +1,5 @@
 import { build, fake } from 'test-data-bot';
+import { Resources } from '@app/models';
 
 export const resourceBuilder = build('resource').fields({
   email: fake(f => f.internet.email()),
@@ -6,10 +7,10 @@ export const resourceBuilder = build('resource').fields({
   lastName: fake(f => f.name.lastName()),
   name: fake(f => f.name.findName()),
   permissions: '',
-  profilePicturePath: fake(f => f.image.imageUrl()),
+  profilePicturePath: 'User/ViewProfileImage.ashx?FileName=',
   referenceId: fake(f => f.random.uuid()),
   uid: fake(f => f.random.uuid()),
   isPlaceholder: fake(f => f.random.boolean()),
 });
 
-export const mockResource = resourceBuilder();
+export const mockResource: Resources = resourceBuilder();

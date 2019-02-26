@@ -25,9 +25,26 @@
     }
   }
 
+  &-card {
+    &-owners {
+      min-height: 31px;
+
+      &-container {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+
   &-subtasks {
     &-completed {
       color: $bootstrapSuccess;
+    }
+  }
+
+  &-tags {
+    &-badge {
+      background-color: $info;
     }
   }
 }
