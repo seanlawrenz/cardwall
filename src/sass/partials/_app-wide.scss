@@ -26,6 +26,9 @@
   cursor: pointer;
 }
 
+.bg-white {
+  background-color: #fff;
+}
 
 // bootstrap accessibility
 .btn-link {
@@ -34,4 +37,8 @@
   &:hover {
     color: $accessibleBlueHover;
   }
+}
+
+.list-style-none {
+  list-style: none;
 }

@@ -3,6 +3,7 @@ import { SortablejsModule } from 'angular-sortablejs';
 
 import { BacklogCardControllerComponent, CardMovementTypes } from './backlog-card-controller.component';
 import { BacklogCardComponent } from '@app/backlog/components/backlog-container/backlog-card/backlog-card.component';
+import { GripComponent } from '@app/shared/components/grip/grip.component';
 import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services/card.service';
 import { Card } from '@app/models';
@@ -26,7 +27,7 @@ describe('BacklogCardControllerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogCardControllerComponent, BacklogCardComponent],
+      declarations: [BacklogCardControllerComponent, BacklogCardComponent, GripComponent],
       imports: [SortablejsModule],
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },

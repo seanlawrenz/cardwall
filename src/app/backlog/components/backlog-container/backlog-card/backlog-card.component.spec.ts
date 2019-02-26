@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BacklogCardComponent } from './backlog-card.component';
+import { GripComponent } from '@app/shared/components/grip/grip.component';
 import { mockCard } from '@app/test/data';
 
 describe('BacklogCardComponent', () => {
@@ -9,7 +10,7 @@ describe('BacklogCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogCardComponent],
+      declarations: [BacklogCardComponent, GripComponent],
     }).compileComponents();
   }));
 

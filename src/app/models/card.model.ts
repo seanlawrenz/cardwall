@@ -58,3 +58,12 @@ export interface CardRemovedFromListInfo {
   cardId: number;
   oldListId: number;
 }
+
+export enum CardColors {
+  DEFAULT = 'default',
+  PRIMARY = 'primary',
+  SUCCESS = 'success',
+  INFO = 'info',
+  WARNING = 'warning',
+  DANGER = 'danger',
+}

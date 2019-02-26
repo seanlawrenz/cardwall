@@ -35,7 +35,9 @@
       &-row {
         border-radius: 0 !important;
         margin-bottom: 3px;
-
+        border: solid 1px $highlightGrey;
+        display: flex;
+        justify-content: space-between;
       }
     }
 
@@ -56,6 +58,11 @@
           -moz-transition: all 0.5s;
         }
       }
+    }
+
+    &-grip {
+      padding: 0 3px 0 5px;
+      border-right: solid 1px $grey;
     }
   }
 }

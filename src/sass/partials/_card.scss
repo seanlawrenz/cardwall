@@ -1,0 +1,27 @@
+.tdNg {
+  &-card-color {
+    &-default {
+      background-color: $lightGrey;
+    }
+
+    &-primary {
+      background-color: $card-primary;
+    }
+
+    &-success {
+      background-color: $card-success;
+    }
+
+    &-info {
+      background-color: $card-info;
+    }
+
+    &-warning {
+      background-color: $card-warning;
+    }
+
+    &-danger {
+      background-color: $card-danger;
+    }
+  }
+}
