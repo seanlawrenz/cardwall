@@ -1,0 +1,12 @@
+<div
+  *ngIf="card.subtasksCount > 0"
+  (click)="onSubtasksClicked()"
+  [ngClass]="{ 'tdNg-subtasks-completed': card.openSubtasksCount <= 0 && !isCardSelected, 'text-white': isCardSelected }"
+  tdTooltip="View Subtasks"
+  class="tdNg-tasks"
+>
+  <span *ngIf="includeCount" [ngStyle]="{ 'margin-right': '1em' }">
+    {{ card.subtasksCount - card.openSubtasksCount }}/{{ card.subtasksCount }}
+  </span>
+  <span aria-hidden="true" class="fa fa-tasks"></span>
+</div>

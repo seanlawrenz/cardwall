@@ -1,3 +1,14 @@
 <div class="tdNg-backlog-card-row" [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd }">
   <td-grip [cardColor]="backgroundColor"></td-grip>
+  <td-subtasks-icon [card]="card" [includeCount]="true"></td-subtasks-icon>
+  <div *ngIf="card.ticketID > 0">
+    <span
+      style="cursor: pointer;"
+      tdTooltip="This card has been converted from a ticket. The ticket's status will be updated based on the card's status."
+      placement="top"
+      class="fa fa-fw fa-ticket"
+      aria-label="Created from ticket"
+    ></span>
+  </div>
+  {{ card.name }}
 </div>

@@ -14,6 +14,7 @@ import { GripComponent } from './components/grip/grip.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
+import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     SpinnerComponent,
     StoryPointIndicatorComponent,
     GripComponent,
+    SubtasksIconComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [
@@ -36,6 +38,7 @@ import { StoryPointIndicatorComponent } from './components/story-point-indicator
     LoadingSpinnerComponent,
     SpinnerComponent,
     StoryPointIndicatorComponent,
+    SubtasksIconComponent,
   ],
 })
 export class SharedModule {}
