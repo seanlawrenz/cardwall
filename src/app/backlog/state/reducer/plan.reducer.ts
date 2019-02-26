@@ -1,7 +1,13 @@
-import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes } from '../actions';
+import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes, BacklogCardActionTypes, BacklogCardActions } from '../actions';
 import { Plan } from '@app/models';
 
-import { updateDataOnCollection, updateCardOrderInListInBacklog, updateCardInBacklog } from '@app/utils';
+import {
+  updateDataOnCollection,
+  updateCardOrderInListInBacklog,
+  updateCardInBacklog,
+  createCardInBacklog,
+  deleteCardInBacklog,
+} from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
 import { ListActionTypes, ListActions } from '@app/store/actions/list.actions';
 import { getPlanById } from '../selectors';
@@ -19,7 +25,10 @@ export const initialState: PlanState = {
   plansLoading: false,
 };
 
-export function reducer(state = initialState, action: PlanActions | PlanListActions | CardActions | ListActions): PlanState {
+export function reducer(
+  state = initialState,
+  action: PlanActions | PlanListActions | BacklogCardActions | CardActions | ListActions,
+): PlanState {
   switch (action.type) {
     case PlanActionTypes.GET_PLANS_IN_PARAMS:
       return {
@@ -55,6 +64,12 @@ export function reducer(state = initialState, action: PlanActions | PlanListActi
         plans: state.plans.map(plan => (plan.id === planOnStateWithUpdatedData.id ? planOnStateWithUpdatedData : plan)),
       };
 
+    case BacklogCardActionTypes.DELETE_CARD:
+      return {
+        ...state,
+        plans: deleteCardInBacklog(state.plans, action.payload),
+      };
+
     case ListActionTypes.LIST_REORDER:
       return {
         ...state,
@@ -78,6 +93,16 @@ export function reducer(state = initialState, action: PlanActions | PlanListActi
       };
 
     case CardActionTypes.CARD_CREATE_FROM_SERVER:
+      return {
+        ...state,
+        plans: createCardInBacklog(state.plans, action.payload),
+      };
+
+    case CardActionTypes.CARD_DELETE_FROM_SERVER:
+      return {
+        ...state,
+        plans: deleteCardInBacklog(state.plans, action.payload),
+      };
 
     default:
       return state;

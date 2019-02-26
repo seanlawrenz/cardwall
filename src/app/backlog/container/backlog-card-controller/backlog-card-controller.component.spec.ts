@@ -9,7 +9,6 @@ import { Card } from '@app/models';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SignalRService } from '@app/app-services';
-import { hot } from 'jasmine-marbles';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -32,7 +31,7 @@ describe('BacklogCardControllerComponent', () => {
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
-        { provide: Store, useValue: { select: jest.fn() } },
+        { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn() } },
       ],
     }).compileComponents();
   }));

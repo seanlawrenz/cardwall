@@ -1,12 +1,19 @@
-import { Card, Plan, CardOperationInfo } from '@app/models';
-import { find, findIndex } from 'lodash';
+import { Card, Plan, CardOperationInfo, CardOrderInfo } from '@app/models';
+import { find, findIndex, sortBy } from 'lodash';
 
+/**
+ * The server return a bunch of different data depending on the action.
+ * These update the plan based on the data returned from the server
+ */
+
+// Generic insert function
 function insertItem(array, action) {
   const newArray = array.slice();
   newArray.splice(action.index, 0, action.item);
   return newArray;
 }
 
+// Generic remove function
 function removeItem(array, index) {
   const newArray = array.slice();
   if (index >= 0) {
@@ -54,11 +61,28 @@ export const createCardInBacklog = (plans: Plan[], info: CardOperationInfo): Pla
     return plans;
   }
   return plans.map(plan => {
-    const { card, orders } = info;
+    const { card } = info;
     if (plan.id === card.planId) {
       plan.lists.map(list => {
         if (list.id === card.listId) {
-          list.cards = insertItem(list.cards, { item: card, index: 0 });
+          list.cards = addCardAndUpdateOrder(list.cards, info);
+        }
+      });
+    }
+    return plan;
+  });
+};
+
+export const deleteCardInBacklog = (plans: Plan[], cardToDelete: Card): Plan[] => {
+  if (!cardToDelete) {
+    return plans;
+  }
+
+  return plans.map(plan => {
+    if (plan.id === cardToDelete.planId) {
+      plan.lists.map(list => {
+        if (list.id === cardToDelete.listId) {
+          list.cards = removeCardFromList(list.cards, cardToDelete.id);
         }
       });
     }
@@ -77,6 +101,20 @@ const findCardInPlanAndRemoveFromOldList = (plan: Plan, cardId: number): Card =>
   });
   return targetCard;
 };
+
+const addCardAndUpdateOrder = (cards: Card[], info: CardOperationInfo): Card[] => {
+  return updateCardOrder([...cards, info.card], info.orders);
+};
+
+const updateCardOrder = (cards: Card[], orders: CardOrderInfo[]): Card[] =>
+  sortBy(
+    cards.map(card => {
+      const index = findIndex(orders, order => order.cardID === card.id);
+      card.order = index > -1 ? orders[index].order : 0;
+      return card;
+    }),
+    card => card.order,
+  );
 
 const removeCardFromList = (cards: Card[], cardIdToRemove: number): Card[] => {
   const currentIndex = findIndex(cards, card => card.id === cardIdToRemove);

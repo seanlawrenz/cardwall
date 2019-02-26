@@ -105,7 +105,9 @@ export class BacklogCardControllerComponent implements OnInit {
         this.signalRService
           .invoke('CardMoveRelativeTo', originatedCard, card.projectId, card.planId, card.listId, relativeMoveCardId)
           .subscribe(() => {
-            // placeholder for ending the saving service;
+            // I don't like this, but if the client moves the card that card does not have the data on it to be removed via the
+            // signal r call. So we must remove the card here.
+            this.store.dispatch(new fromBacklog.DeleteCardOnBacklog(card));
           });
       });
     }
