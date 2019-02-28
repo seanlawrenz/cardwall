@@ -8,6 +8,11 @@
       }
     }
 
+    &-project-header {
+      min-width: 8em;
+      margin-left: 1em;
+    }
+
     &-list {
       &-container {
         margin: 0 1em;
@@ -36,20 +41,56 @@
         border-radius: 0 !important;
         margin-bottom: 3px;
         border: solid 1px $highlightGrey;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         height: 32px;
       }
 
-      &-name-container {
+      &-name {
+        margin-right: 1.5em;
+      }
+
+      &-info-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+
+      &-owners {
+        display: none;
+        @media #{$break-narrow-up} {
+          display: block;
+        }
+      }
+
+      &-hours {
+        display: none;
+        @media #{$break-narrow-up} {
+          display: block;
+          margin-right: 0.5em;
+        }
+      }
+
+      &-percent {
+        display: none;
+        @media #{$break-narrow-up} {
+          display: block;
+          margin-right: 0.5em;
+        }
+      }
+
+      &-story-point {
+        display: none !important;
+        @media #{$break-narrow-up} {
+          display: block;
+          margin-right: 0.5em;
+        }
       }
 
       &-tags {
         display: none;
+        @media #{$break-narrow-up} {
+          display: block;
+          margin-right: 0.5em;
+        }
       }
     }
 

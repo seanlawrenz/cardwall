@@ -27,10 +27,6 @@
 
   &-card {
     &-owners {
-      display: none;
-      @media #{$break-narrow-up} {
-        display: block;
-      }
 
       &-container {
         display: flex;

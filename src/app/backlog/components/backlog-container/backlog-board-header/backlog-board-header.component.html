@@ -8,7 +8,7 @@
           {{ plan.projectName }}
         </a>
         /
-        <a [href]="getCardwallUrl()" target="_blank" tdTooltip="View this cardwall in another tab">{{ plan.name }}</a>
+        <a [href]="getCardwallUrl()" target="_blank" tdTooltip="View this cardwall in another tab">{{ plan.name | trimTextToLimit: 50 }}</a>
       </div>
 
       <td-remove-board [plan]="plan">
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="d-none d-md-block">
+    <div class="d-none d-md-block tdNg-backlog-project-header">
       <div class="tdNg-flex-row-center">
         <div class="text-small">{{ estimatedHours }} Est Hours</div>
         <td-story-point-indicator class="gutter-left" [storyPoints]="storyPoints" [isSummary]="true"></td-story-point-indicator>
