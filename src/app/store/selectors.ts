@@ -35,6 +35,19 @@ export const isSpinnerShowing = createSelector(
   state => state.showSpinner,
 );
 
+export const showWIPLimits = createSelector(
+  getUIState,
+  state => state.showWIPLimits,
+);
+export const showStoryPoints = createSelector(
+  getUIState,
+  state => state.showStoryPoints,
+);
+export const showEstimatedHours = createSelector(
+  getUIState,
+  state => state.showEstimatedHours,
+);
+
 // Notifications
 export const getNotificationState = createFeatureSelector<fromNotify.NotifyState>('notifications');
 
