@@ -1,23 +1,27 @@
 <div class="tdNg-backlog-card-row" [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd }">
   <td-grip [cardColor]="backgroundColor"></td-grip>
-  <td-subtasks-icon [card]="card" [includeCount]="true"></td-subtasks-icon>
-  <div *ngIf="card.ticketID > 0">
-    <span
-      style="cursor: pointer;"
-      tdTooltip="This card has been converted from a ticket. The ticket's status will be updated based on the card's status."
-      placement="top"
-      class="fa fa-fw fa-ticket"
-      aria-label="Created from ticket"
-    ></span>
-  </div>
-  {{ card.name }}
-
-  <!-- Tags -->
-  <div *ngIf="card.tags">
-    <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
-      {{ tag }}
-    </span>
+  <div class="tdNg-backlog-card-name-container">
+    <td-subtasks-icon [card]="card" [includeCount]="true"></td-subtasks-icon>
+    <div *ngIf="card.ticketID > 0">
+      <span
+        style="cursor: pointer;"
+        tdTooltip="This card has been converted from a ticket. The ticket's status will be updated based on the card's status."
+        placement="top"
+        class="fa fa-fw fa-ticket"
+        aria-label="Created from ticket"
+      ></span>
+    </div>
+    <div>{{ card.name }}</div>
   </div>
 
-  <td-card-resource-icons [card]="card" [maxInlineResources]="3" [expandsInline]="false"></td-card-resource-icons>
+  <div>
+    <!-- Tags -->
+    <div class="tdNg-backlog-card-tags" *ngIf="card.tags">
+      <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+        {{ tag }}
+      </span>
+    </div>
+
+    <td-card-resource-icons [card]="card" [maxInlineResources]="3" [expandsInline]="false"></td-card-resource-icons>
+  </div>
 </div>

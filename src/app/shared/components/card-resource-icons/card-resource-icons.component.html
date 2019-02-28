@@ -1,34 +1,32 @@
-<div *ngIf="card.owners && card.owners.length > 0" class="gutter-top-xs">
+<div *ngIf="card.owners && card.owners.length > 0">
   <div class="tdNg-card-owners">
-    <div>
-      <div class="tdNg-card-owners-container">
-        <div *ngIf="card.owners.length <= maxInlineResources; else maxInline">
-          <div *ngFor="let resource of card.owners">
+    <div class="tdNg-card-owners-container">
+      <div *ngIf="card.owners.length <= maxInlineResources; else maxInline">
+        <div *ngFor="let resource of card.owners">
+          <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
+        </div>
+      </div>
+
+      <ng-template #maxInline>
+        <div *ngFor="let resource of card.owners.slice(0, maxInlineResources - 1)">
+          <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
+        </div>
+
+        <div
+          class="profile-image board initials"
+          (click)="showAllOwners()"
+          tdTooltip="{{ isAllOwnersShown === true ? 'Hide last' : 'Show last' }}"
+          [ngClass]="isAllOwnersShown === true ? 'allOwnersShown' : 'comp-someOwnersShown'"
+        >
+          {{ isAllOwnersShown === true ? '-' : '+' }} {{ card.owners.length - maxInlineResources }}
+        </div>
+
+        <div *ngIf="isAllOwnersShown">
+          <div *ngFor="let resource of card.owners.slice(maxInlineResources - 1, card.owners.length)">
             <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
           </div>
         </div>
-
-        <ng-template #maxInline>
-          <div *ngFor="let resource of card.owners.slice(0, maxInlineResources - 1)">
-            <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
-          </div>
-
-          <div
-            class="profile-image board initials"
-            (click)="showAllOwners()"
-            tdTooltip="{{ isAllOwnersShown === true ? 'Hide last' : 'Show last' }}"
-            [ngClass]="isAllOwnersShown === true ? 'allOwnersShown' : 'comp-someOwnersShown'"
-          >
-            {{ isAllOwnersShown === true ? '-' : '+' }} {{ card.owners.length - maxInlineResources }}
-          </div>
-
-          <div *ngIf="isAllOwnersShown">
-            <div *ngFor="let resource of card.owners.slice(maxInlineResources - 1, card.owners.length)">
-              <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
-            </div>
-          </div>
-        </ng-template>
-      </div>
+      </ng-template>
     </div>
   </div>
 </div>

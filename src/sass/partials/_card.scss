@@ -27,7 +27,10 @@
 
   &-card {
     &-owners {
-      min-height: 31px;
+      display: none;
+      @media #{$break-narrow-up} {
+        display: block;
+      }
 
       &-container {
         display: flex;

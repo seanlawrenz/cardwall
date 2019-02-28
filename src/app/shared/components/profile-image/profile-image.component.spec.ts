@@ -33,16 +33,24 @@ describe('ProfileImageComponent', () => {
       expect(component.htmlToBeRender).toBe('');
     });
 
-    // it('should return the html for a resource', () => {
-    //   configSvc = TestBed.get(ConfigService);
-    //   configSvc.config.UserProfilePathBase = `${mockConfig.UserProfilePathBase}?fileName=`;
-    //   component.resource = mockResource;
-    //   const profilePath = `${configSvc.config.UserProfilePathBase}${mockResource.profilePicturePath}`;
-    //   const test = `<img src="${profilePath}" alt="${mockResource.firstName} ${mockResource.lastName} />`;
+    it('should return the html for a resource', () => {
+      // mocking the TeamDynamix window
+      global.TeamDynamix = {};
 
-    //   component['updateUI']();
+      configSvc = TestBed.get(ConfigService);
+      configSvc.config.UserProfilePathBase = `${mockConfig.UserProfilePathBase}?fileName=`;
+      component.resource = mockResource;
+      component.imgClass = 'profile-image board picture';
+      const test = `<div title="${mockResource.firstName} ${
+        mockResource.lastName
+      }" class="profile-image profile-image board picture undefined initials">${mockResource.firstName.slice(
+        0,
+        1,
+      )}${mockResource.lastName.slice(0, 1)}</div>`;
 
-    //   expect(component.htmlToBeRender).toBe(test);
-    // });
+      component['updateUI']();
+
+      expect(component.htmlToBeRender).toBe(test);
+    });
   });
 });
