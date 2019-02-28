@@ -56,4 +56,12 @@ export class BacklogCardComponent implements OnInit {
     }
     this.backgroundColor = `tdNg-card-color-${color}`;
   }
+
+  openCardDetails() {
+    console.log(`${this.card.name} clicked`);
+  }
+
+  archiveCard() {
+    console.log(`${this.card.name} needs to be archived`);
+  }
 }

@@ -9,6 +9,7 @@ import { TDXAgilePipesModule } from './pipes';
 // Components
 import { ButtonComponent } from './components/button/button.component';
 import { CardResourceIconsComponent } from './components/card-resource-icons/card-resource-icons.component';
+import { EstimatedHoursComponent } from './components/estimated-hours/estimated-hours.component';
 import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph/expand-collapse-glyph.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
 import { GripComponent } from './components/grip/grip.component';
@@ -21,6 +22,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
 @NgModule({
   declarations: [
     ButtonComponent,
+    EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     LoadingSpinnerComponent,
@@ -37,6 +39,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
     TDXAgilePipesModule,
     ButtonComponent,
     CardResourceIconsComponent,
+    EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,
     GripComponent,

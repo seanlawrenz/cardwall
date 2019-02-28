@@ -1,7 +1,7 @@
 <div class="tdNg-backlog-card-row" [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd }">
   <td-grip [cardColor]="backgroundColor"></td-grip>
   <div class="tdNg-backlog-card-name-container">
-    <td-subtasks-icon [card]="card" [includeCount]="true"></td-subtasks-icon>
+    <td-subtasks-icon [card]="card" [includeCount]="true" (subtasksClicked)="openCardDetails()"></td-subtasks-icon>
     <div *ngIf="card.ticketID > 0">
       <span
         style="cursor: pointer;"
@@ -22,6 +22,31 @@
       </span>
     </div>
 
-    <td-card-resource-icons [card]="card" [maxInlineResources]="3" [expandsInline]="false"></td-card-resource-icons>
+    <td-card-resource-icons
+      [card]="card"
+      [maxInlineResources]="3"
+      [expandsInline]="false"
+      (resourceClick)="openCardDetails()"
+    ></td-card-resource-icons>
+
+    <td-estimated-hours *ngIf="card.estimatedHours !== 0" [value]="card.estimatedHours"></td-estimated-hours>
+
+    <span
+      *ngIf="card.percentComplete > 0"
+      [ngClass]="card.percentComplete >= 100 ? 'green-bg' : 'gray-bg'"
+      tdTooltip="{{ card.remainingHours }} hour(s) remaining"
+      placement="top"
+      class=""
+    >
+      {{ card.percentComplete | number: '1.0-0' }}%
+    </span>
+
+    <td-story-point-indicator [storyPoints]="card.storyPoints" (storyPointsClicked)="openCardDetails()"></td-story-point-indicator>
+
+    <div>
+      <span (click)="archiveCard()" aria-label="Archive Card" tdTooltip="Archive Card" placement="top">
+        <span aria-hidden="true" class="fa fa-archive"></span>
+      </span>
+    </div>
   </div>
 </div>

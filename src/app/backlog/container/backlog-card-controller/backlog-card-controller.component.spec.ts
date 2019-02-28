@@ -14,6 +14,8 @@ import { SubtasksIconComponent } from '@app/shared/components/subtasks-icon/subt
 import { CardResourceIconsComponent } from '@app/shared/components/card-resource-icons/card-resource-icons.component';
 import { ProfileImageComponent } from '@app/shared/components/profile-image/profile-image.component';
 import { TdTooltipDirective } from '@app/shared/directives/tooltip-directive';
+import { EstimatedHoursComponent } from '@app/shared/components/estimated-hours/estimated-hours.component';
+import { StoryPointIndicatorComponent } from '@app/shared/components/story-point-indicator/story-point-indicator.component';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -39,6 +41,9 @@ describe('BacklogCardControllerComponent', () => {
         CardResourceIconsComponent,
         ProfileImageComponent,
         TdTooltipDirective,
+        CardResourceIconsComponent,
+        EstimatedHoursComponent,
+        StoryPointIndicatorComponent,
       ],
       imports: [SortablejsModule],
       providers: [

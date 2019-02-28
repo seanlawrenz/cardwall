@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'td-story-point-indicator',
@@ -10,6 +10,8 @@ export class StoryPointIndicatorComponent {
   @Input() isSummary = false;
   @Input() isSelected = false;
 
+  @Output() storyPointsClicked = new EventEmitter<void>();
+
   public getStoryPointsTooltip(): string {
     if (this.storyPoints === 1) {
       return `1 Story Point`;
@@ -20,5 +22,9 @@ export class StoryPointIndicatorComponent {
     } else {
       return `This card has not been given a story point estimate`;
     }
+  }
+
+  onStoryPointsClicked() {
+    this.storyPointsClicked.emit();
   }
 }
