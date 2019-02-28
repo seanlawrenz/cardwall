@@ -35,7 +35,7 @@
         ></td-card-resource-icons>
 
         <td-estimated-hours
-          *ngIf="card.estimatedHours !== 0"
+          *ngIf="card.estimatedHours !== 0 && showEstimateHours"
           [value]="card.estimatedHours"
           class="tdNg-backlog-card-hours"
         ></td-estimated-hours>
@@ -52,6 +52,7 @@
         </span>
 
         <td-story-point-indicator
+          *ngIf="showStoryPoints"
           [storyPoints]="card.storyPoints"
           (storyPointsClicked)="openCardDetails()"
           class="tdNg-backlog-card-story-point"

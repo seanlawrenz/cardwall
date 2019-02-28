@@ -1,5 +1,5 @@
 <div [sortablejs]="lists" [sortablejsOptions]="sortableOptions">
   <div *ngFor="let list of lists">
-    <td-backlog-list [list]="list"></td-backlog-list>
+    <td-backlog-list [list]="list" [showWIPLimits]="showWIP$ | async"></td-backlog-list>
   </div>
 </div>

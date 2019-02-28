@@ -1,5 +1,10 @@
 <ul class="list-group" [sortablejs]="cards" [sortablejsOptions]="sortableOptions">
   <li *ngFor="let card of cards; odd as isOdd" class="list-style-none">
-    <td-backlog-card [card]="card" [isOdd]="isOdd"></td-backlog-card>
+    <td-backlog-card
+      [card]="card"
+      [isOdd]="isOdd"
+      [showEstimateHours]="showEstimateHours$ | async"
+      [showStoryPoints]="showStoryPoints$ | async"
+    ></td-backlog-card>
   </li>
 </ul>

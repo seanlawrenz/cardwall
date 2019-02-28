@@ -49,7 +49,7 @@ describe('BacklogCardControllerComponent', () => {
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
-        { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn() } },
+        { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn(), pipe: jest.fn() } },
       ],
     }).compileComponents();
   }));

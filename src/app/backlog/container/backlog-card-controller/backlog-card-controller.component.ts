@@ -4,11 +4,12 @@ import { SortablejsOptions } from 'angular-sortablejs';
 import { CardService } from '@app/app-services/card.service';
 import { Card, List } from '@app/models';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromBacklog from '@app/backlog/state';
 import { SignalRService } from '@app/app-services';
 
 import { getRelativeMoveCardId } from '@app/utils';
+import { Observable } from 'rxjs';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -30,6 +31,11 @@ export class BacklogCardControllerComponent implements OnInit {
   @Input() cards: Card[];
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
+  // UI Settings
+  showEstimateHours$: Observable<boolean>;
+  showStoryPoints$: Observable<boolean>;
+
+  // Card Move
   sortableOptions: SortablejsOptions = {
     group: {
       name: 'backlog-cards',
@@ -47,7 +53,10 @@ export class BacklogCardControllerComponent implements OnInit {
 
   constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.showStoryPoints$ = this.store.pipe(select(fromBacklog.showStoryPoints));
+    this.showEstimateHours$ = this.store.pipe(select(fromBacklog.showEstimateHours));
+  }
 
   cardMovement(event, type: string) {
     const { newIndex, oldIndex } = event;

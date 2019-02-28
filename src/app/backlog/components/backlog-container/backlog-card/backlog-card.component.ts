@@ -18,9 +18,9 @@ enum CardColors {
 export class BacklogCardComponent implements OnInit {
   @Input() card: Card;
   @Input() isOdd: boolean;
-  @Input() issuesEnabled = true;
-  @Input() showAttachments = true;
-  @Input() showDescription = true;
+  @Input() showEstimateHours: boolean;
+  @Input() showStoryPoints: boolean;
+
   backgroundColor: string;
   constructor() {}
 
