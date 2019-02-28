@@ -1,10 +1,10 @@
 <div class="container-fluid no-gutters no-padding">
   <div class="row no-gutters align-items-center tdNg-backlog-card-row" [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd }">
-    <div class="col-8 col-md-6 col-lg-3">
-      <div class="tdNg-backlog-card-info-container">
+    <div class="col-8 col-md-6 col-lg-4">
+      <div class="tdNg-backlog-card-name-container">
         <td-grip [cardColor]="backgroundColor"></td-grip>
-        <td-subtasks-icon [card]="card" (subtasksClicked)="openCardDetails()"></td-subtasks-icon>
-        <div *ngIf="card.ticketID > 0">
+        <td-subtasks-icon [card]="card" (subtasksClicked)="openCardDetails()" class="tdNg-backlog-card-subtask"></td-subtasks-icon>
+        <div *ngIf="card.ticketID > 0" class="tdNg-backlog-card-ticket">
           <span
             style="cursor: pointer;"
             tdTooltip="This card has been converted from a ticket. The ticket's status will be updated based on the card's status."
@@ -17,9 +17,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3"></div>
-
-    <div class="col-4 col-md-6 col-lg-6">
+    <div class="col-4 col-md-6 col-lg-8">
       <div class="tdNg-backlog-card-info-container align-items-center justify-content-end">
         <!-- Tags -->
         <div class="tdNg-backlog-card-tags" *ngIf="card.tags">

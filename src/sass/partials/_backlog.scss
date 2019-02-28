@@ -52,6 +52,32 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        @media #{$break-wide-up} {
+          justify-content: flex-end;
+        }
+      }
+
+      &-name-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @media #{$break-wide-up} {
+          justify-content: flex-start;
+        }
+      }
+
+      &-subtask {
+        @media #{$break-wide-up} {
+          margin: 0 1em;
+        }
+      }
+
+      &-ticket {
+        @media #{$break-wide-up} {
+          margin: 0 1em;
+        }
       }
 
       &-owners {
@@ -80,7 +106,7 @@
       &-story-point {
         display: none !important;
         @media #{$break-narrow-up} {
-          display: block;
+          display: flex !important;
           margin-right: 0.5em;
         }
       }
@@ -88,7 +114,8 @@
       &-tags {
         display: none;
         @media #{$break-narrow-up} {
-          display: block;
+          display: flex;
+          align-items: center;
           margin-right: 0.5em;
         }
       }
