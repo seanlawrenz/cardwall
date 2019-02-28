@@ -9,6 +9,7 @@ import { Card, List, Plan } from '@app/models';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { TrimTextToLimitPipe } from '@app/shared/pipes/trim-text-to-limit.pipe';
 
 describe('BacklogBoardHeaderComponent', () => {
   const mockSub: Subscription = new Subscription();
@@ -18,7 +19,7 @@ describe('BacklogBoardHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogBoardHeaderComponent],
+      declarations: [BacklogBoardHeaderComponent, TrimTextToLimitPipe],
       providers: [
         { provide: ConfigService, useValue: mockConfigService },
         { provide: Store, useValue: { pipe: jest.fn(), select: jest.fn() } },
