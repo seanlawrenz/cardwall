@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { BacklogState } from '../state';
 import * as backlogSelector from '../state/selectors';
@@ -17,7 +17,6 @@ export class BacklogBaseComponent implements OnInit {
   plans$: Observable<Plan[]>;
   boardsLoading$: Observable<boolean>;
   errorMessage$: Observable<string>;
-  routerSubscription: Subscription;
 
   constructor(private store: Store<BacklogState>) {}
 

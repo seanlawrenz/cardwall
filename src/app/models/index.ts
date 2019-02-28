@@ -1,4 +1,5 @@
 export * from './board.model';
+export * from './backlog-settings.model';
 export * from './config.model';
 export * from './connection.model';
 export * from './errors.model';
