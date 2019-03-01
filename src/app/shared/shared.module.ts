@@ -14,6 +14,7 @@ import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
 import { GripComponent } from './components/grip/grip.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { OptionSidebarContainerComponent } from './components/option-sidebar-container/option-sidebar-container.component';
 import { ProfileImageComponent } from './components/profile-image/profile-image.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
@@ -32,6 +33,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
     SubtasksIconComponent,
     CardResourceIconsComponent,
     ProfileImageComponent,
+    OptionSidebarContainerComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [
@@ -44,6 +46,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
     FilterToolbarComponent,
     GripComponent,
     LoadingSpinnerComponent,
+    OptionSidebarContainerComponent,
     ProfileImageComponent,
     SpinnerComponent,
     StoryPointIndicatorComponent,

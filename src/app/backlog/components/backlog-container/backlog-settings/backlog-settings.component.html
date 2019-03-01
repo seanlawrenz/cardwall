@@ -1,3 +1,105 @@
-<p>
-  backlog-settings works!
-</p>
+<div aria-modal="true" class="tdNg-sidebar-container" style="line-height: 1.5; font-size:  14px; ">
+  <div class="sidebar-section">
+    Settings
+    <button class="close" aria-label="Close">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
+  <div class="tdNg-sidebar-content">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="showWIP"
+        id="showWIPLimits"
+        (change)="updateSetting('WIP', $event.target.checked)"
+      />
+      <label class="cursor-pointer form-check-label" for="showWIPLimits">Show Work in Progress</label>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    Estimates
+  </div>
+  <div class="tdNg-sidebar-content">
+    <div class="form-check">
+      <input
+        #all
+        class="form-check-input"
+        name="estimates"
+        type="radio"
+        value="all"
+        (change)="updateSetting('SHOW ALL')"
+        id="StoryPointsAndEstimates"
+      />
+      <label class="cursor-pointer form-check-label" for="StoryPointsAndEstimates">
+        Story Points and Estimated Hours
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input
+        #storyPoints
+        class="form-check-input"
+        name="estimates"
+        type="radio"
+        value="storyPoints"
+        id="StoryPoints"
+        (change)="updateSetting('SHOW POINTS')"
+      />
+      <label class="cursor-pointer form-check-label" for="StoryPoints">
+        Story Points
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input
+        #estimatedHours
+        class="form-check-input"
+        name="estimates"
+        type="radio"
+        value="estimatedHours"
+        (change)="updateSetting('SHOW ESTIMATED HOURS')"
+        id="EstimatedHours"
+      />
+      <label class="cursor-pointer form-check-label" for="EstimatedHours">
+        Estimated Hours
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input
+        #none
+        class="form-check-input"
+        name="estimates"
+        type="radio"
+        value="none"
+        id="noEstimates"
+        (change)="updateSetting('SHOW NONE')"
+      />
+      <label class="cursor-pointer form-check-label" for="noEstimates">
+        Do not display estimates
+      </label>
+    </div>
+  </div>
+
+  <div class="sidebar-section">Notifications</div>
+  <div class="tdNg-sidebar-content">
+    Placeholder for Notifications
+  </div>
+
+  <div class="sidebar-section">Help</div>
+  <div class="tdNg-sidebar-content">
+    <div class="clearfix">
+      <div class="sidebar-link">
+        <a href="https://solutions.teamdynamix.com/TDClient/KB/ArticleDet?ID=49204" target="_blank">Help with Backlog Manager</a>
+      </div>
+      <div class="sidebar-link">
+        <a href="https://solutions.teamdynamix.com/TDClient/KB/ArticleDet?ID=7450" target="_blank">Security</a>
+      </div>
+      <div class="sidebar-link">
+        <a href="https://solutions.teamdynamix.com/TDClient/KB/ArticleDet?ID=7449" target="_blank">Waterfall vs. Card Wall</a>
+      </div>
+    </div>
+  </div>
+</div>

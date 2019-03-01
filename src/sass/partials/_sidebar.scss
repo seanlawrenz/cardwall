@@ -1,0 +1,38 @@
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+
+.sidebar-content {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 25%;
+  position: absolute;
+  background: #fff;
+  border-left: 1px solid grey;
+}
+
+div.sidebar-section {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 15px;
+  background-color: whitesmoke;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.tdNg-sidebar {
+  &-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-content {
+    padding: 1em;
+  }
+}

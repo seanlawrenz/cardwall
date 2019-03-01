@@ -7,6 +7,7 @@ export * from './notification.model';
 export * from './plan.model';
 export * from './resources.model';
 export * from './signalR.result';
+export * from './ui.models';
 
 // Leave at bottom to avoid race conditions
 export * from './card.model';

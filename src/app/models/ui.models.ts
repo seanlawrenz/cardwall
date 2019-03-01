@@ -1,0 +1,7 @@
+export enum BacklogSettingsChanges {
+  WIP = 'WIP',
+  SHOW_ALL = 'SHOW ALL',
+  SHOW_POINTS = 'SHOW POINTS',
+  SHOW_ESTIMATED_HOURS = 'SHOW ESTIMATED HOURS',
+  SHOW_NONE = 'SHOW NONE',
+}

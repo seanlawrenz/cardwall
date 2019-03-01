@@ -1,3 +1,8 @@
-<p>
-  backlog-settings-container works!
-</p>
+<td-option-sidebar-container>
+  <td-backlog-settings
+    [showWIP]="showWIP$ | async"
+    [showStoryPoints]="showStoryPoints$ | async"
+    [showEstimatedHours]="showEstimateHours | async"
+    (settingsUpdated)="updateSettings($event)"
+  ></td-backlog-settings>
+</td-option-sidebar-container>

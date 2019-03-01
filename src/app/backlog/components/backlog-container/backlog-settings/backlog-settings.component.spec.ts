@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BacklogSettingsComponent } from './backlog-settings.component';
 
@@ -8,9 +9,9 @@ describe('BacklogSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BacklogSettingsComponent ]
-    })
-    .compileComponents();
+      declarations: [BacklogSettingsComponent],
+      imports: [FormsModule, ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
