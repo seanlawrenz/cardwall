@@ -26,13 +26,32 @@ div.sidebar-section {
   border-bottom: 1px solid lightgray;
 }
 
-.tdNg-sidebar {
-  &-container {
-    display: flex;
-    flex-direction: column;
+.tdNg {
+  &-sidebar {
+    &-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-content {
+      padding: 1em;
+    }
   }
 
-  &-content {
-    padding: 1em;
+  &-darken-background {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+    @include transitions(ease-in,.5s );
+  }
+
+  &-lighten-background {
+    background: rgba(0, 0, 0, 0);
+    z-index: 9998;
+    @include transitions(ease-in, .5s);
   }
 }

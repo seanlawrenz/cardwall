@@ -10,6 +10,7 @@ export class BacklogSettingsComponent implements OnInit, OnChanges {
   @Input() showStoryPoints: boolean;
   @Input() showEstimatedHours: boolean;
   @Output() settingsUpdated = new EventEmitter<{ type: string; selected?: boolean }>();
+  @Output() closeSettingsRequested = new EventEmitter<void>();
 
   @ViewChild('all') allRef: ElementRef;
   @ViewChild('storyPoints') storyPointsRef: ElementRef;
@@ -40,5 +41,9 @@ export class BacklogSettingsComponent implements OnInit, OnChanges {
 
   updateSetting(type: string, selected?: boolean) {
     this.settingsUpdated.emit({ type, selected });
+  }
+
+  closeSettings() {
+    this.closeSettingsRequested.emit();
   }
 }

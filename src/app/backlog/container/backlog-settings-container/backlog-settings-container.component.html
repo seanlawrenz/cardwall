@@ -4,5 +4,6 @@
     [showStoryPoints]="showStoryPoints$ | async"
     [showEstimatedHours]="showEstimateHours | async"
     (settingsUpdated)="updateSettings($event)"
+    (closeSettingsRequested)="closeSettings()"
   ></td-backlog-settings>
 </td-option-sidebar-container>

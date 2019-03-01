@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { BacklogState } from '../state';
 import * as backlogSelector from '../state/selectors';
 import * as backlogActions from '../state/actions';
+import { fromRoot } from '@app/store';
+import * as rootActions from '@app/store/actions/ui.actions';
 import { Plan } from '@app/models';
 
 @Component({
@@ -18,7 +20,7 @@ export class BacklogBaseComponent implements OnInit {
   boardsLoading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
-  constructor(private store: Store<BacklogState>) {}
+  constructor(private store: Store<BacklogState>, private appStore: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.getBoardsInParams();
@@ -29,5 +31,9 @@ export class BacklogBaseComponent implements OnInit {
     this.plans$ = this.store.pipe(select(backlogSelector.getPlans));
     this.boardsLoading$ = this.store.pipe(select(backlogSelector.isPlansLoading));
     this.errorMessage$ = this.store.pipe(select(backlogSelector.getPlansError));
+  }
+
+  showOptionsRequested() {
+    this.store.dispatch(new rootActions.ShowOptions());
   }
 }

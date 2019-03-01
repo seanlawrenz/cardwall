@@ -1,5 +1,5 @@
 <div *ngIf="!(boardsLoading$ | async); else backlogLoading">
-  <td-backlog-container [plans]="plans$ | async"></td-backlog-container>
+  <td-backlog-container [plans]="plans$ | async" (showOptions)="showOptionsRequested()"></td-backlog-container>
   <div *ngIf="(errorMessage$ | async)" class="tdNg-backlog-container">
     {{ errorMessage$ }}
   </div>

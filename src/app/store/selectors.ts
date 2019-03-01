@@ -35,6 +35,11 @@ export const isSpinnerShowing = createSelector(
   state => state.showSpinner,
 );
 
+export const isOptionsShowing = createSelector(
+  getUIState,
+  state => state.showOptions,
+);
+
 // Notifications
 export const getNotificationState = createFeatureSelector<fromNotify.NotifyState>('notifications');
 

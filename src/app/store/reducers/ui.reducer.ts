@@ -4,12 +4,14 @@ export interface UIState {
   expandLists: boolean;
   expandBoards: boolean;
   showSpinner: boolean;
+  showOptions: boolean;
 }
 
 export const UI_STATE: UIState = {
   expandLists: true,
   expandBoards: true,
   showSpinner: false,
+  showOptions: false,
 };
 
 export function reducer(state = UI_STATE, action: UIActions): UIState {
@@ -50,6 +52,18 @@ export function reducer(state = UI_STATE, action: UIActions): UIState {
       return {
         ...state,
         showSpinner: false,
+      };
+
+    case UIActionTypes.SHOW_OPTIONS:
+      return {
+        ...state,
+        showOptions: true,
+      };
+
+    case UIActionTypes.HIDE_OPTIONS:
+      return {
+        ...state,
+        showOptions: false,
       };
 
     default:

@@ -1,5 +1,7 @@
-<div class="sidebar-container" #transitionDiv>
-  <div class="sidebar-content">
-    <ng-content></ng-content>
+<div #transitionDiv>
+  <div *ngIf="showOptions" class="sidebar-container">
+    <div class="sidebar-content">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

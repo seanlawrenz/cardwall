@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Plan } from '@app/models';
 
 @Component({
@@ -8,8 +8,13 @@ import { Plan } from '@app/models';
 })
 export class BacklogContainerComponent implements OnInit {
   @Input() plans: Plan[];
+  @Output() showOptions = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit() {}
+
+  showOptionsRequested() {
+    this.showOptions.emit();
+  }
 }

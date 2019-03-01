@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { fromRoot } from '@app/store';
+import * as rootActions from '@app/store/actions/ui.actions';
 import * as fromBacklog from '@app/backlog/state';
 import * as settingActions from '@app/backlog/state/actions/backlog-settings.actions';
 import { Observable } from 'rxjs';
@@ -15,7 +17,7 @@ export class BacklogSettingsContainerComponent implements OnInit {
   showStoryPoints$: Observable<boolean>;
   showEstimateHours: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.BacklogState>) {}
+  constructor(private store: Store<fromBacklog.BacklogState>, private appStore: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.showWIP$ = this.store.pipe(select(fromBacklog.showWIPLimits));
@@ -66,5 +68,9 @@ export class BacklogSettingsContainerComponent implements OnInit {
     show === true
       ? this.store.dispatch(new settingActions.ShowEstimatedHours())
       : this.store.dispatch(new settingActions.HideEstimatedHours());
+  }
+
+  closeSettings() {
+    this.appStore.dispatch(new rootActions.HideOptions());
   }
 }
