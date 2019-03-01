@@ -27,7 +27,8 @@ $card-danger-border: #f5c7c7;
 
 $break-extra-wide: '(max-width: 1140px)';
 $break-wide: '(max-width: 1023px)';
-$break-wide-to-narrow: '(max-width: 1023px) and (min-width: 768px)';
+$break-wide-to-narrow: '(max-width: 1024px) and (min-width: 768px)';
+$break-extra-wide-to-narrow: '(max-width: 1141px) and (min-width: 768px)';
 $break-narrow: '(max-width: 767px)';
 $break-extra-narrow: '(max-width: 520px)';
 $break-extra-wide-up: '(min-width: 1141px)';

@@ -11,10 +11,18 @@
   top: 0;
   right: 0;
   height: 100%;
-  width: 25%;
+  width: 100%;
   position: absolute;
   background: #fff;
   border-left: 1px solid grey;
+
+  @media #{$break-wide-to-narrow} {
+    width: 50%;
+  }
+
+  @media #{$break-extra-wide-up} {
+    width: 25%;
+  }
 }
 
 div.sidebar-section {

@@ -1,6 +1,6 @@
 <div #transitionDiv>
-  <div *ngIf="showOptions" class="sidebar-container">
-    <div class="sidebar-content">
+  <div [@optionsSidebar]="optionSidebarState" #sidebarContainer class="sidebar-container">
+    <div *ngIf="showOptions" class="sidebar-content">
       <ng-content></ng-content>
     </div>
   </div>
