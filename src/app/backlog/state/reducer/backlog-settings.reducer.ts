@@ -23,7 +23,7 @@ export function reducer(state = initialState, action: BacklogSettingActions): Se
     case BacklogSettingActionTypes.HIDE_WIP_LIMITS:
       return {
         ...state,
-        showEstimatedHours: false,
+        showWIPLimits: false,
       };
 
     case BacklogSettingActionTypes.SHOW_STORY_POINTS:
