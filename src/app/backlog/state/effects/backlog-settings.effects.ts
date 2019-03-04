@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as settingActions from '@app/backlog/state/actions/backlog-settings.actions';
-import { tap, map, switchMap } from 'rxjs/operators';
-import { EstimateVisibilityMode, BacklogSettingsChanges } from '@app/models';
+import { switchMap } from 'rxjs/operators';
+import { EstimateVisibilityMode } from '@app/models';
 import { isNullOrUndefined } from 'util';
 import { Action } from '@ngrx/store';
 
@@ -24,7 +24,7 @@ export class BacklogSettingEffects {
       estimatesVisibility = isNullOrUndefined(estimatesVisibility) ? EstimateVisibilityMode.all : estimatesVisibility;
       WIPLimits = isNullOrUndefined(WIPLimits) ? false : WIPLimits;
 
-      // Updating the enum
+      // Mapping localStorage to backlog actions
       let backlogSettings: Action[];
       switch (estimatesVisibility) {
         case EstimateVisibilityMode.all:

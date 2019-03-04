@@ -5,7 +5,7 @@ import * as rootActions from '@app/store/actions/ui.actions';
 import * as fromBacklog from '@app/backlog/state';
 import * as settingActions from '@app/backlog/state/actions/backlog-settings.actions';
 import { Observable } from 'rxjs';
-import { BacklogSettingsChanges } from '@app/models';
+import { BacklogSettingsChanges, EstimateVisibilityMode } from '@app/models';
 
 @Component({
   selector: 'td-backlog-settings-container',
@@ -26,28 +26,34 @@ export class BacklogSettingsContainerComponent implements OnInit {
     this.showEstimateHours = this.store.pipe(select(fromBacklog.showEstimateHours));
   }
 
+  // Local storage is set here for the story points and estimate view. WIP is done in the reducer
   updateSettings(event: { type: string; selected?: boolean }) {
+    const storage: Storage = window.localStorage;
     switch (event.type) {
       case BacklogSettingsChanges.WIP:
         this.updateWIPLimit(event.selected);
         break;
 
       case BacklogSettingsChanges.SHOW_ALL:
+        storage.setItem('Agile.Settings.Backlog.EstimateVisibility', JSON.stringify(EstimateVisibilityMode.all));
         this.updateStoryPoints(true);
         this.updateEstimatedHours(true);
         break;
 
       case BacklogSettingsChanges.SHOW_POINTS:
+        storage.setItem('Agile.Settings.Backlog.EstimateVisibility', JSON.stringify(EstimateVisibilityMode.storyPoints));
         this.updateStoryPoints(true);
         this.updateEstimatedHours(false);
         break;
 
       case BacklogSettingsChanges.SHOW_ESTIMATED_HOURS:
+        storage.setItem('Agile.Settings.Backlog.EstimateVisibility', JSON.stringify(EstimateVisibilityMode.estimatedHours));
         this.updateStoryPoints(false);
         this.updateEstimatedHours(true);
         break;
 
       case BacklogSettingsChanges.SHOW_NONE:
+        storage.setItem('Agile.Settings.Backlog.EstimateVisibility', JSON.stringify(EstimateVisibilityMode.none));
         this.updateStoryPoints(false);
         this.updateEstimatedHours(false);
         break;

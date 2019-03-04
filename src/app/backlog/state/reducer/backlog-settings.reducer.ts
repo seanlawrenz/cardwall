@@ -13,14 +13,17 @@ export const initialState: SettingsState = {
 };
 
 export function reducer(state = initialState, action: BacklogSettingActions): SettingsState {
+  const storage: Storage = window.localStorage;
   switch (action.type) {
     case BacklogSettingActionTypes.SHOW_WIP_LIMITS:
+      storage.setItem('Agile.Settings.Backlog.ShowLimits', JSON.stringify(true));
       return {
         ...state,
         showWIPLimits: true,
       };
 
     case BacklogSettingActionTypes.HIDE_WIP_LIMITS:
+      storage.setItem('Agile.Settings.Backlog.ShowLimits', JSON.stringify(false));
       return {
         ...state,
         showWIPLimits: false,
