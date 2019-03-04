@@ -24,11 +24,20 @@ describe('BacklogSettingsContainerComponent', () => {
     fixture = TestBed.createComponent(BacklogSettingsContainerComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should dispatch to get the settings that are on the local storage', () => {
+    action = new settingActions.GetFromLocalStorage();
+    spy = jest.spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should dispatch WIPLimit UI state to true', () => {

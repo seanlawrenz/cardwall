@@ -20,6 +20,7 @@ export class BacklogSettingsContainerComponent implements OnInit {
   constructor(private store: Store<fromBacklog.BacklogState>, private appStore: Store<fromRoot.State>) {}
 
   ngOnInit() {
+    this.store.dispatch(new settingActions.GetFromLocalStorage());
     this.showWIP$ = this.store.pipe(select(fromBacklog.showWIPLimits));
     this.showStoryPoints$ = this.store.pipe(select(fromBacklog.showStoryPoints));
     this.showEstimateHours = this.store.pipe(select(fromBacklog.showEstimateHours));

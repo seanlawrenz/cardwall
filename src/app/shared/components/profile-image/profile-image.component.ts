@@ -17,7 +17,6 @@ export class ProfileImageComponent implements OnInit, OnChanges {
   constructor(public config: ConfigService) {}
 
   ngOnInit() {
-    console.log(this.resource);
     this.updateUI();
   }
 
