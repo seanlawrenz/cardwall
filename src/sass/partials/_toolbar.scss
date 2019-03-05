@@ -81,6 +81,20 @@
         background-color: $background;
         position: relative;
       }
+
+      &-top-div {
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &-bottom-div {
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
     }
   }
 }

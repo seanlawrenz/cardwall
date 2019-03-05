@@ -1,11 +1,41 @@
 <div class="tdNg-toolbar-resources-row">
-  <div class="tdNg-toolbar-resource">
-    <td-grip></td-grip>
+  <div class="tdNg-toolbar-resources-top-div">
+    <div class="tdNg-flex-row-center">
+      <td-grip></td-grip>
+      <td-profile-image
+        style="margin-left: 1em"
+        [resource]="resource"
+        class="tdNg-resource-img"
+        imgClass="profile-image board picture"
+      ></td-profile-image>
+      <div>
+        {{ resource.name }}
+      </div>
+    </div>
 
     <td-button *ngIf="canViewReport" tooltipText="View {{ resource.name }}'s Schedule" icon="calendar"></td-button>
-    <td-profile-image [resource]="resource" class="tdNg-resource-img" imgClass="profile-image board picture"></td-profile-image>
-    <div class="tdNg-resource-name">
-      {{ resource.name }}
+  </div>
+  <div class="tdNg-toolbar-resources-bottom-div">
+    <div class="tdNg-flex-row-center">
+      <td-grip></td-grip>
+
+      <!-- Card Count -->
+      <div style="margin-left: 1em">5</div>
+      <div style="margin-left: 1em;" class="text-small">Cards</div>
+    </div>
+
+    <!-- Estimated Hours -->
+    <td-estimated-hours [value]="totalEstimatedHours" [ngClass]="{ whiteText: isSelected }"></td-estimated-hours>
+
+    <!-- Story Points -->
+    <div class="tdNg-flex-row-center">
+      <td-story-point-indicator
+        [storyPoints]="totalStoryPoints"
+        [isSelected]="isSelected"
+        [isSummary]="true"
+        class="vert-middle tdNg-resource-story-point"
+      ></td-story-point-indicator>
+      <div style="margin-left: 0.5em" class="text-small">Points</div>
     </div>
   </div>
 </div>
