@@ -3,13 +3,11 @@ import { BacklogToolbarActionTypes, BacklogToolbarActions } from '../actions/bac
 export interface BacklogToolbarState {
   showResources: boolean;
   showTotals: boolean;
-  showFeed: boolean;
 }
 
 export const initialState: BacklogToolbarState = {
   showResources: false,
   showTotals: false,
-  showFeed: false,
 };
 
 export function reducer(state = initialState, action: BacklogToolbarActions): BacklogToolbarState {
@@ -19,7 +17,6 @@ export function reducer(state = initialState, action: BacklogToolbarActions): Ba
         ...state,
         showResources: false,
         showTotals: false,
-        showFeed: false,
       };
 
     case BacklogToolbarActionTypes.SHOW_RESOURCES:
@@ -27,7 +24,6 @@ export function reducer(state = initialState, action: BacklogToolbarActions): Ba
         ...state,
         showResources: true,
         showTotals: false,
-        showFeed: false,
       };
 
     case BacklogToolbarActionTypes.SHOW_TOTALS:
@@ -35,15 +31,6 @@ export function reducer(state = initialState, action: BacklogToolbarActions): Ba
         ...state,
         showResources: false,
         showTotals: true,
-        showFeed: false,
-      };
-
-    case BacklogToolbarActionTypes.SHOW_FEED:
-      return {
-        ...state,
-        showResources: false,
-        showTotals: false,
-        showFeed: true,
       };
 
     default:

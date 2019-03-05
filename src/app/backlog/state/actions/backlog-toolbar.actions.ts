@@ -4,7 +4,6 @@ export enum BacklogToolbarActionTypes {
   HIDE_TOOLBAR = '[BACKLOG UI] HIDE TOOLBAR',
   SHOW_RESOURCES = '[BACKLOG UI] SHOW RESOURCES',
   SHOW_TOTALS = '[BACKLOG UI] SHOW TOTALS',
-  SHOW_FEED = '[BACKLOG UI] SHOW FEED',
 }
 
 export class HideToolbar implements Action {
@@ -19,8 +18,4 @@ export class ShowTotals implements Action {
   readonly type = BacklogToolbarActionTypes.SHOW_TOTALS;
 }
 
-export class ShowFeed implements Action {
-  readonly type = BacklogToolbarActionTypes.SHOW_FEED;
-}
-
-export type BacklogToolbarActions = HideToolbar | ShowResources | ShowTotals | ShowFeed;
+export type BacklogToolbarActions = HideToolbar | ShowResources | ShowTotals;

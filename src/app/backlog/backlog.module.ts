@@ -34,8 +34,10 @@ import { AddBoardDiagramComponent } from './components/backlog-container/add-boa
 import { BacklogListComponent } from './components/backlog-container/backlog-list/backlog-list.component';
 import { BacklogLoaderComponent } from './components/backlog-loader/backlog-loader.component';
 import { BacklogNavComponent } from './components/backlog-container/backlog-nav/backlog-nav.component';
+import { BacklogResourcesComponent } from './components/backlog-container/backlog-toolbar/backlog-resources/backlog-resources.component';
 import { BacklogSettingsComponent } from './components/backlog-container/backlog-settings/backlog-settings.component';
 import { BacklogToolbarComponent } from './components/backlog-container/backlog-toolbar/backlog-toolbar.component';
+import { BacklogTotalsComponent } from './components/backlog-container/backlog-toolbar/backlog-totals/backlog-totals.component';
 
 const backlogRoutes: Routes = [
   {
@@ -77,6 +79,8 @@ const backlogRoutes: Routes = [
     BacklogSettingsContainerComponent,
     BacklogToolbarContainerComponent,
     BacklogToolbarComponent,
+    BacklogResourcesComponent,
+    BacklogTotalsComponent,
   ],
   exports: [BacklogBaseComponent],
 })

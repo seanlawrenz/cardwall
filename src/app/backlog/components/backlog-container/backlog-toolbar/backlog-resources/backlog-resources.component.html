@@ -1,0 +1,9 @@
+<div *ngIf="resources.length > 0; else noResources">
+  <div *ngFor="let resource of resources">
+    {{ resource.name }}
+  </div>
+</div>
+
+<ng-template #noResources>
+  No resources on plans
+</ng-template>

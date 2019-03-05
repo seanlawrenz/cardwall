@@ -15,6 +15,18 @@ export const uniqueValuesInArray = (arr: Array<any>) => {
   return out;
 };
 
+export const uniqueCollectionsInCollection = (array: Array<any>, key: string): Array<any> => {
+  const result = [];
+  const map = new Map();
+  for (const item of array) {
+    if (!map.has(item[key])) {
+      map.set(item[key], true);
+      result.push(item);
+    }
+  }
+  return result;
+};
+
 /**
  * Finds an object on array via identifer and updates data
  */

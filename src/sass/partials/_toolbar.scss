@@ -1,0 +1,44 @@
+.tdNg {
+  &-toolbar {
+    position: fixed;
+    right: 0;
+    top: 50px;
+    height: 100%;
+    width: 28px;
+    background-color: $lightGrey;
+    border: 1px $grey solid;
+    z-index: 42;
+    display: inline;
+
+    &-btn {
+      -webkit-transform-origin: top left; /* Chrome, Safari, Opera */
+      transform-origin: top left;
+
+      -ms-transform: rotate(90deg); /* IE 9 */
+      -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+      transform: rotate(90deg);
+
+      height: 28px;
+      margin-left: 28px;
+
+      border-radius: 0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+
+      &.active {
+        background-color: $toolbarBlue;
+        color: #fff;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

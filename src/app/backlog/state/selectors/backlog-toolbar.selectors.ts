@@ -11,8 +11,3 @@ export const showTotals = createSelector(
   fromBacklog.getBacklogState,
   state => state.toolbar.showTotals,
 );
-
-export const showFeed = createSelector(
-  fromBacklog.getBacklogState,
-  state => state.toolbar.showFeed,
-);

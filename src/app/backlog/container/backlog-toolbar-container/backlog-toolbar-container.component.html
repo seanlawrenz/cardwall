@@ -1,0 +1,8 @@
+<td-backlog-toolbar
+  [showResources]="showResources$ | async"
+  [showTotals]="showTotals$ | async"
+  [plans]="plans"
+  [resources]="resources"
+  (shouldShowResources)="onShowResourcesRequested($event)"
+  (shouldShowTotals)="onShowTotalsRequested($event)"
+></td-backlog-toolbar>
