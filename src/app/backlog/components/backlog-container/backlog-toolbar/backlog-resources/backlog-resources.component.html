@@ -46,9 +46,11 @@
         </label>
       </div>
 
-      <div class="tdNg-toolbar-resources">
-        <div *ngFor="let resource of resourcesFiltered">
-          <td-toolbar-resources [resource]="resource"></td-toolbar-resources>
+      <div style="position: relative;">
+        <div class="tdNg-toolbar-resources">
+          <div *ngFor="let resource of resourcesFiltered">
+            <td-toolbar-resources [resource]="resource"></td-toolbar-resources>
+          </div>
         </div>
       </div>
     </div>

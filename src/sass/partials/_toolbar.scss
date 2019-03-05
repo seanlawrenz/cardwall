@@ -47,12 +47,14 @@
     }
 
     &-resources {
-      position: absolute;
-      top: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: fixed;
+      right: 31px;
       bottom: 0;
-      left: 0;
-      right: 0;
-      overflow: auto;
+      top: 315px;
+      width: 328px;
+
       &-container {
         position: fixed;
         top: 50px;
@@ -62,6 +64,11 @@
         z-index: 100;
         background: $background;
         border-right: 1px solid $grey;
+
+        @media #{$break-narrow-up} {
+          width: 350px;
+          border-left: 1px solid $grey;
+        }
       }
 
       &-row {
