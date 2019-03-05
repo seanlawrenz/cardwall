@@ -20,13 +20,15 @@
     placement="left"
     (click)="showTotalsRequested()"
   >
-    <span class="fa fa-fw fa-calculator" aria-hidden="true"></span>
-    Totals
+    <div>
+      <span class="fa fa-fw fa-calculator" aria-hidden="true"></span>
+      Totals
+    </div>
   </button>
 </div>
 
 <div *ngIf="showResources">
-  <td-backlog-resources [resources]="resources"></td-backlog-resources>
+  <td-backlog-resources [resources]="resources" [plans]="plans"></td-backlog-resources>
 </div>
 
 <div *ngIf="showTotals">

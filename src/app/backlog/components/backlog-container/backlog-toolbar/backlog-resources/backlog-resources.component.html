@@ -1,9 +1,62 @@
-<div *ngIf="resources.length > 0; else noResources">
-  <div *ngFor="let resource of resources">
-    {{ resource.name }}
+<div class="tdNg-toolbar-resources-container">
+  <div class="sidebar-section">
+    Resources
+    <button aria-label="Close" class="close" type="button" (click)="closeResources()" title="Close Pane">
+      <span aria-hidden="true">x</span>
+    </button>
   </div>
-</div>
 
-<ng-template #noResources>
-  No resources on plans
-</ng-template>
+  <div *ngIf="resources.length > 0; else noResources">
+    <div class="tdNg-toolbar-content">
+      <!-- Search -->
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" (keyup)="searchResources($event)" aria-label="Search resources" />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span aria-hidden="true" class="fa fa-search fa-nopad"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gutter">
+        <span class="text-info">
+          Drag and drop a resource onto a card row to assign the resource to that card.
+        </span>
+      </div>
+
+      <div class="form-check">
+        <input
+          #keepResources
+          type="radio"
+          class="form-check-input"
+          name="resources-assignment"
+          id="keep-resources"
+          [value]="false"
+          checked
+        />
+        <label class="cursor-pointer form-check-label" for="keep-resources">
+          Add resources to cards, keeping existing resources.
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input #replaceResources type="radio" class="form-check-input" name="resources-assignment" id="replace-resources" [value]="true" />
+        <label class="cursor-pointer form-check-label" for="replace-resources">
+          Reassign cards to the new resource, removing others from the card.
+        </label>
+      </div>
+
+      <div class="tdNg-toolbar-resources">
+        <div *ngFor="let resource of resourcesFiltered">
+          <td-toolbar-resources [resource]="resource"></td-toolbar-resources>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResources>
+    <div class="tdNg-toolbar-content">
+      No resources on plans
+    </div>
+  </ng-template>
+</div>

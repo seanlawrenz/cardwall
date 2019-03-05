@@ -19,6 +19,7 @@ import { ProfileImageComponent } from './components/profile-image/profile-image.
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
 import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.component';
+import { ToolbarResourcesComponent } from './components/toolbar-resources/toolbar-resources.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
     CardResourceIconsComponent,
     ProfileImageComponent,
     OptionSidebarContainerComponent,
+    ToolbarResourcesComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [
@@ -51,6 +53,7 @@ import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.
     SpinnerComponent,
     StoryPointIndicatorComponent,
     SubtasksIconComponent,
+    ToolbarResourcesComponent,
   ],
 })
 export class SharedModule {}

@@ -1,0 +1,11 @@
+<div class="tdNg-toolbar-resources-row">
+  <div class="tdNg-toolbar-resource">
+    <td-grip></td-grip>
+
+    <td-button *ngIf="canViewReport" tooltipText="View {{ resource.name }}'s Schedule" icon="calendar"></td-button>
+    <td-profile-image [resource]="resource" class="tdNg-resource-img" imgClass="profile-image board picture"></td-profile-image>
+    <div class="tdNg-resource-name">
+      {{ resource.name }}
+    </div>
+  </div>
+</div>

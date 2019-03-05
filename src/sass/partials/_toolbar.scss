@@ -19,6 +19,7 @@
       transform: rotate(90deg);
 
       height: 28px;
+      width: 125px;
       margin-left: 28px;
 
       border-radius: 0;
@@ -38,6 +39,40 @@
         &:hover {
           color: #fff;
         }
+      }
+    }
+
+    &-content {
+      padding: 1em;
+    }
+
+    &-resources {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow: auto;
+      &-container {
+        position: fixed;
+        top: 50px;
+        right: 27px;
+        width: calc(100% - 28px);
+        height: 100%;
+        z-index: 100;
+        background: $background;
+        border-right: 1px solid $grey;
+      }
+
+      &-row {
+        cursor: move;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        border: 1px solid $highlightGrey;
+        margin: 1px 0 2px;
+        padding: 6px 0;
+        background-color: $background;
+        position: relative;
       }
     }
   }
