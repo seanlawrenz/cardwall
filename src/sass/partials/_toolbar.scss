@@ -83,6 +83,10 @@
         padding: 6px 0;
         background-color: $background;
         position: relative;
+
+        &.selected {
+          border: 2px solid $highlightBlue;
+        }
       }
 
       &-top-div {

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Resources, Plan, List, Board } from '@app/models';
+import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Resources, Plan, List, Board, Card } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -11,6 +11,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ToolbarResourcesComponent implements OnInit, OnChanges {
   @Input() resource: Resources;
   @Input() plans: Plan[];
+  @Input() selectedCard: Card;
 
   profileUrl: SafeResourceUrl;
   reportUrl: SafeResourceUrl;
@@ -37,10 +38,23 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
     );
 
     this.getTotals();
+
+    this.getIsHighlighted();
   }
 
-  ngOnChanges() {
-    this.getTotals();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.plans && !changes.plans.firstChange) {
+      this.getTotals();
+    }
+    this.getIsHighlighted();
+  }
+
+  getIsHighlighted() {
+    if (this.selectedCard) {
+      this.isHighlighted = this.selectedCard.owners.filter(owner => owner.referenceId === this.resource.referenceId).length > 0;
+    } else {
+      this.isHighlighted = false;
+    }
   }
 
   private getTotals() {

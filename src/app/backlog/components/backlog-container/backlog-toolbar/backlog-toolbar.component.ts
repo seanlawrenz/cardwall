@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Resources, Plan } from '@app/models';
+import { Resources, Plan, Card } from '@app/models';
 
 @Component({
   selector: 'td-backlog-toolbar',
@@ -9,6 +9,7 @@ import { Resources, Plan } from '@app/models';
 export class BacklogToolbarComponent implements OnInit {
   @Input() showResources: boolean;
   @Input() showTotals: boolean;
+  @Input() selectedCard: Card;
   @Input() resources: Resources[];
   @Input() plans: Plan[];
 
