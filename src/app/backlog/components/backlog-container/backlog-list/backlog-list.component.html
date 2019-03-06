@@ -29,10 +29,10 @@
     </div>
 
     <div *ngIf="isExpanded">
-      <td-backlog-card-controller
+      <td-backlog-cards-controller
         [cards]="list.cards"
         [listInfo]="{ listId: list.id, projectId: list.projectId, planId: list.planId }"
-      ></td-backlog-card-controller>
+      ></td-backlog-cards-controller>
     </div>
   </div>
 </div>
