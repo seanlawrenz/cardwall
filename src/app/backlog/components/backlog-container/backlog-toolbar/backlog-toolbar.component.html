@@ -32,5 +32,5 @@
 </div>
 
 <div *ngIf="showTotals">
-  <td-backlog-totals></td-backlog-totals>
+  <td-backlog-totals [plans]="plans" (closeTotalsRequested)="showTotalsRequested()"></td-backlog-totals>
 </div>

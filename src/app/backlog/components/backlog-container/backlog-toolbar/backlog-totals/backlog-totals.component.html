@@ -1,3 +1,33 @@
-<p>
-  backlog-totals works!
-</p>
+<div class="tdNg-toolbar-resources-container">
+  <div class="sidebar-section">
+    Totals
+    <button aria-label="Close" class="close" type="button" (click)="closeTotals()" title="Close Pane">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
+
+  <div *ngIf="plans.length > 0; else noPlans">
+    <div class="tdNg-toolbar-content border-bottom">
+      This is the running total of cards, assignments, and story points across all active lists in Card Wall that are currently loaded in
+      Backlog Manager.
+    </div>
+
+    <div *ngFor="let plan of plans">
+      <td-totals-ui [plan]="plan"></td-totals-ui>
+    </div>
+
+    <div class="tdNg-toolbar-totals-content">
+      <strong>Totals</strong>
+      <div class="tdNg-flex-row-center space-between gutter-top">
+        <div>{{ totalCards }} Cards</div>
+        <td-estimated-hours [value]="totalHours"></td-estimated-hours>
+        <td-story-point-indicator [storyPoints]="totalStoryPoints" [isSummary]="true"></td-story-point-indicator>
+      </div>
+    </div>
+  </div>
+  <ng-template #noPlans>
+    <div class="tdNg-toolbar-content">
+      No plans loaded
+    </div>
+  </ng-template>
+</div>

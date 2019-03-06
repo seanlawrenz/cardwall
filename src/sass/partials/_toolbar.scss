@@ -44,6 +44,9 @@
 
     &-content {
       padding: 1em;
+      &.border-bottom {
+        border-bottom: 1px solid $highlightGrey;
+      }
     }
 
     &-resources {
@@ -94,6 +97,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+    }
+
+    &-totals {
+      &-content {
+        border-bottom: 1px solid $highlightGrey;
+        padding: 1em;
       }
     }
   }

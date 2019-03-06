@@ -20,6 +20,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
 import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.component';
 import { ToolbarResourcesComponent } from './components/toolbar-resources/toolbar-resources.component';
+import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ToolbarResourcesComponent } from './components/toolbar-resources/toolba
     ProfileImageComponent,
     OptionSidebarContainerComponent,
     ToolbarResourcesComponent,
+    TotalsUiComponent,
   ],
   imports: [CommonModule, DirectiveModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
   exports: [
@@ -54,6 +56,7 @@ import { ToolbarResourcesComponent } from './components/toolbar-resources/toolba
     StoryPointIndicatorComponent,
     SubtasksIconComponent,
     ToolbarResourcesComponent,
+    TotalsUiComponent,
   ],
 })
 export class SharedModule {}
