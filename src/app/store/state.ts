@@ -5,6 +5,7 @@ import { RouterStateUrl } from './utils/custom-route-serializer';
 import * as fromLoader from './reducers/loader.reducer';
 import * as fromUI from './reducers/ui.reducer';
 import * as fromNotify from './reducers/notification.reducer';
+import * as fromCard from './reducers/card.reducer';
 
 // App Root State and reducer
 export interface State {
@@ -12,6 +13,7 @@ export interface State {
   ui: fromUI.UIState;
   loading: fromLoader.LoadingState;
   notifications: fromNotify.NotifyState;
+  card: fromCard.CardState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -19,6 +21,7 @@ export const reducers: ActionReducerMap<State> = {
   ui: fromUI.reducer,
   loading: fromLoader.reducer,
   notifications: fromNotify.reducer,
+  card: fromCard.reducer,
 };
 
 // selectors

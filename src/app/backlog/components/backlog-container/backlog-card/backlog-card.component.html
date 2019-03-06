@@ -1,10 +1,18 @@
 <div class="container-fluid no-gutters no-padding">
-  <div class="row no-gutters align-items-center tdNg-backlog-card-row" [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd }">
+  <div
+    class="row no-gutters align-items-center tdNg-backlog-card-row"
+    [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd, 'tdNg-card-selected': isSelected }"
+    (click)="selectCard()"
+  >
     <div class="col-8 col-md-6 col-lg-4">
       <div class="tdNg-backlog-card-name-container">
         <td-grip [cardColor]="backgroundColor"></td-grip>
-        <td-subtasks-icon [card]="card" (subtasksClicked)="openCardDetails()" class="tdNg-backlog-card-subtask"></td-subtasks-icon>
-        <div *ngIf="card.ticketID > 0" class="tdNg-backlog-card-ticket">
+        <td-subtasks-icon
+          [card]="card"
+          (subtasksClicked)="openCardDetails()"
+          class="tdNg-backlog-card-subtask white-if-selected"
+        ></td-subtasks-icon>
+        <div *ngIf="card.ticketID > 0" class="tdNg-backlog-card-ticket white-if-selected">
           <span
             style="cursor: pointer;"
             tdTooltip="This card has been converted from a ticket. The ticket's status will be updated based on the card's status."
@@ -13,7 +21,7 @@
             aria-label="Created from ticket"
           ></span>
         </div>
-        <div class="tdNg-backlog-card-name">{{ card.name }}</div>
+        <div class="tdNg-backlog-card-name white-if-selected" (click)="openCardDetails()">{{ card.name }}</div>
       </div>
     </div>
 

@@ -1,6 +1,8 @@
 <td-backlog-card
   [card]="card"
   [isOdd]="isOdd"
+  [isSelected]="isCardSelected"
   [showEstimateHours]="showEstimateHours$ | async"
   [showStoryPoints]="showStoryPoints$ | async"
+  (selectCardRequested)="selectCard()"
 ></td-backlog-card>

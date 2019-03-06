@@ -1,5 +1,5 @@
 import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes, BacklogCardActionTypes, BacklogCardActions } from '../actions';
-import { Plan } from '@app/models';
+import { Plan, Card } from '@app/models';
 
 import {
   updateDataOnCollection,
@@ -17,12 +17,14 @@ export interface PlanState {
   plans: Plan[];
   error: string;
   plansLoading: boolean;
+  selectedCard: Card;
 }
 
 export const initialState: PlanState = {
   plans: [],
   error: '',
   plansLoading: false,
+  selectedCard: undefined,
 };
 
 export function reducer(

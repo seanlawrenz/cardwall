@@ -5,6 +5,7 @@ import { RouterStateUrl } from './utils/custom-route-serializer';
 import * as fromLoader from './reducers/loader.reducer';
 import * as fromUI from './reducers/ui.reducer';
 import * as fromNotify from './reducers/notification.reducer';
+import * as fromCard from './reducers/card.reducer';
 
 // Router selector
 export const getRouterState = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
@@ -46,4 +47,12 @@ export const getNotificationState = createFeatureSelector<fromNotify.NotifyState
 export const getNotifications = createSelector(
   getNotificationState,
   state => state.notifications,
+);
+
+// Card
+export const getCardState = createFeatureSelector<fromCard.CardState>('card');
+
+export const getSelectedCard = createSelector(
+  getCardState,
+  state => state.selectedCard,
 );

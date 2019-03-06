@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Card } from '@app/models';
 
 enum CardColors {
@@ -20,6 +20,9 @@ export class BacklogCardComponent implements OnInit {
   @Input() isOdd: boolean;
   @Input() showEstimateHours: boolean;
   @Input() showStoryPoints: boolean;
+  @Input() isSelected: boolean;
+
+  @Output() selectCardRequested = new EventEmitter<void>();
 
   backgroundColor: string;
   constructor() {}
@@ -63,5 +66,9 @@ export class BacklogCardComponent implements OnInit {
 
   archiveCard() {
     console.log(`${this.card.name} needs to be archived`);
+  }
+
+  selectCard() {
+    this.selectCardRequested.emit();
   }
 }

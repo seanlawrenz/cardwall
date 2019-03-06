@@ -33,6 +33,14 @@
         flex-direction: row;
       }
     }
+
+    &-selected {
+      background: $highlightBlue !important;
+
+      .white-if-selected {
+        color: #fff !important;
+      }
+    }
   }
 
   &-subtasks {

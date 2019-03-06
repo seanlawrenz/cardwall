@@ -7,6 +7,7 @@ export enum CardActionTypes {
   CARD_REMOVED_FROM_LIST = '[CARDS] CARD REMOVED FROM LIST',
   CARD_CREATE_FROM_SERVER = '[CARDS] CARD CREATE FROM SERVER',
   CARD_DELETE_FROM_SERVER = '[CARDS] CARD DELETE FROM SERVER',
+  CARD_SELECTED = '[CARD] CARD SELECTED',
 }
 
 export class CardReorderWithinList implements Action {
@@ -34,4 +35,15 @@ export class CardDeleteFromServer implements Action {
   constructor(public payload: Card) {}
 }
 
-export type CardActions = CardReorderWithinList | CardUpdateReceived | CardRemovedFromList | CardCreateFromServer | CardDeleteFromServer;
+export class CardSelected implements Action {
+  readonly type = CardActionTypes.CARD_SELECTED;
+  constructor(public payload: Card) {}
+}
+
+export type CardActions =
+  | CardReorderWithinList
+  | CardUpdateReceived
+  | CardRemovedFromList
+  | CardCreateFromServer
+  | CardDeleteFromServer
+  | CardSelected;
