@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromBacklog from '@app/backlog/state';
@@ -13,7 +13,7 @@ import { uniqueCollectionsInCollection } from '@app/utils';
   templateUrl: './backlog-toolbar-container.component.html',
   styleUrls: ['./backlog-toolbar-container.component.scss'],
 })
-export class BacklogToolbarContainerComponent implements OnInit {
+export class BacklogToolbarContainerComponent implements OnInit, OnChanges {
   @Input() plans: Plan[];
   resources: Resources[] = [];
   showResources$: Observable<boolean>;
@@ -26,6 +26,14 @@ export class BacklogToolbarContainerComponent implements OnInit {
     this.showTotals$ = this.store.pipe(select(fromBacklog.showTotals));
     if (this.plans.length > 0) {
       this.getResourcesFromPlans();
+    }
+  }
+
+  ngOnChanges() {
+    if (this.plans.length > 0) {
+      this.getResourcesFromPlans();
+    } else {
+      this.resources = [];
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Resources, Plan } from '@app/models';
 
 import { filter, lowerCase } from 'lodash';
@@ -8,9 +8,10 @@ import { filter, lowerCase } from 'lodash';
   templateUrl: './backlog-resources.component.html',
   styleUrls: ['./backlog-resources.component.scss'],
 })
-export class BacklogResourcesComponent implements OnInit {
+export class BacklogResourcesComponent implements OnInit, OnChanges {
   @Input() resources: Resources[];
   @Input() plans: Plan[];
+  @Output() closeResourcesRequested = new EventEmitter<void>();
   resourcesFiltered: Resources[];
 
   @ViewChild('keepResources') keepResources: ElementRef;
@@ -20,7 +21,13 @@ export class BacklogResourcesComponent implements OnInit {
     this.resourcesFiltered = [...this.resources];
   }
 
-  closeResources() {}
+  ngOnChanges() {
+    this.resourcesFiltered = [...this.resources];
+  }
+
+  closeResources() {
+    this.closeResourcesRequested.emit();
+  }
 
   searchResources(e) {
     const {

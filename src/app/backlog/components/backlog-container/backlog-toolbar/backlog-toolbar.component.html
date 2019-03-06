@@ -28,7 +28,7 @@
 </div>
 
 <div *ngIf="showResources">
-  <td-backlog-resources [resources]="resources" [plans]="plans"></td-backlog-resources>
+  <td-backlog-resources [resources]="resources" [plans]="plans" (closeResourcesRequested)="showResourcesRequested()"></td-backlog-resources>
 </div>
 
 <div *ngIf="showTotals">
