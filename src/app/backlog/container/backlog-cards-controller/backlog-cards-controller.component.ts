@@ -23,11 +23,11 @@ export enum CardMovementTypes {
 }
 
 @Component({
-  selector: 'td-backlog-card-controller',
-  templateUrl: './backlog-card-controller.component.html',
-  styleUrls: ['./backlog-card-controller.component.scss'],
+  selector: 'td-backlog-cards-controller',
+  templateUrl: './backlog-cards-controller.component.html',
+  styleUrls: ['./backlog-cards-controller.component.scss'],
 })
-export class BacklogCardControllerComponent implements OnInit {
+export class BacklogCardsControllerComponent implements OnInit {
   @Input() cards: Card[];
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 

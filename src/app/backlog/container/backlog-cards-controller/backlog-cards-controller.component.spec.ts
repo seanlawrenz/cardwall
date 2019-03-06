@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortablejsModule } from 'angular-sortablejs';
 
-import { BacklogCardControllerComponent, CardMovementTypes } from './backlog-card-controller.component';
+import { BacklogCardsControllerComponent, CardMovementTypes } from './backlog-cards-controller.component';
 import { BacklogCardComponent } from '@app/backlog/components/backlog-container/backlog-card/backlog-card.component';
 import { GripComponent } from '@app/shared/components/grip/grip.component';
 import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
@@ -18,8 +18,8 @@ import { EstimatedHoursComponent } from '@app/shared/components/estimated-hours/
 import { StoryPointIndicatorComponent } from '@app/shared/components/story-point-indicator/story-point-indicator.component';
 
 describe('BacklogCardControllerComponent', () => {
-  let component: BacklogCardControllerComponent;
-  let fixture: ComponentFixture<BacklogCardControllerComponent>;
+  let component: BacklogCardsControllerComponent;
+  let fixture: ComponentFixture<BacklogCardsControllerComponent>;
   let cardSvc: CardService;
   let signalR: SignalRService;
   let mockEventFromSortable: { clone: { cardData: Card }; newIndex: number; oldIndex: number } = {
@@ -34,7 +34,7 @@ describe('BacklogCardControllerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        BacklogCardControllerComponent,
+        BacklogCardsControllerComponent,
         BacklogCardComponent,
         GripComponent,
         SubtasksIconComponent,
@@ -55,7 +55,7 @@ describe('BacklogCardControllerComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BacklogCardControllerComponent);
+    fixture = TestBed.createComponent(BacklogCardsControllerComponent);
     component = fixture.componentInstance;
     cardSvc = TestBed.get(CardService);
   });

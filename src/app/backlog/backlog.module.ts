@@ -17,7 +17,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 // Container
 import { AddBoardBaseComponent } from './container/add-board-base/add-board-base.component';
 import { BacklogBaseComponent } from './container/backlog-base.component';
-import { BacklogCardControllerComponent } from './container/backlog-card-controller/backlog-card-controller.component';
+import { BacklogCardsControllerComponent } from './container/backlog-cards-controller/backlog-cards-controller.component';
 import { BoardsControllerComponent } from './container/boards-controller/boards-controller.component';
 import { BacklogMoveToolbarComponent } from './container/backlog-move-toolbar/backlog-move-toolbar.component';
 import { BacklogListControllerComponent } from './container/backlog-list-controller/backlog-list-controller.component';
@@ -74,7 +74,7 @@ const backlogRoutes: Routes = [
     RemoveBoardComponent,
     BoardsControllerComponent,
     BacklogListControllerComponent,
-    BacklogCardControllerComponent,
+    BacklogCardsControllerComponent,
     BacklogSettingsComponent,
     BacklogSettingsContainerComponent,
     BacklogToolbarContainerComponent,
