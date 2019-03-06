@@ -1,21 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SortablejsModule } from 'angular-sortablejs';
 
 import { BacklogCardsControllerComponent, CardMovementTypes } from './backlog-cards-controller.component';
-import { BacklogCardComponent } from '@app/backlog/components/backlog-container/backlog-card/backlog-card.component';
-import { GripComponent } from '@app/shared/components/grip/grip.component';
 import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services/card.service';
 import { Card } from '@app/models';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SignalRService } from '@app/app-services';
-import { SubtasksIconComponent } from '@app/shared/components/subtasks-icon/subtasks-icon.component';
-import { CardResourceIconsComponent } from '@app/shared/components/card-resource-icons/card-resource-icons.component';
-import { ProfileImageComponent } from '@app/shared/components/profile-image/profile-image.component';
-import { TdTooltipDirective } from '@app/shared/directives/tooltip-directive';
-import { EstimatedHoursComponent } from '@app/shared/components/estimated-hours/estimated-hours.component';
-import { StoryPointIndicatorComponent } from '@app/shared/components/story-point-indicator/story-point-indicator.component';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardsControllerComponent;
@@ -33,24 +26,14 @@ describe('BacklogCardControllerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        BacklogCardsControllerComponent,
-        BacklogCardComponent,
-        GripComponent,
-        SubtasksIconComponent,
-        CardResourceIconsComponent,
-        ProfileImageComponent,
-        TdTooltipDirective,
-        CardResourceIconsComponent,
-        EstimatedHoursComponent,
-        StoryPointIndicatorComponent,
-      ],
+      declarations: [BacklogCardsControllerComponent],
       imports: [SortablejsModule],
       providers: [
         { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
         { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn(), pipe: jest.fn() } },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
