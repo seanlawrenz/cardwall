@@ -1,8 +1,8 @@
-<div class="tdNg-toolbar-totals-content">
-  <strong>{{ plan.name | trimTextToLimit: 25 }}</strong>
+<div class="tdNg-toolbar-totals-content" *ngFor="let metaPlan of metaPlans">
+  <strong>{{ metaPlan.plan.name | trimTextToLimit: 25 }}</strong>
   <div class="tdNg-flex-row-center space-between gutter-top">
-    <div>{{ totalCards }} Cards</div>
-    <td-estimated-hours [value]="totalHours"></td-estimated-hours>
-    <td-story-point-indicator [storyPoints]="totalStoryPoints" [isSummary]="true"></td-story-point-indicator>
+    <div>{{ metaPlan.totalCards }} Cards</div>
+    <td-estimated-hours [value]="metaPlan.totalHours"></td-estimated-hours>
+    <td-story-point-indicator [storyPoints]="metaPlan.totalStoryPoints" [isSummary]="true"></td-story-point-indicator>
   </div>
 </div>

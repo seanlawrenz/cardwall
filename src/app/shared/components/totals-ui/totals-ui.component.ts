@@ -7,28 +7,26 @@ import { Plan, List } from '@app/models';
   styleUrls: ['./totals-ui.component.scss'],
 })
 export class TotalsUiComponent implements OnInit, OnChanges {
-  @Input() plan: Plan;
+  @Input() plans: Plan[];
 
-  totalCards = 0;
-  totalHours = 0;
-  totalStoryPoints = 0;
+  metaPlans: Array<{ plan: Plan; totalCards: number; totalStoryPoints: number; totalHours: number }>;
 
   ngOnInit() {
     this.getTotals();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.plan.firstChange) {
+    if (!changes.plans.firstChange) {
       this.getTotals();
     }
   }
 
   private getTotals() {
-    let totalCards = 0;
-    let totalStoryPoints = 0;
-    let totalHours = 0;
-    if (this.plan) {
-      const activeLists: List[] = this.plan.lists.filter(list => list.active && list.id > 0);
+    const updateTotalsAtListLevel = lists => {
+      let totalCards = 0;
+      let totalStoryPoints = 0;
+      let totalHours = 0;
+      const activeLists: List[] = lists.filter(list => list.active && list.id > 0);
       activeLists.map(list => {
         if (list.cards) {
           list.cards.map(card => {
@@ -38,10 +36,24 @@ export class TotalsUiComponent implements OnInit, OnChanges {
           });
         }
       });
-    }
+      return {
+        totalCards,
+        totalStoryPoints,
+        totalHours,
+      };
+    };
 
-    this.totalCards = totalCards;
-    this.totalStoryPoints = totalStoryPoints;
-    this.totalHours = totalHours;
+    if (this.plans && this.plans.length > 0) {
+      this.metaPlans = [];
+      this.plans.map(plan => {
+        const metaData = updateTotalsAtListLevel(plan.lists);
+        this.metaPlans.push({
+          plan: { ...plan },
+          totalCards: metaData.totalCards,
+          totalHours: metaData.totalHours,
+          totalStoryPoints: metaData.totalStoryPoints,
+        });
+      });
+    }
   }
 }

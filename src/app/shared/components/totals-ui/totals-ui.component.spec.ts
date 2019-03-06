@@ -44,12 +44,12 @@ describe('TotalsUiComponent', () => {
     const mockList2 = { ...mockList, active: true, cards: [mockCard2, mockCard3] };
 
     mockPlan.lists = [mockListToNotCount, mockListToNotCount2, mockList1, mockList2];
-    component.plan = mockPlan;
+    component.plans = [mockPlan];
 
     fixture.detectChanges();
 
-    expect(component.totalCards).toBe(3);
-    expect(component.totalHours).toBe(1);
-    expect(component.totalStoryPoints).toBe(2);
+    expect(component.metaPlans[0].totalCards).toBe(3);
+    expect(component.metaPlans[0].totalHours).toBe(1);
+    expect(component.metaPlans[0].totalStoryPoints).toBe(2);
   });
 });
