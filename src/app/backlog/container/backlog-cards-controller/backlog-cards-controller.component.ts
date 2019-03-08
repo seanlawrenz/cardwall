@@ -86,6 +86,7 @@ export class BacklogCardsControllerComponent implements OnInit {
     // Move within this list
     if (card.listId === this.listInfo.listId) {
       this.cardService.moveCardWithInSameList(this.cards, newIndex);
+      return;
     }
 
     // Move to new lists within this board
