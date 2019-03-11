@@ -132,7 +132,6 @@ export class SignalRService {
     proxy.on(
       'CardCreateReceive',
       (info: CardOperationInfo): void => {
-        console.log(info);
         this.store.dispatch(new cardActions.CardCreateFromServer(info));
       },
     );

@@ -1,5 +1,6 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
+import { fromRoot } from '@app/store';
 import * as fromBacklogSettings from './backlog-settings.reducer';
 import * as fromBacklogToolbar from './backlog-tools.reducer';
 import * as fromPlanIdentifiers from './backlog.plan-indentifers.reducer';
@@ -10,6 +11,10 @@ export interface BacklogState {
   plans: fromPlans.PlanState;
   settings: fromBacklogSettings.SettingsState;
   toolbar: fromBacklogToolbar.BacklogToolbarState;
+}
+
+export interface State extends fromRoot.State {
+  backlog: BacklogState;
 }
 
 export const reducers: ActionReducerMap<BacklogState> = {

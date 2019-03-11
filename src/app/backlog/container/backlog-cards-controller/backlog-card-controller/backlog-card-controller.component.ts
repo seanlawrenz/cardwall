@@ -22,13 +22,13 @@ export class BacklogCardControllerComponent implements OnInit {
   showEstimateHours$: Observable<boolean>;
   showStoryPoints$: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.BacklogState>, private appStore: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {
     this.showEstimateHours$ = this.store.pipe(select(fromBacklog.showEstimateHours));
     this.showStoryPoints$ = this.store.pipe(select(fromBacklog.showStoryPoints));
 
-    this.appStore.pipe(select(fromRoot.getSelectedCard)).subscribe(card => {
+    this.store.pipe(select(fromRoot.getSelectedCard)).subscribe(card => {
       if (card === undefined) {
         this.isCardSelected = false;
         return;
@@ -38,6 +38,6 @@ export class BacklogCardControllerComponent implements OnInit {
   }
 
   selectCard() {
-    this.appStore.dispatch(new cardActions.CardSelected(this.card));
+    this.store.dispatch(new cardActions.CardSelected(this.card));
   }
 }

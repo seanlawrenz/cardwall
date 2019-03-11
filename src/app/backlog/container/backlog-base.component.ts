@@ -20,7 +20,7 @@ export class BacklogBaseComponent implements OnInit {
   boardsLoading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
-  constructor(private store: Store<BacklogState>, private appStore: Store<fromRoot.State>) {}
+  constructor(private store: Store<BacklogState>) {}
 
   ngOnInit() {
     this.getBoardsInParams();
