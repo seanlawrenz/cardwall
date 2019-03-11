@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Card, SignalRResult } from '@app/models';
+import { Card, SignalRResult, List } from '@app/models';
 import { SignalRService } from './signal-r.service';
 
-import { getRelativeMoveCardId } from '@app/utils';
+import { getRelativeMoveCardId, moveItemInArray } from '@app/utils';
 import { NotificationService } from './notification.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +37,35 @@ export class CardService {
           observer.next(res);
           observer.complete();
         });
+    });
+  }
+
+  moveCardUp(destinationList: List, currentIndex: number) {
+    const cards = moveItemInArray(destinationList.cards, currentIndex, currentIndex - 1);
+    this.moveCardWithInSameList(cards, currentIndex - 1);
+  }
+
+  moveCardDown(destinationList: List, currentIndex: number) {
+    const cards = moveItemInArray(destinationList.cards, currentIndex, currentIndex + 1);
+    this.moveCardWithInSameList(cards, currentIndex + 1);
+  }
+
+  moveCardOutsideProjectOrPlan(
+    card: Card,
+    newProjectId: number,
+    newPlanId: number,
+    newListId: number,
+    relativeCardId: number,
+  ): Observable<SignalRResult> {
+    return new Observable(observer => {
+      this.signalRService.invoke('CardMoveRelativeTo', card, newProjectId, newPlanId, newListId, relativeCardId).subscribe(res => {
+        if (!res.isSuccessful) {
+          this.notifyService.danger('Problem Moving Card', res.reason ? res.reason : res.message);
+        }
+
+        observer.next(res);
+        observer.complete();
+      });
     });
   }
 }

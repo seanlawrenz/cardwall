@@ -1,7 +1,11 @@
 <td-button (click)="expandAllLists()" icon="plus"></td-button>
 <td-button (click)="collapseAllLists()" icon="minus"></td-button>
 <span class="tdNg-divider"></span>
-<td-button [disabled]="!canMoveDown" icon="fast-forward fa-rotate-90"></td-button>
-<td-button [disabled]="selectedCard === undefined" icon="play fa-rotate-90"></td-button>
-<td-button [disabled]="selectedCard === undefined" icon="play fa-rotate-270"></td-button>
-<td-button [disabled]="!canMoveUp" icon="forward fa-rotate-270"></td-button>
+<td-button
+  [disabled]="selectedCard === undefined || !canMoveDown"
+  icon="fast-forward fa-rotate-90"
+  (onClick)="moveCardToBottom()"
+></td-button>
+<td-button [disabled]="selectedCard === undefined || !canMoveDown" icon="play fa-rotate-90" (onClick)="moveCardDown()"></td-button>
+<td-button [disabled]="selectedCard === undefined || !canMoveUp" icon="play fa-rotate-270" (onClick)="moveCardUp()"></td-button>
+<td-button [disabled]="selectedCard === undefined || !canMoveUp" icon="fast-forward fa-rotate-270" (onClick)="moveCardToTop()"></td-button>

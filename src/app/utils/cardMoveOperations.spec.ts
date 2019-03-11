@@ -1,4 +1,4 @@
-import { updateCardOrderInListInBacklog, updateCardInBacklog, createCardInBacklog } from './cardMoveOperations';
+import { updateCardOrderInListInBacklog, updateCardInBacklog, createCardInBacklog, moveItemInArray } from './cardMoveOperations';
 
 import { List, Plan, Card, CardOperationInfo } from '@app/models';
 import { mockBoardBuilder, mockListBuilder, mockCardBuilder, mockList } from '@app/test/data';
@@ -89,5 +89,21 @@ describe('cardCreate', () => {
     plans = createCardInBacklog([mockPlan, mockPlan2], cardOperation);
 
     expect(plans[0].lists[0].cards).toEqual([newCard]);
+  });
+});
+
+describe('moveItemInArray', () => {
+  it('should move an item up', () => {
+    const input = [1, 2, 3, 4, 5];
+    const expected = [1, 3, 4, 2, 5];
+    const action = moveItemInArray(input, 1, 3);
+    expect(action).toEqual(expected);
+  });
+
+  it('should move an item down', () => {
+    const input = [1, 2, 3, 4, 5];
+    const expected = [1, 2, 4, 5, 3];
+    const action = moveItemInArray(input, 2, input.length);
+    expect(action).toEqual(expected);
   });
 });

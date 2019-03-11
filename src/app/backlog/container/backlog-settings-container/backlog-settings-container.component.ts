@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { fromRoot } from '@app/store';
 import * as rootActions from '@app/store/actions/ui.actions';
 import * as fromBacklog from '@app/backlog/state';
 import * as settingActions from '@app/backlog/state/actions/backlog-settings.actions';
@@ -17,7 +16,7 @@ export class BacklogSettingsContainerComponent implements OnInit {
   showStoryPoints$: Observable<boolean>;
   showEstimateHours: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.BacklogState>, private appStore: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {
     this.store.dispatch(new settingActions.GetFromLocalStorage());
@@ -78,6 +77,6 @@ export class BacklogSettingsContainerComponent implements OnInit {
   }
 
   closeSettings() {
-    this.appStore.dispatch(new rootActions.HideOptions());
+    this.store.dispatch(new rootActions.HideOptions());
   }
 }

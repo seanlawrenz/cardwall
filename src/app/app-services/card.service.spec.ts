@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { CardService } from './card.service';
 import { SignalRService } from './signal-r.service';
-import { mockBoardBuilder, mockCardBuilder, mockList } from '@app/test/data';
+import { mockBoardBuilder, mockCardBuilder, mockList, mockListBuilder } from '@app/test/data';
 import { CardOperationInfo, Card } from '@app/models';
 import { NotificationService } from './notification.service';
 
@@ -83,6 +83,16 @@ describe('CardService', () => {
         expect(spy).toHaveBeenCalled();
         done();
       });
+    });
+  });
+
+  describe('moveCardUp', () => {
+    it('should call moveCardWithInSameList', () => {
+      const mockListWithMockCard = { ...mockListBuilder(), cards: [extraMockCard, mockCard] };
+      spy = jest.spyOn(service, 'moveCardWithInSameList');
+      jest.spyOn(signalR, 'invoke').mockImplementationOnce(jest.fn(() => of({ isSuccessful: true })));
+      service.moveCardUp(mockListWithMockCard, 1);
+      expect(spy).toHaveBeenCalledWith([mockCard, extraMockCard], 0);
     });
   });
 });

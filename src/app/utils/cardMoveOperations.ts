@@ -22,6 +22,12 @@ function removeItem(array, index) {
   return newArray;
 }
 
+export const moveItemInArray = (arr, from, to) => {
+  const clone = [...arr];
+  clone.splice(to, 0, clone.splice(from, 1)[0]);
+  return clone;
+};
+
 export const updateCardOrderInListInBacklog = (plans: Plan[], listId: number, cardId: number, index: number): Plan[] => {
   return plans.map(plan => {
     const listToUpdate = find(plan.lists, list => list.id === listId);
