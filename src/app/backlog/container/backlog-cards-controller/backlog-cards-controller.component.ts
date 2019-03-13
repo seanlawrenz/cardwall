@@ -102,7 +102,7 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
     if (card.listId !== this.listInfo.listId && card.planId === this.listInfo.planId) {
       // Get the list to where this card is heading
       this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
-        this.cardService.moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex).subscribe(() => {
+        this.cardMoveSub = this.cardService.moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex).subscribe(() => {
           // placeholder for ending the saving service
         });
       });
