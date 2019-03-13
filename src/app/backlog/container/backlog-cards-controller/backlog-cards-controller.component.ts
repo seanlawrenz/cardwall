@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
 import { CardService } from '@app/app-services/card.service';
@@ -9,6 +9,7 @@ import * as fromBacklog from '@app/backlog/state';
 import { SignalRService } from '@app/app-services';
 
 import { getRelativeMoveCardId } from '@app/utils';
+import { Subscription } from 'rxjs';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -26,7 +27,7 @@ export enum CardMovementTypes {
   templateUrl: './backlog-cards-controller.component.html',
   styleUrls: ['./backlog-cards-controller.component.scss'],
 })
-export class BacklogCardsControllerComponent implements OnInit {
+export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   @Input() cards: Card[];
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
@@ -46,9 +47,17 @@ export class BacklogCardsControllerComponent implements OnInit {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
+  cardMoveSub: Subscription;
+
   constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    if (this.cardMoveSub) {
+      this.cardMoveSub.unsubscribe();
+    }
+  }
 
   cardMovement(event, type: string) {
     const { newIndex, oldIndex } = event;
@@ -104,7 +113,7 @@ export class BacklogCardsControllerComponent implements OnInit {
       const originatedCard = { ...card, projectId, planId, listId };
       this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
         const relativeMoveCardId = getRelativeMoveCardId(list.cards, card, newIndex);
-        this.signalRService
+        this.cardMoveSub = this.signalRService
           .invoke('CardMoveRelativeTo', originatedCard, card.projectId, card.planId, card.listId, relativeMoveCardId)
           .subscribe(() => {
             // I don't like this, but if the client moves the card that card does not have the data on it to be removed via the

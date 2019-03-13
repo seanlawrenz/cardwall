@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { withLatestFrom, exhaustMap, map, catchError, mergeMap, first } from 'rxjs/operators';
+import { withLatestFrom, exhaustMap, map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { SignalRService, BoardService } from '@app/app-services';
@@ -48,7 +48,7 @@ export class PlanEffects {
       plansToAdd: action.payload,
       currentlyLoadedPlans: plans,
     })),
-    mergeMap(payload =>
+    switchMap(payload =>
       this.boardService
         .getPlansFromParams(payload.plansToAdd)
         .pipe(map((plansReturnFromServer: Plan[]) => new planActions.GetPlansSuccess(plansReturnFromServer))),
@@ -67,7 +67,7 @@ export class PlanEffects {
         planToRemoveProjectId: plans.filter(plan => plan.id === planId)[0].projectId,
       };
     }),
-    mergeMap(payload => {
+    switchMap(payload => {
       const { plans, planToRemoveProjectId } = payload;
 
       // Need to remove from this project signalR group if this is last of it's projects;
@@ -86,7 +86,7 @@ export class PlanEffects {
   reorderListsOnPlans$ = this.actions$.pipe(
     ofType(planActions.PlanListActionTypes.REORDER_LISTS),
     map((action: { payload: { projectId: number; planId: number } }) => action.payload),
-    mergeMap(({ projectId, planId }) =>
+    switchMap(({ projectId, planId }) =>
       this.store.pipe(
         select(selectors.getListsByPlan(planId)),
         map(lists => ({

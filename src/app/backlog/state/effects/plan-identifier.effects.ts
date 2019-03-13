@@ -3,7 +3,7 @@ import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { SignalRService } from '@app/app-services';
 import { Observable, of } from 'rxjs';
-import { map, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
+import { map, withLatestFrom, catchError, switchMap } from 'rxjs/operators';
 
 import { fromRoot } from '@app/store';
 import * as selectors from '../selectors';
@@ -48,7 +48,7 @@ export class PlanIdentifierEffects {
         return [];
       }
     }),
-    mergeMap(boards => {
+    switchMap(boards => {
       return this.signalR.invoke('AvailableCardWallList', boards).pipe(
         map((res: SignalRResult) => {
           const plans: PlanIdentifier[] = res.item;
