@@ -198,3 +198,8 @@
     transform: translate3d(0 ,0, 0);
   }
 }
+
+.loading-component-container {
+  min-height: 400px;
+  display: flex;
+}
