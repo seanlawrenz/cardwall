@@ -5,7 +5,7 @@ import { BacklogMoveToolbarComponent } from './backlog-move-toolbar.component';
 import { ButtonComponent } from '@app/shared/components/button/button.component';
 import { Store } from '@ngrx/store';
 import { hot, cold } from 'jasmine-marbles';
-import { mockList, mockBoard, mockCard, mockCardBuilder, mockListBuilder } from '@app/test/data';
+import { mockList, mockBoard, mockCard, mockCardBuilder, mockListBuilder, mockBoardBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services';
 import { Card } from '@app/models';
 import { of } from 'rxjs';
@@ -22,7 +22,16 @@ describe('BacklogMoveToolbarComponent', () => {
       declarations: [BacklogMoveToolbarComponent, ButtonComponent, TdTooltipDirective],
       providers: [
         { provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn(), select: jest.fn() } },
-        { provide: CardService, useValue: { moveCardUp: jest.fn(), moveCardDown: jest.fn(), moveCardToListInSameBoard: jest.fn() } },
+        {
+          provide: CardService,
+          useValue: {
+            moveCardUp: jest.fn(),
+            moveCardDown: jest.fn(),
+            moveCardToListInSameBoard: jest.fn(),
+            moveCardWithInSameList: jest.fn(),
+            moveCardOutsideProjectOrPlan: jest.fn(),
+          },
+        },
       ],
     }).compileComponents();
   }));
@@ -118,13 +127,74 @@ describe('BacklogMoveToolbarComponent', () => {
       component.selectedCard = selectedCard;
       component.listWithSelectedCard = mockList;
       component.activeListsOnPlanWithSelectedCard = [mockList, extraMockList];
-      spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard').mockImplementationOnce(() => of({}));
+      spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard').mockImplementationOnce(() => of({ item: { card: selectedCard } }));
 
       component.moveCardDown();
 
       const selectedCardWithListId = { ...selectedCard, listId: extraMockList.id };
 
       expect(spy).toHaveBeenCalledWith(extraMockList.cards, selectedCardWithListId, mockList.id, 0);
+    });
+  });
+
+  describe('move cards to top', () => {
+    beforeEach(() => {
+      cardSvc = TestBed.get(CardService);
+    });
+    it('should call move Card in same list if selected card is in top list', () => {
+      const mockCardOnMockList1: Card = { ...mockCard, listId: mockList.id };
+      const mockCardOnMockList2: Card = { ...mockCardBuilder(), listId: mockList.id };
+      const selectedCard: Card = { ...mockCardBuilder(), listId: mockList.id, planId: mockBoard.id };
+      mockList.cards = [mockCardOnMockList1, mockCardOnMockList2, selectedCard];
+      spy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
+      component.selectedCard = selectedCard;
+      component.listWithSelectedCard = mockList;
+      component.activeListsOnPlanWithSelectedCard = [mockList];
+      component.plansLoaded = [mockBoard];
+
+      component.moveCardToTop();
+
+      expect(spy).toHaveBeenCalledWith([selectedCard, mockCardOnMockList1, mockCardOnMockList2], 0);
+    });
+
+    it('should call moveCardToListInSameBoard if selected card is in top Plan', () => {
+      const extraMockList = mockListBuilder();
+      extraMockList.active = true;
+      const mockCardOnMockList1: Card = { ...mockCard, listId: mockList.id, active: true };
+      const mockCardOnMockList2: Card = { ...mockCardBuilder(), listId: mockList.id, active: true };
+      const selectedCard: Card = { ...mockCardBuilder(), listId: extraMockList.id, planId: mockBoard.id };
+      mockList.cards = [mockCardOnMockList1, mockCardOnMockList2];
+      extraMockList.cards = [selectedCard];
+      component.selectedCard = selectedCard;
+      component.listWithSelectedCard = extraMockList;
+      component.activeListsOnPlanWithSelectedCard = [mockList, extraMockList];
+      component.plansLoaded = [mockBoard];
+      spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard').mockImplementation(() => of({ item: { card: selectedCard } }));
+
+      component.moveCardToTop();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call moveCardOutsideProjectOrPlan if selected card is outside first plan', () => {
+      const extraMockPlan = mockBoardBuilder();
+      const extraMockList = mockListBuilder();
+      const mockCardOnMockList1: Card = { ...mockCard, listId: mockList.id };
+      const mockCardOnMockList2: Card = { ...mockCardBuilder(), listId: mockList.id };
+      const selectedCard: Card = { ...mockCardBuilder(), listId: extraMockList.id, planId: extraMockPlan.id };
+
+      mockList.cards = [mockCardOnMockList1, mockCardOnMockList2];
+      extraMockList.cards = [selectedCard];
+      component.selectedCard = selectedCard;
+      component.listWithSelectedCard = extraMockList;
+      mockBoard.lists = [mockList];
+      extraMockPlan.lists = [extraMockList];
+      component.plansLoaded = [mockBoard, extraMockPlan];
+      spy = jest.spyOn(cardSvc, 'moveCardOutsideProjectOrPlan').mockImplementationOnce(() => of({ item: { card: selectedCard } }));
+
+      component.moveCardToTop();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

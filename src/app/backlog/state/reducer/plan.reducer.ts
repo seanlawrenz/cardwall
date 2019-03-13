@@ -7,6 +7,7 @@ import {
   updateCardInBacklog,
   createCardInBacklog,
   deleteCardInBacklog,
+  moveCardToTopOrBottomOfBacklog,
 } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
 import { ListActionTypes, ListActions } from '@app/store/actions/list.actions';
@@ -64,6 +65,12 @@ export function reducer(
       return {
         ...state,
         plans: state.plans.map(plan => (plan.id === planOnStateWithUpdatedData.id ? planOnStateWithUpdatedData : plan)),
+      };
+
+    case BacklogCardActionTypes.MOVE_CARD:
+      return {
+        ...state,
+        plans: moveCardToTopOrBottomOfBacklog(state.plans, action.payload.newList, action.payload.card, action.payload.top),
       };
 
     case BacklogCardActionTypes.DELETE_CARD:

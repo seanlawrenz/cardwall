@@ -1,4 +1,4 @@
-import { Card, Plan, CardOperationInfo, CardOrderInfo } from '@app/models';
+import { Card, Plan, CardOperationInfo, CardOrderInfo, List } from '@app/models';
 import { find, findIndex, sortBy } from 'lodash';
 
 /**
@@ -43,6 +43,24 @@ export const updateCardOrderInListInBacklog = (plans: Plan[], listId: number, ca
     }
     return plan;
   });
+};
+
+export const moveCardToTopOrBottomOfBacklog = (plansOnBacklog: Plan[], newList: List, cardToBeMoved: Card, top: boolean): Plan[] => {
+  const planIndex: number = top === true ? 0 : plansOnBacklog.length;
+  // Ensure immutability
+  const plans: Plan[] = [...plansOnBacklog];
+  const listIndex = plans[planIndex].lists.findIndex(list => list.id === newList.id);
+  const list: List = { ...newList };
+
+  // Move Card
+  findCardInPlanAndRemoveFromOldList(find(plans, plan => plan.id === cardToBeMoved.planId), cardToBeMoved.id);
+  list.cards.push(cardToBeMoved);
+  if (top) {
+    list.cards = moveItemInArray(list.cards, list.cards.length - 1, 0);
+  }
+  cardToBeMoved.listId = list.id;
+  plans[planIndex].lists[listIndex].cards = list.cards;
+  return plans;
 };
 
 export const updateCardInBacklog = (plans: Plan[], updatedCard: Card): Plan[] => {
