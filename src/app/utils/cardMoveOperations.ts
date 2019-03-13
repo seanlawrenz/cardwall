@@ -46,7 +46,7 @@ export const updateCardOrderInListInBacklog = (plans: Plan[], listId: number, ca
 };
 
 export const moveCardToTopOrBottomOfBacklog = (plansOnBacklog: Plan[], newList: List, cardToBeMoved: Card, top: boolean): Plan[] => {
-  const planIndex: number = top === true ? 0 : plansOnBacklog.length;
+  const planIndex: number = top === true ? 0 : plansOnBacklog.length - 1;
   // Ensure immutability
   const plans: Plan[] = [...plansOnBacklog];
   const listIndex = plans[planIndex].lists.findIndex(list => list.id === newList.id);

@@ -169,7 +169,6 @@ export class BacklogMoveToolbarComponent implements OnInit, OnDestroy {
         );
       }
     } else {
-      // const bottomListOnBacklog: List = findLast(last(this.plansLoaded).lists, list => list.id !== 0 && list.active);
       const { projectId, id, lists } = this.plansLoaded[0];
       const topListOnBacklog: List = filter(lists, list => list.id !== 0 && list.active)[0];
 
@@ -186,7 +185,58 @@ export class BacklogMoveToolbarComponent implements OnInit, OnDestroy {
   }
 
   moveCardToBottom() {
-    console.log('move Card To Bottom');
+    const bottomMostPlanIndex: number = this.plansLoaded.length - 1;
+    const index: number = this.plansLoaded.findIndex(plan => plan.id === this.selectedCard.planId);
+
+    if (index === bottomMostPlanIndex) {
+      // Move within plan
+      const listIndex: number = this.activeListsOnPlanWithSelectedCard.findIndex(list => list.id === this.selectedCard.listId);
+      const cardIndex: number = this.activeListsOnPlanWithSelectedCard[listIndex].cards.findIndex(card => card.id === this.selectedCard.id);
+      const bottomMostListIndex: number = this.activeListsOnPlanWithSelectedCard.length - 1;
+      if (listIndex === bottomMostListIndex) {
+        const cards = moveItemInArray(
+          this.activeListsOnPlanWithSelectedCard[bottomMostListIndex].cards,
+          cardIndex,
+          this.activeListsOnPlanWithSelectedCard[bottomMostListIndex].cards.length,
+        );
+        this.cardService.moveCardWithInSameList(cards, cards.length - 1);
+      } else {
+        // We need to 'physically' move the card. It's easy to move the card within the same list.
+        // The move of the card is taken care of from the server if moved to a new project or plan.
+        this.store.dispatch(
+          new backlogCardActions.MoveCard({
+            newList: this.activeListsOnPlanWithSelectedCard[bottomMostListIndex],
+            card: this.selectedCard,
+            top: false,
+          }),
+        );
+
+        this.subscriptions.add(
+          this.cardService
+            .moveCardToListInSameBoard(
+              this.activeListsOnPlanWithSelectedCard[bottomMostListIndex].cards,
+              this.selectedCard,
+              this.listWithSelectedCard.id,
+              this.activeListsOnPlanWithSelectedCard[bottomMostListIndex].cards.length - 1,
+            )
+            .subscribe(res => {
+              this.store.dispatch(new cardActions.CardSelected(res.item.card));
+            }),
+        );
+      }
+    } else {
+      const { projectId, id, lists } = this.plansLoaded[bottomMostPlanIndex];
+      const bottomListOnBacklog: List = findLast(lists, list => list.id !== 0 && list.active);
+      const relativeCardId = getRelativeMoveCardId(bottomListOnBacklog.cards, this.selectedCard, bottomListOnBacklog.cards.length);
+
+      this.subscriptions.add(
+        this.cardService
+          .moveCardOutsideProjectOrPlan(this.selectedCard, projectId, id, bottomListOnBacklog.id, relativeCardId)
+          .subscribe(res => {
+            this.store.dispatch(new cardActions.CardSelected(res.item.card));
+          }),
+      );
+    }
   }
 
   private onSelectedCard(selectedCard: Card) {
