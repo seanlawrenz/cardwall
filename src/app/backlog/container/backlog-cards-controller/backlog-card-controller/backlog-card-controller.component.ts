@@ -44,5 +44,6 @@ export class BacklogCardControllerComponent implements OnInit {
 
   showCardDetails() {
     this.store.dispatch(new cardDetailActions.ShowDetails());
+    this.store.dispatch(new cardDetailActions.CurrentCard(this.card));
   }
 }
