@@ -23,6 +23,7 @@ export class BacklogCardComponent implements OnInit {
   @Input() isSelected: boolean;
 
   @Output() selectCardRequested = new EventEmitter<void>();
+  @Output() cardDetailsRequested = new EventEmitter<void>();
 
   backgroundColor: string;
   constructor() {}
@@ -61,7 +62,7 @@ export class BacklogCardComponent implements OnInit {
   }
 
   openCardDetails() {
-    console.log(`${this.card.name} clicked`);
+    this.cardDetailsRequested.emit();
   }
 
   archiveCard() {

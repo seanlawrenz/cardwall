@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '@app/shared/shared.module';
+import { CardDetailsModule } from '@app/card-details/card-details.module';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -59,6 +60,7 @@ const backlogRoutes: Routes = [
     StoreModule.forFeature('backlog', reducers),
     EffectsModule.forFeature(effects),
     SortablejsModule,
+    CardDetailsModule,
     SharedModule,
     BsDropdownModule.forRoot(),
   ],

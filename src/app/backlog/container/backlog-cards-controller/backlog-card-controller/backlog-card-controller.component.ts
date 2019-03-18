@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
+import * as cardDetailActions from '@app/card-details/state/actions';
 
 @Component({
   selector: 'td-backlog-card-controller',
@@ -39,5 +40,9 @@ export class BacklogCardControllerComponent implements OnInit {
 
   selectCard() {
     this.store.dispatch(new cardActions.CardSelected(this.card));
+  }
+
+  showCardDetails() {
+    this.store.dispatch(new cardDetailActions.ShowDetails());
   }
 }
