@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild, HostListener, OnInit } from '@angular/core';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
@@ -7,7 +7,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
   templateUrl: './card-details-dialog.component.html',
   styleUrls: ['./card-details-dialog.component.scss'],
 })
-export class CardDetailsDialogComponent implements AfterViewInit, OnChanges {
+export class CardDetailsDialogComponent implements OnInit, OnChanges {
   @Input() show: boolean;
   @Output() closeCardDetailsRequested = new EventEmitter<void>();
 
@@ -28,7 +28,7 @@ export class CardDetailsDialogComponent implements AfterViewInit, OnChanges {
   }
   constructor(private dialogService: BsModalService) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     if (this.show) {
       this.openDialog();
     } else {
@@ -39,7 +39,10 @@ export class CardDetailsDialogComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.show && !changes.show.firstChange) {
       if (this.show) {
-        this.openDialog();
+        // This is a hack for removing Angular's expressionChangedAfterItHasBeenChecked.
+        setTimeout(() => {
+          this.openDialog();
+        }, 1);
       } else {
         this.closeDialog();
       }

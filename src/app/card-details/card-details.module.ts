@@ -4,7 +4,8 @@ import { SharedModule } from '@app/shared/shared.module';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './state';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, effects } from './state';
 
 // Containers
 import { CardDetailsBaseComponent } from './container/card-details-base/card-details-base.component';
@@ -18,7 +19,13 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
 
 @NgModule({
   declarations: [CardDetailsBaseComponent, CardDetailsDialogComponent, CardDetailsViewComponent, CardDetailsDialogBaseComponent],
-  imports: [CommonModule, CardDetailsRoutingModule, SharedModule, StoreModule.forFeature('card-details', reducers)],
+  imports: [
+    CommonModule,
+    CardDetailsRoutingModule,
+    SharedModule,
+    StoreModule.forFeature('card-details', reducers),
+    EffectsModule.forFeature(effects),
+  ],
   exports: [CardDetailsDialogBaseComponent],
 })
 export class CardDetailsModule {}
