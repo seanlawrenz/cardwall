@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
@@ -17,8 +17,15 @@ export class CardDetailsDialogComponent implements AfterViewInit, OnChanges {
   dialogConfig: ModalOptions = {
     class: 'modal-lg',
     keyboard: true,
+    ignoreBackdropClick: true,
   };
 
+  @HostListener('window:click', ['$event.target'])
+  isBackDropClick(target: Element) {
+    if (target.classList.contains('modal')) {
+      this.closeCardDetailsRequested.emit();
+    }
+  }
   constructor(private dialogService: BsModalService) {}
 
   ngAfterViewInit() {
