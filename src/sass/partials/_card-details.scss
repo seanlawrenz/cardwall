@@ -11,5 +11,12 @@
         margin: 0 0 1em 0;
       }
     }
+
+    &-form-group-margin {
+
+      .form-group{
+        margin-bottom: 10px !important;
+      }
+    }
   }
 }

@@ -1,3 +1,168 @@
-<div class="modal-body">
-  <input [(ngModel)]="card.name" />
-</div>
+<form [formGroup]="cardForm">
+  <div class="modal-body tdNg-cd-form-group-margin">
+    <div class="form-group required">
+      <label for="card-name" class="control-label">Title</label>
+      <input
+        type="text"
+        id="card-name"
+        class="form-control form-control-sm"
+        formControlName="name"
+        [ngClass]="{ 'is-invalid': cardForm.controls['name'].invalid && cardForm.controls['name'].touched }"
+        required
+      />
+      <div class="text-danger" *ngIf="cardForm.controls['name'].invalid && cardForm.controls['name'].touched">
+        Card name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="card-description" class="control-label">Description</label>
+      <textarea
+        maxlength="1500"
+        rows="2"
+        id="card-description"
+        class="form-control"
+        style="height: 80px"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="control-label">Start / End</label>
+        <div class="input-group">
+          <input type="text" aria-label="Start date" class="form-control form-control-sm" formControlName="startDate" />
+
+          <input type="text" aria-label="End date" class="form-control form-control-sm" formControlName="endDate" />
+        </div>
+      </div>
+
+      <div class="form-group col-md-2 required">
+        <label for="card-estimatedHrs" class="control-label">Estimated Hrs</label>
+        <input
+          type="number"
+          min="0"
+          step="any"
+          id="card-estimatedHrs"
+          class="form-control form-control-sm"
+          formControlName="estimatedHrs"
+          [ngClass]="{ 'is-invalid': cardForm.controls['estimatedHrs'].invalid && cardForm.controls['estimatedHrs'].touched }"
+        />
+        <div class="text-danger" *ngIf="cardForm.controls['estimatedHrs'].invalid && cardForm.controls['estimatedHrs'].touched">
+          Estimated Hrs requires a number between 0 and 2,147,483,6477
+        </div>
+      </div>
+
+      <div class="form-group col-md-2 required">
+        <label for="card-percent-complete" class="control-label">% Complete</label>
+        <div class="input-group input-group-sm">
+          <input
+            type="number"
+            min="0"
+            max="100"
+            id="card-percent-complete"
+            class="form-control form-control-sm"
+            formControlName="percentComplete"
+            [ngClass]="{ 'is-invalid': cardForm.controls['percentComplete'].invalid && cardForm.controls['percentComplete'].touched }"
+          />
+          <div aria-hidden="true" class="input-group-append">
+            <div class="input-group-text">%</div>
+          </div>
+        </div>
+        <div class="text-danger" *ngIf="cardForm.controls['percentComplete'].invalid && cardForm.controls['percentComplete'].touched">
+          % Complete requires a number between 0 and 100
+        </div>
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="card-remaining-hrs" class="control-label">Remaining Hrs</label>
+        <input
+          type="number"
+          min="0"
+          id="card-remaining-hrs"
+          class="form-control form-control-sm"
+          formControlName="remainingHrs"
+          [ngClass]="{ 'is-invalid': cardForm.controls['remainingHrs'].invalid && cardForm.controls['remainingHrs'].touched }"
+        />
+        <div class="text-danger" *ngIf="cardForm.controls['remainingHrs'].invalid && cardForm.controls['remainingHrs'].touched">
+          Remaining Hrs is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="card-priority" class="control-label">Priority</label>
+        <input class="form-control form-control-sm" id="card-priority" placeholder="placeholder for dropdown" />
+      </div>
+
+      <div class="form-group col-md-2">
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="card-isStory" formControlName="isStory" />
+          <label class="custom-control-label" for="card-isStory">Is Story</label>
+        </div>
+      </div>
+
+      <div class="form-group required col-md-2">
+        <label for="card-storyPoints" class="label-control">Story Points</label>
+        <input
+          type="number"
+          step="any"
+          id="card-storyPoints"
+          class="form-control form-control-sm"
+          formControlName="storyPoints"
+          [ngClass]="{ 'is-invalid': cardForm.controls['storyPoints'].invalid && cardForm.controls['storyPoints'].touched }"
+        />
+        <div class="text-danger" *ngIf="cardForm.controls['storyPoints'].invalid && cardForm.controls['storyPoints'].touched">
+          Story Points requires a number between 0 and 2,147,483,647
+        </div>
+      </div>
+
+      <div class="form-group required col-md-2">
+        <label for="card-valuePoints" class="label-control">Value Points</label>
+        <input
+          type="number"
+          step="any"
+          id="card-valuePoints"
+          class="form-control form-control-sm"
+          formControlName="valuePoints"
+          [ngClass]="{ 'is-invalid': cardForm.controls['valuePoints'].invalid && cardForm.controls['valuePoints'].touched }"
+        />
+        <div class="text-danger" *ngIf="cardForm.controls['valuePoints'].invalid && cardForm.controls['valuePoints'].touched">
+          Value Points requires a number between 0 and 2,147,483,647
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="card-owners" class="control-label">Responsible</label>
+        <input class="form-control form-control-sm" id="card-owners" placeholder="placeholder for Typeahead" />
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="card-tags" class="control-label">Tags</label>
+        <input class="form-control form-control-sm" id="card-tags" placeholder="placeholder for Tags" />
+      </div>
+    </div>
+
+    <div class="form-row flex-end">
+      <div class="form-group col-md-6">
+        <label for="card.cssClass" class="control-label">Color</label>
+        <input class="form-control form-control-sm" id="card-tags" placeholder="placeholder for Buttons" />
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer flex-start">
+    <button type="submit" class="btn btn-primary" [disabled]="!cardForm.valid">
+      <span class="fa fa-save"></span>
+      Save
+    </button>
+
+    <button type="button" class="btn btn-danger">
+      <span class="fa fa-times"></span>
+      Discard Changes
+    </button>
+  </div>
+</form>
