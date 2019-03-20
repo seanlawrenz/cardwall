@@ -22,4 +22,39 @@ export class CardDetailsBaseComponent implements OnInit {
     this.card$ = this.store.pipe(select(fromCardDetails.getCard));
     this.cardDetailPage$ = this.store.pipe(select(fromCardDetails.getCardDetailsPage));
   }
+
+  updateCardDetailPage(type: CardDetailsPageTypes) {
+    switch (type) {
+      case CardDetailsPageTypes.FORM:
+        this.store.dispatch(new actions.ShowForm());
+        break;
+
+      case CardDetailsPageTypes.FEED:
+        this.store.dispatch(new actions.ShowFeed());
+        break;
+
+      case CardDetailsPageTypes.SUBTASKS:
+        this.store.dispatch(new actions.ShowSubtasks());
+        break;
+
+      case CardDetailsPageTypes.WORK:
+        this.store.dispatch(new actions.ShowWork());
+        break;
+
+      case CardDetailsPageTypes.ATTACHMENTS:
+        this.store.dispatch(new actions.ShowAttachments());
+        break;
+
+      case CardDetailsPageTypes.ISSUES:
+        this.store.dispatch(new actions.ShowIssues());
+        break;
+
+      case CardDetailsPageTypes.CODE:
+        this.store.dispatch(new actions.ShowCode());
+        break;
+
+      default:
+        return;
+    }
+  }
 }

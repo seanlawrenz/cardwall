@@ -1,28 +1,28 @@
-<td-card-details-view [card]="card$ | async">
+<td-card-details-view [card]="card$ | async" [selectedPage]="cardDetailPage$ | async" (changeDetailsPage)="updateCardDetailPage($event)">
   <div [ngSwitch]="cardDetailPage$ | async">
     <div *ngSwitchCase="'FORM'">
-      <div>Form</div>
+      <td-edit-card-form></td-edit-card-form>
     </div>
     <div *ngSwitchCase="'FEED'">
-      <div>Feed</div>
+      <td-feed></td-feed>
     </div>
     <div *ngSwitchCase="'SUBTASKS'">
-      <div>Subtasks</div>
+      <td-subtasks-base></td-subtasks-base>
     </div>
     <div *ngSwitchCase="'WORK'">
-      <div>Work</div>
+      <td-work></td-work>
     </div>
     <div *ngSwitchCase="'ATTACHMENTS'">
-      <div>ATTACHMENTS</div>
+      <td-attachments-base></td-attachments-base>
     </div>
     <div *ngSwitchCase="'ISSUES'">
-      <div>ISSUES</div>
+      <td-issues-base></td-issues-base>
     </div>
     <div *ngSwitchCase="'CODE'">
-      <div>CODE</div>
+      <td-code></td-code>
     </div>
     <div *ngSwitchDefault>
-      <div>Form default</div>
+      <td-edit-card-form></td-edit-card-form>
     </div>
   </div>
 </td-card-details-view>

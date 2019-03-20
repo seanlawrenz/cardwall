@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Card } from '@app/models';
+import { Card, CardDetailsPageTypes } from '@app/models';
 import { getCardColor } from '@app/utils';
 
 @Component({
@@ -9,8 +9,10 @@ import { getCardColor } from '@app/utils';
 })
 export class CardDetailsViewComponent implements OnInit {
   @Input() card: Card;
+  @Input() selectedPage: CardDetailsPageTypes;
 
   @Output() closeDialogRequested = new EventEmitter<void>();
+  @Output() changeDetailsPage = new EventEmitter<CardDetailsPageTypes>();
 
   cardBackgroundColor: string;
   constructor() {}
@@ -21,5 +23,9 @@ export class CardDetailsViewComponent implements OnInit {
 
   closeDialog() {
     this.closeDialogRequested.emit();
+  }
+
+  detailPageRequested(type: CardDetailsPageTypes) {
+    this.changeDetailsPage.emit(type);
   }
 }
