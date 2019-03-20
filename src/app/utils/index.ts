@@ -36,3 +36,4 @@ export const updateDataOnCollection = (targetArray: any[], identifier: number, d
 export * from './relativeMoveCardId';
 export * from './cardMoveOperations';
 export * from './card-color-reducer';
+export * from './custom-validators';
