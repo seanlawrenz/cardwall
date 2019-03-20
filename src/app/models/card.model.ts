@@ -67,3 +67,13 @@ export enum CardColors {
   WARNING = 'warning',
   DANGER = 'danger',
 }
+
+export enum CardDetailsPageTypes {
+  FORM = 'FORM',
+  FEED = 'FEED',
+  SUBTASKS = 'SUBTASKS',
+  WORK = 'WORK',
+  ATTACHMENTS = 'ATTACHMENTS',
+  ISSUES = 'ISSUES',
+  CODE = 'CODE',
+}

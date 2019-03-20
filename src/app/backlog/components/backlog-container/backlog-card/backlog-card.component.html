@@ -9,7 +9,7 @@
         <td-grip [cardColor]="backgroundColor"></td-grip>
         <td-subtasks-icon
           [card]="card"
-          (subtasksClicked)="openCardDetails()"
+          (subtasksClicked)="openCardDetails('SUBTASKS')"
           class="tdNg-backlog-card-subtask white-if-selected"
         ></td-subtasks-icon>
         <div *ngIf="card.ticketID > 0" class="tdNg-backlog-card-ticket white-if-selected">

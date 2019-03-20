@@ -1,1 +1,28 @@
-<td-card-details-view [card]="card$ | async"></td-card-details-view>
+<td-card-details-view [card]="card$ | async">
+  <div [ngSwitch]="cardDetailPage$ | async">
+    <div *ngSwitchCase="'FORM'">
+      <div>Form</div>
+    </div>
+    <div *ngSwitchCase="'FEED'">
+      <div>Feed</div>
+    </div>
+    <div *ngSwitchCase="'SUBTASKS'">
+      <div>Subtasks</div>
+    </div>
+    <div *ngSwitchCase="'WORK'">
+      <div>Work</div>
+    </div>
+    <div *ngSwitchCase="'ATTACHMENTS'">
+      <div>ATTACHMENTS</div>
+    </div>
+    <div *ngSwitchCase="'ISSUES'">
+      <div>ISSUES</div>
+    </div>
+    <div *ngSwitchCase="'CODE'">
+      <div>CODE</div>
+    </div>
+    <div *ngSwitchDefault>
+      <div>Form default</div>
+    </div>
+  </div>
+</td-card-details-view>

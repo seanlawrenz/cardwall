@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Card } from '@app/models';
+import { Card, CardDetailsPageTypes } from '@app/models';
 import { getCardColor } from '@app/utils';
 
 enum CardColors {
@@ -24,7 +24,7 @@ export class BacklogCardComponent implements OnInit {
   @Input() isSelected: boolean;
 
   @Output() selectCardRequested = new EventEmitter<void>();
-  @Output() cardDetailsRequested = new EventEmitter<void>();
+  @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();
 
   backgroundColor: string;
   constructor() {}
@@ -33,8 +33,8 @@ export class BacklogCardComponent implements OnInit {
     this.backgroundColor = getCardColor(this.card);
   }
 
-  openCardDetails() {
-    this.cardDetailsRequested.emit();
+  openCardDetails(type: CardDetailsPageTypes) {
+    this.cardDetailsRequested.emit(type);
   }
 
   archiveCard() {

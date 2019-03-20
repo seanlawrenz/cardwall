@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card } from '@app/models';
+import { Card, CardDetailsPageTypes } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -42,7 +42,12 @@ export class BacklogCardControllerComponent implements OnInit {
     this.store.dispatch(new cardActions.CardSelected(this.card));
   }
 
-  showCardDetails() {
+  showCardDetails(type: CardDetailsPageTypes) {
     this.store.dispatch(new cardDetailActions.CurrentCard(this.card));
+    if (type === undefined || type === CardDetailsPageTypes.FORM) {
+      this.store.dispatch(new cardDetailActions.ShowForm());
+    } else if (type === CardDetailsPageTypes.SUBTASKS) {
+      this.store.dispatch(new cardDetailActions.ShowSubtasks());
+    }
   }
 }
