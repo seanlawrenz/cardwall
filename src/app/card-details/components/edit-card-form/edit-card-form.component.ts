@@ -8,7 +8,10 @@ import { Card } from '@app/models';
   styleUrls: ['./edit-card-form.component.scss'],
 })
 export class EditCardFormComponent implements OnInit {
-  @Input() card: Card;
+  @Input() _card: Card;
+
+  card: Card;
+
   // Permissions
   isAssigned: boolean;
   canUpdate: boolean;
@@ -18,6 +21,7 @@ export class EditCardFormComponent implements OnInit {
   constructor(private config: ConfigService) {}
 
   ngOnInit() {
+    this.card = { ...this._card };
     this.setPermissions();
   }
 

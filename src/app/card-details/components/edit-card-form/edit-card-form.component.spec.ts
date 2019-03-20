@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
@@ -13,6 +14,7 @@ describe('EditCardFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditCardFormComponent],
+      imports: [FormsModule, ReactiveFormsModule],
       providers: [{ provide: ConfigService, useValue: mockConfigService }],
     }).compileComponents();
   }));
@@ -35,7 +37,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateTasks = false;
       configService.config.CanUpdateMyTasksOnly = false;
       configService.config.CanEditTasks = false;
-      component.card = mockCard;
+      component._card = mockCard;
 
       fixture.detectChanges();
 
@@ -44,7 +46,7 @@ describe('EditCardFormComponent', () => {
 
     it('should allow permission to someone who can update tasks', () => {
       configService.config.CanUpdateTasks = true;
-      component.card = mockCard;
+      component._card = mockCard;
 
       fixture.detectChanges();
 
@@ -56,7 +58,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateMyTasksOnly = true;
       const mockCardWithThisOwner = { ...mockCard, owners: [mockResource] };
       configService.config.UID = mockResource.uid;
-      component.card = mockCardWithThisOwner;
+      component._card = mockCardWithThisOwner;
 
       fixture.detectChanges();
 
@@ -69,7 +71,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateMyTasksOnly = true;
       const mockCardWithNoOwners = { ...mockCard, owners: [] };
       configService.config.UID = mockResource.uid;
-      component.card = mockCardWithNoOwners;
+      component._card = mockCardWithNoOwners;
 
       fixture.detectChanges();
 
@@ -81,7 +83,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateTasks = false;
       configService.config.CanUpdateMyTasksOnly = false;
       configService.config.CanEditTasks = true;
-      component.card = mockCard;
+      component._card = mockCard;
 
       fixture.detectChanges();
 

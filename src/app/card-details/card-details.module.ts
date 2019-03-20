@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared/shared.module';
 
 // NgRx
@@ -42,6 +43,8 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
   imports: [
     CommonModule,
     CardDetailsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     StoreModule.forFeature('card-details', reducers),
     EffectsModule.forFeature(effects),
