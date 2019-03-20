@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Card } from '@app/models';
+import { getCardColor } from '@app/utils';
 
 enum CardColors {
   DEFAULT = 'default',
@@ -29,36 +30,7 @@ export class BacklogCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    let color;
-    switch (this.card.cssClass) {
-      case CardColors.DEFAULT:
-        color = 'default';
-        break;
-
-      case CardColors.PRIMARY:
-        color = 'primary';
-        break;
-
-      case CardColors.SUCCESS:
-        color = 'success';
-        break;
-
-      case CardColors.INFO:
-        color = 'info';
-        break;
-
-      case CardColors.WARNING:
-        color = 'warning';
-        break;
-
-      case CardColors.DANGER:
-        color = 'danger';
-        break;
-
-      default:
-        color = 'default';
-    }
-    this.backgroundColor = `tdNg-card-color-${color}`;
+    this.backgroundColor = getCardColor(this.card);
   }
 
   openCardDetails() {

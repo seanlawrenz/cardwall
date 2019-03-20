@@ -1,0 +1,15 @@
+.tdNg {
+  &-cd {
+    &-header {
+      display: flex;
+      flex-direction: column;
+
+      &-name-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0 0 1em 0;
+      }
+    }
+  }
+}

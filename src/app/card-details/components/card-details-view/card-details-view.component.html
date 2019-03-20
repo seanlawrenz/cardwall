@@ -1,1 +1,13 @@
-<p>Nothing</p>
+<div class="modal-header tdNg-cd-header" [ngClass]="cardBackgroundColor">
+  <div class="tdNg-cd-header-name-container">
+    <h3>{{ card.name }}</h3>
+
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeDialog()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div>
+    <td-id-copy-button [itemID]="card.id" itemType="Card"></td-id-copy-button>
+  </div>
+</div>
