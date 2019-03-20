@@ -12,33 +12,31 @@
   </div>
 </div>
 
-<div class="modal-body tdNg-cd-body">
-  <!-- Tab Menu -->
-  <div class="gutter-top">
-    <ul class="nav nav-tabs tdNg-">
-      <li class="nav-item" (click)="detailPageRequested('FORM')">
-        <span class="nav-link gutter-left" [ngClass]="{ active: selectedPage === 'FORM' }">Card</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('FEED')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'FEED' }">Feed</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('SUBTASKS')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'SUBTASKS' }">Subtasks ({{ card.subtasksCount }})</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('WORK')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'WORK' }">Work</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('ATTACHMENTS')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'ATTACHMENTS' }">Attachments ({{ card.attachmentsCount }})</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('ISSUES')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'ISSUES' }">Issues ({{ card.issuesCount }})</span>
-      </li>
-      <li class="nav-item" (click)="detailPageRequested('CODE')">
-        <span class="nav-link" [ngClass]="{ active: selectedPage === 'CODE' }">Code ({{ card.codeCount }})</span>
-      </li>
-    </ul>
-  </div>
-
-  <ng-content></ng-content>
+<!-- Tab Menu -->
+<div class="gutter-top">
+  <ul class="nav nav-tabs tdNg-">
+    <li class="nav-item" (click)="detailPageRequested('FORM')">
+      <span class="nav-link gutter-left" [ngClass]="{ active: selectedPage === 'FORM' }">Card</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('FEED')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'FEED' }">Feed</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('SUBTASKS')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'SUBTASKS' }">Subtasks ({{ card.subtasksCount }})</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('WORK')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'WORK' }">Work</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('ATTACHMENTS')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'ATTACHMENTS' }">Attachments ({{ card.attachmentsCount }})</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('ISSUES')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'ISSUES' }">Issues ({{ card.issuesCount }})</span>
+    </li>
+    <li class="nav-item" (click)="detailPageRequested('CODE')">
+      <span class="nav-link" [ngClass]="{ active: selectedPage === 'CODE' }">Code ({{ card.codeCount }})</span>
+    </li>
+  </ul>
 </div>
+
+<ng-content></ng-content>
