@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
-import { Card, Plan, Board, Priority, PriorityClasses } from '@app/models';
+import { Card, Plan, Board, Priority, PriorityClasses, Resources } from '@app/models';
 import { blankInputValidator } from '@app/utils';
 
 @Component({
@@ -16,6 +16,7 @@ export class EditCardFormComponent implements OnInit {
   @Output() discardChangesRequested = new EventEmitter<void>();
 
   card: Card;
+  resources: Resources[];
 
   // Permissions
   isAssigned: boolean;
@@ -37,6 +38,8 @@ export class EditCardFormComponent implements OnInit {
     this.card = { ...this._card };
     this.setPermissions();
     this.createForm();
+
+    this.resources = this.plan.resources;
   }
 
   onIsStoryChanged(e) {

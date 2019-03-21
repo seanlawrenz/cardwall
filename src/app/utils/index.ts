@@ -33,6 +33,12 @@ export const uniqueCollectionsInCollection = (array: Array<any>, key: string): A
 export const updateDataOnCollection = (targetArray: any[], identifier: number, dataToReplaceWith: any) =>
   Object.assign({}, find(targetArray, target => target.id === identifier), dataToReplaceWith);
 
+/**
+ * Sanitize string for string comparison
+ * @param {string} text
+ */
+export const sanitizeString = (text: string) => text.toLowerCase().trim();
+
 export * from './relativeMoveCardId';
 export * from './cardMoveOperations';
 export * from './card-color-reducer';

@@ -1,0 +1,96 @@
+<!-- default options item template -->
+<ng-template #tdTemplate let-value="item">
+  {{ complex ? value[nameField] : value }}
+</ng-template>
+
+<span *ngFor="let value of values; let i = index" class="type-ahead-badge" [ngClass]="settings.buttonClass" (click)="removeValue(value)">
+  <span [ngClass]="settings.tagClass">
+    <ng-template
+      [ngTemplateOutlet]="selectedTemplate || tdTemplate"
+      [ngTemplateOutletContext]="{ item: value, index: i, complex: complex, nameField: nameField }"
+    ></ng-template>
+
+    <span *ngIf="clearButton === true && isDisabled === false" aria-hidden="true" (click)="removeValue(value)" class="fa fa-times"></span>
+  </span>
+</span>
+
+<input
+  *ngIf="!isDisabled || !multi || !values.length"
+  aria-label="inputLabel"
+  (blur)="onBlur()"
+  [disabled]="isDisabled || null"
+  placeholder="{{ isDisabled || values.length ? '' : placeholder }}"
+  type="text"
+  autocomplete="off"
+  (keyup)="handleInput($event)"
+  (keydown)="handleInput($event)"
+  (paste)="handleInput($event)"
+  (click)="toggleDropdown(true)"
+  (change)="handleInputChange($event)"
+/>
+
+<span *ngIf="!isDisabled" (click)="toggleDropdown()" tabindex="-1" [ngClass]="settings.dropDownToggleClass" aria-haspopup="true"></span>
+
+<!-- Dropdown menu -->
+<div role="menu" class="dropdown" [attr.class]="dropDownClass" (mouseenter)="onMouseEnterList()" (mouseleave)="onMouseLeaveList()">
+  <span *ngIf="!isLoading">
+    <button
+      *ngFor="let match of matches; let i = index"
+      type="button"
+      role="menuitem"
+      tabindex="-1"
+      [ngClass]="settings.dropDownMenuItemClass"
+      (mouseup)="handleButton($event, match)"
+      (keydown)="handleButton($event, match)"
+      (keyup)="handleButton($event, match)"
+      (blur)="onButtonBlur($event)"
+    >
+      <!-- Matches -->
+      <ng-template
+        [ngTemplateOutlet]="dropDownMenuTemplate || tdTemplate"
+        [ngTemplateOutletContext]="{ item: match, index: i, complex: complex, nameField: nameField }"
+      ></ng-template>
+    </button>
+
+    <!-- Create value -->
+    <ng-container *ngIf="createValue && matches.length > 0 && emptySearch === false">
+      <button
+        type="button"
+        role="menuitem"
+        tabindex="-1"
+        [ngClass]="settings.dropDownMenuItemClass"
+        (click)="addNoMatch()"
+        (blur)="onButtonBlur($event)"
+      >
+        <ng-template *ngIf="createOnNoMatchesTemplate" [ngTemplateOutlet]="createOnNoMatchesTemplate"></ng-template>
+
+        <span *ngIf="!createOnNoMatchesTemplate">{{ settings.noMatchesText }}</span>
+      </button>
+    </ng-container>
+  </span>
+
+  <span *ngIf="isLoading" class="td-icon td-loading-sm tdNg-dropdown-loading"></span>
+
+  <!-- No matches -->
+  <span *ngIf="matches.length === 0 && !isLoading">
+    <div *ngIf="!createOnNoMatches" role="menuitem" aria-disabled="true" disabled="true" [ngClass]="settings.dropDownMenuItemClass">
+      <ng-template *ngIf="noMatchesTemplate" [ngTemplateOutlet]="noMatchesTemplate"></ng-template>
+
+      <span *ngIf="!noMatchesTemplate">{{ settings.noMatchesText }}</span>
+    </div>
+
+    <!-- Create on no matches -->
+    <button
+      *ngIf="createOnNoMatches"
+      role="menuitem"
+      tabindex="-1"
+      [ngClass]="settings.dropDownMenuItemClass"
+      (click)="addNoMatch()"
+      (blur)="onButtonBlur($event)"
+    >
+      <ng-template *ngIf="createOnNoMatchesTemplate" [ngTemplateOutlet]="createOnNoMatchesTemplate"></ng-template>
+
+      <span *ngIf="!createOnNoMatchesTemplate">{{ settings.createOnNoMatchesText }}</span>
+    </button>
+  </span>
+</div>

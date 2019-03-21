@@ -1,0 +1,25 @@
+<div *ngIf="resources" [formGroup]="formGroup">
+  <td-muilt-select
+    class="form-control form-control-sm"
+    [data]="resources"
+    idField="uid"
+    [multi]="true"
+    [complex]="true"
+    inputLabel="Add responsibility"
+    placeholder="Assign resource responsible"
+    [selectedTemplate]="selectedItem"
+    [dropDownMenuTemplate]="dropdownTemplate"
+    formControlName="owners"
+  ></td-muilt-select>
+
+  <ng-template #selectedItem let-resource="item">
+    <td-profile-image [resource]="resource" imgClass="dropdown"></td-profile-image>
+    <small style="margin-right: 5px;">{{ resource.name }}</small>
+  </ng-template>
+
+  <ng-template #dropdownTemplate let-resource="item">
+    <td-profile-image [resource]="resource" imgClass="dropdown"></td-profile-image>
+    &nbsp;
+    <span class="tdNg-resource-name">{{ resource.name }}</span>
+  </ng-template>
+</div>
