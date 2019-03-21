@@ -25,6 +25,10 @@ export class CardDetailsBaseComponent implements OnInit {
     this.cardDetailPage$ = this.store.pipe(select(fromCardDetails.getCardDetailsPage));
   }
 
+  discardChanges() {
+    this.store.dispatch(new actions.HideDetails());
+  }
+
   updateCardDetailPage(type: CardDetailsPageTypes) {
     switch (type) {
       case CardDetailsPageTypes.FORM:
