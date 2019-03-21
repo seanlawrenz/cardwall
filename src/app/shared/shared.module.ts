@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 // Libraries
@@ -10,6 +11,7 @@ import { TDXAgilePipesModule } from './pipes';
 // Components
 import { ButtonComponent } from './components/button/button.component';
 import { CardResourceIconsComponent } from './components/card-resource-icons/card-resource-icons.component';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { EstimatedHoursComponent } from './components/estimated-hours/estimated-hours.component';
 import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph/expand-collapse-glyph.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
@@ -41,13 +43,23 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     ToolbarResourcesComponent,
     TotalsUiComponent,
     IdCopyButtonComponent,
+    DropdownMenuComponent,
   ],
-  imports: [CommonModule, DirectiveModule, ClipboardModule, TDXAgilePipesModule.forRoot(), TooltipModule.forRoot()],
+  imports: [
+    CommonModule,
+    DirectiveModule,
+    ClipboardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TDXAgilePipesModule.forRoot(),
+    TooltipModule.forRoot(),
+  ],
   exports: [
     DirectiveModule,
     TDXAgilePipesModule,
     ButtonComponent,
     CardResourceIconsComponent,
+    DropdownMenuComponent,
     EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,

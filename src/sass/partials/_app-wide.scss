@@ -98,3 +98,35 @@ div.profile-image.initials {
 .no-padding {
   padding: 0;
 }
+
+.priority {
+  &-high {
+    color: $priority-high;
+    background: $priority-high;
+    cursor: default;
+  }
+
+  &-med-high {
+    color: $priority-med-high;
+    background: $priority-med-high;
+    cursor: default;
+  }
+
+  &-med {
+    color: $priority-med;
+    background: $priority-med;
+    cursor: default;
+  }
+
+  &-med-low {
+    color: $priority-med-low;
+    background: $priority-med-low;
+    cursor: default;
+  }
+
+  &-low {
+    color: $priority-low;
+    background: $priority-low;
+    cursor: default;
+  }
+}

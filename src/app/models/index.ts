@@ -5,6 +5,7 @@ export * from './connection.model';
 export * from './errors.model';
 export * from './notification.model';
 export * from './plan.model';
+export * from './prority.model';
 export * from './resources.model';
 export * from './signalR.result';
 export * from './ui.models';

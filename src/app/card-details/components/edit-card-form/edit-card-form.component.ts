@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
-import { Card, Plan, Board } from '@app/models';
+import { Card, Plan, Board, Priority, PriorityClasses } from '@app/models';
 import { blankInputValidator } from '@app/utils';
 
 @Component({
@@ -27,8 +27,11 @@ export class EditCardFormComponent implements OnInit {
   // Form
   cardForm: FormGroup;
   areDatesInvalid: boolean;
+  priorityClasses: Priority[];
 
-  constructor(private config: ConfigService) {}
+  constructor(private config: ConfigService) {
+    this.priorityClasses = new PriorityClasses().priorityClasses;
+  }
 
   ngOnInit() {
     this.card = { ...this._card };
