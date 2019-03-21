@@ -28,6 +28,12 @@
   &-divider {
     border-right: 2px solid $darkGrey;
   }
+
+  &-priority-box {
+    border: 1px solid $borderGrey;
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .flex-start {

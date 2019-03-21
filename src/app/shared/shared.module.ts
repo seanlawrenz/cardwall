@@ -19,6 +19,7 @@ import { GripComponent } from './components/grip/grip.component';
 import { IdCopyButtonComponent } from './components/id-copy-button/id-copy-button.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { OptionSidebarContainerComponent } from './components/option-sidebar-container/option-sidebar-container.component';
+import { PriorityComponent } from './components/priority/priority.component';
 import { ProfileImageComponent } from './components/profile-image/profile-image.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
@@ -44,6 +45,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     TotalsUiComponent,
     IdCopyButtonComponent,
     DropdownMenuComponent,
+    PriorityComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     IdCopyButtonComponent,
     LoadingSpinnerComponent,
     OptionSidebarContainerComponent,
+    PriorityComponent,
     ProfileImageComponent,
     SpinnerComponent,
     StoryPointIndicatorComponent,

@@ -7,6 +7,9 @@
     <div class="col-8 col-md-6 col-lg-4">
       <div class="tdNg-backlog-card-name-container">
         <td-grip [cardColor]="backgroundColor"></td-grip>
+
+        <td-priority [priorityId]="card.priorityId" class="tdNg-backlog-card-priority-box"></td-priority>
+
         <td-subtasks-icon
           [card]="card"
           (subtasksClicked)="openCardDetails('SUBTASKS')"

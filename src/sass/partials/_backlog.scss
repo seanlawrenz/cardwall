@@ -72,6 +72,10 @@
         }
       }
 
+      &-priority-box {
+        margin: 0 1em;
+      }
+
       &-subtask {
         @media #{$break-wide-up} {
           margin: 0 1em;
