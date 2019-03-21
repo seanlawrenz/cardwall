@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
 import { Card, Plan, Board } from '@app/models';
@@ -13,6 +13,8 @@ export class EditCardFormComponent implements OnInit {
   @Input() _card: Card;
   @Input() plan: Plan | Board;
 
+  @Output() discardChangesRequested = new EventEmitter<void>();
+
   card: Card;
 
   // Permissions
@@ -20,6 +22,7 @@ export class EditCardFormComponent implements OnInit {
   canUpdate: boolean;
   canEdit: boolean;
   canEditOrUpdate: boolean;
+  useRemainingHours: boolean;
 
   // Form
   cardForm: FormGroup;
@@ -55,6 +58,9 @@ export class EditCardFormComponent implements OnInit {
     }
 
     this.canEdit = this.config.config.CanEditTasks;
+
+    // We only want to lock % complete if there are estimated hours AND we're set to use remaining hours on the project
+    this.useRemainingHours = this.plan.useRemainingHours && this.card.estimatedHours > 0;
   }
 
   private createForm() {
@@ -75,6 +81,10 @@ export class EditCardFormComponent implements OnInit {
       cssClass: new FormControl(this.card.cssClass),
     });
     this.isStartDateAfterEndDate();
+    // Disable the form if you don't have edit cards permissions
+    if (!this.canEdit) {
+      this.cardForm.disable();
+    }
   }
 
   private isStartDateAfterEndDate(): ValidatorFn {

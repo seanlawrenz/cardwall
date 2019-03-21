@@ -6,7 +6,7 @@ import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
 import { DisableControlDirective } from '@app/shared/directives/disable-inputs.directive';
 import { mockConfigService } from '@app/test/mocks';
-import { mockCard, mockResource } from '@app/test/data';
+import { mockCard, mockResource, mockBoard } from '@app/test/data';
 
 describe('EditCardFormComponent', () => {
   let component: EditCardFormComponent;
@@ -33,6 +33,7 @@ describe('EditCardFormComponent', () => {
   describe('setPermissions', () => {
     beforeEach(() => {
       configService = TestBed.get(ConfigService);
+      component.plan = mockBoard;
     });
 
     it('should not allow permission to someone who cannot update tasks or edit', () => {

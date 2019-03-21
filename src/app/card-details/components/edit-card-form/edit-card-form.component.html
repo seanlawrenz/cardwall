@@ -69,6 +69,7 @@
             class="form-control form-control-sm"
             formControlName="percentComplete"
             [ngClass]="{ 'is-invalid': cardForm.controls['percentComplete'].invalid && cardForm.controls['percentComplete'].touched }"
+            [tdDisableControl]="useRemainingHours || !canEditOrUpdate ? 'disable' : ''"
           />
           <div aria-hidden="true" class="input-group-append">
             <div class="input-group-text">%</div>
@@ -80,7 +81,7 @@
       </div>
 
       <!-- Remaining Hours -->
-      <div class="form-group col-md-2">
+      <div class="form-group required col-md-2">
         <label for="card-remaining-hrs" class="control-label">Remaining Hrs</label>
         <input
           type="number"
@@ -89,6 +90,7 @@
           class="form-control form-control-sm"
           formControlName="remainingHrs"
           [ngClass]="{ 'is-invalid': cardForm.controls['remainingHrs'].invalid && cardForm.controls['remainingHrs'].touched }"
+          [tdDisableControl]="useRemainingHours === false || !canEditOrUpdate ? 'disable' : ''"
         />
         <div class="text-danger" *ngIf="cardForm.controls['remainingHrs'].invalid && cardForm.controls['remainingHrs'].touched">
           Remaining Hrs is required
