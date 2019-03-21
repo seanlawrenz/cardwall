@@ -107,7 +107,7 @@
       <div class="form-group col-md-2">
         <span class="control-label">Is Story</span>
         <br />
-        <ui-switch color="#428bca" formControlName="isStory"></ui-switch>
+        <ui-switch color="#428bca" formControlName="isStory" (valueChange)="onIsStoryChanged($event)"></ui-switch>
       </div>
 
       <!-- Story Points -->
@@ -120,6 +120,7 @@
           class="form-control form-control-sm"
           formControlName="storyPoints"
           [ngClass]="{ 'is-invalid': cardForm.controls['storyPoints'].invalid && cardForm.controls['storyPoints'].touched }"
+          [tdDisableControl]="card.isStory === false || !canEdit ? 'disable' : ''"
         />
         <div class="text-danger" *ngIf="cardForm.controls['storyPoints'].invalid && cardForm.controls['storyPoints'].touched">
           Story Points requires a number between 0 and 2,147,483,647
@@ -136,6 +137,7 @@
           class="form-control form-control-sm"
           formControlName="valuePoints"
           [ngClass]="{ 'is-invalid': cardForm.controls['valuePoints'].invalid && cardForm.controls['valuePoints'].touched }"
+          [tdDisableControl]="card.isStory === false || !canEdit ? 'disable' : ''"
         />
         <div class="text-danger" *ngIf="cardForm.controls['valuePoints'].invalid && cardForm.controls['valuePoints'].touched">
           Value Points requires a number between 0 and 2,147,483,647

@@ -32,6 +32,10 @@ export class EditCardFormComponent implements OnInit {
     this.createForm();
   }
 
+  onIsStoryChanged(e) {
+    this.card.isStory = e;
+  }
+
   private setPermissions() {
     // Determine whether or not the resource is assigned to the task
     this.isAssigned =
