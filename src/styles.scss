@@ -3,6 +3,9 @@
 @import url(http://192.168.1.14/tddev/TDNext/Styles/TDStyles.min.css?v=20190121143146);
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
 
+// 3rd Parties
+@import '~ngx-ui-switch/ui-switch.component.scss';
+
 @import './sass//mixins';
 @import './sass/base';
 

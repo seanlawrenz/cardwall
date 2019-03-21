@@ -1,6 +1,7 @@
 <form [formGroup]="cardForm">
   <div class="modal-body tdNg-cd-form-group-margin">
     <div class="form-group required">
+      <!-- Title -->
       <label for="card-name" class="control-label">Title</label>
       <input
         type="text"
@@ -15,6 +16,7 @@
       </div>
     </div>
 
+    <!-- Description -->
     <div class="form-group">
       <label for="card-description" class="control-label">Description</label>
       <textarea
@@ -27,6 +29,7 @@
       ></textarea>
     </div>
 
+    <!-- Start / End Dates -->
     <div class="form-row">
       <div class="form-group col-md-6">
         <label class="control-label">Start / End</label>
@@ -37,6 +40,7 @@
         </div>
       </div>
 
+      <!-- Estimated Hours -->
       <div class="form-group col-md-2 required">
         <label for="card-estimatedHrs" class="control-label">Estimated Hrs</label>
         <input
@@ -53,6 +57,7 @@
         </div>
       </div>
 
+      <!-- Percent Complete -->
       <div class="form-group col-md-2 required">
         <label for="card-percent-complete" class="control-label">% Complete</label>
         <div class="input-group input-group-sm">
@@ -74,6 +79,7 @@
         </div>
       </div>
 
+      <!-- Remaining Hours -->
       <div class="form-group col-md-2">
         <label for="card-remaining-hrs" class="control-label">Remaining Hrs</label>
         <input
@@ -91,20 +97,22 @@
     </div>
 
     <div class="form-row">
+      <!-- Priority -->
       <div class="form-group col-md-6">
         <label for="card-priority" class="control-label">Priority</label>
         <input class="form-control form-control-sm" id="card-priority" placeholder="placeholder for dropdown" />
       </div>
 
+      <!-- Is Story -->
       <div class="form-group col-md-2">
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="card-isStory" formControlName="isStory" />
-          <label class="custom-control-label" for="card-isStory">Is Story</label>
-        </div>
+        <span class="control-label">Is Story</span>
+        <br />
+        <ui-switch color="#428bca" formControlName="isStory"></ui-switch>
       </div>
 
+      <!-- Story Points -->
       <div class="form-group required col-md-2">
-        <label for="card-storyPoints" class="label-control">Story Points</label>
+        <label for="card-storyPoints" class="control-label">Story Points</label>
         <input
           type="number"
           step="any"
@@ -118,8 +126,9 @@
         </div>
       </div>
 
+      <!-- Value Points -->
       <div class="form-group required col-md-2">
-        <label for="card-valuePoints" class="label-control">Value Points</label>
+        <label for="card-valuePoints" class="control-label">Value Points</label>
         <input
           type="number"
           step="any"
@@ -135,17 +144,20 @@
     </div>
 
     <div class="form-row">
+      <!-- Owners -->
       <div class="form-group col-md-6">
         <label for="card-owners" class="control-label">Responsible</label>
         <input class="form-control form-control-sm" id="card-owners" placeholder="placeholder for Typeahead" />
       </div>
 
+      <!-- Tags -->
       <div class="form-group col-md-6">
         <label for="card-tags" class="control-label">Tags</label>
         <input class="form-control form-control-sm" id="card-tags" placeholder="placeholder for Tags" />
       </div>
     </div>
 
+    <!-- CSS Colors -->
     <div class="form-row flex-end">
       <div class="form-group col-md-6">
         <label for="card.cssClass" class="control-label">Color</label>
@@ -155,6 +167,7 @@
   </div>
 
   <div class="modal-footer flex-start">
+    <!-- Save / Cancel actions -->
     <button type="submit" class="btn btn-primary" [disabled]="!cardForm.valid">
       <span class="fa fa-save"></span>
       Save
