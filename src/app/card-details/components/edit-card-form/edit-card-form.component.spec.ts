@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
+import { DisableControlDirective } from '@app/shared/directives/disable-inputs.directive';
 import { mockConfigService } from '@app/test/mocks';
 import { mockCard, mockResource } from '@app/test/data';
 
@@ -13,8 +15,8 @@ describe('EditCardFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EditCardFormComponent],
-      imports: [FormsModule, ReactiveFormsModule],
+      declarations: [EditCardFormComponent, DisableControlDirective],
+      imports: [FormsModule, ReactiveFormsModule, UiSwitchModule],
       providers: [{ provide: ConfigService, useValue: mockConfigService }],
     }).compileComponents();
   }));

@@ -53,6 +53,7 @@ describe('BacklogCardControllerComponent', () => {
         const xtraCard = mockCardBuilder();
         const xtraCard2 = mockCardBuilder();
         component.cards = [xtraCard2, mockCardFromMockList, xtraCard];
+        component.listInfo = { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId };
         mockEventFromSortable = { oldIndex: 1, newIndex: undefined, clone: { cardData: null } };
         fixture.detectChanges();
 

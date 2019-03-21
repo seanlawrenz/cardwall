@@ -5,3 +5,8 @@ export const getCard = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.card.card,
 );
+
+export const getPlanFromCard = createSelector(
+  fromCardDetails.getCardDetailsState,
+  state => state.card.plan,
+);

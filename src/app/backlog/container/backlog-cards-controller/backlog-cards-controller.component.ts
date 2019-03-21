@@ -2,14 +2,14 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
 import { CardService } from '@app/app-services/card.service';
-import { Card, List } from '@app/models';
+import { Card, List, Plan } from '@app/models';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromBacklog from '@app/backlog/state';
 import { SignalRService } from '@app/app-services';
 
 import { getRelativeMoveCardId } from '@app/utils';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -31,6 +31,8 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   @Input() cards: Card[];
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
+  plan$: Observable<Plan>;
+
   // Card Move
   sortableOptions: SortablejsOptions = {
     group: {
@@ -51,7 +53,10 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
 
   constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // This is to pass the plan data down to the card for card details if card is opened
+    this.plan$ = this.store.pipe(select(fromBacklog.getPlanById(this.listInfo.planId)));
+  }
 
   ngOnDestroy() {
     if (this.cardMoveSub) {

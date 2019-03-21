@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
-import { Card } from '@app/models';
+import { Card, Plan, Board } from '@app/models';
 import { blankInputValidator } from '@app/utils';
 
 @Component({
@@ -11,6 +11,7 @@ import { blankInputValidator } from '@app/utils';
 })
 export class EditCardFormComponent implements OnInit {
   @Input() _card: Card;
+  @Input() plan: Plan | Board;
 
   card: Card;
 
