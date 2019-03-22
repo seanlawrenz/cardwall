@@ -103,9 +103,11 @@
       <div class="form-group col-md-6">
         <label for="card-priority" class="control-label">Priority</label>
         <ng-select
+          class="select-sm"
           [items]="priorityClasses"
           bindValue="id"
           bindLabel="type"
+          [searchable]="false"
           formControlName="priorityId"
           [tdDisableControl]="canEdit === false"
         >
