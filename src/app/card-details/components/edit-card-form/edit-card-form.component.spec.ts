@@ -6,10 +6,10 @@ import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
-import { SharedModule } from '@app/shared/shared.module';
 
 import { mockConfigService } from '@app/test/mocks';
 import { mockCard, mockResource, mockBoard } from '@app/test/data';
+import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 describe('EditCardFormComponent', () => {
   let component: EditCardFormComponent;
@@ -19,8 +19,9 @@ describe('EditCardFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditCardFormComponent, ResourcesListComponent],
-      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, SharedModule, UiSwitchModule],
+      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, UiSwitchModule],
       providers: [{ provide: ConfigService, useValue: mockConfigService }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

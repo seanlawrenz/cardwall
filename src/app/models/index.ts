@@ -8,6 +8,7 @@ export * from './plan.model';
 export * from './prority.model';
 export * from './resources.model';
 export * from './signalR.result';
+export * from './tags.model';
 export * from './ui.models';
 
 // Leave at bottom to avoid race conditions
