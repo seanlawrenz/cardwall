@@ -4,8 +4,10 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
-import { DropdownMenuComponent } from '@app/shared/components/dropdown-menu/dropdown-menu.component';
-import { DisableControlDirective } from '@app/shared/directives/disable-inputs.directive';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ResourcesListComponent } from './resources-list/resources-list.component';
+import { SharedModule } from '@app/shared/shared.module';
+
 import { mockConfigService } from '@app/test/mocks';
 import { mockCard, mockResource, mockBoard } from '@app/test/data';
 
@@ -16,8 +18,8 @@ describe('EditCardFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EditCardFormComponent, DisableControlDirective, DropdownMenuComponent],
-      imports: [FormsModule, ReactiveFormsModule, UiSwitchModule],
+      declarations: [EditCardFormComponent, ResourcesListComponent],
+      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, SharedModule, UiSwitchModule],
       providers: [{ provide: ConfigService, useValue: mockConfigService }],
     }).compileComponents();
   }));

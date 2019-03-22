@@ -10,6 +10,7 @@ import { reducers, effects } from './state';
 
 // 3rd Parties
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // Containers
 import { AttachmentsBaseComponent } from './container/attachments-base/attachments-base.component';
@@ -48,6 +49,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     CommonModule,
     CardDetailsRoutingModule,
     FormsModule,
+    NgSelectModule,
     ReactiveFormsModule,
     SharedModule,
     UiSwitchModule,

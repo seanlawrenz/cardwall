@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^7.2.1",
     "@angular/platform-browser-dynamic": "^7.2.1",
     "@angular/router": "^7.2.1",
+    "@ng-select/ng-select": "^2.16.2",
     "@ngrx/effects": "^7.1.0",
     "@ngrx/router-store": "^7.1.0",
     "@ngrx/store": "^7.1.0",

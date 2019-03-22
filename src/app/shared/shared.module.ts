@@ -11,7 +11,6 @@ import { TDXAgilePipesModule } from './pipes';
 // Components
 import { ButtonComponent } from './components/button/button.component';
 import { CardResourceIconsComponent } from './components/card-resource-icons/card-resource-icons.component';
-import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { EstimatedHoursComponent } from './components/estimated-hours/estimated-hours.component';
 import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph/expand-collapse-glyph.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
@@ -45,7 +44,6 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     ToolbarResourcesComponent,
     TotalsUiComponent,
     IdCopyButtonComponent,
-    DropdownMenuComponent,
     PriorityComponent,
     MuiltSelectComponent,
   ],
@@ -63,7 +61,6 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     TDXAgilePipesModule,
     ButtonComponent,
     CardResourceIconsComponent,
-    DropdownMenuComponent,
     EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
     FilterToolbarComponent,

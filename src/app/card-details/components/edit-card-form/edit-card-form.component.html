@@ -102,24 +102,26 @@
       <!-- Priority -->
       <div class="form-group col-md-6">
         <label for="card-priority" class="control-label">Priority</label>
-        <td-dropdown-menu
-          [data]="priorityClasses"
-          nameField="type"
-          idField="id"
-          inputPlaceholder="Select a priority"
-          [dropDownMenuTemplate]="priorityTemplate"
-          [emptyClass]="0"
-          [disabledField]="canEdit === false ? 'disable' : null"
-          id="card-priority"
+        <ng-select
+          [items]="priorityClasses"
+          bindValue="id"
+          bindLabel="type"
           formControlName="priorityId"
-        ></td-dropdown-menu>
-
-        <ng-template #priorityTemplate let-priority="item">
-          <span *ngIf="priority.id > 0">
-            <span [ngClass]="priority.class" class="fa fa-square" aria-label="priority.type"></span>
-            <span>{{ priority.type }}</span>
-          </span>
-        </ng-template>
+          [tdDisableControl]="canEdit === false"
+        >
+          <ng-template ng-label-tmp let-item="item">
+            <div class="tdNg-flex-row-center">
+              <td-priority [priorityId]="item.id" class="mr-2"></td-priority>
+              {{ item.type }}
+            </div>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <div class="tdNg-flex-row-center">
+              <td-priority [priorityId]="item.id" class="mr-2"></td-priority>
+              {{ item.type }}
+            </div>
+          </ng-template>
+        </ng-select>
       </div>
 
       <!-- Is Story -->

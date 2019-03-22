@@ -220,6 +220,13 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@ng-select/ng-select@^2.16.2":
+  version "2.16.2"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-2.16.2.tgz#1c7444645fa867bb72ec1f4e2a53baa7c98353c9"
+  integrity sha512-aaTpx5XFOizuiAGeDTgCX/RR9Zqt/dBV9rG9GCWCuOrigH/lsPSLRVZ5m4foYy9Kl3fA5bgiqYcy4o3p9Pg1jQ==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngrx/effects@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.1.0.tgz#c42966a92096d605b72a1959599ad6c90a1e15a2"
