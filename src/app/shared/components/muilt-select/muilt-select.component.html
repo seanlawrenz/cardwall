@@ -10,7 +10,7 @@
       [ngTemplateOutletContext]="{ item: value, index: i, complex: complex, nameField: nameField }"
     ></ng-template>
 
-    <span *ngIf="clearButton === true && isDisabled === false" aria-hidden="true" (click)="removeValue(value)" class="fa fa-times"></span>
+    <span *ngIf="clearButton === true && isDisabled === false" aria-hidden="true" (click)="removeValue(value)" style="padding-left: 0.5em" class="fa fa-times"></span>
   </span>
 </span>
 

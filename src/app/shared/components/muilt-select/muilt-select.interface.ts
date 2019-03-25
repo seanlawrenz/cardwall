@@ -11,9 +11,9 @@ export interface TypeaheadSettings {
   tagClass?: string;
   tagRemoveIconClass?: string;
 
-  dropDownMenuClass: string;
-  dropDownMenuExpandedClass: string;
-  dropDownMenuItemClass: string;
+  dropDownMenuClass?: string;
+  dropDownMenuExpandedClass?: string;
+  dropDownMenuItemClass?: string;
   dropDownToggleClass?: string;
   dashCase: boolean;
 }
