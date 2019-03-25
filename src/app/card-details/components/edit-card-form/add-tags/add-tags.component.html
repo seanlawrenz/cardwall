@@ -1,0 +1,24 @@
+<div [formGroup]="cardForm">
+  <ng-select
+    class="select-sm"
+    [items]="tags$ | async"
+    [addTag]="true"
+    [multiple]="true"
+    [loading]="loading"
+    [typeahead]="tagInput$"
+    formControlName="tags"
+    (add)="addTag($event)"
+  >
+    <ng-template ng-multi-label-tmp let-tags="items">
+      <div *ngFor="let tag of tags ? tags.slice(0, 3) : []">
+        <span class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+          {{ tag }}
+        </span>
+      </div>
+
+      <div style="margin-bottom: 6px" *ngIf="tags.length > 3">
+        <span class="badge badge-primary tdNg-tags-badge">{{ tags.length - 3 }} more...</span>
+      </div>
+    </ng-template>
+  </ng-select>
+</div>

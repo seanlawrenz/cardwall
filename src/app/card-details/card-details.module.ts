@@ -20,6 +20,7 @@ import { IssuesBaseComponent } from './container/issues-base/issues-base.compone
 import { SubtasksBaseComponent } from './container/subtasks-base/subtasks-base.component';
 
 // Components
+import { AddTagsComponent } from './components/edit-card-form/add-tags/add-tags.component';
 import { CardDetailsDialogComponent } from './components/card-details-dialog/card-details-dialog.component';
 import { CardDetailsViewComponent } from './components/card-details-view/card-details-view.component';
 import { CodeComponent } from './components/code/code.component';
@@ -44,6 +45,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     SubtasksBaseComponent,
     AttachmentsBaseComponent,
     ResourcesListComponent,
+    AddTagsComponent,
   ],
   imports: [
     CommonModule,
