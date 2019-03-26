@@ -50,6 +50,10 @@ export class EditCardFormComponent implements OnInit {
     this.discardChangesRequested.emit();
   }
 
+  onSubmit() {
+    console.log(this.cardForm.controls['tags'].value);
+  }
+
   private setPermissions() {
     // Determine whether or not the resource is assigned to the task
     this.isAssigned =
