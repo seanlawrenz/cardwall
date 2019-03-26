@@ -1,21 +1,14 @@
 <div [formGroup]="cardForm">
-  <td-muilt-select
-    class="form-control form-control-sm"
-    [inputLabel]="'Add tags'"
-    [data]="possibleTags"
-    [complex]="false"
-    placeholder="Search Tags"
-    [serverSideData]="true"
-    [createOnNoMatches]="true"
-    [createValue]="true"
-    [noMatchesTemplate]="noMatches"
-    [createOnNoMatchesTemplate]="createOnNoMatches"
-    [settings]="typeaheadSettings"
-    (onQuery)="selectionChange($event)"
-    (valueChange)="selectedTag($event)"
-    (onFocusLost)="resetTheSearch()"
+  <ng-select
+    class="select-sm"
+    [items]="possibleTags$ | async"
+    [multiple]="true"
+    [loading]="loading"
+    [addTag]="true"
+    [hideSelected]="true"
+    [typeahead]="tagInput$"
     formControlName="tags"
-  ></td-muilt-select>
+  ></ng-select>
 
   <ng-template #createOnNoMatches>{{ searchText }} (Tag will be created)</ng-template>
 

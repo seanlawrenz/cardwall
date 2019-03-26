@@ -11,6 +11,7 @@ import { Card, CardDetailsPageTypes, Plan, Board } from '@app/models';
   selector: 'td-card-details-base',
   templateUrl: './card-details-base.component.html',
   styleUrls: ['./card-details-base.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardDetailsBaseComponent implements OnInit {
   card$: Observable<Card>;
