@@ -8,11 +8,23 @@
     [hideSelected]="true"
     [typeahead]="tagInput$"
     formControlName="tags"
-  ></ng-select>
+  >
+    <ng-template ng-multi-label-tmp let-tags="items" let-clear="clear">
+      <div class="" *ngFor="let tag of tags ? tags.slice(0, 3) : []">
+        <span class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">{{ tag }}</span>
+        <!-- Clear is callable. Known bug https://github.com/angular/angular/issues/16643 -->
+        <span class="ng-value-icon right" (click)="clear(tag)" aria-label="Remove tag"></span>
+      </div>
 
-  <ng-template #createOnNoMatches>{{ searchText }} (Tag will be created)</ng-template>
+      <div class="badge badge-primary tdNg-tags-badge" style="margin-bottom: 6px" *ngIf="tags.length > 3">
+        {{ tags.length - 3 }} more...
+      </div>
+    </ng-template>
+  </ng-select>
+
+  <!-- <ng-template #createOnNoMatches>{{ searchText }} (Tag will be created)</ng-template>
 
   <ng-template #noMatches>
     <span class="has-danger-message tdNg-bold">Tag {{ searchText }} is already selected</span>
-  </ng-template>
+  </ng-template> -->
 </div>
