@@ -20,11 +20,7 @@
         {{ tags.length - 3 }} more...
       </div>
     </ng-template>
+
+    <ng-template ng-tag-tmp let-searchTerm="searchTerm">{{ cleanUpText(searchTerm) }} (Tag will be created)</ng-template>
   </ng-select>
-
-  <!-- <ng-template #createOnNoMatches>{{ searchText }} (Tag will be created)</ng-template>
-
-  <ng-template #noMatches>
-    <span class="has-danger-message tdNg-bold">Tag {{ searchText }} is already selected</span>
-  </ng-template> -->
 </div>

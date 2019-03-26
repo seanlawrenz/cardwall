@@ -51,7 +51,7 @@ export class AddTagsComponent implements OnInit {
    * uses trimStart and trimEnd from LoDash
    * @param text {string} text to be trimmed and spaces removed
    */
-  private cleanUpText(text: string): string {
+  cleanUpText(text: string): string {
     // Trim beginning and end
     text = trim(text);
 
