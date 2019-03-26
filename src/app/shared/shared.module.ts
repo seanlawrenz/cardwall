@@ -17,7 +17,6 @@ import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolb
 import { GripComponent } from './components/grip/grip.component';
 import { IdCopyButtonComponent } from './components/id-copy-button/id-copy-button.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import { MuiltSelectComponent } from './components/muilt-select/muilt-select.component';
 import { OptionSidebarContainerComponent } from './components/option-sidebar-container/option-sidebar-container.component';
 import { PriorityComponent } from './components/priority/priority.component';
 import { ProfileImageComponent } from './components/profile-image/profile-image.component';
@@ -45,7 +44,6 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     TotalsUiComponent,
     IdCopyButtonComponent,
     PriorityComponent,
-    MuiltSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -67,7 +65,6 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     GripComponent,
     IdCopyButtonComponent,
     LoadingSpinnerComponent,
-    MuiltSelectComponent,
     OptionSidebarContainerComponent,
     PriorityComponent,
     ProfileImageComponent,

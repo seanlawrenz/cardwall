@@ -1,68 +1,49 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { Card } from '@app/models';
-
-import { TagService } from './tag-service/tag.service';
-import { TypeaheadSettings } from '@app/shared/components/muilt-select/muilt-select.interface';
+import { Card, SignalRResult } from '@app/models';
 
 import { replace, trim } from 'lodash';
+import { concat, Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, map } from 'rxjs/operators';
+import { SignalRService } from '@app/app-services';
 
 @Component({
   selector: 'td-add-tags',
   templateUrl: './add-tags.component.html',
   styleUrls: ['./add-tags.component.scss'],
 })
-export class AddTagsComponent {
+export class AddTagsComponent implements OnInit {
   @Input() card: Card;
   @Input() cardForm: FormGroup;
 
-  possibleTags: Observable<string[]>;
+  possibleTags$: Observable<string[]>;
+  tagInput$ = new Subject<string>();
+  loading = false;
   searchText: string;
-  typeaheadSettings: TypeaheadSettings;
 
-  constructor(private tagService: TagService) {
-    // Setting a debounce time
-    this.typeaheadSettings = {
-      typeDelay: 500,
-      suggestionsLimit: 9,
-      buttonClass: 'badge badge-primary d-flex',
-      dashCase: true,
-    };
+  constructor(private cdr: ChangeDetectorRef, private signalRService: SignalRService) {}
 
-    // There is no need for ngInit. When this is built, the ngInit data is passed down by parent components.
-    this.possibleTags = this.tagService.getTagSuggestions('');
+  ngOnInit() {
+    this.loadTags();
   }
 
-  resetTheSearch() {
-    // Reset the possible tags to default state
-    this.possibleTags = this.tagService.getTagSuggestions('');
-  }
-
-  selectionChange(event: string) {
-    // Clean up the text
-    this.searchText = this.cleanUpText(event);
-    if (event === '') {
-      this.possibleTags = this.tagService.getTagSuggestions('');
-    } else {
-      this.possibleTags = this.tagService.getTagSuggestions(this.searchText);
-    }
-  }
-
-  selectedTag(tags: string[]) {
-    if (tags === null) {
-      return;
-    }
-
-    tags.forEach((tag: string) => {
-      tag = this.cleanUpText(tag);
-      if (tag !== '') {
-        this.tagService.addTag(this.card, tag);
-      }
-    });
-
-    this.resetTheSearch();
+  private loadTags() {
+    this.possibleTags$ = concat(
+      this.signalRService.invoke('GetTagSuggestions', '').pipe(map((rsp: SignalRResult) => rsp.item)),
+      this.tagInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => ((this.loading = true), this.cdr.markForCheck())),
+        switchMap(term =>
+          this.signalRService.invoke('GetTagSuggestions', this.cleanUpText(term)).pipe(
+            map((rsp: SignalRResult) => rsp.item),
+            tap(() => (this.loading = false)),
+          ),
+        ),
+      ),
+    );
   }
 
   /**
