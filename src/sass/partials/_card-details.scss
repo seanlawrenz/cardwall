@@ -18,5 +18,16 @@
         margin-bottom: 10px !important;
       }
     }
+
+    &-color-buttons {
+
+      & button.selected {
+        border: 1px solid #000;
+      }
+
+      &-container {
+        display: flex;
+      }
+    }
   }
 }
