@@ -1,7 +1,12 @@
 <td-card-details-view [card]="card$ | async" [selectedPage]="cardDetailPage$ | async" (changeDetailsPage)="updateCardDetailPage($event)">
   <div [ngSwitch]="cardDetailPage$ | async">
     <div *ngSwitchCase="'FORM'">
-      <td-edit-card-form [_card]="card$ | async" [plan]="plan$ | async" (discardChangesRequested)="discardChanges()"></td-edit-card-form>
+      <td-edit-card-form
+        [_card]="card$ | async"
+        [plan]="plan$ | async"
+        (discardChangesRequested)="discardChanges()"
+        (copyMoveRequested)="copyMoveRequested($event)"
+      ></td-edit-card-form>
     </div>
     <div *ngSwitchCase="'FEED'">
       <td-feed></td-feed>

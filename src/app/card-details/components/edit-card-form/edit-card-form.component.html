@@ -190,16 +190,38 @@
     </div>
   </div>
 
-  <div class="modal-footer flex-start">
-    <!-- Save / Cancel actions -->
-    <button type="submit" class="btn btn-primary" [disabled]="!cardForm.valid">
-      <span class="fa fa-save"></span>
-      Save
-    </button>
+  <div class="modal-footer justify-content-between">
+    <div>
+      <!-- Save / Cancel actions -->
+      <button type="submit" class="btn btn-primary" [disabled]="!cardForm.valid">
+        <span class="fa fa-save"></span>
+        Save
+      </button>
 
-    <button type="button" class="btn btn-danger" (click)="discardChanges()">
-      <span class="fa fa-times"></span>
-      Discard Changes
-    </button>
+      <button type="button" class="btn btn-danger" (click)="discardChanges()">
+        <span class="fa fa-times"></span>
+        Discard Changes
+      </button>
+    </div>
+
+    <div>
+      <div class="btn-group" role="group" aria-label="Move or Copy" *ngIf="canEdit && canAddCards">
+        <button type="button" class="btn btn-default" style="margin: 0" (click)="copyMove('copy')">
+          <span aria-hidden="true" class="fa fa-clone"></span>
+          Copy
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-default"
+          *ngIf="canDeleteCards"
+          style="margin: 0; border-left: none"
+          (click)="copyMove('move')"
+        >
+          <span aria-hidden="true" class="fa fa-sign-out"></span>
+          Move
+        </button>
+      </div>
+    </div>
   </div>
 </form>

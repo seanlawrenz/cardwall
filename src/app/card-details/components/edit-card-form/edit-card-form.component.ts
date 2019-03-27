@@ -14,6 +14,7 @@ export class EditCardFormComponent implements OnInit {
   @Input() plan: Plan | Board;
 
   @Output() discardChangesRequested = new EventEmitter<void>();
+  @Output() copyMoveRequested = new EventEmitter<string>();
 
   card: Card;
   resources: Resources[];
@@ -24,6 +25,8 @@ export class EditCardFormComponent implements OnInit {
   canEdit: boolean;
   canEditOrUpdate: boolean;
   useRemainingHours: boolean;
+  canAddCards: boolean;
+  canDeleteCards: boolean;
 
   // Form
   cardForm: FormGroup;
@@ -54,6 +57,10 @@ export class EditCardFormComponent implements OnInit {
     console.log(this.cardForm.controls['tags'].value);
   }
 
+  copyMove(type: string) {
+    this.copyMoveRequested.emit(type);
+  }
+
   private setPermissions() {
     // Determine whether or not the resource is assigned to the task
     this.isAssigned =
@@ -68,6 +75,8 @@ export class EditCardFormComponent implements OnInit {
     }
 
     this.canEdit = this.config.config.CanEditTasks;
+    this.canAddCards = this.config.config.CanAddTasks;
+    this.canDeleteCards = this.config.config.CanDeleteTasks;
 
     // We only want to lock % complete if there are estimated hours AND we're set to use remaining hours on the project
     this.useRemainingHours = this.plan.useRemainingHours && this.card.estimatedHours > 0;

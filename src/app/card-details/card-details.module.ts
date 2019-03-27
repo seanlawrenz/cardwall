@@ -16,6 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AttachmentsBaseComponent } from './container/attachments-base/attachments-base.component';
 import { CardDetailsBaseComponent } from './container/card-details-base/card-details-base.component';
 import { CardDetailsDialogBaseComponent } from './container/card-details-dialog-base/card-details-dialog-base.component';
+import { CopyMoveCardComponent } from './container/copy-move-card/copy-move-card.component';
 import { IssuesBaseComponent } from './container/issues-base/issues-base.component';
 import { SubtasksBaseComponent } from './container/subtasks-base/subtasks-base.component';
 
@@ -48,6 +49,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     ResourcesListComponent,
     AddTagsComponent,
     CardCssColorsComponent,
+    CopyMoveCardComponent,
   ],
   imports: [
     CommonModule,

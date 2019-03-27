@@ -29,6 +29,10 @@ export class CardDetailsBaseComponent implements OnInit {
     this.store.dispatch(new actions.HideDetails());
   }
 
+  copyMoveRequested(type: string) {
+    console.log(type);
+  }
+
   updateCardDetailPage(type: CardDetailsPageTypes) {
     switch (type) {
       case CardDetailsPageTypes.FORM:
