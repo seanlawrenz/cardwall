@@ -14,3 +14,8 @@ export enum EstimateVisibilityMode {
   estimatedHours,
   none,
 }
+
+export enum ViewVisibility {
+  VISIBLE = 'visible',
+  NOT_VISIBLE = 'not-visible',
+}

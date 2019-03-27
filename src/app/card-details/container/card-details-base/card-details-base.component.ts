@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as fromCardDetails from '@app/card-details/state/';
 import * as actions from '@app/card-details/state/actions';
+import * as uiActions from '@app/store/actions/ui.actions';
 import { Card, CardDetailsPageTypes, Plan, Board } from '@app/models';
 
 @Component({
@@ -30,7 +31,7 @@ export class CardDetailsBaseComponent implements OnInit {
   }
 
   copyMoveRequested(type: string) {
-    console.log(type);
+    this.store.dispatch(new uiActions.ShowSlider());
   }
 
   updateCardDetailPage(type: CardDetailsPageTypes) {

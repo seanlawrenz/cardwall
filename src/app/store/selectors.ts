@@ -41,6 +41,11 @@ export const isOptionsShowing = createSelector(
   state => state.showOptions,
 );
 
+export const isSliderShowing = createSelector(
+  getUIState,
+  state => state.showSlider,
+);
+
 // Notifications
 export const getNotificationState = createFeatureSelector<fromNotify.NotifyState>('notifications');
 
