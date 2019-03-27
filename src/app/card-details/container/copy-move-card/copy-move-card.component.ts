@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { fromRoot } from '@app/store';
-import * as uiActions from '@app/store/actions/ui.actions';
 import { Card, Plan, Board } from '@app/models';
 
 import { upperFirst } from 'lodash';
@@ -17,9 +16,13 @@ export class CopyMoveCardComponent implements OnInit {
   @Input() plan: Plan | Board;
   @Input() mode: string;
 
-  ngOnInit() {}
+  @Output() closeCopyMoveSlider = new EventEmitter<void>();
+
+  ngOnInit() {
+    console.log('init for copy move card');
+  }
 
   hide() {
-    this.store.dispatch(new uiActions.HideSlider());
+    this.closeCopyMoveSlider.emit();
   }
 }

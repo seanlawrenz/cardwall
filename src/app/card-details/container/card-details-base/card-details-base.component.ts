@@ -18,6 +18,11 @@ export class CardDetailsBaseComponent implements OnInit {
   card$: Observable<Card>;
   plan$: Observable<Plan | Board>;
   cardDetailPage$: Observable<CardDetailsPageTypes>;
+
+  // UI
+  isSlideInShown = false;
+  copyMoveType: string;
+
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
@@ -31,7 +36,20 @@ export class CardDetailsBaseComponent implements OnInit {
   }
 
   copyMoveRequested(type: string) {
+    this.copyMoveType = type;
+    this.showSlideIn();
+  }
+
+  showSlideIn() {
+    this.isSlideInShown = true;
     this.store.dispatch(new uiActions.ShowSlider());
+  }
+
+  hideSlideIn() {
+    this.store.dispatch(new uiActions.HideSlider());
+    setTimeout(() => {
+      this.isSlideInShown = false;
+    }, 500);
   }
 
   updateCardDetailPage(type: CardDetailsPageTypes) {
