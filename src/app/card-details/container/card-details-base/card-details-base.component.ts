@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as fromCardDetails from '@app/card-details/state/';
 import * as actions from '@app/card-details/state/actions';
-import * as uiActions from '@app/store/actions/ui.actions';
 import { Card, CardDetailsPageTypes, Plan, Board } from '@app/models';
 
 @Component({
@@ -19,10 +18,6 @@ export class CardDetailsBaseComponent implements OnInit {
   plan$: Observable<Plan | Board>;
   cardDetailPage$: Observable<CardDetailsPageTypes>;
 
-  // UI
-  isSlideInShown = false;
-  copyMoveType: string;
-
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
@@ -33,23 +28,6 @@ export class CardDetailsBaseComponent implements OnInit {
 
   discardChanges() {
     this.store.dispatch(new actions.HideDetails());
-  }
-
-  copyMoveRequested(type: string) {
-    this.copyMoveType = type;
-    this.showSlideIn();
-  }
-
-  showSlideIn() {
-    this.isSlideInShown = true;
-    this.store.dispatch(new uiActions.ShowSlider());
-  }
-
-  hideSlideIn() {
-    this.store.dispatch(new uiActions.HideSlider());
-    setTimeout(() => {
-      this.isSlideInShown = false;
-    }, 500);
   }
 
   updateCardDetailPage(type: CardDetailsPageTypes) {

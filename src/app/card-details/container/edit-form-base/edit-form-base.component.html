@@ -1,0 +1,14 @@
+<td-edit-card-form
+  [_card]="card"
+  [plan]="plan"
+  (discardChangesRequested)="discardChanges()"
+  (copyMoveRequested)="copyMoveRequested($event)"
+></td-edit-card-form>
+
+<td-copy-move-card
+  *ngIf="isSlideInShown"
+  [card]="card"
+  [plan]="plan"
+  [mode]="copyMoveType"
+  (closeCopyMoveSlider)="hideSlideIn()"
+></td-copy-move-card>
