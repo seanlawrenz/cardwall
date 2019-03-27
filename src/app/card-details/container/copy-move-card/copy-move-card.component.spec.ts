@@ -19,7 +19,6 @@ describe('CopyMoveCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CopyMoveCardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,5 +1,5 @@
 <td-card-details-view [card]="card$ | async" [selectedPage]="cardDetailPage$ | async" (changeDetailsPage)="updateCardDetailPage($event)">
-  <div [ngSwitch]="cardDetailPage$ | async">
+  <div [ngSwitch]="cardDetailPage$ | async" style="position: relative">
     <div *ngSwitchCase="'FORM'">
       <td-edit-card-form
         [_card]="card$ | async"
