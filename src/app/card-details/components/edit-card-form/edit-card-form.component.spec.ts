@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { EditCardFormComponent } from './edit-card-form.component';
@@ -10,6 +10,23 @@ import { ResourcesListComponent } from './resources-list/resources-list.componen
 import { mockConfigService } from '@app/test/mocks';
 import { mockCard, mockResource, mockBoard } from '@app/test/data';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
+
+const cardForm: FormGroup = new FormGroup({
+  name: new FormControl(mockCard.name, [Validators.required]),
+  description: new FormControl(mockCard.description),
+  startDate: new FormControl(mockCard.startDate),
+  endDate: new FormControl(mockCard.endDate),
+  estimatedHrs: new FormControl(mockCard.estimatedHours, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+  remainingHrs: new FormControl(mockCard.remainingHours, Validators.required),
+  percentComplete: new FormControl(mockCard.percentComplete, [Validators.required, Validators.min(0), Validators.max(100)]),
+  priorityId: new FormControl(mockCard.priorityId),
+  isStory: new FormControl(mockCard.isStory),
+  storyPoints: new FormControl(mockCard.storyPoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+  valuePoints: new FormControl(mockCard.valuePoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+  owners: new FormControl(mockCard.owners),
+  tags: new FormControl(mockCard.tags),
+  cssClass: new FormControl(mockCard.cssClass),
+});
 
 describe('EditCardFormComponent', () => {
   let component: EditCardFormComponent;
@@ -38,13 +55,14 @@ describe('EditCardFormComponent', () => {
     beforeEach(() => {
       configService = TestBed.get(ConfigService);
       component.plan = mockBoard;
+      component.cardForm = cardForm;
     });
 
     it('should not allow permission to someone who cannot update tasks or edit', () => {
       configService.config.CanUpdateTasks = false;
       configService.config.CanUpdateMyTasksOnly = false;
       configService.config.CanEditTasks = false;
-      component._card = mockCard;
+      component.card = mockCard;
 
       fixture.detectChanges();
 
@@ -53,7 +71,7 @@ describe('EditCardFormComponent', () => {
 
     it('should allow permission to someone who can update tasks', () => {
       configService.config.CanUpdateTasks = true;
-      component._card = mockCard;
+      component.card = mockCard;
 
       fixture.detectChanges();
 
@@ -65,7 +83,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateMyTasksOnly = true;
       const mockCardWithThisOwner = { ...mockCard, owners: [mockResource] };
       configService.config.UID = mockResource.uid;
-      component._card = mockCardWithThisOwner;
+      component.card = mockCardWithThisOwner;
 
       fixture.detectChanges();
 
@@ -78,7 +96,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateMyTasksOnly = true;
       const mockCardWithNoOwners = { ...mockCard, owners: [] };
       configService.config.UID = mockResource.uid;
-      component._card = mockCardWithNoOwners;
+      component.card = mockCardWithNoOwners;
 
       fixture.detectChanges();
 
@@ -90,7 +108,7 @@ describe('EditCardFormComponent', () => {
       configService.config.CanUpdateTasks = false;
       configService.config.CanUpdateMyTasksOnly = false;
       configService.config.CanEditTasks = true;
-      component._card = mockCard;
+      component.card = mockCard;
 
       fixture.detectChanges();
 

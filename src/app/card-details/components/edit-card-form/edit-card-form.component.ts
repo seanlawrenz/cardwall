@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
 import { Card, Plan, Board, Priority, PriorityClasses, Resources } from '@app/models';
-import { blankInputValidator } from '@app/utils';
 
 @Component({
   selector: 'td-edit-card-form',
@@ -10,13 +9,13 @@ import { blankInputValidator } from '@app/utils';
   styleUrls: ['./edit-card-form.component.scss'],
 })
 export class EditCardFormComponent implements OnInit {
-  @Input() _card: Card;
+  @Input() card: Card;
   @Input() plan: Plan | Board;
+  @Input() cardForm: FormGroup;
 
   @Output() discardChangesRequested = new EventEmitter<void>();
   @Output() copyMoveRequested = new EventEmitter<string>();
 
-  card: Card;
   resources: Resources[];
 
   // Permissions
@@ -28,9 +27,6 @@ export class EditCardFormComponent implements OnInit {
   canAddCards: boolean;
   canDeleteCards: boolean;
 
-  // Form
-  cardForm: FormGroup;
-  areDatesInvalid: boolean;
   priorityClasses: Priority[];
 
   constructor(private config: ConfigService) {
@@ -38,11 +34,14 @@ export class EditCardFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.card = { ...this._card };
     this.setPermissions();
-    this.createForm();
 
     this.resources = this.plan.resources;
+
+    // Disable the form if you don't have edit cards permissions
+    if (!this.canEdit) {
+      this.cardForm.disable();
+    }
   }
 
   onIsStoryChanged(e) {
@@ -80,62 +79,5 @@ export class EditCardFormComponent implements OnInit {
 
     // We only want to lock % complete if there are estimated hours AND we're set to use remaining hours on the project
     this.useRemainingHours = this.plan.useRemainingHours && this.card.estimatedHours > 0;
-  }
-
-  private createForm() {
-    this.cardForm = new FormGroup({
-      name: new FormControl(this.card.name, [Validators.required, blankInputValidator]),
-      description: new FormControl(this.card.description),
-      startDate: new FormControl(this.card.startDate),
-      endDate: new FormControl(this.card.endDate),
-      estimatedHrs: new FormControl(this.card.estimatedHours, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      remainingHrs: new FormControl(this.card.remainingHours, Validators.required),
-      percentComplete: new FormControl(this.card.percentComplete, [Validators.required, Validators.min(0), Validators.max(100)]),
-      priorityId: new FormControl(this.card.priorityId),
-      isStory: new FormControl(this.card.isStory),
-      storyPoints: new FormControl(this.card.storyPoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      valuePoints: new FormControl(this.card.valuePoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      owners: new FormControl(this.card.owners),
-      tags: new FormControl(this.card.tags),
-      cssClass: new FormControl(this.card.cssClass),
-    });
-    this.isStartDateAfterEndDate();
-    // Disable the form if you don't have edit cards permissions
-    if (!this.canEdit) {
-      this.cardForm.disable();
-    }
-  }
-
-  private isStartDateAfterEndDate(): ValidatorFn {
-    return (group: FormGroup): { [key: string]: any } => {
-      if (!this.card.startDate || !this.card.endDate) {
-        this.areDatesInvalid = false;
-        return {};
-      }
-
-      let start: Date;
-      if (typeof this.card.startDate === 'string') {
-        start = new Date(<string>this.card.startDate);
-      } else {
-        start = this.card.startDate;
-      }
-
-      let end: Date;
-      if (typeof this.card.endDate === 'string') {
-        end = new Date(<string>this.card.endDate);
-      } else {
-        end = this.card.endDate;
-      }
-
-      this.areDatesInvalid = start > end;
-
-      if (this.areDatesInvalid) {
-        return {
-          startDate: 'Start date cannot be after end date',
-        };
-      } else {
-        return {};
-      }
-    };
   }
 }
