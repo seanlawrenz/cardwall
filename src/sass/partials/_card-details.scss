@@ -30,4 +30,14 @@
       }
     }
   }
+  &-tab-list {
+
+    .nav-link {
+      border-bottom: 1px solid #dee2e6 !important;
+      &.active {
+        border-bottom: 1px solid transparent !important;
+      }
+    }
+  }
 }
+

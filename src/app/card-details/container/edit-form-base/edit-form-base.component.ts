@@ -1,21 +1,26 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { Card, Plan, Board } from '@app/models';
-import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
-import * as uiActions from '@app/store/actions/ui.actions';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+
+import { Store, select } from '@ngrx/store';
+import { fromRoot } from '@app/store';
+import * as fromCardDetails from '@app/card-details/state';
+import * as uiActions from '@app/store/actions/ui.actions';
+import * as cardDetailsActions from '@app/card-details/state/actions';
+
 import { blankInputValidator } from '@app/utils';
+import { Card, Plan, Board } from '@app/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'td-edit-form-base',
   templateUrl: './edit-form-base.component.html',
   styleUrls: ['./edit-form-base.component.scss'],
 })
-export class EditFormBaseComponent implements OnInit {
+export class EditFormBaseComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan | Board;
 
-  @Output() discardChangesRequested = new EventEmitter<void>();
+  hideDetailsRequested$ = new Subscription();
 
   // Form
   cardForm: FormGroup;
@@ -29,6 +34,17 @@ export class EditFormBaseComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.hideDetailsRequested$.add(
+      this.store.pipe(select(fromCardDetails.getHideDetailsRequested)).subscribe(requested => {
+        if (requested) {
+          this.saveCard();
+        }
+      }),
+    );
+  }
+
+  ngOnDestroy() {
+    this.hideDetailsRequested$.unsubscribe();
   }
 
   copyMoveRequested(type: string) {
@@ -52,7 +68,16 @@ export class EditFormBaseComponent implements OnInit {
   }
 
   discardChanges() {
-    this.discardChangesRequested.emit();
+    // Bypassing hideDetailsRequested
+    this.store.dispatch(new cardDetailsActions.HideDetails());
+  }
+
+  saveCard() {
+    if (this.cardForm.status === 'VALID' && this.cardForm.touched) {
+      console.log('call save');
+    } else {
+      this.store.dispatch(new cardDetailsActions.HideDetails());
+    }
   }
 
   private createForm() {

@@ -26,7 +26,7 @@ export class CardDetailsBaseComponent implements OnInit {
     this.cardDetailPage$ = this.store.pipe(select(fromCardDetails.getCardDetailsPage));
   }
 
-  discardChanges() {
+  closeDetails() {
     this.store.dispatch(new actions.HideDetails());
   }
 

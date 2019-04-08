@@ -3,11 +3,13 @@ import { CardDetailsPageTypes } from '@app/models';
 
 export interface CardDetailsUIState {
   showDetails: boolean;
+  hideDetailsRequested: boolean;
   cardDetailsPage: CardDetailsPageTypes;
 }
 
 export const initialState: CardDetailsUIState = {
   showDetails: false,
+  hideDetailsRequested: false,
   cardDetailsPage: CardDetailsPageTypes.FORM,
 };
 
@@ -23,6 +25,13 @@ export function reducer(state = initialState, action: CardDetailsUIActions): Car
       return {
         ...state,
         showDetails: false,
+        hideDetailsRequested: false,
+      };
+
+    case CardDetailsUITypes.HIDE_DETAILS_REQUESTED:
+      return {
+        ...state,
+        hideDetailsRequested: true,
       };
 
     case CardDetailsUITypes.SHOW_FORM:

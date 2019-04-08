@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export enum CardDetailsUITypes {
   SHOW_DETAILS = '[CARD DETAILS UI] SHOW DETAILS',
   HIDE_DETAILS = '[CARD DETAILS UI] HIDE DETAILS',
+  HIDE_DETAILS_REQUESTED = '[CARD DETAILS UI]] HIDE DETAILS REQUESTED',
   SHOW_FORM = '[CARD DETAILS UI] SHOW FORM',
   SHOW_FEED = '[CARD DETAILS UI] SHOW FEED',
   SHOW_SUBTASKS = '[CARD DETAILS UI] SHOW SUBTASKS',
@@ -18,6 +19,10 @@ export class ShowDetails implements Action {
 
 export class HideDetails implements Action {
   readonly type = CardDetailsUITypes.HIDE_DETAILS;
+}
+
+export class HideDetailsRequested implements Action {
+  readonly type = CardDetailsUITypes.HIDE_DETAILS_REQUESTED;
 }
 
 export class ShowForm implements Action {
@@ -51,6 +56,7 @@ export class ShowCode implements Action {
 export type CardDetailsUIActions =
   | ShowDetails
   | HideDetails
+  | HideDetailsRequested
   | ShowForm
   | ShowFeed
   | ShowSubtasks

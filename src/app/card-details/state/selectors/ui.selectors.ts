@@ -10,3 +10,8 @@ export const getCardDetailsPage = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.ui.cardDetailsPage,
 );
+
+export const getHideDetailsRequested = createSelector(
+  fromCardDetails.getCardDetailsState,
+  state => state.ui.hideDetailsRequested,
+);

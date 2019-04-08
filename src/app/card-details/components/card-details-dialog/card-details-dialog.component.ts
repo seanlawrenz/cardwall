@@ -16,7 +16,7 @@ export class CardDetailsDialogComponent implements OnInit, OnChanges {
   dialogRef: BsModalRef;
   dialogConfig: ModalOptions = {
     class: 'modal-lg',
-    keyboard: true,
+    keyboard: false,
     ignoreBackdropClick: true,
   };
 
@@ -25,6 +25,11 @@ export class CardDetailsDialogComponent implements OnInit, OnChanges {
     if (target.classList.contains('modal')) {
       this.closeCardDetailsRequested.emit();
     }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent) {
+    this.closeCardDetailsRequested.emit();
   }
   constructor(private dialogService: BsModalService) {}
 
