@@ -1,6 +1,20 @@
-<button ngxClipboard type="button" [cbContent]="copyTypeAndIDValue" class="tdNg-comp-copy-button" [tdTooltip]="copyTypeAndIDButtonText">
+<button
+  ngxClipboard
+  type="button"
+  attr.aria-label="{{ copyTypeAndIDValue }}"
+  [cbContent]="copyTypeAndIDValue"
+  class="tdNg-comp-copy-button"
+  [tdTooltip]="copyTypeAndIDValue"
+>
   {{ copyTypeAndIDButtonText }}
 </button>
-<button ngxClipboard type="button" [cbContent]="copyIDValue" class="tdNg-comp-copy-button" [tdTooltip]="copyIDTooltip">
+<button
+  ngxClipboard
+  type="button"
+  attr.aria-label="{{ copyIDValue }}"
+  [cbContent]="copyIDValue"
+  class="tdNg-comp-copy-button"
+  [tdTooltip]="copyIDTooltip"
+>
   {{ copyIDValue }}
 </button>

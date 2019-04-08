@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Card, CardDetailsPageTypes } from '@app/models';
 import { getCardColor } from '@app/utils';
 
@@ -14,6 +14,8 @@ export class CardDetailsViewComponent implements OnInit {
   @Output() closeDialogRequested = new EventEmitter<void>();
   @Output() changeDetailsPage = new EventEmitter<CardDetailsPageTypes>();
 
+  @ViewChild('content') mainContent: ElementRef;
+
   cardBackgroundColor: string;
   constructor() {}
 
@@ -27,5 +29,9 @@ export class CardDetailsViewComponent implements OnInit {
 
   detailPageRequested(type: CardDetailsPageTypes) {
     this.changeDetailsPage.emit(type);
+  }
+
+  skipLink() {
+    this.mainContent.nativeElement.focus();
   }
 }

@@ -12,31 +12,40 @@
   </div>
 </div>
 
+<!-- Skip navigation link for accessibility -->
+<div>
+  <a href onclick="return false;" (click)="skipLink()" class="sr-only sr-only-focusable">Skip to main</a>
+</div>
+
 <!-- Tab Menu -->
 <div class="gutter-top">
-  <ul class="nav nav-tabs tdNg-">
+  <ul class="nav nav-tabs tdNg-" role="tablist">
     <li class="nav-item" (click)="detailPageRequested('FORM')">
-      <span class="nav-link gutter-left" [ngClass]="{ active: selectedPage === 'FORM' }">Card</span>
+      <button class="nav-link gutter-left" role="tab" [ngClass]="{ active: selectedPage === 'FORM' }">Card</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('FEED')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'FEED' }">Feed</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'FEED' }">Feed</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('SUBTASKS')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'SUBTASKS' }">Subtasks ({{ card.subtasksCount }})</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'SUBTASKS' }">Subtasks ({{ card.subtasksCount }})</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('WORK')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'WORK' }">Work</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'WORK' }">Work</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('ATTACHMENTS')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'ATTACHMENTS' }">Attachments ({{ card.attachmentsCount }})</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'ATTACHMENTS' }">
+        Attachments ({{ card.attachmentsCount }})
+      </button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('ISSUES')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'ISSUES' }">Issues ({{ card.issuesCount }})</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'ISSUES' }">Issues ({{ card.issuesCount }})</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('CODE')">
-      <span class="nav-link" [ngClass]="{ active: selectedPage === 'CODE' }">Code ({{ card.codeCount }})</span>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'CODE' }">Code ({{ card.codeCount }})</button>
     </li>
   </ul>
 </div>
 
-<ng-content></ng-content>
+<div #content tabindex="-1">
+  <ng-content></ng-content>
+</div>
