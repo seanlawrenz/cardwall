@@ -4,8 +4,9 @@ import { EditFormBaseComponent } from './edit-form-base.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../../state/actions';
-import { mockCard } from '@app/test/data';
+import { mockCard, mockBoard } from '@app/test/data';
 import { of } from 'rxjs';
+import { SignalRService } from '@app/app-services';
 
 describe('EditFormBaseComponent', () => {
   let component: EditFormBaseComponent;
@@ -13,11 +14,15 @@ describe('EditFormBaseComponent', () => {
   let store;
   let spy;
   let action;
+  let signalR: SignalRService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditFormBaseComponent],
-      providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      providers: [
+        { provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn(() => ({ subscribe: jest.fn() })) } },
+        { provide: SignalRService, useValue: { invoke: jest.fn() } },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -25,6 +30,8 @@ describe('EditFormBaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditFormBaseComponent);
     component = fixture.componentInstance;
+    component.card = mockCard;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -37,31 +44,40 @@ describe('EditFormBaseComponent', () => {
     });
     it('should create a form group', () => {
       store.pipe = jest.fn(() => of(false));
-      spy = jest.spyOn(<any>component, 'createForm');
 
-      component.card = mockCard;
-      fixture.detectChanges();
-
-      expect(spy).toHaveBeenCalled();
       expect(component.cardForm).not.toBeUndefined();
     });
   });
 
-  describe('saveCard', () => {
+  describe('saveCardOnHideDetails', () => {
     beforeEach(() => {
       store = TestBed.get(Store);
-      component.card = mockCard;
-      store.pipe = jest.fn(() => of(true));
-      fixture.detectChanges();
     });
 
     it('should dispatch hideDetails if the form is not touched', () => {
       action = new actions.HideDetails();
       spy = jest.spyOn(store, 'dispatch');
+      store.pipe = jest.fn(() => of(true));
+      component.cardForm.status = 'VALID';
 
-      component.saveCard();
-
+      component.saveCardOnHideDetails();
       expect(spy).toHaveBeenCalledWith(action);
+      expect(component.cardForm.status).toEqual('VALID');
+    });
+  });
+
+  describe('saveCard', () => {
+    beforeEach(() => {
+      signalR = TestBed.get(SignalRService);
+      store = TestBed.get(Store);
+      component.plan = mockBoard;
+    });
+    it('should call signalR if form is touched and valid', () => {
+      spy = jest.spyOn(signalR, 'invoke').mockImplementationOnce(() => of({ isSuccessful: true }));
+
+      component.cardForm.markAsTouched();
+      component.saveCard();
+      expect(spy).toHaveBeenCalledWith('CardUpdate', mockCard, mockBoard.useRemainingHours, null);
     });
   });
 });

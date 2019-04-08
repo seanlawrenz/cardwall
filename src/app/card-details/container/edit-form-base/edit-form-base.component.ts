@@ -8,8 +8,9 @@ import * as uiActions from '@app/store/actions/ui.actions';
 import * as cardDetailsActions from '@app/card-details/state/actions';
 
 import { blankInputValidator } from '@app/utils';
-import { Card, Plan, Board } from '@app/models';
+import { Card, Plan, Board, SignalRResult } from '@app/models';
 import { Subscription } from 'rxjs';
+import { SignalRService, NotificationService } from '@app/app-services';
 
 @Component({
   selector: 'td-edit-form-base',
@@ -20,7 +21,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan | Board;
 
-  hideDetailsRequested$ = new Subscription();
+  subs$ = new Subscription();
 
   // Form
   cardForm: FormGroup;
@@ -30,21 +31,26 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   isSlideInShown = false;
   copyMoveType: string;
 
-  constructor(private store: Store<fromRoot.State>, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    private cdr: ChangeDetectorRef,
+    private signalRService: SignalRService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit() {
     this.createForm();
-    this.hideDetailsRequested$.add(
+    this.subs$.add(
       this.store.pipe(select(fromCardDetails.getHideDetailsRequested)).subscribe(requested => {
         if (requested) {
-          this.saveCard();
+          this.saveCardOnHideDetails();
         }
       }),
     );
   }
 
   ngOnDestroy() {
-    this.hideDetailsRequested$.unsubscribe();
+    this.subs$.unsubscribe();
   }
 
   copyMoveRequested(type: string) {
@@ -72,11 +78,29 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
     this.store.dispatch(new cardDetailsActions.HideDetails());
   }
 
-  saveCard() {
-    if (this.cardForm.status === 'VALID' && this.cardForm.touched) {
-      console.log('call save');
-    } else {
+  saveCardOnHideDetails() {
+    if (this.cardForm.status !== 'INVALID') {
+      if (this.cardForm.status === 'VALID' && this.cardForm.touched) {
+        this.saveCard();
+      }
       this.store.dispatch(new cardDetailsActions.HideDetails());
+    }
+  }
+
+  saveCard() {
+    if (this.cardForm.touched) {
+      const card = this.updateThisCard();
+      this.subs$.add(
+        this.signalRService.invoke('CardUpdate', card, this.plan.useRemainingHours, null).subscribe((response: SignalRResult) => {
+          if (response.isSuccessful) {
+            this.notificationService.success(`Card Updated`, `Card ${card.name} ID: ${this.card.id} has been updated`, 4);
+            this.cardForm.markAsUntouched();
+          } else {
+            this.notificationService.danger('Could not update', response.message);
+          }
+          this.cdr.markForCheck();
+        }),
+      );
     }
   }
 
@@ -130,6 +154,45 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       } else {
         return {};
       }
+    };
+  }
+
+  /**
+   * Ensures immutability. Grabs the values of the form and creates new card.
+   */
+  private updateThisCard(): Card {
+    const {
+      name,
+      description,
+      startDate,
+      endDate,
+      estimatedHrs,
+      remainingHrs,
+      percentComplete,
+      priorityId,
+      isStory,
+      storyPoints,
+      valuePoints,
+      owners,
+      tags,
+      cssClass,
+    } = this.cardForm.value;
+    return {
+      ...this.card,
+      name,
+      description,
+      startDate,
+      endDate,
+      estimatedHours: estimatedHrs,
+      remainingHours: remainingHrs,
+      percentComplete,
+      priorityId,
+      isStory,
+      storyPoints,
+      valuePoints,
+      owners,
+      tags,
+      cssClass,
     };
   }
 }

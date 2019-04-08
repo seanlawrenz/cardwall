@@ -15,6 +15,7 @@ export class EditCardFormComponent implements OnInit {
 
   @Output() discardChangesRequested = new EventEmitter<void>();
   @Output() copyMoveRequested = new EventEmitter<string>();
+  @Output() saveCardRequested = new EventEmitter<void>();
 
   resources: Resources[];
 
@@ -53,7 +54,7 @@ export class EditCardFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.cardForm.controls['tags'].value);
+    this.saveCardRequested.emit();
   }
 
   copyMove(type: string) {
