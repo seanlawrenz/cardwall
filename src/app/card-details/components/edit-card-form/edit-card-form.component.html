@@ -54,6 +54,7 @@
             [bsValue]="endDate || null"
           />
         </div>
+        <div class="text-danger" *ngIf="cardForm.controls['endDate'].touched && cardForm.errors">{{ cardForm.errors?.dates }}</div>
       </div>
 
       <!-- Estimated Hours -->

@@ -111,22 +111,25 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
     this.startDate = this.card.startDate ? new Date(this.card.startDate) : '';
     this.endDate = this.card.endDate ? new Date(this.card.endDate) : '';
 
-    this.cardForm = new FormGroup({
-      name: new FormControl(this.card.name, [Validators.required, blankInputValidator]),
-      description: new FormControl(this.card.description),
-      startDate: new FormControl(this.startDate),
-      endDate: new FormControl(this.endDate),
-      estimatedHrs: new FormControl(this.card.estimatedHours, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      remainingHrs: new FormControl(this.card.remainingHours, Validators.required),
-      percentComplete: new FormControl(this.card.percentComplete, [Validators.required, Validators.min(0), Validators.max(100)]),
-      priorityId: new FormControl(this.card.priorityId),
-      isStory: new FormControl(this.card.isStory),
-      storyPoints: new FormControl(this.card.storyPoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      valuePoints: new FormControl(this.card.valuePoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
-      owners: new FormControl(this.card.owners),
-      tags: new FormControl(this.card.tags),
-      cssClass: new FormControl(this.card.cssClass),
-    });
+    this.cardForm = new FormGroup(
+      {
+        name: new FormControl(this.card.name, [Validators.required, blankInputValidator]),
+        description: new FormControl(this.card.description),
+        startDate: new FormControl(this.startDate),
+        endDate: new FormControl(this.endDate),
+        estimatedHrs: new FormControl(this.card.estimatedHours, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+        remainingHrs: new FormControl(this.card.remainingHours, Validators.required),
+        percentComplete: new FormControl(this.card.percentComplete, [Validators.required, Validators.min(0), Validators.max(100)]),
+        priorityId: new FormControl(this.card.priorityId),
+        isStory: new FormControl(this.card.isStory),
+        storyPoints: new FormControl(this.card.storyPoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+        valuePoints: new FormControl(this.card.valuePoints, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
+        owners: new FormControl(this.card.owners),
+        tags: new FormControl(this.card.tags),
+        cssClass: new FormControl(this.card.cssClass),
+      },
+      { validators: this.startDateAfterEndDate('startDate', 'endDate') },
+    );
   }
 
   /**
@@ -165,6 +168,19 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       owners,
       tags,
       cssClass,
+    };
+  }
+
+  startDateAfterEndDate(startDate: string, endDate: string) {
+    return (group: FormGroup): { [key: string]: any } => {
+      const f = group.controls[startDate];
+      const t = group.controls[endDate];
+      if (f.value > t.value) {
+        return {
+          dates: 'Start date cannot be after end date',
+        };
+      }
+      return {};
     };
   }
 }
