@@ -70,16 +70,16 @@
         ></div>
       </div>
     </ng-template>
-  </form>
-  <div>
-    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
-      <span class="fa fa-save"></span>
-      Save
-    </button>
+    <div>
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+        <span class="fa fa-save"></span>
+        Save
+      </button>
 
-    <button type="button" class="btn btn-danger" (click)="close()">
-      <span class="fa fa-times"></span>
-      Discard Changes
-    </button>
-  </div>
+      <button type="button" class="btn btn-danger" (click)="close()">
+        <span class="fa fa-times"></span>
+        Discard
+      </button>
+    </div>
+  </form>
 </div>

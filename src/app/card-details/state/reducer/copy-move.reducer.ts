@@ -1,5 +1,5 @@
 import { CopyMoveCardTypes, CopyMoveCardActions } from '../actions';
-import { Plan, Project, List } from '@app/models';
+import { Plan, Project, List, Card } from '@app/models';
 
 export interface CopyMoveCardState {
   projects: Project[];
@@ -9,6 +9,7 @@ export interface CopyMoveCardState {
   plansLoading: boolean;
   listsLoading: boolean;
   error: string;
+  card: Card;
 }
 
 export const initialState: CopyMoveCardState = {
@@ -19,6 +20,7 @@ export const initialState: CopyMoveCardState = {
   plansLoading: false,
   listsLoading: false,
   error: undefined,
+  card: undefined,
 };
 
 export function reducer(state = initialState, actions: CopyMoveCardActions): CopyMoveCardState {
@@ -34,7 +36,7 @@ export function reducer(state = initialState, actions: CopyMoveCardActions): Cop
         ...state,
         projects: actions.payload,
         loading: false,
-        error: '',
+        error: undefined,
       };
 
     case CopyMoveCardTypes.GET_PROJECTS_ERROR:
@@ -55,7 +57,7 @@ export function reducer(state = initialState, actions: CopyMoveCardActions): Cop
         ...state,
         plansLoading: false,
         plans: actions.payload,
-        error: '',
+        error: undefined,
       };
 
     case CopyMoveCardTypes.GET_PLANS_ERROR:
@@ -76,13 +78,34 @@ export function reducer(state = initialState, actions: CopyMoveCardActions): Cop
         ...state,
         listsLoading: false,
         lists: actions.payload,
-        error: '',
+        error: undefined,
       };
 
     case CopyMoveCardTypes.GET_LISTS_ERROR:
       return {
         ...state,
         listsLoading: false,
+        error: actions.payload,
+      };
+
+    case CopyMoveCardTypes.COPY_MOVE_CARD:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case CopyMoveCardTypes.COPY_MOVE_CARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: undefined,
+        card: actions.payload,
+      };
+
+    case CopyMoveCardTypes.COPY_MOVE_CARD_ERROR:
+      return {
+        ...state,
+        loading: false,
         error: actions.payload,
       };
 

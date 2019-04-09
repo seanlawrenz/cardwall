@@ -17,6 +17,7 @@ export class CopyMoveCardViewComponent implements OnInit {
   @Output() projectChanged = new EventEmitter<number>();
   @Output() planChanged = new EventEmitter<{ projectId: number; planId: number }>();
   @Output() closeCopyMoveSliderRequested = new EventEmitter<void>();
+  @Output() saveRequested = new EventEmitter<{ projectId: number; planId: number; listId: number }>();
 
   form: FormGroup;
 
@@ -40,7 +41,10 @@ export class CopyMoveCardViewComponent implements OnInit {
     this.closeCopyMoveSliderRequested.emit();
   }
 
-  submit() {}
+  submit() {
+    const { projectID, planID, listID } = this.form.value;
+    this.saveRequested.emit({ projectId: projectID, planId: planID, listId: listID });
+  }
 
   private setupForm() {
     this.form = new FormGroup({

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Project, Plan, List } from '@app/models';
+import { Project, Plan, List, Card } from '@app/models';
 
 export enum CopyMoveCardTypes {
   GET_PROJECTS = '[COPY MOVE CARD] GET PROJECTS',
@@ -11,6 +11,9 @@ export enum CopyMoveCardTypes {
   GET_LISTS = '[COPY MOVE CARD] LISTS',
   GET_LISTS_SUCCESS = '[COPY MOVE CARD] LISTS SUCCESS',
   GET_LISTS_ERROR = '[COPY MOVE CARD] LISTS ERROR',
+  COPY_MOVE_CARD = '[COPY MOVE CARD] COPY MOVE CARD',
+  COPY_MOVE_CARD_SUCCESS = '[COPY MOVE CARD] COPY MOVE CARD SUCCESS',
+  COPY_MOVE_CARD_ERROR = '[COPY MOVE CARD] COPY MOVE CARD ERROR',
 }
 
 export class GetProjects implements Action {
@@ -52,9 +55,25 @@ export class GetListsSuccess implements Action {
   readonly type = CopyMoveCardTypes.GET_LISTS_SUCCESS;
   constructor(public payload: List[]) {}
 }
+
 export class GetListsError implements Action {
   readonly type = CopyMoveCardTypes.GET_LISTS_ERROR;
   constructor(public payload: string) {}
+}
+
+export class CopyMoveCard implements Action {
+  readonly type = CopyMoveCardTypes.COPY_MOVE_CARD;
+  constructor(public payload: { card: Card; projectId: number; planId: number; listId: number | null; type: string }) {}
+}
+
+export class CopyMoveCardSuccess implements Action {
+  readonly type = CopyMoveCardTypes.COPY_MOVE_CARD_SUCCESS;
+  constructor(public payload: Card) {}
+}
+
+export class CopyMoveCardError implements Action {
+  readonly type = CopyMoveCardTypes.COPY_MOVE_CARD_ERROR;
+  constructor(public payload: any) {}
 }
 
 export type CopyMoveCardActions =
@@ -66,4 +85,7 @@ export type CopyMoveCardActions =
   | GetPlansError
   | GetLists
   | GetListsSuccess
-  | GetListsError;
+  | GetListsError
+  | CopyMoveCard
+  | CopyMoveCardSuccess
+  | CopyMoveCardError;

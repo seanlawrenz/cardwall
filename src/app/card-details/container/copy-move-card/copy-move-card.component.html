@@ -5,6 +5,9 @@
         <h2>{{ mode === 'move' ? 'Move' : 'Copy' }} Card</h2>
       </div>
     </div>
+    <div *ngIf="(error$ | async)">
+      <div class="alert alert-danger" role="alert">There was an error</div>
+    </div>
     <div *ngIf="!(loading$ | async); else loading">
       <td-copy-move-card-view
         [projects]="projects$ | async"
@@ -15,6 +18,7 @@
         (projectChanged)="fetchPlans($event)"
         (planChanged)="fetchLists($event)"
         (closeCopyMoveSliderRequested)="hide()"
+        (saveRequested)="copyMoveCard($event)"
       ></td-copy-move-card-view>
     </div>
     <ng-template #loading>
