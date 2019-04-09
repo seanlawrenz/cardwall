@@ -1,0 +1,85 @@
+<div class="somthing">
+  <form [formGroup]="form" (submit)="submit()">
+    <div class="form-group required">
+      <label for="project-name">Project</label>
+      <ng-select
+        class="select-sm"
+        id="project-name"
+        [items]="projects"
+        bindValue="ID"
+        bindLabel="name"
+        formControlName="projectID"
+        (change)="projectUpdated()"
+      ></ng-select>
+    </div>
+
+    <div *ngIf="!plansLoading; else loadingPlans">
+      <div *ngIf="plans.length > 0; else noPlans" class="form-group required">
+        <label for="plan-name">Plan</label>
+        <ng-select
+          class="select-sm"
+          id="plan-name"
+          [items]="plans"
+          bindValue="ID"
+          bindLabel="name"
+          formControlName="planID"
+          (change)="planUpdated()"
+        ></ng-select>
+      </div>
+
+      <ng-template #noPlans>
+        <div class="alert alert-warning" role="alert">
+          No plans for for this project
+        </div>
+      </ng-template>
+    </div>
+    <ng-template #loadingPlans>
+      <div class="progress">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          aria-valuenow="75"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          style="width: 100%"
+        ></div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="!listsLoading; else loadingLists">
+      <div *ngIf="lists.length > 0; else noLists" class="form-group">
+        <label for="list-name">List</label>
+        <ng-select class="select-sm" id="list-name" [items]="lists" bindValue="id" bindLabel="title" formControlName="listID"></ng-select>
+      </div>
+
+      <ng-template #noLists>
+        <div class="alert alert-warning" role="alert">
+          No lists found for this plans
+        </div>
+      </ng-template>
+    </div>
+    <ng-template #loadingLists>
+      <div class="progress">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          aria-valuenow="75"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          style="width: 100%"
+        ></div>
+      </div>
+    </ng-template>
+  </form>
+  <div>
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+      <span class="fa fa-save"></span>
+      Save
+    </button>
+
+    <button type="button" class="btn btn-danger" (click)="close()">
+      <span class="fa fa-times"></span>
+      Discard Changes
+    </button>
+  </div>
+</div>

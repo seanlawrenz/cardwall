@@ -27,6 +27,7 @@ import { AddTagsComponent } from './components/edit-card-form/add-tags/add-tags.
 import { CardCssColorsComponent } from './components/edit-card-form/card-css-colors/card-css-colors.component';
 import { CardDetailsDialogComponent } from './components/card-details-dialog/card-details-dialog.component';
 import { CardDetailsViewComponent } from './components/card-details-view/card-details-view.component';
+import { CopyMoveCardViewComponent } from './components/copy-move-card-view/copy-move-card-view.component';
 import { CodeComponent } from './components/code/code.component';
 import { EditCardFormComponent } from './components/edit-card-form/edit-card-form.component';
 import { FeedComponent } from './components/feed/feed.component';
@@ -53,6 +54,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     CardCssColorsComponent,
     CopyMoveCardComponent,
     EditFormBaseComponent,
+    CopyMoveCardViewComponent,
   ],
   imports: [
     CommonModule,

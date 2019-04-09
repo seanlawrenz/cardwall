@@ -41,7 +41,7 @@
             formControlName="startDate"
             bsDatepicker
             [bsConfig]="{ containerClass: 'theme-dark-blue' }"
-            [bsValue]="startDate || null"
+            [bsValue]="cardForm.controls['startDate'] || null"
           />
 
           <input
@@ -51,10 +51,12 @@
             formControlName="endDate"
             bsDatepicker
             [bsConfig]="{ containerClass: 'theme-dark-blue' }"
-            [bsValue]="endDate || null"
+            [bsValue]="cardForm.controls['endDate'] || null"
           />
         </div>
-        <div class="text-danger" *ngIf="cardForm.controls['endDate'].touched && cardForm.errors">{{ cardForm.errors?.dates }}</div>
+        <div class="text-danger" *ngIf="cardForm.controls['endDate'].touched && cardForm.hasError('dates')">
+          Start date cannot be after end date
+        </div>
       </div>
 
       <!-- Estimated Hours -->

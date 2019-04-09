@@ -5,7 +5,20 @@
         <h2>{{ mode === 'move' ? 'Move' : 'Copy' }} Card</h2>
       </div>
     </div>
-
-    <button (click)="hide()">Hide me</button>
+    <div *ngIf="!(loading$ | async); else loading">
+      <td-copy-move-card-view
+        [projects]="projects$ | async"
+        [plans]="plans$ | async"
+        [lists]="lists$ | async"
+        [plansLoading]="plansLoading$ | async"
+        [listsLoading]="listsLoading$ | async"
+        (projectChanged)="fetchPlans($event)"
+        (planChanged)="fetchLists($event)"
+        (closeCopyMoveSliderRequested)="hide()"
+      ></td-copy-move-card-view>
+    </div>
+    <ng-template #loading>
+      ...Loading
+    </ng-template>
   </div>
 </td-slide-in-view-container>
