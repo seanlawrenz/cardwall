@@ -26,6 +26,8 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   // Form
   cardForm: FormGroup;
   areDatesInvalid: boolean;
+  startDate;
+  endDate;
 
   // UI
   isSlideInShown = false;
@@ -105,11 +107,15 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   }
 
   private createForm() {
+    // There is not a date picker than can handle ISO strings
+    this.startDate = this.card.startDate ? new Date(this.card.startDate) : '';
+    this.endDate = this.card.endDate ? new Date(this.card.endDate) : '';
+
     this.cardForm = new FormGroup({
       name: new FormControl(this.card.name, [Validators.required, blankInputValidator]),
       description: new FormControl(this.card.description),
-      startDate: new FormControl(this.card.startDate),
-      endDate: new FormControl(this.card.endDate),
+      startDate: new FormControl(this.startDate),
+      endDate: new FormControl(this.endDate),
       estimatedHrs: new FormControl(this.card.estimatedHours, [Validators.required, Validators.min(0), Validators.max(2147483647)]),
       remainingHrs: new FormControl(this.card.remainingHours, Validators.required),
       percentComplete: new FormControl(this.card.percentComplete, [Validators.required, Validators.min(0), Validators.max(100)]),
@@ -121,40 +127,6 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       tags: new FormControl(this.card.tags),
       cssClass: new FormControl(this.card.cssClass),
     });
-    this.isStartDateAfterEndDate();
-  }
-
-  private isStartDateAfterEndDate(): ValidatorFn {
-    return (group: FormGroup): { [key: string]: any } => {
-      if (!this.card.startDate || !this.card.endDate) {
-        this.areDatesInvalid = false;
-        return {};
-      }
-
-      let start: Date;
-      if (typeof this.card.startDate === 'string') {
-        start = new Date(<string>this.card.startDate);
-      } else {
-        start = this.card.startDate;
-      }
-
-      let end: Date;
-      if (typeof this.card.endDate === 'string') {
-        end = new Date(<string>this.card.endDate);
-      } else {
-        end = this.card.endDate;
-      }
-
-      this.areDatesInvalid = start > end;
-
-      if (this.areDatesInvalid) {
-        return {
-          startDate: 'Start date cannot be after end date',
-        };
-      } else {
-        return {};
-      }
-    };
   }
 
   /**

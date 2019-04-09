@@ -34,9 +34,25 @@
       <div class="form-group col-md-6">
         <label class="control-label">Start / End</label>
         <div class="input-group">
-          <input type="text" aria-label="Start date" class="form-control form-control-sm" formControlName="startDate" />
+          <input
+            type="text"
+            aria-label="Start date"
+            class="form-control form-control-sm"
+            formControlName="startDate"
+            bsDatepicker
+            [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+            [bsValue]="startDate || null"
+          />
 
-          <input type="text" aria-label="End date" class="form-control form-control-sm" formControlName="endDate" />
+          <input
+            type="text"
+            aria-label="End date"
+            class="form-control form-control-sm"
+            formControlName="endDate"
+            bsDatepicker
+            [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+            [bsValue]="endDate || null"
+          />
         </div>
       </div>
 

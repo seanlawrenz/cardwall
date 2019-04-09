@@ -11,6 +11,7 @@ import { reducers, effects } from './state';
 // 3rd Parties
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 // Containers
 import { AttachmentsBaseComponent } from './container/attachments-base/attachments-base.component';
@@ -56,6 +57,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
   imports: [
     CommonModule,
     CardDetailsRoutingModule,
+    BsDatepickerModule.forRoot(),
     FormsModule,
     NgSelectModule,
     ReactiveFormsModule,
