@@ -15,6 +15,7 @@
         [lists]="lists$ | async"
         [plansLoading]="plansLoading$ | async"
         [listsLoading]="listsLoading$ | async"
+        [card]="card"
         (projectChanged)="fetchPlans($event)"
         (planChanged)="fetchLists($event)"
         (closeCopyMoveSliderRequested)="hide()"
@@ -22,7 +23,9 @@
       ></td-copy-move-card-view>
     </div>
     <ng-template #loading>
-      ...Loading
+      <div class="loading-component-container">
+        <span class="td-icon td-loading"></span>
+      </div>
     </ng-template>
   </div>
 </td-slide-in-view-container>

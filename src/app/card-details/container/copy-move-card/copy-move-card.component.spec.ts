@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 import { CopyMoveCardComponent } from './copy-move-card.component';
+import { ConfigService } from '@app/app-services';
+import { mockConfigService } from '@app/test/mocks';
 
 describe('CopyMoveCardComponent', () => {
   let component: CopyMoveCardComponent;
@@ -11,7 +13,7 @@ describe('CopyMoveCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CopyMoveCardComponent],
-      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }, { provide: ConfigService, useValue: mockConfigService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

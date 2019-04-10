@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Project, Plan, List } from '@app/models';
+import { Project, Plan, List, Card } from '@app/models';
 
 @Component({
   selector: 'td-copy-move-card-view',
@@ -13,6 +13,7 @@ export class CopyMoveCardViewComponent implements OnInit {
   @Input() lists: List[];
   @Input() plansLoading: boolean;
   @Input() listsLoading: boolean;
+  @Input() card: Card;
 
   @Output() projectChanged = new EventEmitter<number>();
   @Output() planChanged = new EventEmitter<{ projectId: number; planId: number }>();
@@ -48,9 +49,11 @@ export class CopyMoveCardViewComponent implements OnInit {
 
   private setupForm() {
     this.form = new FormGroup({
-      projectID: new FormControl('', Validators.required),
+      projectID: new FormControl(this.card.projectId, Validators.required),
       planID: new FormControl('', Validators.required),
       listID: new FormControl(''),
     });
+
+    this.projectUpdated();
   }
 }

@@ -31,11 +31,6 @@ export const getListsLoading = createSelector(
   state => state.copyMove.listsLoading,
 );
 
-export const getCopyMoveResult = createSelector(
-  fromCardDetails.getCardDetailsState,
-  state => state.copyMove.card,
-);
-
 export const getError = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.copyMove.error,

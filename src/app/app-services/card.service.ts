@@ -68,4 +68,18 @@ export class CardService {
       });
     });
   }
+
+  copyCard(card, projectId, planId, listId): Observable<SignalRResult> {
+    const newListId = listId === '' ? 0 : listId;
+    return new Observable(observer => {
+      this.signalRService.invoke('CardCopy', card, projectId, planId, newListId).subscribe((result: SignalRResult) => {
+        if (!result.isSuccessful) {
+          this.notifyService.danger('Problem Copying Card', result.reason ? result.reason : result.message);
+        }
+
+        observer.next(result);
+        observer.complete();
+      });
+    });
+  }
 }

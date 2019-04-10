@@ -1,5 +1,5 @@
 import { CopyMoveCardTypes, CopyMoveCardActions } from '../actions';
-import { Plan, Project, List, Card } from '@app/models';
+import { Plan, Project, List } from '@app/models';
 
 export interface CopyMoveCardState {
   projects: Project[];
@@ -9,7 +9,6 @@ export interface CopyMoveCardState {
   plansLoading: boolean;
   listsLoading: boolean;
   error: string;
-  card: Card;
 }
 
 export const initialState: CopyMoveCardState = {
@@ -20,7 +19,6 @@ export const initialState: CopyMoveCardState = {
   plansLoading: false,
   listsLoading: false,
   error: undefined,
-  card: undefined,
 };
 
 export function reducer(state = initialState, actions: CopyMoveCardActions): CopyMoveCardState {
@@ -97,9 +95,11 @@ export function reducer(state = initialState, actions: CopyMoveCardActions): Cop
     case CopyMoveCardTypes.COPY_MOVE_CARD_SUCCESS:
       return {
         ...state,
+        projects: [],
+        plans: [],
+        lists: [],
         loading: false,
         error: undefined,
-        card: actions.payload,
       };
 
     case CopyMoveCardTypes.COPY_MOVE_CARD_ERROR:

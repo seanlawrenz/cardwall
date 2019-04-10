@@ -63,12 +63,10 @@ export class GetListsError implements Action {
 
 export class CopyMoveCard implements Action {
   readonly type = CopyMoveCardTypes.COPY_MOVE_CARD;
-  constructor(public payload: { card: Card; projectId: number; planId: number; listId: number | null; type: string }) {}
 }
 
 export class CopyMoveCardSuccess implements Action {
   readonly type = CopyMoveCardTypes.COPY_MOVE_CARD_SUCCESS;
-  constructor(public payload: Card) {}
 }
 
 export class CopyMoveCardError implements Action {
