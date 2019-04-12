@@ -29,8 +29,26 @@
         display: flex;
       }
     }
+
+    &-nav-container {
+      padding: 1em 0 0 0;
+
+      @media #{$break-wide-up} {
+        padding: 1em 1em 0;
+      }
+    }
   }
   &-tab-list {
+
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+
+    @media #{$break-wide-up} {
+      flex-direction: row;
+    }
 
     .nav-link {
       border-bottom: 1px solid #dee2e6 !important;

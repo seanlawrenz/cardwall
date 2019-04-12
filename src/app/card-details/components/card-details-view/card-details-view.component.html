@@ -18,10 +18,10 @@
 </div>
 
 <!-- Tab Menu -->
-<div class="gutter-top">
-  <ul class="nav nav-tabs tdNg-tab-list" role="tablist">
+<div class="tdNg-cd-nav-container">
+  <ul class="nav nav-tabs nav-fill tdNg-tab-list" role="tablist">
     <li class="nav-item" (click)="detailPageRequested('FORM')">
-      <button class="nav-link gutter-left" role="tab" [ngClass]="{ active: selectedPage === 'FORM' }">Card</button>
+      <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'FORM' }">Card</button>
     </li>
     <li class="nav-item" (click)="detailPageRequested('FEED')">
       <button class="nav-link" role="tab" [ngClass]="{ active: selectedPage === 'FEED' }">Feed</button>

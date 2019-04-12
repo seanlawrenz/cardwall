@@ -77,7 +77,9 @@
       }
 
       &-subtask {
+        display: none;
         @media #{$break-wide-up} {
+          display: flex;
           margin: 0 1em;
         }
       }
