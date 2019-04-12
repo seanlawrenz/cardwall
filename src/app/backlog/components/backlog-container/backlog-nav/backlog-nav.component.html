@@ -9,14 +9,8 @@
   </div>
   <div class="tdNg-flex-row-center">
     <div class="tdNg-backlog-toolbar"><td-backlog-move-toolbar></td-backlog-move-toolbar></div>
-    <div class="d-none d-lg-block"><td-filter-toolbar></td-filter-toolbar></div>
-    <div class="d-none d-lg-block gutter-left">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text"><span class="fa fa-search fa-nopad" aria-hidden="true"></span></div>
-        </div>
-        <input type="text" aria-label="Search" class="form-control" placeholder="Placeholder for filter" />
-      </div>
+    <div class="d-none d-lg-block">
+      <td-card-search-base></td-card-search-base>
     </div>
     <div class="tdNg-navbar-hamburger-container" (click)="navHamburgerClicked()"><td-button icon="bars"></td-button></div>
   </div>

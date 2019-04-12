@@ -27,6 +27,7 @@ import { BacklogListControllerComponent } from './container/backlog-list-control
 import { BacklogResourceControllerComponent } from './container/backlog-resource-controller/backlog-resource-controller.component';
 import { BacklogSettingsContainerComponent } from './container/backlog-settings-container/backlog-settings-container.component';
 import { BacklogToolbarContainerComponent } from './container/backlog-toolbar-container/backlog-toolbar-container.component';
+import { CardSearchBaseComponent } from './container/card-search-base/card-search-base.component';
 import { RemoveBoardComponent } from './container/remove-board/remove-board.component';
 
 // Components
@@ -87,6 +88,7 @@ const backlogRoutes: Routes = [
     BacklogTotalsComponent,
     BacklogCardControllerComponent,
     BacklogResourceControllerComponent,
+    CardSearchBaseComponent,
   ],
   exports: [BacklogBaseComponent],
 })

@@ -1,5 +1,12 @@
 <div class="input-group">
-  <input type="text" aria-label="Search" class="form-control" placeholder="Search" />
+  <input
+    [(ngModel)]="searchText"
+    (ngModelChange)="valueChange($event)"
+    type="text"
+    aria-label="Search"
+    class="form-control"
+    placeholder="Search"
+  />
   <div class="input-group-append">
     <div class="input-group-text"><span class="fa fa-search fa-nopad" aria-hidden="true"></span></div>
   </div>
