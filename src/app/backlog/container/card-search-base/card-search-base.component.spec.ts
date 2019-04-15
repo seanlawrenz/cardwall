@@ -6,6 +6,8 @@ import { CardSearchBaseComponent } from './card-search-base.component';
 import { Store } from '@ngrx/store';
 import * as actions from '../../state/actions';
 
+import { mockBoard } from '@app/test/data';
+
 describe('CardSearchBaseComponent', () => {
   let component: CardSearchBaseComponent;
   let fixture: ComponentFixture<CardSearchBaseComponent>;
@@ -24,6 +26,7 @@ describe('CardSearchBaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CardSearchBaseComponent);
     component = fixture.componentInstance;
+    component.plans = [mockBoard];
     fixture.detectChanges();
   });
 
@@ -36,7 +39,7 @@ describe('CardSearchBaseComponent', () => {
     spy = jest.spyOn(store, 'dispatch');
     action = new actions.SearchPlans('test');
 
-    component.search('test');
+    component.searchCardsViaText('test');
 
     expect(spy).toHaveBeenCalledWith(action);
   });

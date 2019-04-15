@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { BoardsControllerComponent } from './boards-controller.component';
-import { mockBoard, mockBoardBuilder, mockListBuilder, mockCardBuilder } from '@app/test/data';
+import { mockBoard, mockBoardBuilder, mockListBuilder, mockCardBuilder, mockResource } from '@app/test/data';
 
 import { Store } from '@ngrx/store';
 import * as backlogActions from '../../state/actions';
@@ -148,6 +148,94 @@ describe('BoardsControllerComponent', () => {
       const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
       const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
       expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
+    });
+  });
+
+  describe('searchResources', () => {
+    const mockPlan1 = mockBoardBuilder();
+    const mockPlan2 = mockBoardBuilder();
+
+    const mockList1 = mockListBuilder();
+    const mockList2 = mockListBuilder();
+
+    const mockCard1 = mockCardBuilder();
+    mockCard1.name = 'y';
+    const mockCard2 = { ...mockCard1, name: 'test', tags: ['test'], owners: [] };
+    const mockCard3 = { ...mockCard1, name: 'testing', owners: [mockResource] };
+    const mockCard4 = { ...mockCard1, name: 'x', owners: null };
+
+    mockPlan1.lists = [mockList1];
+    mockPlan2.lists = [mockList2];
+    mockList1.cards = [mockCard1, mockCard2];
+    mockList2.cards = [mockCard3, mockCard4];
+
+    beforeEach(() => {
+      component.plans = [mockPlan1, mockPlan2];
+      component.ngOnChanges({
+        plans: { firstChange: false, currentValue: [mockPlan1, mockPlan2], previousValue: [], isFirstChange: () => false },
+      });
+    });
+
+    it('should have filterPlans equal to plans', () => {
+      expect(component.filteredPlans).toEqual(component.plans);
+    });
+
+    it('should filter out cards that have the resource selected', () => {
+      const expected = component['searchCards']([mockPlan1, mockPlan2], [mockResource]);
+
+      const expectedList1 = { ...mockList1, cards: [] };
+      const expectedList2 = { ...mockList2, cards: [mockCard3] };
+      const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
+      const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
+      expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
+    });
+
+    it('should return all the plans if no resources selected', () => {
+      const testPlans = component['searchCards']([mockPlan1, mockPlan2], []);
+      expect(testPlans).toEqual([mockPlan1, mockPlan2]);
+    });
+  });
+
+  describe('searching both', () => {
+    const mockPlan1 = mockBoardBuilder();
+    const mockPlan2 = mockBoardBuilder();
+
+    const mockList1 = mockListBuilder();
+    const mockList2 = mockListBuilder();
+
+    const mockCard1 = mockCardBuilder();
+    mockCard1.name = 'y';
+    const mockCard2 = { ...mockCard1, name: 'test', tags: ['test'] };
+    const mockCard3 = { ...mockCard1, name: 'testing', tags: ['blah'], owners: [mockResource] };
+    const mockCard4 = { ...mockCard1, name: 'x', owners: [mockResource] };
+
+    mockPlan1.lists = [mockList1];
+    mockPlan2.lists = [mockList2];
+    mockList1.cards = [mockCard1, mockCard2];
+    mockList2.cards = [mockCard3, mockCard4];
+
+    beforeEach(() => {
+      component.plans = [mockPlan1, mockPlan2];
+      component.ngOnChanges({
+        plans: { firstChange: false, currentValue: [mockPlan1, mockPlan2], previousValue: [], isFirstChange: () => false },
+      });
+    });
+
+    it('should filter by both', () => {
+      component.searchTerm = 'test';
+      const expected = component['searchCards']([mockPlan1, mockPlan2], [mockResource]);
+      const expectedList1 = { ...mockList1, cards: [] };
+      const expectedList2 = { ...mockList2, cards: [mockCard3] };
+      const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
+      const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
+
+      expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
+    });
+
+    it('should reset to original plans if both are reset', () => {
+      component['searchCards']([mockPlan1, mockPlan2], []);
+
+      expect(component.filteredPlans).toEqual([mockPlan1, mockPlan2]);
     });
   });
 });

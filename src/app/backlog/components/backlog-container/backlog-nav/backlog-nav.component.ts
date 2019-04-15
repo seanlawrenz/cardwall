@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Plan } from '@app/models';
 
 @Component({
   selector: 'td-backlog-nav',
@@ -6,6 +7,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./backlog-nav.component.scss'],
 })
 export class BacklogNavComponent implements OnInit {
+  @Input() plans: Plan[];
   @Output() showOptions = new EventEmitter<void>();
   constructor() {}
 

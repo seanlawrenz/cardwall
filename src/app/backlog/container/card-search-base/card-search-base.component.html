@@ -1,11 +1,6 @@
 <div class="d-flex">
-  <td-filter-toolbar (search)="search($event)"></td-filter-toolbar>
+  <td-filter-toolbar (search)="searchCardsViaText($event)"></td-filter-toolbar>
   <div class="d-none d-lg-block gutter-left">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><span class="fa fa-search fa-nopad" aria-hidden="true"></span></div>
-      </div>
-      <input type="text" aria-label="Search" class="form-control" placeholder="Placeholder for filter" />
-    </div>
+    <td-filter-card-by-resource [resources]="resources" (valueChange)="searchCardsViaResources($event)"></td-filter-card-by-resource>
   </div>
 </div>

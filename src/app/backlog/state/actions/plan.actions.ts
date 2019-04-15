@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Plan } from '@app/models';
+import { Plan, Resources } from '@app/models';
 
 export enum PlanActionTypes {
   GET_PLANS_IN_PARAMS = '[BACKLOG] GET PLANS IN PARAMS',
@@ -42,7 +42,7 @@ export class ReorderPlans implements Action {
 
 export class SearchPlans implements Action {
   readonly type = PlanActionTypes.SEARCH_PLANS;
-  constructor(public payload: string) {}
+  constructor(public payload: string | Resources[]) {}
 }
 
 export type PlanActions = GetPlansInParams | AddPlan | RemovePlan | GetPlansSuccess | GetPlansError | ReorderPlans | SearchPlans;

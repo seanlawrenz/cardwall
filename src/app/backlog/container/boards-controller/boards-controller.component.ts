@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Location } from '@angular/common';
-import { Plan, Card } from '@app/models';
+import { Plan, Card, Resources } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '../../state';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { cloneDeep, startsWith, trimStart } from 'lodash';
+import { cloneDeep, startsWith, trimStart, find } from 'lodash';
 
 @Component({
   selector: 'td-boards-controller',
@@ -18,6 +18,7 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() plans: Plan[];
   filteredPlans: Plan[];
   searchTerm = '';
+  searchResource = [];
 
   private unsubscribe$ = new Subject<void>();
 
@@ -34,7 +35,11 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
       .select(fromBacklog.getSearch)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(term => {
-        this.searchTerm = term;
+        if (typeof term === 'string') {
+          this.searchTerm = term;
+        } else {
+          this.searchResource = term;
+        }
         this.filteredPlans = this.searchCards(this.plans, term);
       });
 
@@ -44,6 +49,7 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.plans && !changes.plans.firstChange) {
       this.filteredPlans = this.searchCards(changes.plans.currentValue, this.searchTerm);
+      this.filteredPlans = this.searchCards(this.filteredPlans, this.searchResource);
     }
   }
 
@@ -64,12 +70,34 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
     this.store.dispatch(new fromBacklog.ReorderPlans(this.plans));
   }
 
-  private searchCards(plansToFilter: Plan[], term: string): Plan[] {
+  private searchCards(plansToFilter: Plan[], term: string | Resources[]): Plan[] {
     const plans = cloneDeep(plansToFilter);
-    if (term === '') {
-      return plans;
-    }
 
+    if (typeof term === 'string') {
+      if (term === '' && this.searchResource.length === 0) {
+        return plans;
+      }
+
+      let filteredPlans = this.searchByText(plans, term);
+      if (this.searchResource.length > 0) {
+        filteredPlans = this.searchByResource(filteredPlans, this.searchResource);
+      }
+
+      return filteredPlans;
+    } else {
+      if (term.length === 0 && this.searchTerm === '') {
+        return plans;
+      }
+
+      let filteredPlans = this.searchByResource(plans, term);
+      if (this.searchTerm !== '') {
+        filteredPlans = this.searchByText(filteredPlans, this.searchTerm);
+      }
+      return filteredPlans;
+    }
+  }
+
+  private searchByText(plans: Plan[], term: string): Plan[] {
     return plans.map(plan => {
       plan.lists = plan.lists.map(list => {
         if (startsWith(term, '#')) {
@@ -77,6 +105,23 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           list.cards = list.cards.filter(card => card.name.toLowerCase().includes(term.toLowerCase()));
         }
+        return list;
+      });
+      return plan;
+    });
+  }
+
+  private searchByResource(plans: Plan[], resources: Resources[]): Plan[] {
+    return plans.map(plan => {
+      plan.lists = plan.lists.map(list => {
+        list.cards = list.cards.filter(card => {
+          if (card.owners && card.owners.length > 0) {
+            const owners = card.owners.filter(owner => find(resources, res => res.uid === owner.uid));
+            if (owners.length > 0) {
+              return card;
+            }
+          }
+        });
         return list;
       });
       return plan;

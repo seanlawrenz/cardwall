@@ -7,12 +7,14 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DirectiveModule } from './directives';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TDXAgilePipesModule } from './pipes';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // Components
 import { ButtonComponent } from './components/button/button.component';
 import { CardResourceIconsComponent } from './components/card-resource-icons/card-resource-icons.component';
 import { EstimatedHoursComponent } from './components/estimated-hours/estimated-hours.component';
 import { ExpandCollapseGlyphComponent } from './components/expand-collapse-glyph/expand-collapse-glyph.component';
+import { FilterCardByResourceComponent } from './components/filter-card-by-resource/filter-card-by-resource.component';
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
 import { GripComponent } from './components/grip/grip.component';
 import { IdCopyButtonComponent } from './components/id-copy-button/id-copy-button.component';
@@ -46,12 +48,14 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     IdCopyButtonComponent,
     PriorityComponent,
     SlideInViewContainerComponent,
+    FilterCardByResourceComponent,
   ],
   imports: [
     CommonModule,
     DirectiveModule,
     ClipboardModule,
     FormsModule,
+    NgSelectModule,
     ReactiveFormsModule,
     TDXAgilePipesModule.forRoot(),
     TooltipModule.forRoot(),
@@ -63,6 +67,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     CardResourceIconsComponent,
     EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
+    FilterCardByResourceComponent,
     FilterToolbarComponent,
     GripComponent,
     IdCopyButtonComponent,
