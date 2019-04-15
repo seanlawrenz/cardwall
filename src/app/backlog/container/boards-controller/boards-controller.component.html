@@ -1,6 +1,6 @@
 <div class="tdNg-backlog-container">
   <div [sortablejs]="plans" [sortablejsOptions]="sortableOptions">
-    <div *ngFor="let plan of plans">
+    <div *ngFor="let plan of filteredPlans">
       <div *ngIf="!plan.erroredDuringFetching; else boardErrorDuringFetch">
         <td-backlog-board-header [plan]="plan"></td-backlog-board-header>
       </div>

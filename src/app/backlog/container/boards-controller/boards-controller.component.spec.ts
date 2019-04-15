@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { BoardsControllerComponent } from './boards-controller.component';
-import { mockBoard } from '@app/test/data';
+import { mockBoard, mockBoardBuilder, mockListBuilder, mockCardBuilder } from '@app/test/data';
 
 import { Store } from '@ngrx/store';
 import * as backlogActions from '../../state/actions';
@@ -22,7 +22,10 @@ describe('BoardsControllerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BoardsControllerComponent],
-      providers: [{ provide: Location, useClass: SpyLocation }, { provide: Store, useValue: { dispatch: jest.fn() } }],
+      providers: [
+        { provide: Location, useClass: SpyLocation },
+        { provide: Store, useValue: { dispatch: jest.fn(), select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })) } },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -52,6 +55,9 @@ describe('BoardsControllerComponent', () => {
       reason: 'You do not have access to this project',
     });
     component.plans = [failedMockBoard, mockBoard];
+    component.ngOnChanges({
+      plans: { firstChange: false, currentValue: [failedMockBoard, mockBoard], previousValue: [], isFirstChange: () => false },
+    });
     fixture.detectChanges();
     text = fixture.debugElement.query(By.css('.alert-warning'));
     expect(text.nativeElement.textContent).toContain('Cannot Get Board');
@@ -87,6 +93,61 @@ describe('BoardsControllerComponent', () => {
       component.sortPlans();
 
       expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('searchCards', () => {
+    const mockPlan1 = mockBoardBuilder();
+    const mockPlan2 = mockBoardBuilder();
+
+    const mockList1 = mockListBuilder();
+    const mockList2 = mockListBuilder();
+
+    const mockCard1 = mockCardBuilder();
+    mockCard1.name = 'y';
+    const mockCard2 = { ...mockCard1, name: 'test', tags: ['test'] };
+    const mockCard3 = { ...mockCard1, name: 'testing', tags: ['blah'] };
+    const mockCard4 = { ...mockCard1, name: 'x' };
+
+    mockPlan1.lists = [mockList1];
+    mockPlan2.lists = [mockList2];
+    mockList1.cards = [mockCard1, mockCard2];
+    mockList2.cards = [mockCard3, mockCard4];
+
+    beforeEach(() => {
+      component.plans = [mockPlan1, mockPlan2];
+      component.ngOnChanges({
+        plans: { firstChange: false, currentValue: [mockPlan1, mockPlan2], previousValue: [], isFirstChange: () => false },
+      });
+    });
+
+    it('should have filteredPlans equal to plans', () => {
+      expect(component.filteredPlans).toEqual(component.plans);
+    });
+
+    it('should filter the plans', () => {
+      const expected = component['searchCards']([mockPlan1, mockPlan2], 'test');
+
+      const expectedList1 = { ...mockList1, cards: [mockCard2] };
+      const expectedList2 = { ...mockList2, cards: [mockCard3] };
+      const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
+      const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
+      expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
+    });
+
+    it('should return all the plans if the term is blank', () => {
+      const testPlans = component['searchCards']([mockPlan1, mockPlan2], '');
+      expect(testPlans).toEqual([mockPlan1, mockPlan2]);
+    });
+
+    it('should filter via tags if the search starts with #', () => {
+      const expected = component['searchCards']([mockPlan1, mockPlan2], '#te');
+
+      const expectedList1 = { ...mockList1, cards: [mockCard2] };
+      const expectedList2 = { ...mockList2, cards: [] };
+      const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
+      const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
+      expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
     });
   });
 });

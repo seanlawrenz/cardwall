@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { fromRoot } from '@app/store';
+import * as actions from '@app/backlog/state/actions';
 
 @Component({
   selector: 'td-card-search-base',
@@ -6,11 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card-search-base.component.scss'],
 })
 export class CardSearchBaseComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {}
 
   search(term) {
-    console.log(term);
+    this.store.dispatch(new actions.SearchPlans(term));
   }
 }

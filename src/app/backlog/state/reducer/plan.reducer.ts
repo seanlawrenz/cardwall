@@ -11,7 +11,6 @@ import {
 } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
 import { ListActionTypes, ListActions } from '@app/store/actions/list.actions';
-import { getPlanById } from '../selectors';
 import { updateListOrderInBacklog } from '@app/utils/listOperations';
 
 export interface PlanState {
@@ -19,6 +18,7 @@ export interface PlanState {
   error: string;
   plansLoading: boolean;
   selectedCard: Card;
+  searchTerm: string;
 }
 
 export const initialState: PlanState = {
@@ -26,6 +26,7 @@ export const initialState: PlanState = {
   error: '',
   plansLoading: false,
   selectedCard: undefined,
+  searchTerm: '',
 };
 
 export function reducer(
@@ -58,6 +59,12 @@ export function reducer(
       return {
         ...state,
         plans: action.payload,
+      };
+
+    case PlanActionTypes.SEARCH_PLANS:
+      return {
+        ...state,
+        searchTerm: action.payload,
       };
 
     case PlanListActionTypes.UPDATE_LISTS_ORDER:

@@ -35,3 +35,8 @@ export const getListsByPlan = planId =>
     getPlanById(planId),
     plan => plan.lists,
   );
+
+export const getSearch = createSelector(
+  fromBacklog.getBacklogState,
+  state => state.plans.searchTerm,
+);

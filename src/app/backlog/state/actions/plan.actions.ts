@@ -8,6 +8,7 @@ export enum PlanActionTypes {
   ADD_PLANS = '[BACKLOG PLAN] ADD PLANS',
   REMOVE_PLAN = '[BACKLOG PLAN] REMOVE PLAN',
   REORDER_PLANS = '[BACKLOG PLANS] REORDER PLANS',
+  SEARCH_PLANS = '[SEARCH] SEARCH PLANS',
 }
 
 export class GetPlansInParams implements Action {
@@ -39,4 +40,9 @@ export class ReorderPlans implements Action {
   constructor(public payload: Plan[]) {}
 }
 
-export type PlanActions = GetPlansInParams | AddPlan | RemovePlan | GetPlansSuccess | GetPlansError | ReorderPlans;
+export class SearchPlans implements Action {
+  readonly type = PlanActionTypes.SEARCH_PLANS;
+  constructor(public payload: string) {}
+}
+
+export type PlanActions = GetPlansInParams | AddPlan | RemovePlan | GetPlansSuccess | GetPlansError | ReorderPlans | SearchPlans;

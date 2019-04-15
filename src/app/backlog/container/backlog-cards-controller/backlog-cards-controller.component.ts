@@ -9,7 +9,8 @@ import * as fromBacklog from '@app/backlog/state';
 import { SignalRService } from '@app/app-services';
 
 import { getRelativeMoveCardId } from '@app/utils';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -32,6 +33,7 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
   plan$: Observable<Plan>;
+  private unsubscribe$ = new Subject<void>();
 
   // Card Move
   sortableOptions: SortablejsOptions = {
@@ -49,8 +51,6 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
-  cardMoveSub: Subscription;
-
   constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
 
   ngOnInit() {
@@ -59,9 +59,8 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.cardMoveSub) {
-      this.cardMoveSub.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   cardMovement(event, type: string) {
@@ -107,9 +106,12 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
     if (card.listId !== this.listInfo.listId && card.planId === this.listInfo.planId) {
       // Get the list to where this card is heading
       this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
-        this.cardMoveSub = this.cardService.moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex).subscribe(() => {
-          // placeholder for ending the saving service
-        });
+        this.cardService
+          .moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(() => {
+            // placeholder for ending the saving service
+          });
       });
     } else {
       // Move outside of project or plan
@@ -118,8 +120,9 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
       const originatedCard = { ...card, projectId, planId, listId };
       this.store.select(fromBacklog.getListById(card.planId, card.listId)).subscribe((list: List) => {
         const relativeMoveCardId = getRelativeMoveCardId(list.cards, card, newIndex);
-        this.cardMoveSub = this.signalRService
+        this.signalRService
           .invoke('CardMoveRelativeTo', originatedCard, card.projectId, card.planId, card.listId, relativeMoveCardId)
+          .pipe(takeUntil(this.unsubscribe$))
           .subscribe(() => {
             // I don't like this, but if the client moves the card that card does not have the data on it to be removed via the
             // signal r call. So we must remove the card here.
