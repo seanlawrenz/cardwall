@@ -6,6 +6,7 @@ export interface UIState {
   showSpinner: boolean;
   showOptions: boolean;
   showSlider: boolean;
+  showSaving: boolean;
 }
 
 export const UI_STATE: UIState = {
@@ -14,6 +15,7 @@ export const UI_STATE: UIState = {
   showSpinner: false,
   showOptions: false,
   showSlider: false,
+  showSaving: false,
 };
 
 export function reducer(state = UI_STATE, action: UIActions): UIState {
@@ -78,6 +80,18 @@ export function reducer(state = UI_STATE, action: UIActions): UIState {
       return {
         ...state,
         showSlider: false,
+      };
+
+    case UIActionTypes.SHOW_SAVING:
+      return {
+        ...state,
+        showSaving: true,
+      };
+
+    case UIActionTypes.HIDE_SAVING:
+      return {
+        ...state,
+        showSaving: false,
       };
 
     default:

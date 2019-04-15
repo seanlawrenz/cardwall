@@ -22,6 +22,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { OptionSidebarContainerComponent } from './components/option-sidebar-container/option-sidebar-container.component';
 import { PriorityComponent } from './components/priority/priority.component';
 import { ProfileImageComponent } from './components/profile-image/profile-image.component';
+import { SavingComponent } from './components/saving/saving.component';
 import { SlideInViewContainerComponent } from './components/slide-in-view-container/slide-in-view-container.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
@@ -49,6 +50,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     PriorityComponent,
     SlideInViewContainerComponent,
     FilterCardByResourceComponent,
+    SavingComponent,
   ],
   imports: [
     CommonModule,
@@ -75,6 +77,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     OptionSidebarContainerComponent,
     PriorityComponent,
     ProfileImageComponent,
+    SavingComponent,
     SlideInViewContainerComponent,
     SpinnerComponent,
     StoryPointIndicatorComponent,

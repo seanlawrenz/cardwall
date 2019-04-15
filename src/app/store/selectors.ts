@@ -46,6 +46,11 @@ export const isSliderShowing = createSelector(
   state => state.showSlider,
 );
 
+export const isSaving = createSelector(
+  getUIState,
+  state => state.showSaving,
+);
+
 // Notifications
 export const getNotificationState = createFeatureSelector<fromNotify.NotifyState>('notifications');
 

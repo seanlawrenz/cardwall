@@ -9,6 +9,8 @@ export enum UIActionTypes {
   HIDE_OPTIONS = '[UI] HIDE OPTIONS',
   SHOW_SLIDER = '[UI SLIDER] SHOW SLIDER',
   HIDE_SLIDER = '[UI SLIDER] HIDE SLIDER',
+  SHOW_SAVING = '[UI] SHOW SAVING',
+  HIDE_SAVING = '[UI] HIDE SAVING',
 }
 
 export class ExpandAllLists implements Action {
@@ -43,4 +45,22 @@ export class HideSlider implements Action {
   readonly type = UIActionTypes.HIDE_SLIDER;
 }
 
-export type UIActions = ExpandAllLists | CompressAllLists | ShowSpinner | HideSpinner | ShowOptions | HideOptions | ShowSlider | HideSlider;
+export class ShowSaving implements Action {
+  readonly type = UIActionTypes.SHOW_SAVING;
+}
+
+export class HideSaving implements Action {
+  readonly type = UIActionTypes.HIDE_SAVING;
+}
+
+export type UIActions =
+  | ExpandAllLists
+  | CompressAllLists
+  | ShowSpinner
+  | HideSpinner
+  | ShowOptions
+  | HideOptions
+  | ShowSlider
+  | HideSlider
+  | ShowSaving
+  | HideSaving;

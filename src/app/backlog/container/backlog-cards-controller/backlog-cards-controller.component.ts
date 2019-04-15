@@ -10,6 +10,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
+import * as uiActions from '@app/store/actions/ui.actions';
 
 import { SignalRService } from '@app/app-services';
 import { getRelativeMoveCardId } from '@app/utils';
@@ -103,13 +104,14 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
    * This card could be heading to a new list in a new plan or project.
    */
   private dragCardEnd(card: Card, newIndex: number, oldIndex: number) {
+    this.store.dispatch(new uiActions.ShowSaving());
     // Move within this list
     if (card.listId === this.listInfo.listId) {
       this.cardService
         .moveCardWithInSameList(this.cards, newIndex)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(() => {
-          // placeholder for ending the saving service
+          this.store.dispatch(new uiActions.HideSaving());
         });
       return;
     }
@@ -122,7 +124,7 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
           .moveCardToListInSameBoard(list.cards, card, this.listInfo.listId, newIndex)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(() => {
-            // placeholder for ending the saving service
+            this.store.dispatch(new uiActions.HideSaving());
           });
       });
     } else {
@@ -140,11 +142,16 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
               // If the client moves the card to a new project or plan
               // the response from the server does not have the location of the old card
               // This will remove it AFTER it has been deleted server side keeping a smooth UX
-              this.updates$.pipe(
-                ofType(cardActions.CardActionTypes.CARD_DELETE_FROM_SERVER),
-                takeUntil(this.unsubscribe$),
-                tap(() => this.store.dispatch(new fromBacklog.DeleteCardOnBacklog(card))),
-              );
+              this.updates$
+                .pipe(
+                  ofType(cardActions.CardActionTypes.CARD_DELETE_FROM_SERVER),
+                  takeUntil(this.unsubscribe$),
+                  tap(() => this.store.dispatch(new fromBacklog.DeleteCardOnBacklog(card))),
+                )
+                .subscribe(() => this.store.dispatch(new uiActions.HideSaving()));
+            } else {
+              // Still hide the saving
+              this.store.dispatch(new uiActions.HideSaving());
             }
           });
       });

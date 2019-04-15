@@ -38,6 +38,23 @@
   &-resource-name {
     margin-left: 10px;
   }
+
+  &-saving {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1800;
+    padding-right: 2em;
+
+    &-overlay {
+      width: 100%;
+      height: 100%;
+      z-index: 1040;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 
 .flex-start {
