@@ -2,15 +2,17 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
 import { CardService } from '@app/app-services/card.service';
-import { Card, List, Plan } from '@app/models';
+import { Card, List, Plan, SignalRResult } from '@app/models';
 
 import { Store, select } from '@ngrx/store';
-import * as fromBacklog from '@app/backlog/state';
-import { SignalRService } from '@app/app-services';
-
-import { getRelativeMoveCardId } from '@app/utils';
+import { Actions, ofType } from '@ngrx/effects';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import * as fromBacklog from '@app/backlog/state';
+import * as cardActions from '@app/store/actions/card.actions';
+
+import { SignalRService } from '@app/app-services';
+import { getRelativeMoveCardId } from '@app/utils';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -51,7 +53,12 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
     onEnd: event => this.cardMovement(event, CardMovementTypes.END),
   };
 
-  constructor(private cardService: CardService, private signalRService: SignalRService, private store: Store<fromBacklog.BacklogState>) {}
+  constructor(
+    private cardService: CardService,
+    private signalRService: SignalRService,
+    private store: Store<fromBacklog.BacklogState>,
+    private updates$: Actions,
+  ) {}
 
   ngOnInit() {
     // This is to pass the plan data down to the card for card details if card is opened
@@ -98,7 +105,12 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   private dragCardEnd(card: Card, newIndex: number, oldIndex: number) {
     // Move within this list
     if (card.listId === this.listInfo.listId) {
-      this.cardService.moveCardWithInSameList(this.cards, newIndex);
+      this.cardService
+        .moveCardWithInSameList(this.cards, newIndex)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => {
+          // placeholder for ending the saving service
+        });
       return;
     }
 
@@ -123,10 +135,17 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
         this.signalRService
           .invoke('CardMoveRelativeTo', originatedCard, card.projectId, card.planId, card.listId, relativeMoveCardId)
           .pipe(takeUntil(this.unsubscribe$))
-          .subscribe(() => {
-            // I don't like this, but if the client moves the card that card does not have the data on it to be removed via the
-            // signal r call. So we must remove the card here.
-            this.store.dispatch(new fromBacklog.DeleteCardOnBacklog(card));
+          .subscribe((res: SignalRResult) => {
+            if (res.isSuccessful) {
+              // If the client moves the card to a new project or plan
+              // the response from the server does not have the location of the old card
+              // This will remove it AFTER it has been deleted server side keeping a smooth UX
+              this.updates$.pipe(
+                ofType(cardActions.CardActionTypes.CARD_DELETE_FROM_SERVER),
+                takeUntil(this.unsubscribe$),
+                tap(() => this.store.dispatch(new fromBacklog.DeleteCardOnBacklog(card))),
+              );
+            }
           });
       });
     }

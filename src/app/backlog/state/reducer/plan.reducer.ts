@@ -1,5 +1,5 @@
 import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes, BacklogCardActionTypes, BacklogCardActions } from '../actions';
-import { Plan, Card } from '@app/models';
+import { Plan, Card, Resources } from '@app/models';
 
 import {
   updateDataOnCollection,
@@ -18,7 +18,7 @@ export interface PlanState {
   error: string;
   plansLoading: boolean;
   selectedCard: Card;
-  searchTerm: string;
+  searchTerm: string | Resources[];
 }
 
 export const initialState: PlanState = {

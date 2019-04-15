@@ -9,6 +9,8 @@ import { Card } from '@app/models';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SignalRService } from '@app/app-services';
+import { Actions } from '@ngrx/effects';
+import { getActions } from '@app/test/mocks';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardsControllerComponent;
@@ -29,7 +31,14 @@ describe('BacklogCardControllerComponent', () => {
       declarations: [BacklogCardsControllerComponent],
       imports: [SortablejsModule],
       providers: [
-        { provide: CardService, useValue: { dragCard: {}, moveCardToListInSameBoard: jest.fn(), moveCardWithInSameList: jest.fn() } },
+        {
+          provide: CardService,
+          useValue: {
+            moveCardWithInSameList: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })),
+            moveCardToListInSameBoard: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })),
+          },
+        },
+        { provide: Actions, useFactory: getActions },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
         { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn(), pipe: jest.fn() } },
       ],
@@ -96,6 +105,7 @@ describe('BacklogCardControllerComponent', () => {
         store = TestBed.get(Store);
         signalR = TestBed.get(SignalRService);
         signalR.invoke = jest.fn(() => of({}));
+        cardSvc = TestBed.get(CardService);
         component.listInfo = { listId: mockList.id, projectId: mockList.projectId, planId: mockList.planId };
       });
       it('should know if the card did not move', () => {
@@ -111,10 +121,9 @@ describe('BacklogCardControllerComponent', () => {
       });
 
       it('should tell if the card was moved within the same list (same list)', () => {
-        spy = spyOn(cardSvc, 'moveCardWithInSameList');
+        spy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
         component.cards = [mockCardFromMockList, mockCard];
         mockEventFromSortable = { newIndex: 1, oldIndex: 0, clone: { cardData: mockCardFromMockList } };
-        jest.spyOn(store, 'select').mockImplementationOnce(jest.fn(() => of({ cards: [] })));
 
         component.cardMovement(mockEventFromSortable, CardMovementTypes.END);
 
@@ -122,7 +131,7 @@ describe('BacklogCardControllerComponent', () => {
       });
 
       it('should tell if the card was moved within the same list (not same list)', () => {
-        spy = spyOn(cardSvc, 'moveCardWithInSameList');
+        spy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
         const mockCard2 = mockCardBuilder();
         component.cards = [mockCard2, mockCard];
         mockEventFromSortable = { newIndex: 1, oldIndex: 0, clone: { cardData: mockCard2 } };

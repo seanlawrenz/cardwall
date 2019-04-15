@@ -35,8 +35,9 @@ describe('CardService', () => {
       const cardOperationOrder: CardOperationInfo = { card: mockCard, orders: [{ cardID: mockCard.id, order: 1 }] };
       spy = jest.spyOn(signalR, 'invoke').mockImplementationOnce(jest.fn(() => of({ isSuccessful: true, item: cardOperationOrder })));
 
-      service.moveCardWithInSameList([mockCard, extraMockCard], 0);
-      expect(spy).toHaveBeenCalledWith('CardReorderRelativeTo', mockCard.projectId, mockCard.planId, mockCard.listId, mockCard.id, 0);
+      service.moveCardWithInSameList([mockCard, extraMockCard], 0).subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('CardReorderRelativeTo', mockCard.projectId, mockCard.planId, mockCard.listId, mockCard.id, 0);
+      });
     });
 
     it('should notify that there was a problem', () => {
@@ -46,8 +47,9 @@ describe('CardService', () => {
       jest.spyOn(signalR, 'invoke').mockImplementationOnce(jest.fn(() => of({ isSuccessful: false, message: `It's not good` })));
       spy = spyOn(notificationSvc, 'danger');
 
-      service.moveCardWithInSameList([mockCard], 0);
-      expect(spy).toHaveBeenCalledWith('Problem Reordering Card', `It's not good`);
+      service.moveCardWithInSameList([mockCard], 0).subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('Problem Reordering Card', `It's not good`);
+      });
     });
   });
 
