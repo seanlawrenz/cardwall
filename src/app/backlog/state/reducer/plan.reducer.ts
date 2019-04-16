@@ -8,6 +8,7 @@ import {
   createCardInBacklog,
   deleteCardInBacklog,
   moveCardToTopOrBottomOfBacklog,
+  archiveCardOnBacklog,
 } from '@app/utils';
 import { CardActionTypes, CardActions } from '@app/store/actions/card.actions';
 import { ListActionTypes, ListActions } from '@app/store/actions/list.actions';
@@ -86,6 +87,18 @@ export function reducer(
         plans: deleteCardInBacklog(state.plans, action.payload),
       };
 
+    case BacklogCardActionTypes.ARCHIVE_CARD_SUCCESS:
+      return {
+        ...state,
+        plans: archiveCardOnBacklog(state.plans, action.payload),
+      };
+
+    case BacklogCardActionTypes.ARCHIVE_CARD_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case ListActionTypes.LIST_REORDER:
       return {
         ...state,
@@ -99,7 +112,7 @@ export function reducer(
 
       return {
         ...state,
-        plans: updateCardOrderInListInBacklog(state.plans, listId, cardId, index),
+        plans: listId === 0 ? state.plans : updateCardOrderInListInBacklog(state.plans, listId, cardId, index),
       };
 
     case CardActionTypes.CARD_UPDATE_RECEIVED:

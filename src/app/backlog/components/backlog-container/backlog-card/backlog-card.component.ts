@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ConfigService } from '@app/app-services';
 import { Card, CardDetailsPageTypes } from '@app/models';
 import { getCardColor } from '@app/utils';
 
@@ -25,12 +26,15 @@ export class BacklogCardComponent implements OnInit {
 
   @Output() selectCardRequested = new EventEmitter<void>();
   @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();
+  @Output() archiveCardRequested = new EventEmitter<void>();
 
+  canUpdate: boolean;
   backgroundColor: string;
-  constructor() {}
+  constructor(private config: ConfigService) {}
 
   ngOnInit() {
     this.backgroundColor = getCardColor(this.card);
+    this.canUpdate = this.config.config.CanUpdateTasks;
   }
 
   openCardDetails(type: CardDetailsPageTypes) {
@@ -38,7 +42,7 @@ export class BacklogCardComponent implements OnInit {
   }
 
   archiveCard() {
-    console.log(`${this.card.name} needs to be archived`);
+    this.archiveCardRequested.emit();
   }
 
   selectCard() {

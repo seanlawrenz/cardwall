@@ -45,6 +45,21 @@ export const updateCardOrderInListInBacklog = (plans: Plan[], listId: number, ca
   });
 };
 
+// Removes the card from the list it was on.
+export const archiveCardOnBacklog = (plans: Plan[], cardToArchive: Card): Plan[] => {
+  return plans.map(plan => {
+    if (plan.id === cardToArchive.planId) {
+      plan.lists = plan.lists.map(list => {
+        if (list.id === cardToArchive.listId) {
+          list.cards = removeCardFromList(list.cards, cardToArchive.id);
+        }
+        return list;
+      });
+    }
+    return plan;
+  });
+};
+
 export const moveCardToTopOrBottomOfBacklog = (plansOnBacklog: Plan[], newList: List, cardToBeMoved: Card, top: boolean): Plan[] => {
   const planIndex: number = top === true ? 0 : plansOnBacklog.length - 1;
   // Ensure immutability
@@ -142,7 +157,11 @@ const updateCardOrder = (cards: Card[], orders: CardOrderInfo[]): Card[] =>
 
 const removeCardFromList = (cards: Card[], cardIdToRemove: number): Card[] => {
   const currentIndex = findIndex(cards, card => card.id === cardIdToRemove);
-  return removeItem(cards, currentIndex);
+  if (currentIndex > -1) {
+    return removeItem(cards, currentIndex);
+  } else {
+    return cards;
+  }
 };
 
 const updateCardOrderInList = (cards: Card[], cardIdToUpdate: number, index: number): Card[] => {

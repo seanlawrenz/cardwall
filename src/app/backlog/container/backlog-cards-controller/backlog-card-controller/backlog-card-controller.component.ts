@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card, CardDetailsPageTypes, Plan } from '@app/models';
+import { Card, CardDetailsPageTypes, Plan, List } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -7,6 +7,8 @@ import { fromRoot } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as cardDetailActions from '@app/card-details/state/actions';
+
+import { find, maxBy } from 'lodash';
 
 @Component({
   selector: 'td-backlog-card-controller',
@@ -24,7 +26,7 @@ export class BacklogCardControllerComponent implements OnInit {
   showEstimateHours$: Observable<boolean>;
   showStoryPoints$: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.BacklogState>) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.showEstimateHours$ = this.store.pipe(select(fromBacklog.showEstimateHours));
@@ -50,5 +52,19 @@ export class BacklogCardControllerComponent implements OnInit {
     } else if (type === CardDetailsPageTypes.SUBTASKS) {
       this.store.dispatch(new cardDetailActions.ShowSubtasks());
     }
+  }
+
+  archiveCard() {
+    const archiveList: List = find(this.plan.lists, l => l.id === 0);
+    const cardToArchive = { ...this.card };
+    const maxOrderCard = (cards: Card[]): number => maxBy(cards, card => card.order).order + 1;
+
+    const maxOrder = archiveList.cards.length > 0 ? maxOrderCard(archiveList.cards) : 1;
+    cardToArchive.order = maxOrder;
+    cardToArchive.listId = 0;
+
+    this.store.dispatch(
+      new fromBacklog.ArchiveCard({ card: cardToArchive, useRemainingHours: this.plan.useRemainingHours, originalCard: this.card }),
+    );
   }
 }

@@ -3,6 +3,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { BacklogCardComponent } from './backlog-card.component';
 import { GripComponent } from '@app/shared/components/grip/grip.component';
+import { ConfigService } from '@app/app-services';
+import { mockConfigService } from '@app/test/mocks';
 import { mockCard } from '@app/test/data';
 
 describe('BacklogCardComponent', () => {
@@ -12,6 +14,7 @@ describe('BacklogCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogCardComponent, GripComponent],
+      providers: [{ provide: ConfigService, useValue: mockConfigService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

@@ -69,7 +69,7 @@
           class="tdNg-backlog-card-story-point"
         ></td-story-point-indicator>
 
-        <div>
+        <div *ngIf="canUpdate">
           <span (click)="archiveCard()" aria-label="Archive Card" tdTooltip="Archive Card" placement="top">
             <span aria-hidden="true" class="fa fa-archive"></span>
           </span>
