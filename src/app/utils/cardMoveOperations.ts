@@ -50,7 +50,9 @@ export const archiveCardOnBacklog = (plans: Plan[], cardToArchive: Card): Plan[]
   return plans.map(plan => {
     if (plan.id === cardToArchive.planId) {
       plan.lists = plan.lists.map(list => {
-        if (list.id === cardToArchive.listId) {
+        if (list.id === 0) {
+          list.cards = insertItem(list.cards, { index: list.cards.length + 1, item: cardToArchive });
+        } else if (list.id === cardToArchive.listId) {
           list.cards = removeCardFromList(list.cards, cardToArchive.id);
         }
         return list;
@@ -165,7 +167,7 @@ const removeCardFromList = (cards: Card[], cardIdToRemove: number): Card[] => {
 };
 
 const updateCardOrderInList = (cards: Card[], cardIdToUpdate: number, index: number): Card[] => {
-  const currentIndex = findIndex(cards, card => card.id === cardIdToUpdate);
+  const currentIndex = findIndex(cards, card => (card ? card.id === cardIdToUpdate : false));
   if (currentIndex > -1) {
     cards = insertItem(removeItem(cards, currentIndex), { index, item: cards[currentIndex] }).slice();
   }
