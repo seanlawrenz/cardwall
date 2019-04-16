@@ -40,7 +40,10 @@ describe('BacklogCardControllerComponent', () => {
         },
         { provide: Actions, useFactory: getActions },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
-        { provide: Store, useValue: { select: jest.fn(), dispatch: jest.fn(), pipe: jest.fn() } },
+        {
+          provide: Store,
+          useValue: { select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })), dispatch: jest.fn(), pipe: jest.fn() },
+        },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

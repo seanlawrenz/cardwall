@@ -8,6 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
+import { fromRoot } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as uiActions from '@app/store/actions/ui.actions';
@@ -36,6 +37,7 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
   plan$: Observable<Plan>;
+  isCardsFiltered = false;
   private unsubscribe$ = new Subject<void>();
 
   // Card Move
@@ -57,13 +59,23 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   constructor(
     private cardService: CardService,
     private signalRService: SignalRService,
-    private store: Store<fromBacklog.BacklogState>,
+    private store: Store<fromRoot.State>,
     private updates$: Actions,
   ) {}
 
   ngOnInit() {
     // This is to pass the plan data down to the card for card details if card is opened
     this.plan$ = this.store.pipe(select(fromBacklog.getPlanById(this.listInfo.planId)));
+    this.store
+      .select(fromBacklog.getSearch)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(term => {
+        if (typeof term === 'string') {
+          this.isCardsFiltered = term === '';
+        } else {
+          this.isCardsFiltered = term.length === 0;
+        }
+      });
   }
 
   ngOnDestroy() {

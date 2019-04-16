@@ -54,4 +54,17 @@
       background-color: $info;
     }
   }
+
+  &-no-cards-assigned {
+    background: $background;
+    border: 1px dashed $accessibleBlueHover;
+    border-radius: 5px;
+    padding: 1em;
+
+    &::after {
+      content: 'Drop cards here to assign them to this list';
+      color: $tdGrey;
+      margin-left: 2em;
+    }
+  }
 }
