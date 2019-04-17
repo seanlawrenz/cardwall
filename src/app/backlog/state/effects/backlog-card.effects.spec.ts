@@ -27,7 +27,7 @@ describe('BacklogCardEffects', () => {
         BacklogCardEffects,
         { provide: Actions, useFactory: getActions },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
-        { provide: Store, useValue: { dispatch: jest.fn() } },
+        { provide: Store, useValue: { dispatch: jest.fn(), select: jest.fn() } },
       ],
     });
   });
