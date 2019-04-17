@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Card, SignalRResult, List } from '@app/models';
+import { Card, SignalRResult, List, CardOrderInfo, CardOperationInfo } from '@app/models';
+
 import { SignalRService } from './signal-r.service';
+import { NotificationService } from './notification.service';
 
 import { getRelativeMoveCardId, moveItemInArray } from '@app/utils';
-import { NotificationService } from './notification.service';
-import { Observable, of } from 'rxjs';
+
+import { maxBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -82,6 +85,54 @@ export class CardService {
         }
 
         observer.next(result);
+        observer.complete();
+      });
+    });
+  }
+
+  buildNewCard(list: List): Observable<CardOperationInfo> {
+    const card: Card = {
+      attachmentsCount: 0,
+      cssClass: 'default',
+      description: null,
+      endDate: null,
+      estimatedHours: 0,
+      id: -1,
+      isStory: false,
+      issuesCount: 0,
+      listId: list.id,
+      name: 'New Card',
+      openIssuesCount: 0,
+      openSubtasksCount: 0,
+      order: 1,
+      owners: [],
+      tags: [],
+      percentComplete: 0,
+      planId: list.planId,
+      projectId: list.projectId,
+      priorityId: 0,
+      remainingHours: 0,
+      startDate: null,
+      storyPoints: 0,
+      subtasksCount: 0,
+      ticketAppID: -1,
+      ticketID: -1,
+      valuePoints: 0,
+      version: '0',
+      codeCount: 0,
+    };
+
+    // Set order
+    if (list.cards.length > 0) {
+      card.order = maxBy(list.cards, c => c.order).order + 1;
+    }
+
+    return new Observable(observer => {
+      this.signalRService.invoke('CardCreate', card, false).subscribe((result: SignalRResult) => {
+        if (!result.isSuccessful) {
+          this.notifyService.danger('Problem Creating Card', result.reason ? result.reason : result.message);
+        }
+        observer.next(result.item);
         observer.complete();
       });
     });

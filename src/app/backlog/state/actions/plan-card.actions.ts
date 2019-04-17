@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Card, List } from '@app/models';
+import { Card, List, CardOperationInfo } from '@app/models';
 
 export enum BacklogCardActionTypes {
   CARD_MOVE_SUCCESS = '[BACKLOG CARDS] CARD MOVE SUCCESS',
@@ -8,6 +8,9 @@ export enum BacklogCardActionTypes {
   ARCHIVE_CARD = '[BACKLOG CARDS] ARCHIVE CARD',
   ARCHIVE_CARD_SUCCESS = '[BACKLOG CARDS] ARCHIVE CARD SUCCESS',
   ARCHIVE_CARD_ERROR = '[BACKLOG CARDS] ARCHIVE CARD ERROR',
+  ADD_CARD = '[BACKLOG CARDS] ADD CARD',
+  ADD_CARD_SUCCESS = '[BACKLOG CARDS] ADD CARD SUCCESS',
+  ADD_CARD_ERROR = '[BACKLOG CARDS] ADD CARD ERROR',
 }
 
 export class CardMoveSuccess implements Action {
@@ -40,4 +43,28 @@ export class ArchiveCardError implements Action {
   constructor(public payload: string) {}
 }
 
-export type BacklogCardActions = CardMoveSuccess | MoveCard | DeleteCardOnBacklog | ArchiveCard | ArchiveCardSuccess | ArchiveCardError;
+export class AddCardToBacklog implements Action {
+  readonly type = BacklogCardActionTypes.ADD_CARD;
+  constructor(public payload: List) {}
+}
+
+export class AddCardToBacklogSuccess implements Action {
+  readonly type = BacklogCardActionTypes.ADD_CARD_SUCCESS;
+  constructor(public payload: CardOperationInfo) {}
+}
+
+export class AddCardToBacklogError implements Action {
+  readonly type = BacklogCardActionTypes.ADD_CARD_ERROR;
+  constructor(public payload: string) {}
+}
+
+export type BacklogCardActions =
+  | CardMoveSuccess
+  | MoveCard
+  | DeleteCardOnBacklog
+  | ArchiveCard
+  | ArchiveCardSuccess
+  | ArchiveCardError
+  | AddCardToBacklog
+  | AddCardToBacklogSuccess
+  | AddCardToBacklogError;

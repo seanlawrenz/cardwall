@@ -4,14 +4,16 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
-import { SignalRService } from '@app/app-services';
+import { SignalRService, CardService } from '@app/app-services';
 
+import * as cardActions from '@app/store/actions/card.actions';
 import * as actions from '../actions';
-import { SignalRResult } from '@app/models';
+import * as cardDetailsActions from '@app/card-details/state/actions';
+import { List, SignalRResult, CardOperationInfo, Plan } from '@app/models';
 
 @Injectable()
 export class BacklogCardEffects {
-  constructor(private actions$: Actions, private signalR: SignalRService) {}
+  constructor(private actions$: Actions, private signalR: SignalRService, private cardService: CardService) {}
 
   @Effect()
   archiveCardOnBacklog$: Observable<Action> = this.actions$.pipe(
@@ -24,5 +26,13 @@ export class BacklogCardEffects {
         catchError(err => of(new actions.ArchiveCardError(err))),
       ),
     ),
+  );
+
+  @Effect()
+  addNewCardToBacklog$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.BacklogCardActionTypes.ADD_CARD),
+    switchMap((action: { payload: List }) => this.cardService.buildNewCard(action.payload)),
+    switchMap((res: CardOperationInfo) => [new actions.AddCardToBacklogSuccess(res), new cardActions.CardSelected(res.card)]),
+    catchError(err => of(new actions.AddCardToBacklogError(err))),
   );
 }

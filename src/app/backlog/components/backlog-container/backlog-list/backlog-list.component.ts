@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { List } from '@app/models';
 
 import { Store, select } from '@ngrx/store';
@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
 export class BacklogListComponent implements OnInit, OnDestroy {
   @Input() list: List;
   @Input() showWIPLimits: boolean;
+
+  @Output() newCardRequested = new EventEmitter<List>();
+
   expandedSub: Subscription;
   isExpanded = true;
 
@@ -30,5 +33,9 @@ export class BacklogListComponent implements OnInit, OnDestroy {
 
   toggleExpanded() {
     this.isExpanded = this.isExpanded === true ? false : true;
+  }
+
+  addNewCard() {
+    this.newCardRequested.emit(this.list);
   }
 }

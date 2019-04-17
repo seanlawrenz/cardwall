@@ -99,6 +99,18 @@ export function reducer(
         error: action.payload,
       };
 
+    case BacklogCardActionTypes.ADD_CARD_SUCCESS:
+      return {
+        ...state,
+        plans: createCardInBacklog(state.plans, action.payload),
+      };
+
+    case BacklogCardActionTypes.ADD_CARD_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case ListActionTypes.LIST_REORDER:
       return {
         ...state,

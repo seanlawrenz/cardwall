@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { List } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
-
 import { Store, select } from '@ngrx/store';
-import * as fromBacklog from '../../state';
 import { Observable } from 'rxjs';
+
+import { fromRoot } from '@app/store';
+import * as fromBacklog from '../../state';
 
 @Component({
   selector: 'td-backlog-list-controller',
@@ -19,7 +20,7 @@ export class BacklogListControllerComponent implements OnInit {
   listsOnView: List[];
   showWIP$: Observable<boolean>;
 
-  constructor(private store: Store<fromBacklog.BacklogState>) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   sortableOptions: SortablejsOptions = {
     group: {
@@ -44,5 +45,9 @@ export class BacklogListControllerComponent implements OnInit {
       };
       this.store.dispatch(new fromBacklog.ReorderListsOnPlans(payload));
     }
+  }
+
+  addNewCard(list: List) {
+    this.store.dispatch(new fromBacklog.AddCardToBacklog(list));
   }
 }
