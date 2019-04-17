@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class BacklogListComponent implements OnInit, OnDestroy {
   @Input() list: List;
+  @Input() isTicketToTaskEnabled: boolean;
   @Input() showWIPLimits: boolean;
 
   @Output() newCardRequested = new EventEmitter<List>();

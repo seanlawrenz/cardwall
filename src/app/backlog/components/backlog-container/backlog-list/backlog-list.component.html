@@ -18,7 +18,7 @@
               Add New Card
             </a>
           </li>
-          <li role="menuitem">
+          <li *ngIf="isTicketToTaskEnabled" role="menuitem">
             <a href="javascript:void(0);" class="dropdown-item">
               <span class="fa fa-fw fa-tags" aria-hidden="true"></span>
               Convert Tickets to Cards

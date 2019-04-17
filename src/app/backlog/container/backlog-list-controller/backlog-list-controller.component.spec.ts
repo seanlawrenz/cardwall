@@ -2,12 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BacklogListControllerComponent } from './backlog-list-controller.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { mockBoard, mockList } from '@app/test/data';
+import { mockBoard } from '@app/test/data';
 import { Store } from '@ngrx/store';
 
 import * as backlogActions from '@app/backlog/state/actions';
-import { of } from 'rxjs';
-import { hot, cold } from 'jasmine-marbles';
 
 describe('BacklogListControllerComponent', () => {
   let component: BacklogListControllerComponent;
@@ -28,7 +26,7 @@ describe('BacklogListControllerComponent', () => {
     fixture = TestBed.createComponent(BacklogListControllerComponent);
     component = fixture.componentInstance;
     component.projectId = mockBoard.projectId;
-    component.planId = mockBoard.id;
+    component.plan = mockBoard;
     store = TestBed.get(Store);
   });
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { List } from '@app/models';
+import { List, Plan } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ import * as fromBacklog from '../../state';
 export class BacklogListControllerComponent implements OnInit {
   @Input() lists: List[];
   @Input() projectId: number;
-  @Input() planId: number;
+  @Input() plan: Plan;
 
   listsOnView: List[];
   showWIP$: Observable<boolean>;
@@ -41,7 +41,7 @@ export class BacklogListControllerComponent implements OnInit {
     if (newIndex !== oldIndex) {
       const payload = {
         projectId: this.projectId,
-        planId: this.planId,
+        planId: this.plan.id,
       };
       this.store.dispatch(new fromBacklog.ReorderListsOnPlans(payload));
     }
