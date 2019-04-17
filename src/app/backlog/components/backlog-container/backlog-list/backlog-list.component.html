@@ -19,10 +19,12 @@
             </a>
           </li>
           <li *ngIf="isTicketToTaskEnabled" role="menuitem">
-            <a href="javascript:void(0);" class="dropdown-item">
-              <span class="fa fa-fw fa-tags" aria-hidden="true"></span>
-              Convert Tickets to Cards
-            </a>
+            <td-iframe-dialog [url]="ticketToTaskUrl" title="Import Tickets">
+              <a href="javascript:void(0);" class="dropdown-item">
+                <span class="fa fa-fw fa-tags" aria-hidden="true"></span>
+                Convert Tickets to Cards
+              </a>
+            </td-iframe-dialog>
           </li>
         </ul>
       </span>
