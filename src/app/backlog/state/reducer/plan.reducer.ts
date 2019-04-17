@@ -41,6 +41,12 @@ export function reducer(
         plansLoading: true,
       };
 
+    case PlanActionTypes.ADD_PLANS:
+      return {
+        ...state,
+        plansLoading: true,
+      };
+
     case PlanActionTypes.GET_PLANS_SUCCESS:
       return {
         ...state,
