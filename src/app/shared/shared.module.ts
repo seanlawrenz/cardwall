@@ -18,6 +18,7 @@ import { FilterCardByResourceComponent } from './components/filter-card-by-resou
 import { FilterToolbarComponent } from './components/filter-toolbar/filter-toolbar.component';
 import { GripComponent } from './components/grip/grip.component';
 import { IdCopyButtonComponent } from './components/id-copy-button/id-copy-button.component';
+import { IframeDialogComponent, IframeContentComponent } from './components/iframe-dialog/iframe-dialog.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { OptionSidebarContainerComponent } from './components/option-sidebar-container/option-sidebar-container.component';
 import { PriorityComponent } from './components/priority/priority.component';
@@ -51,6 +52,8 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     SlideInViewContainerComponent,
     FilterCardByResourceComponent,
     SavingComponent,
+    IframeDialogComponent,
+    IframeContentComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +76,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     FilterToolbarComponent,
     GripComponent,
     IdCopyButtonComponent,
+    IframeDialogComponent,
     LoadingSpinnerComponent,
     OptionSidebarContainerComponent,
     PriorityComponent,
@@ -85,5 +89,6 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     ToolbarResourcesComponent,
     TotalsUiComponent,
   ],
+  entryComponents: [IframeContentComponent],
 })
 export class SharedModule {}
