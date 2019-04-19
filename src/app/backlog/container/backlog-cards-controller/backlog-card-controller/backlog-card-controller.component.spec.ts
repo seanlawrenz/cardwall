@@ -7,6 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 import * as rootActions from '@app/store/actions/card.actions';
 import { mockCard } from '@app/test/data';
+import { CardService } from '@app/app-services';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -18,7 +19,10 @@ describe('BacklogCardControllerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BacklogCardControllerComponent],
-      providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn(), select: jest.fn() } }],
+      providers: [
+        { provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn(), select: jest.fn() } },
+        { provide: CardService, useValue: { assignResource: jest.fn() } },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

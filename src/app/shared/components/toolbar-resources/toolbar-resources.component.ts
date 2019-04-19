@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Resources, Plan, List, Board, Card } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';

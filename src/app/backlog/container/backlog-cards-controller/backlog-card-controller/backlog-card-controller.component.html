@@ -1,10 +1,13 @@
-<td-backlog-card
-  [card]="card"
-  [isOdd]="isOdd"
-  [isSelected]="isCardSelected"
-  [showEstimateHours]="showEstimateHours$ | async"
-  [showStoryPoints]="showStoryPoints$ | async"
-  (selectCardRequested)="selectCard()"
-  (cardDetailsRequested)="showCardDetails($event)"
-  (archiveCardRequested)="archiveCard()"
-></td-backlog-card>
+<div style="margin-bottom: 3px">
+  <td-backlog-card
+    [card]="card"
+    [isOdd]="isOdd"
+    [isSelected]="isCardSelected"
+    [showEstimateHours]="showEstimateHours$ | async"
+    [showStoryPoints]="showStoryPoints$ | async"
+    (selectCardRequested)="selectCard()"
+    (cardDetailsRequested)="showCardDetails($event)"
+    (archiveCardRequested)="archiveCard()"
+    (addResourceRequested)="addResourceToCard($event)"
+  ></td-backlog-card>
+</div>

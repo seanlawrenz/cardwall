@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConfigService } from '@app/app-services';
-import { Card, CardDetailsPageTypes } from '@app/models';
+import { Card, CardDetailsPageTypes, Resources } from '@app/models';
 import { getCardColor } from '@app/utils';
 
 enum CardColors {
@@ -27,6 +27,7 @@ export class BacklogCardComponent implements OnInit {
   @Output() selectCardRequested = new EventEmitter<void>();
   @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();
   @Output() archiveCardRequested = new EventEmitter<void>();
+  @Output() addResourceRequested = new EventEmitter<Resources>();
 
   canUpdate: boolean;
   backgroundColor: string;
@@ -47,5 +48,9 @@ export class BacklogCardComponent implements OnInit {
 
   selectCard() {
     this.selectCardRequested.emit();
+  }
+
+  onResourceDrop(resource: Resources) {
+    this.addResourceRequested.emit(resource);
   }
 }

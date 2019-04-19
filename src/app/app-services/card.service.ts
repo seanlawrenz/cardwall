@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Card, SignalRResult, List, CardOrderInfo, CardOperationInfo } from '@app/models';
+import { Card, SignalRResult, List, CardOperationInfo, Resources } from '@app/models';
 
 import { SignalRService } from './signal-r.service';
 import { NotificationService } from './notification.service';
@@ -137,4 +137,6 @@ export class CardService {
       });
     });
   }
+
+  assignResource(card: Card, resource: Resources, clearAssignments: boolean) {}
 }

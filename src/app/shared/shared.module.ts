@@ -8,6 +8,7 @@ import { DirectiveModule } from './directives';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TDXAgilePipesModule } from './pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 // Components
 import { ButtonComponent } from './components/button/button.component';
@@ -58,6 +59,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
   imports: [
     CommonModule,
     DirectiveModule,
+    DragAndDropModule,
     ClipboardModule,
     FormsModule,
     NgSelectModule,
@@ -70,6 +72,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     TDXAgilePipesModule,
     ButtonComponent,
     CardResourceIconsComponent,
+    DragAndDropModule,
     EstimatedHoursComponent,
     ExpandCollapseGlyphComponent,
     FilterCardByResourceComponent,

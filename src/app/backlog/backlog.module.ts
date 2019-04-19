@@ -14,6 +14,7 @@ import { reducers, effects } from './state';
 import { SortablejsModule } from 'angular-sortablejs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 // Container
 /* tslint:disable:max-line-length */
@@ -54,6 +55,7 @@ const backlogRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    DragAndDropModule,
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card, CardDetailsPageTypes, Plan, List } from '@app/models';
+import { Card, CardDetailsPageTypes, Plan, List, Resources } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import * as cardActions from '@app/store/actions/card.actions';
 import * as cardDetailActions from '@app/card-details/state/actions';
 
 import { find, maxBy } from 'lodash';
+import { CardService } from '@app/app-services';
 
 @Component({
   selector: 'td-backlog-card-controller',
@@ -26,7 +27,7 @@ export class BacklogCardControllerComponent implements OnInit {
   showEstimateHours$: Observable<boolean>;
   showStoryPoints$: Observable<boolean>;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.State>, private cardService: CardService) {}
 
   ngOnInit() {
     this.showEstimateHours$ = this.store.pipe(select(fromBacklog.showEstimateHours));
@@ -66,5 +67,14 @@ export class BacklogCardControllerComponent implements OnInit {
     this.store.dispatch(
       new fromBacklog.ArchiveCard({ card: cardToArchive, useRemainingHours: this.plan.useRemainingHours, originalCard: this.card }),
     );
+  }
+
+  addResourceToCard(resource: Resources) {
+    // There are 2 drag and drop listeners on this app. So we must squash the cross listener
+    if (!resource) {
+      return;
+    }
+
+    this.cardService.assignResource(this.card, resource, false);
   }
 }

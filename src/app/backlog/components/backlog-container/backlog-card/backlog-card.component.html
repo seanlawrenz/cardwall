@@ -1,4 +1,9 @@
-<div class="container-fluid no-gutters no-padding">
+<div
+  mwlDroppable
+  dragOverClass="tdNg-card-drag-over-border"
+  (drop)="onResourceDrop($event.dropData)"
+  class="container-fluid no-gutters no-padding"
+>
   <div
     class="row no-gutters align-items-center tdNg-backlog-card-row"
     [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd, 'tdNg-card-selected': isSelected }"
