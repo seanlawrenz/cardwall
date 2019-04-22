@@ -3,7 +3,11 @@
 
 
     &-container {
+      display: flex;
       margin: 50px 2em 0 0;
+    }
+
+    &-plans-container {
       padding: 1em;
 
       ul {
@@ -36,6 +40,12 @@
 
       @media screen and (min-width: 1215px) {
         display: block;
+      }
+
+      &-shown {
+        @media #{$break-narrow-up} {
+          margin-right: 370px;
+        }
       }
     }
 

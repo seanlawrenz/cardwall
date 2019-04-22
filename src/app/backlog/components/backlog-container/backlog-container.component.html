@@ -1,5 +1,7 @@
 <td-backlog-nav [plans]="plans" (showOptions)="showOptionsRequested()"></td-backlog-nav>
-<td-backlog-toolbar-container [plans]="plans"></td-backlog-toolbar-container>
+<div class="tdNg-backlog-container">
+  <td-boards-controller [plans]="plans"></td-boards-controller>
+  <td-backlog-toolbar-container [plans]="plans"></td-backlog-toolbar-container>
+</div>
 <td-backlog-settings-container></td-backlog-settings-container>
-<td-boards-controller [plans]="plans"></td-boards-controller>
 <td-card-details-dialog-base></td-card-details-dialog-base>

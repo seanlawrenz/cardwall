@@ -1,4 +1,4 @@
-<div class="tdNg-backlog-plans-container" [class.tdNg-backlog-toolbar-shown]="(showResources$ | async) || (showToolbar$ | async)">
+<div class="tdNg-backlog-plans-container">
   <div [sortablejs]="plans" [sortablejsOptions]="sortableOptions">
     <div *ngFor="let plan of filteredPlans">
       <div *ngIf="!plan.erroredDuringFetching; else boardErrorDuringFetch">

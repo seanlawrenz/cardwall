@@ -4,7 +4,7 @@ import { Plan, Card, Resources } from '@app/models';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { Store } from '@ngrx/store';
 import * as fromBacklog from '../../state';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, startsWith, trimStart, find } from 'lodash';
@@ -19,6 +19,8 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
   filteredPlans: Plan[];
   searchTerm = '';
   searchResource = [];
+  showResources$: Observable<boolean>;
+  showToolbar$: Observable<boolean>;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -44,6 +46,9 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
       });
 
     this.filteredPlans = [...this.plans];
+
+    this.showResources$ = this.store.select(fromBacklog.showResources);
+    this.showToolbar$ = this.store.select(fromBacklog.showTotals);
   }
 
   ngOnChanges(changes: SimpleChanges) {

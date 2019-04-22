@@ -9,6 +9,7 @@ import { mockBoard, mockBoardBuilder, mockListBuilder, mockCardBuilder, mockReso
 
 import { Store } from '@ngrx/store';
 import * as backlogActions from '../../state/actions';
+import { of } from 'rxjs';
 
 describe('BoardsControllerComponent', () => {
   let component: BoardsControllerComponent;
@@ -27,7 +28,18 @@ describe('BoardsControllerComponent', () => {
         { provide: Store, useValue: { dispatch: jest.fn(), select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })) } },
       ],
       schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      // Dumb dumb Angular BS.
+      // It is being confused on the async for the class add so we have to add the component with out the async pipe
+      .overrideComponent(BoardsControllerComponent, {
+        remove: {
+          templateUrl: './boards-controller.component.html',
+        },
+        add: {
+          templateUrl: './boards-controller.for-testing.html',
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
