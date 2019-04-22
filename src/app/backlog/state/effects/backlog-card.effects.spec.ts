@@ -4,7 +4,7 @@ import { Actions } from '@ngrx/effects';
 import { SignalRResult } from '@app/models';
 import { hot, cold } from 'jasmine-marbles';
 
-import { SignalRService } from '@app/app-services';
+import { SignalRService, CardService } from '@app/app-services';
 import { BacklogCardEffects } from './backlog-card.effects';
 import { TestActions, getActions } from '@app/test/mocks';
 
@@ -27,6 +27,7 @@ describe('BacklogCardEffects', () => {
         BacklogCardEffects,
         { provide: Actions, useFactory: getActions },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
+        { provide: CardService, useValue: { buildNewCard: jest.fn() } },
         { provide: Store, useValue: { dispatch: jest.fn(), select: jest.fn() } },
       ],
     });

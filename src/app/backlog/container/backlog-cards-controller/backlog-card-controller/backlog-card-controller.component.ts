@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Card, CardDetailsPageTypes, Plan, List, Resources } from '@app/models';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { fromRoot } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
@@ -10,13 +10,14 @@ import * as cardDetailActions from '@app/card-details/state/actions';
 
 import { find, maxBy } from 'lodash';
 import { CardService } from '@app/app-services';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'td-backlog-card-controller',
   templateUrl: './backlog-card-controller.component.html',
   styleUrls: ['./backlog-card-controller.component.scss'],
 })
-export class BacklogCardControllerComponent implements OnInit {
+export class BacklogCardControllerComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan;
   @Input() isOdd: boolean;
@@ -26,6 +27,7 @@ export class BacklogCardControllerComponent implements OnInit {
   // UI Settings
   showEstimateHours$: Observable<boolean>;
   showStoryPoints$: Observable<boolean>;
+  unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<fromRoot.State>, private cardService: CardService) {}
 
@@ -40,6 +42,11 @@ export class BacklogCardControllerComponent implements OnInit {
       }
       this.isCardSelected = card.id === this.card.id;
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   selectCard() {
@@ -69,12 +76,17 @@ export class BacklogCardControllerComponent implements OnInit {
     );
   }
 
-  addResourceToCard(resource: Resources) {
+  addResourceToCard(event: { resource: Resources; clearAssignments: boolean }) {
     // There are 2 drag and drop listeners on this app. So we must squash the cross listener
-    if (!resource) {
+    if (!event || !event.resource) {
       return;
     }
 
-    this.cardService.assignResource(this.card, resource, false);
+    const { resource, clearAssignments } = event;
+
+    this.cardService
+      .assignResource(this.card, resource, clearAssignments)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {});
   }
 }

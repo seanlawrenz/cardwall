@@ -27,7 +27,7 @@ export class BacklogCardComponent implements OnInit {
   @Output() selectCardRequested = new EventEmitter<void>();
   @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();
   @Output() archiveCardRequested = new EventEmitter<void>();
-  @Output() addResourceRequested = new EventEmitter<Resources>();
+  @Output() addResourceRequested = new EventEmitter<{ resource: Resources; clearAssignments: boolean }>();
 
   canUpdate: boolean;
   backgroundColor: string;
@@ -50,7 +50,7 @@ export class BacklogCardComponent implements OnInit {
     this.selectCardRequested.emit();
   }
 
-  onResourceDrop(resource: Resources) {
-    this.addResourceRequested.emit(resource);
+  onResourceDrop(event: { resource: Resources; clearAssignments: boolean }) {
+    this.addResourceRequested.emit(event);
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Resources, Plan, Card } from '@app/models';
 
 import { filter, lowerCase } from 'lodash';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'td-backlog-resources',
@@ -16,13 +17,14 @@ export class BacklogResourcesComponent implements OnInit, OnChanges {
 
   resourcesFiltered: Resources[];
   selectedCardReduced: Card;
-
-  @ViewChild('keepResources') keepResources: ElementRef;
-  @ViewChild('replaceResources') replaceResources: ElementRef;
+  formGroup: FormGroup;
 
   ngOnInit() {
     this.resourcesFiltered = [...this.resources];
     this.updateSelectedCard();
+    this.formGroup = new FormGroup({
+      clearAssignments: new FormControl(false),
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {

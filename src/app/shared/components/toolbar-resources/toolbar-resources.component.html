@@ -1,7 +1,7 @@
 <div
   mwlDraggable
   showOriginalElementWhileDragging="true"
-  [dropData]="resource"
+  [dropData]="addResourceData"
   ghostDragEnabled="true"
   class="tdNg-toolbar-resources-row"
   [ngClass]="{ selected: isHighlighted || isSelected }"
@@ -15,9 +15,7 @@
         class="tdNg-resource-img"
         imgClass="profile-image board picture"
       ></td-profile-image>
-      <div>
-        {{ resource.name }}
-      </div>
+      <div>{{ resource.name }}</div>
     </div>
 
     <td-button *ngIf="canViewReport" tooltipText="View {{ resource.name }}'s Schedule" icon="calendar"></td-button>

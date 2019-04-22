@@ -3,14 +3,17 @@ import { of } from 'rxjs';
 
 import { CardService } from './card.service';
 import { SignalRService } from './signal-r.service';
-import { mockBoardBuilder, mockCardBuilder, mockList, mockListBuilder } from '@app/test/data';
+import { mockCardBuilder, mockList, mockListBuilder, mockResource } from '@app/test/data';
 import { CardOperationInfo, Card } from '@app/models';
 import { NotificationService } from './notification.service';
+import { ConfigService } from './config.service';
+import { mockConfigService } from '@app/test/mocks';
 
 describe('CardService', () => {
   let service: CardService;
   let signalR: SignalRService;
   let notificationSvc: NotificationService;
+  let config: ConfigService;
   let spy;
   const mockCard = mockCardBuilder();
   const extraMockCard: Card = mockCardBuilder();
@@ -18,7 +21,8 @@ describe('CardService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
-        { provide: NotificationService, useValue: { danger: jest.fn() } },
+        { provide: NotificationService, useValue: { danger: jest.fn(), warning: jest.fn(), success: jest.fn() } },
+        { provide: ConfigService, useValue: mockConfigService },
       ],
     }),
   );
@@ -95,6 +99,48 @@ describe('CardService', () => {
       jest.spyOn(signalR, 'invoke').mockImplementationOnce(jest.fn(() => of({ isSuccessful: true })));
       service.moveCardUp(mockListWithMockCard, 1);
       expect(spy).toHaveBeenCalledWith([mockCard, extraMockCard], 0);
+    });
+  });
+
+  describe('assignResource', () => {
+    beforeEach(() => {
+      service = TestBed.get(CardService);
+      signalR = TestBed.get(SignalRService);
+      notificationSvc = TestBed.get(NotificationService);
+    });
+
+    it('should notify the user they do not have permission if they do not', () => {
+      config = TestBed.get(ConfigService);
+      config.config.CanEditTasks = false;
+      spy = jest.spyOn(notificationSvc, 'warning');
+
+      service.assignResource(mockCard, mockResource, false);
+
+      expect(spy).toHaveBeenCalledWith('No Permissions', `You need the 'Edit Tasks' permission to assign resources.`);
+    });
+
+    it('should notify that there was an error if not successful', () => {
+      config = TestBed.get(ConfigService);
+      config.config.CanEditTasks = true;
+      const testResponse = 'Not successful';
+      signalR.invoke = jest.fn(() => of({ isSuccessful: false, message: testResponse }));
+      spy = jest.spyOn(notificationSvc, 'danger');
+
+      service.assignResource(mockCard, mockResource, false).subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('Could not Assign Resource', testResponse);
+      });
+    });
+
+    it('should notify that the resource was successfully added', () => {
+      config = TestBed.get(ConfigService);
+      config.config.CanEditTasks = true;
+      const mockCardWithResource = { ...mockCard, owners: [mockResource] };
+      signalR.invoke = jest.fn(() => of({ isSuccessful: true, item: mockCardWithResource }));
+      spy = jest.spyOn(notificationSvc, 'success');
+
+      service.assignResource(mockCard, mockResource, false).subscribe(() => {
+        expect(spy).toHaveBeenCalledWith(`${mockResource.name} added`, `${mockResource.name} added to card ${mockCardWithResource.name}`);
+      });
     });
   });
 });

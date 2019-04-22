@@ -12,9 +12,11 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
   @Input() resource: Resources;
   @Input() plans: Plan[];
   @Input() selectedCard: Card;
+  @Input() clearAssignments: boolean;
 
   profileUrl: SafeResourceUrl;
   reportUrl: SafeResourceUrl;
+  addResourceData: { resource: Resources; clearAssignments: boolean };
 
   totalCards = 0;
   totalStoryPoints = 0;
@@ -40,11 +42,15 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
     this.getTotals();
 
     this.getIsHighlighted();
+
+    this.addResourceData = { resource: this.resource, clearAssignments: this.clearAssignments };
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.plans && !changes.plans.firstChange) {
       this.getTotals();
+    } else if (changes.clearAssignments && !changes.clearAssignments.firstChange) {
+      this.addResourceData.clearAssignments = changes.clearAssignments.currentValue;
     }
     this.getIsHighlighted();
   }

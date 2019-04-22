@@ -1,13 +1,13 @@
 <div *ngIf="card.owners && card.owners.length > 0">
   <div class="tdNg-card-owners">
-    <div class="tdNg-card-owners-container">
-      <div *ngIf="card.owners.length <= maxInlineResources; else maxInline">
-        <div *ngFor="let resource of card.owners">
-          <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
-        </div>
+    <div *ngIf="card.owners.length <= maxInlineResources; else maxInline" class="tdNg-card-owners-container">
+      <div *ngFor="let resource of card.owners">
+        <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
       </div>
+    </div>
 
-      <ng-template #maxInline>
+    <ng-template #maxInline>
+      <div class="tdNg-card-owners-container">
         <div *ngFor="let resource of card.owners.slice(0, maxInlineResources - 1)">
           <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
         </div>
@@ -26,7 +26,7 @@
             <td-profile-image [resource]="resource" [imgClass]="'profile-image board picture'"></td-profile-image>
           </div>
         </div>
-      </ng-template>
-    </div>
+      </div>
+    </ng-template>
   </div>
 </div>

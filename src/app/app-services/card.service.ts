@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { Card, SignalRResult, List, CardOperationInfo, Resources } from '@app/models';
 
@@ -9,12 +9,14 @@ import { NotificationService } from './notification.service';
 import { getRelativeMoveCardId, moveItemInArray } from '@app/utils';
 
 import { maxBy } from 'lodash';
+import { ConfigService } from './config.service';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CardService {
-  constructor(private signalRService: SignalRService, private notifyService: NotificationService) {}
+  constructor(private signalRService: SignalRService, private notifyService: NotificationService, private config: ConfigService) {}
 
   moveCardWithInSameList(cards: Card[], newIndex): any {
     const { projectId, planId, listId, id } = cards[newIndex];
@@ -138,5 +140,29 @@ export class CardService {
     });
   }
 
-  assignResource(card: Card, resource: Resources, clearAssignments: boolean) {}
+  assignResource(card: Card, resource: Resources, clearAssignments: boolean): Observable<Card> {
+    if (this.config.config.CanEditTasks) {
+      if (!clearAssignments && card.owners && card.owners.filter(o => o.referenceId === resource.referenceId).length > 0) {
+        this.notifyService.warning(`Already Assigned`, `${resource.name} is already assigned to ${card.name}`);
+        return;
+      }
+      // SignalR wants the opposite of what we have
+      return this.signalRService.invoke('CardAssign', card.projectId, card.planId, card.id, resource.uid, clearAssignments).pipe(
+        switchMap((result: SignalRResult) => {
+          if (!result.isSuccessful) {
+            this.notifyService.danger('Could not Assign Resource', result.reason ? result.reason : result.message);
+          } else {
+            this.notifyService.success(`${resource.name} added`, `${resource.name} added to card ${card.name}`);
+          }
+          return of(result.item);
+        }),
+        catchError(err => {
+          this.notifyService.danger('Could not Assign Resource', `There was a problem assigning the resource: ${err.message}`);
+          return of(err);
+        }),
+      );
+    } else {
+      this.notifyService.warning('No Permissions', `You need the 'Edit Tasks' permission to assign resources.`);
+    }
+  }
 }
