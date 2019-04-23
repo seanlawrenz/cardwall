@@ -13,6 +13,7 @@ export class ButtonComponent implements OnInit {
   @Input() cssClass = 'btn-link';
   @Input() useWhiteText = false;
   @Input() ariaLabel: string;
+  @Input() type = 'button';
 
   @Output() onClick = new EventEmitter<any>();
 
