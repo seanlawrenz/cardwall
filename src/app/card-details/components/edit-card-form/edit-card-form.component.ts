@@ -27,6 +27,8 @@ export class EditCardFormComponent implements OnInit {
   useRemainingHours: boolean;
   canAddCards: boolean;
   canDeleteCards: boolean;
+  isInMyWork: boolean;
+  isArchived: boolean;
 
   priorityClasses: Priority[];
 
@@ -61,24 +63,32 @@ export class EditCardFormComponent implements OnInit {
     this.copyMoveRequested.emit(type);
   }
 
-  private setPermissions() {
-    // Determine whether or not the resource is assigned to the task
-    this.isAssigned =
-      this.card.owners && this.card.owners.findIndex(o => o.uid.toLowerCase() === this.config.config.UID.toLowerCase()) >= 0;
-    // If the user is assigned to the card and has can update my tasks only, they can update, otherwise check the standard permission
-    if (this.config.config.CanUpdateTasks) {
-      this.canEditOrUpdate = true;
-    } else if (this.config.config.CanUpdateMyTasksOnly) {
-      this.canEditOrUpdate = this.isAssigned;
-    } else {
-      this.canEditOrUpdate = this.config.config.CanEditTasks;
-    }
+  addToMyWork() {}
 
+  removeFromMyWork() {}
+
+  private setPermissions() {
     this.canEdit = this.config.config.CanEditTasks;
     this.canAddCards = this.config.config.CanAddTasks;
     this.canDeleteCards = this.config.config.CanDeleteTasks;
 
     // We only want to lock % complete if there are estimated hours AND we're set to use remaining hours on the project
     this.useRemainingHours = this.plan.useRemainingHours && this.card.estimatedHours > 0;
+
+    this.isArchived = this.card.listId === 0;
+    this.isInMyWork = !!this.plan.myWorkTaskIDs.find(i => i === this.card.id);
+
+    // Determine whether or not the resource is assigned to the task
+    this.isAssigned =
+      this.card.owners && this.card.owners.findIndex(o => o.uid.toLowerCase() === this.config.config.UID.toLowerCase()) >= 0;
+
+    // If the user is assigned to the card and has can update my tasks only, they can update, otherwise check the standard permission
+    if (this.config.config.CanUpdateTasks) {
+      this.canUpdate = true;
+    } else {
+      this.canUpdate = this.config.config.CanUpdateMyTasksOnly && this.isAssigned;
+    }
+
+    this.canEditOrUpdate = this.canUpdate || this.canEdit;
   }
 }

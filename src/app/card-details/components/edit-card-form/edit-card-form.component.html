@@ -39,6 +39,7 @@
             aria-label="Start date"
             class="form-control form-control-sm"
             formControlName="startDate"
+            [attr.disabled]="canEdit === false ? 'disable' : null"
             bsDatepicker
             [bsConfig]="{ containerClass: 'theme-dark-blue' }"
             [bsValue]="cardForm.controls['startDate'] || null"
@@ -49,6 +50,7 @@
             aria-label="End date"
             class="form-control form-control-sm"
             formControlName="endDate"
+            [attr.disabled]="canEdit === false ? 'disable' : null"
             bsDatepicker
             [bsConfig]="{ containerClass: 'theme-dark-blue' }"
             [bsValue]="cardForm.controls['endDate'] || null"
@@ -149,7 +151,12 @@
       <div class="form-group col-lg-2">
         <span aria-label="IsStory" class="control-label">Is Story</span>
         <br />
-        <ui-switch color="#428bca" formControlName="isStory" (valueChange)="onIsStoryChanged($event)"></ui-switch>
+        <ui-switch
+          color="#428bca"
+          formControlName="isStory"
+          [tdDisableControl]="canEdit === false"
+          (valueChange)="onIsStoryChanged($event)"
+        ></ui-switch>
       </div>
 
       <!-- Story Points -->
@@ -217,23 +224,16 @@
       <td-button cssClass="btn-danger" icon="times" ariaLabel="Discard Changes" (onClick)="discardChanges()">Discard Changes</td-button>
     </div>
 
-    <div>
+    <div class="d-none d-md-flex">
       <div class="btn-group" role="group" aria-label="Move or Copy" *ngIf="canEdit && canAddCards">
-        <button type="button" class="btn btn-default" style="margin: 0" (click)="copyMove('copy')">
-          <span aria-hidden="true" class="fa fa-clone"></span>
-          Copy
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-default"
-          *ngIf="canDeleteCards"
-          style="margin: 0; border-left: none"
-          (click)="copyMove('move')"
-        >
-          <span aria-hidden="true" class="fa fa-sign-out"></span>
+        <td-button cssClass="btn-default" icon="clone" (onClick)="copyMove('copy')">Copy</td-button>
+        <td-button *ngIf="canDeleteCards" cssClass="btn-default border-left-none" icon="clone" (onClick)="copyMove('move')">
           Move
-        </button>
+        </td-button>
+      </div>
+      <div class="d-none d-md-block ml-2" *ngIf="isAssigned && !isArchived && canUpdate" aria-label="My Work">
+        <td-button *ngIf="!isInMyWork" cssClass="btn-default" icon="plus" (onClick)="removeFromMyWork()">Add to My Work</td-button>
+        <td-button *ngIf="isInMyWork" cssClass="btn-default" icon="minus" (onClick)="addToMyWork()">Remove from My Work</td-button>
       </div>
     </div>
   </div>
