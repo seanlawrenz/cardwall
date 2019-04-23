@@ -37,9 +37,18 @@
       <div class="tdNg-backlog-card-info-container align-items-center justify-content-end">
         <!-- Tags -->
         <div class="tdNg-backlog-card-tags" *ngIf="card.tags">
-          <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
-            {{ tag }}
+          <span *ngIf="card.tags.length < 3; else trimTags">
+            <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+              {{ tag }}
+            </span>
           </span>
+
+          <ng-template #trimTags>
+            <span *ngFor="let tag of card.tags.slice(0, 3)" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+              {{ tag }}
+            </span>
+            <span class="badge badge-primary gutter-right-xs tdNg-tags-badge">+{{ card.tags.length - 3 }} Tags</span>
+          </ng-template>
         </div>
 
         <td-card-resource-icons
