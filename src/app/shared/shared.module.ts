@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 // Libraries
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DirectiveModule } from './directives';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TDXAgilePipesModule } from './pipes';
@@ -57,10 +58,11 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     IframeContentComponent,
   ],
   imports: [
+    BsDropdownModule.forRoot(),
     CommonModule,
+    ClipboardModule,
     DirectiveModule,
     DragAndDropModule,
-    ClipboardModule,
     FormsModule,
     NgSelectModule,
     ReactiveFormsModule,

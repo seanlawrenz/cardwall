@@ -1,12 +1,24 @@
 <div class="input-group">
-  <div class="input-group-prepend">
-    <div class="input-group-text"><span class="fa fa-search fa-nopad" aria-hidden="true"></span></div>
+  <div class="input-group-prepend" dropdown role="toolbar" container="body">
+    <button dropdownToggle role="toolbar" class="btn btn-default" style="margin-right: 0" aria-expanded="false" aria-haspopup="true">
+      Filter
+      <span class="fa fa-caret-right ml-2" aria-hidden="true"></span>
+    </button>
+
+    <ul *dropdownMenu class="dropdown-menu tdNg-dropdown">
+      <li role="menuitem"><a href="javascript:void(0)" class="dropdown-item" (click)="clearResponsibilityFilter()">All Cards</a></li>
+      <li role="menuitem"><a href="javascript:void(0)" class="dropdown-item" (click)="setResponsibilityFilterMy()">My Cards</a></li>
+      <li role="menuitem">
+        <a href="javascript:void(0)" class="dropdown-item" (click)="setResponsibilityFilterPlaceholders()">Placeholder Cards</a>
+      </li>
+      <li role="menuitem"><a href="javascript:void(0)" class="dropdown-item" (click)="selectUnassigned()">Unassigned Cards</a></li>
+    </ul>
   </div>
   <ng-select
-    class="select-sm"
+    class="select-sm tdNg-filter-resources-input"
     [items]="resources"
     [multiple]="true"
-    [closeOnSelect]="false"
+    [closeOnSelect]="true"
     bindLabel="name"
     placeholder="Search Resources"
     [clearSearchOnAdd]="true"
@@ -14,11 +26,7 @@
   >
     <ng-template ng-multi-label-tmp let-resources="items" let-clear="clear">
       <div class="d-flex align-items-center ng-value" *ngFor="let resource of resources ? resources.slice(0, 4) : []">
-        <span class="ng-value-label tdNg-flex-row-center">
-          <td-profile-image [resource]="resource" imgClass="dropdown"></td-profile-image>
-        </span>
-        <!-- Clear is callable. Known bug https://github.com/angular/angular/issues/16643 -->
-        <span class="ng-value-icon right" (click)="clear(resource)" aria-hidden="true">×</span>
+        <td-profile-image [resource]="resource" imgClass="dropdown"></td-profile-image>
       </div>
 
       <div class="ng-value" *ngIf="resources.length > 4">

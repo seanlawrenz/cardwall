@@ -6,7 +6,7 @@ export const resourceBuilder = build('resource').fields({
   firstName: fake(f => f.name.firstName()),
   lastName: fake(f => f.name.lastName()),
   name: fake(f => f.name.findName()),
-  permissions: '',
+  permissions: true,
   profilePicturePath: 'User/ViewProfileImage.ashx?FileName=',
   referenceId: fake(f => f.random.uuid()),
   uid: fake(f => f.random.uuid()),

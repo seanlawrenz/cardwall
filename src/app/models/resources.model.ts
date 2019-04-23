@@ -3,7 +3,7 @@ export interface Resources {
   firstName: string;
   lastName: string;
   name: string;
-  permissions: string;
+  permissions: boolean;
   profilePicturePath: string;
   referenceId: number;
   uid: string;

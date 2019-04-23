@@ -10,6 +10,31 @@ import { mockBoard, mockBoardBuilder, mockListBuilder, mockCardBuilder, mockReso
 import { Store } from '@ngrx/store';
 import * as backlogActions from '../../state/actions';
 import { of } from 'rxjs';
+import { Resources } from '@app/models';
+
+const unassigned: Resources = {
+  isPlaceholder: false,
+  referenceId: -1,
+  name: 'Unassigned',
+  uid: '00000000-0000-0000-0000-000000000000',
+  email: '',
+  firstName: '',
+  lastName: '',
+  profilePicturePath: null,
+  permissions: false,
+};
+
+const placeholder: Resources = {
+  isPlaceholder: true,
+  referenceId: -2,
+  name: 'Resource Placeholders',
+  firstName: 'Resource',
+  lastName: 'Placeholders',
+  uid: '00000000-0000-0000-0000-000000000000',
+  profilePicturePath: 'DoesNotExist',
+  permissions: false,
+  email: '',
+};
 
 describe('BoardsControllerComponent', () => {
   let component: BoardsControllerComponent;
@@ -205,6 +230,23 @@ describe('BoardsControllerComponent', () => {
     it('should return all the plans if no resources selected', () => {
       const testPlans = component['searchCards']([mockPlan1, mockPlan2], []);
       expect(testPlans).toEqual([mockPlan1, mockPlan2]);
+    });
+
+    it('should return the unassigned cards', () => {
+      const expected = component['searchCards']([mockPlan1, mockPlan2], [unassigned]);
+
+      const expectedList1 = { ...mockList1, cards: [mockCard1, mockCard2] };
+      const expectedList2 = { ...mockList2, cards: [mockCard4] };
+      const expectedMockPlan1 = { ...mockPlan1, lists: [expectedList1] };
+      const expectedMockPlan2 = { ...mockPlan2, lists: [expectedList2] };
+
+      expect(expected).toEqual([expectedMockPlan1, expectedMockPlan2]);
+    });
+
+    it('should return unassigned as well as a resource', () => {
+      const expected = component['searchCards']([mockPlan1, mockPlan2], [unassigned, mockResource]);
+
+      expect(expected).toEqual([mockPlan1, mockPlan2]);
     });
   });
 

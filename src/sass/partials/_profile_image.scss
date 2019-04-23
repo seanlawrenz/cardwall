@@ -11,6 +11,10 @@ div.profile-image {
       text-align: center;
       color: white;
       margin-right: 3px;
+
+      &.system {
+        font-size: 14px;
+      }
     }
 
     img {

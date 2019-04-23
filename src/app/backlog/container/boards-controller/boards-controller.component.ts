@@ -117,13 +117,25 @@ export class BoardsControllerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private searchByResource(plans: Plan[], resources: Resources[]): Plan[] {
+    const unassigned: boolean = find(resources, r => r.referenceId === -1) !== undefined;
+    const searchOwners = (card): boolean => card.owners.filter(owner => find(resources, res => res.uid === owner.uid)).length > 0;
+
     return plans.map(plan => {
       plan.lists = plan.lists.map(list => {
         list.cards = list.cards.filter(card => {
-          if (card.owners && card.owners.length > 0) {
-            const owners = card.owners.filter(owner => find(resources, res => res.uid === owner.uid));
-            if (owners.length > 0) {
+          if (!unassigned) {
+            if (card.owners && card.owners.length > 0) {
+              if (searchOwners(card)) {
+                return card;
+              }
+            }
+          } else {
+            if (!card.owners || card.owners.length === 0) {
               return card;
+            } else {
+              if (searchOwners(card)) {
+                return card;
+              }
             }
           }
         });

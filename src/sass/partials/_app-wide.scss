@@ -33,6 +33,12 @@
     border-right: 2px solid $darkGrey;
   }
 
+  &-filter-resources-input {
+    @media #{$break-wide-up} {
+      min-width: 20em;
+    }
+  }
+
   &-priority-box {
     border: 1px solid $borderGrey;
     width: 14px;
