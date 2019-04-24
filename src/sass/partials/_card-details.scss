@@ -38,6 +38,17 @@
       }
     }
   }
+
+  &-iframe-wrapper {
+    overflow: hidden;
+    min-height: 493px;
+
+    iframe {
+      min-height: 493px;
+      padding-bottom: 1em;
+    }
+  }
+
   &-tab-list {
 
     flex-direction: column;

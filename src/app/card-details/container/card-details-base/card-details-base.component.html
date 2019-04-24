@@ -9,7 +9,7 @@
       <td-edit-form-base [card]="card$ | async" [plan]="plan$ | async"></td-edit-form-base>
     </div>
     <div *ngSwitchCase="'FEED'">
-      <td-feed></td-feed>
+      <td-feed [card]="card$ | async"></td-feed>
     </div>
     <div *ngSwitchCase="'SUBTASKS'">
       <td-subtasks-base></td-subtasks-base>
