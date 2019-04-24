@@ -20,7 +20,14 @@ describe('EditFormBaseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EditFormBaseComponent],
       providers: [
-        { provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn(() => ({ subscribe: jest.fn() })) } },
+        {
+          provide: Store,
+          useValue: {
+            dispatch: jest.fn(),
+            select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })),
+            pipe: jest.fn(() => ({ subscribe: jest.fn() })),
+          },
+        },
         { provide: SignalRService, useValue: { invoke: jest.fn() } },
       ],
       schemas: [NO_ERRORS_SCHEMA],

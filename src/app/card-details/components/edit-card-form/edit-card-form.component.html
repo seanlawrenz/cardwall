@@ -232,8 +232,8 @@
         </td-button>
       </div>
       <div class="d-none d-md-block ml-2" *ngIf="isAssigned && !isArchived && canUpdate" aria-label="My Work">
-        <td-button *ngIf="!isInMyWork" cssClass="btn-default" icon="plus" (onClick)="removeFromMyWork()">Add to My Work</td-button>
-        <td-button *ngIf="isInMyWork" cssClass="btn-default" icon="minus" (onClick)="addToMyWork()">Remove from My Work</td-button>
+        <td-button *ngIf="isInMyWork" cssClass="btn-default" icon="minus" (onClick)="removeFromMyWork()">Remove From My Work</td-button>
+        <td-button *ngIf="!isInMyWork" cssClass="btn-default" icon="plus" (onClick)="addToMyWork()">Add to My Work</td-button>
       </div>
     </div>
   </div>

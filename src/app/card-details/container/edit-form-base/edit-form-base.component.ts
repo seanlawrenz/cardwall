@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { fromRoot } from '@app/store';
 import * as fromCardDetails from '@app/card-details/state';
 import * as uiActions from '@app/store/actions/ui.actions';
@@ -9,7 +9,9 @@ import * as cardDetailsActions from '@app/card-details/state/actions';
 
 import { blankInputValidator } from '@app/utils';
 import { Card, Plan, Board, SignalRResult } from '@app/models';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { SignalRService, NotificationService } from '@app/app-services';
 
 @Component({
@@ -21,7 +23,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan | Board;
 
-  subs$ = new Subscription();
+  unsubscribe$ = new Subject<void>();
 
   // Form
   cardForm: FormGroup;
@@ -42,17 +44,29 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.subs$.add(
-      this.store.pipe(select(fromCardDetails.getHideDetailsRequested)).subscribe(requested => {
+    this.store
+      .select(fromCardDetails.getHideDetailsRequested)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(requested => {
         if (requested) {
           this.saveCardOnHideDetails();
         }
-      }),
-    );
+      });
   }
 
   ngOnDestroy() {
-    this.subs$.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  addRemoveFromWork(type: string) {
+    const add: boolean = type === 'add';
+
+    if (add) {
+      this.store.dispatch(new cardDetailsActions.AddToMyWork({ card: this.card, plan: this.plan }));
+    } else {
+      this.store.dispatch(new cardDetailsActions.RemoveFromMyWork({ card: this.card, plan: this.plan }));
+    }
   }
 
   copyMoveRequested(type: string) {
@@ -92,8 +106,10 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   saveCard() {
     if (this.cardForm.touched) {
       const card = this.updateThisCard();
-      this.subs$.add(
-        this.signalRService.invoke('CardUpdate', card, this.plan.useRemainingHours, null).subscribe((response: SignalRResult) => {
+      this.signalRService
+        .invoke('CardUpdate', card, this.plan.useRemainingHours, null)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((response: SignalRResult) => {
           if (response.isSuccessful) {
             this.notificationService.success(`Card Updated`, `Card ${card.name} ID: ${this.card.id} has been updated`, 4);
             this.cardForm.markAsUntouched();
@@ -101,8 +117,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
             this.notificationService.danger('Could not update', response.message);
           }
           this.cdr.markForCheck();
-        }),
-      );
+        });
     }
   }
 

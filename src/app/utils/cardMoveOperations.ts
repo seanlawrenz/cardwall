@@ -7,14 +7,14 @@ import { find, findIndex, sortBy } from 'lodash';
  */
 
 // Generic insert function
-function insertItem(array, action) {
+export function insertItem(array, action) {
   const newArray = array.slice();
   newArray.splice(action.index, 0, action.item);
   return newArray;
 }
 
 // Generic remove function
-function removeItem(array, index) {
+export function removeItem(array, index) {
   const newArray = array.slice();
   if (index >= 0) {
     newArray.splice(index, 1);

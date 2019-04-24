@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
 import { Card, Plan, Board, Priority, PriorityClasses, Resources } from '@app/models';
@@ -8,7 +8,7 @@ import { Card, Plan, Board, Priority, PriorityClasses, Resources } from '@app/mo
   templateUrl: './edit-card-form.component.html',
   styleUrls: ['./edit-card-form.component.scss'],
 })
-export class EditCardFormComponent implements OnInit {
+export class EditCardFormComponent implements OnInit, OnChanges {
   @Input() card: Card;
   @Input() plan: Plan | Board;
   @Input() cardForm: FormGroup;
@@ -16,6 +16,7 @@ export class EditCardFormComponent implements OnInit {
   @Output() discardChangesRequested = new EventEmitter<void>();
   @Output() copyMoveRequested = new EventEmitter<string>();
   @Output() saveCardRequested = new EventEmitter<void>();
+  @Output() addRemoveToWork = new EventEmitter<string>();
 
   resources: Resources[];
 
@@ -47,6 +48,12 @@ export class EditCardFormComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.plan && !changes.plan.firstChange) {
+      this.setPermissions();
+    }
+  }
+
   onIsStoryChanged(e) {
     this.card.isStory = e;
   }
@@ -63,9 +70,13 @@ export class EditCardFormComponent implements OnInit {
     this.copyMoveRequested.emit(type);
   }
 
-  addToMyWork() {}
+  addToMyWork() {
+    this.addRemoveToWork.emit('add');
+  }
 
-  removeFromMyWork() {}
+  removeFromMyWork() {
+    this.addRemoveToWork.emit('remove');
+  }
 
   private setPermissions() {
     this.canEdit = this.config.config.CanEditTasks;
@@ -76,7 +87,7 @@ export class EditCardFormComponent implements OnInit {
     this.useRemainingHours = this.plan.useRemainingHours && this.card.estimatedHours > 0;
 
     this.isArchived = this.card.listId === 0;
-    this.isInMyWork = !!this.plan.myWorkTaskIDs.find(i => i === this.card.id);
+    this.isInMyWork = this.plan.myWorkTaskIDs.findIndex(i => i === this.card.id) !== -1;
 
     // Determine whether or not the resource is assigned to the task
     this.isAssigned =

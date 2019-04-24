@@ -20,6 +20,12 @@ export function reducer(state = initialState, actions: CardDetailsCardActions): 
         plan: actions.payload.plan,
       };
 
+    case CardDetailsCardTypes.MY_WORK_SUCCESS:
+      return {
+        ...state,
+        plan: actions.payload,
+      };
+
     default:
       return state;
   }
