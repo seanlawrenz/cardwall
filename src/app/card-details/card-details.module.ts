@@ -9,9 +9,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './state';
 
 // 3rd Parties
-import { UiSwitchModule } from 'ngx-ui-switch';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SortablejsModule } from 'angular-sortablejs';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 // Containers
 import { AttachmentsBaseComponent } from './container/attachments-base/attachments-base.component';
@@ -33,6 +34,7 @@ import { EditCardFormComponent } from './components/edit-card-form/edit-card-for
 import { FeedComponent } from './components/feed/feed.component';
 import { ResourcesListComponent } from './components/edit-card-form/resources-list/resources-list.component';
 import { SubtasksViewComponent } from './components/subtasks-view/subtasks-view.component';
+import { SubtaskViewComponent } from './components/subtasks-view/subtask-view/subtask-view.component';
 import { WorkComponent } from './components/work/work.component';
 
 import { CardDetailsRoutingModule } from './card-details-routing.module';
@@ -57,6 +59,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     EditFormBaseComponent,
     CopyMoveCardViewComponent,
     SubtasksViewComponent,
+    SubtaskViewComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +69,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     NgSelectModule,
     ReactiveFormsModule,
     SharedModule,
+    SortablejsModule,
     UiSwitchModule,
     StoreModule.forFeature('card-details', reducers),
     EffectsModule.forFeature(effects),

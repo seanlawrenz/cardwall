@@ -49,9 +49,31 @@
     }
   }
 
-  &-tab-list {
+  &-subtasks {
+    &-container {
+      overflow: auto;
+      height: 465px;
 
-    flex-direction: column;
+      &.has-subtasks {
+        border-top: 1px solid $grey;
+      }
+
+      ul {
+        padding: 0;
+      }
+    }
+  }
+
+  &-subtask {
+    &-container {
+      display: flex;
+      border-bottom : 1px solid $grey;
+      align-items: center;
+      padding: 0.5em 0;
+    }
+  }
+
+  &-tab-list {
 
     button {
       width: 100%;

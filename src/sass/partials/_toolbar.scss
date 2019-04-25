@@ -74,6 +74,10 @@
         }
       }
 
+      &-grip {
+        border-right: solid 1px $grey;
+      }
+
       &-row {
         cursor: move;
         cursor: -webkit-grab;

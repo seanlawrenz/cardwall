@@ -1,3 +1,42 @@
-<p>
-  subtasks-view works!
-</p>
+<div class="modal-body">
+  <div *ngIf="saving" class="td-icon td-loading"></div>
+
+  <!-- Completed percentage progress animation -->
+  <div class="row gutter-bottom">
+    <div class="col">
+      <div class="progress">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          [style.width.%]="percentComplete"
+          [ngClass]="percentComplete === 100 ? 'progress-bar-success' : 'progress-bar-default'"
+        >
+          <span>{{ percentComplete | number: '1.0-0' }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tdNg-subtasks-container" [ngClass]="{ 'has-subtasks': subtasks.length > 0 }">
+    <ul [sortablejs]="subtasks" [sortablejsOptions]="sortableOptions">
+      <li *ngFor="let subtask of subtasks" class="list-style-none">
+        <td-subtask-view [subtask]="subtask" [canUpdateCards]="canUpdateCards"></td-subtask-view>
+      </li>
+    </ul>
+
+    <!-- Add New Subtask -->
+    <form *ngIf="canAddCards" [formGroup]="newSubtaskForm" class="gutter-top">
+      <div class="row">
+        <div class="col">
+          <input
+            class="form-control"
+            placeholder="Add new subtask..."
+            maxlength="255"
+            formControlName="title"
+            aria-label="Add new subtask"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

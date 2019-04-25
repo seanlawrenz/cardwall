@@ -1,5 +1,10 @@
-<td-subtasks-view *ngIf="!(loading$ | async); else loading" [subtasks]="subtasks$ | async" [errors]="error$ | async"></td-subtasks-view>
+<td-subtasks-view
+  *ngIf="!(loading$ | async); else loading"
+  [subtasks]="subtasks$ | async"
+  [errors]="error$ | async"
+  [owners]="card.owners"
+></td-subtasks-view>
 
 <ng-template #loading>
-  ...Loading
+  <div class="td-icon td-loading" style="min-height: 493px;"></div>
 </ng-template>

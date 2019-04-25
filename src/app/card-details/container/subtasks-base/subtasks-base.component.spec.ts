@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { hot, getTestScheduler } from 'jasmine-marbles';
 
@@ -6,7 +7,6 @@ import * as subtasksActions from '@app/card-details/state/actions/subtasks.actio
 
 import { SubtasksBaseComponent } from './subtasks-base.component';
 import { mockCard, mockSubtask } from '@app/test/data';
-import { SubtasksViewComponent } from '@app/card-details/components/subtasks-view/subtasks-view.component';
 
 describe('SubtasksBaseComponent', () => {
   let component: SubtasksBaseComponent;
@@ -18,8 +18,9 @@ describe('SubtasksBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SubtasksBaseComponent, SubtasksViewComponent],
+      declarations: [SubtasksBaseComponent],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

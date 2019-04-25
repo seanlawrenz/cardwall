@@ -1,0 +1,7 @@
+<div class="tdNg-subtask-container">
+  <td-grip></td-grip>
+  <div *ngIf="canUpdateCards">
+    <div class="fa fa-lg" [ngClass]="subtask.percentCompleteWhole === 100 ? 'subtasks-completed fa-check-square-o' : 'fa-square-o'"></div>
+  </div>
+  <div class="gutter-left">{{ subtask.title }}</div>
+</div>
