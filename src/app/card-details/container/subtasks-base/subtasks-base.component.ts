@@ -1,15 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { fromRoot } from '@app/store';
+import * as cardDetailActions from '@app/card-details/state/actions';
+import * as selectors from '@app/card-details/state/selectors';
+
+import { Card, Subtask } from '@app/models';
 
 @Component({
   selector: 'td-subtasks-base',
   templateUrl: './subtasks-base.component.html',
-  styleUrls: ['./subtasks-base.component.scss']
+  styleUrls: ['./subtasks-base.component.scss'],
 })
 export class SubtasksBaseComponent implements OnInit {
+  @Input() card: Card;
 
-  constructor() { }
+  subtasks$: Observable<Subtask[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<string>;
+
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
+    this.store.dispatch(new cardDetailActions.FetchSubtasks(this.card));
+    this.subtasks$ = this.store.pipe(select(selectors.getSubtasks));
+    this.loading$ = this.store.pipe(select(selectors.isSubtasksLoading));
+    this.error$ = this.store.pipe(select(selectors.getSubtasksError));
   }
-
 }

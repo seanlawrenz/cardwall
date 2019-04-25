@@ -9,6 +9,7 @@ export * from './project.model';
 export * from './prority.model';
 export * from './resources.model';
 export * from './signalR.result';
+export * from './subtasks.model';
 export * from './tags.model';
 export * from './ui.models';
 

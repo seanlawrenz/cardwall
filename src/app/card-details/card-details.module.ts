@@ -32,6 +32,7 @@ import { CodeComponent } from './components/code/code.component';
 import { EditCardFormComponent } from './components/edit-card-form/edit-card-form.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { ResourcesListComponent } from './components/edit-card-form/resources-list/resources-list.component';
+import { SubtasksViewComponent } from './components/subtasks-view/subtasks-view.component';
 import { WorkComponent } from './components/work/work.component';
 
 import { CardDetailsRoutingModule } from './card-details-routing.module';
@@ -55,6 +56,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     CopyMoveCardComponent,
     EditFormBaseComponent,
     CopyMoveCardViewComponent,
+    SubtasksViewComponent,
   ],
   imports: [
     CommonModule,

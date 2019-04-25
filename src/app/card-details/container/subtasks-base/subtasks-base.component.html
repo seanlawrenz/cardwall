@@ -1,3 +1,5 @@
-<p>
-  subtasks-base works!
-</p>
+<td-subtasks-view *ngIf="!(loading$ | async); else loading" [subtasks]="subtasks$ | async" [errors]="error$ | async"></td-subtasks-view>
+
+<ng-template #loading>
+  ...Loading
+</ng-template>

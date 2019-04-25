@@ -12,7 +12,7 @@
       <td-feed [card]="card$ | async"></td-feed>
     </div>
     <div *ngSwitchCase="'SUBTASKS'">
-      <td-subtasks-base></td-subtasks-base>
+      <td-subtasks-base [card]="card$ | async"></td-subtasks-base>
     </div>
     <div *ngSwitchCase="'WORK'">
       <td-work></td-work>
