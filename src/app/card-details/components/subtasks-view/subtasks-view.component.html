@@ -23,6 +23,9 @@
         <td-subtask-view
           [subtask]="subtask"
           [canUpdateCards]="canUpdateCards"
+          [canEditCards]="canEditCards"
+          [canAddCards]="canAddCards"
+          [canDeleteCards]="canDeleteCards"
           (toggleSubtaskCompleted)="toggleSubtask($event)"
         ></td-subtask-view>
       </li>

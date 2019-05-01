@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { Subtask } from '@app/models';
 
 @Component({
@@ -9,14 +11,31 @@ import { Subtask } from '@app/models';
 export class SubtaskViewComponent implements OnInit {
   @Input() subtask: Subtask;
   @Input() canUpdateCards: boolean;
+  @Input() canEditCards: boolean;
+  @Input() canAddCards: boolean;
+  @Input() canDeleteCards: boolean;
 
   @Output() toggleSubtaskCompleted = new EventEmitter<Subtask>();
 
+  editSubtask = false;
+  subtaskForm: FormGroup;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setUpForm();
+  }
 
   toggleCompleted() {
     this.toggleSubtaskCompleted.emit({ ...this.subtask });
+  }
+
+  toggleEditSubtask() {
+    this.editSubtask = this.editSubtask ? false : true;
+  }
+
+  private setUpForm() {
+    this.subtaskForm = new FormGroup({
+      title: new FormControl(this.subtask.title, Validators.required),
+    });
   }
 }

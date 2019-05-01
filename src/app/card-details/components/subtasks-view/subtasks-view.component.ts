@@ -26,6 +26,7 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   canAddCards: boolean;
   canEditCards: boolean;
   canUpdateCards: boolean;
+  canDeleteCards: boolean;
 
   newSubtaskForm: FormGroup;
 
@@ -94,6 +95,7 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
     this.canAddCards = this.config.config.CanAddTasks;
     this.canEditCards = this.config.config.CanEditTasks;
+    this.canDeleteCards = this.config.config.CanDeleteTasks;
 
     this.sortableOptions.disabled = !this.canEditCards;
   }

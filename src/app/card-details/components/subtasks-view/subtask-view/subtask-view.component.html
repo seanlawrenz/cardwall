@@ -1,11 +1,47 @@
-<div class="tdNg-subtask-container">
-  <td-grip></td-grip>
-  <div *ngIf="canUpdateCards">
+<div class="tdNg-subtask-container" [ngClass]="{ editing: editSubtask }">
+  <div class="tdNg-subtask-grip-container">
+    <td-grip></td-grip>
     <div
-      (click)="toggleCompleted()"
+      (click)="canUpdateCards && toggleCompleted()"
       class="fa fa-lg"
       [ngClass]="subtask.percentCompleteWhole === 100 ? 'subtasks-completed fa-check-square-o' : 'fa-square-o'"
     ></div>
   </div>
-  <div class="gutter-left">{{ subtask.title }}</div>
+  <div *ngIf="!editSubtask; else subtaskFormTemplate" class="flex-grow-1" (click)="canEditCards && toggleEditSubtask()">
+    <div class="gutter-left">{{ subtask.title }}</div>
+  </div>
+
+  <ng-template #subtaskFormTemplate>
+    <div class="tdNg-subtask-edit">
+      <form [formGroup]="subtaskForm">
+        <label class="sr-only" for="subtaskTitle">Subtask title</label>
+        <textarea id="subtaskTitle" class="form-control" rows="3" maxlength="255" formControlName="title"></textarea>
+        <div *ngIf="subtaskForm.invalid && subtaskForm.touched" class="text-danger">A title is required</div>
+        <div class="pt-2 d-flex justify-content-between">
+          <div>
+            <td-button
+              class="mr-2"
+              icon="save"
+              [disabled]="subtaskForm.invalid"
+              cssClass="btn-primary"
+              useWhiteText="true"
+              ariaLabel="Save"
+              type="submit"
+            >
+              Save
+            </td-button>
+
+            <td-button icon="times" cssClass="btn-danger" useWhiteText="true" ariaLabel="Cancel" (onClick)="toggleEditSubtask()">
+              Cancel
+            </td-button>
+          </div>
+
+          <div>
+            <td-button *ngIf="canAddCards" icon="share-square-o" ariaLabel="Convert to ticket">Convert</td-button>
+            <td-button *ngIf="canDeleteCards" icon="trash" ariaLabel="Delete Subtask">Delete</td-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
 </div>

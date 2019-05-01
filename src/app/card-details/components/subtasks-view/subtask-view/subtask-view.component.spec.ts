@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SubtaskViewComponent } from './subtask-view.component';
 import { SharedModule } from '@app/shared/shared.module';
@@ -11,7 +12,7 @@ describe('SubtaskViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SubtaskViewComponent],
-      imports: [SharedModule],
+      imports: [FormsModule, ReactiveFormsModule, SharedModule],
     }).compileComponents();
   }));
 
