@@ -20,7 +20,11 @@
   <div class="tdNg-subtasks-container" [ngClass]="{ 'has-subtasks': subtasks.length > 0 }">
     <ul [sortablejs]="subtasks" [sortablejsOptions]="sortableOptions">
       <li *ngFor="let subtask of subtasks" class="list-style-none">
-        <td-subtask-view [subtask]="subtask" [canUpdateCards]="canUpdateCards"></td-subtask-view>
+        <td-subtask-view
+          [subtask]="subtask"
+          [canUpdateCards]="canUpdateCards"
+          (toggleSubtaskCompleted)="toggleSubtask($event)"
+        ></td-subtask-view>
       </li>
     </ul>
 

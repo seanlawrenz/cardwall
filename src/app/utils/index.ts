@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import { findIndex } from 'lodash';
 
 export const uniqueValuesInArray = (arr: Array<any>) => {
   const seen = {};
@@ -30,8 +30,14 @@ export const uniqueCollectionsInCollection = (array: Array<any>, key: string): A
 /**
  * Finds an object on array via identifer and updates data
  */
-export const updateDataOnCollection = (targetArray: any[], identifier: number, dataToReplaceWith: any) =>
-  Object.assign({}, find(targetArray, target => target.id === identifier), dataToReplaceWith);
+export const updateDataOnCollection = (targetArray: any[], identifier: number, dataToReplaceWith: any, id: string): Array<any> => {
+  const index = findIndex(targetArray, item => item[id] === identifier);
+  if (index !== -1) {
+    return [...targetArray.slice(0, index), dataToReplaceWith, ...targetArray.slice(index + 1)];
+  } else {
+    return targetArray;
+  }
+};
 
 /**
  * Sanitize string for string comparison

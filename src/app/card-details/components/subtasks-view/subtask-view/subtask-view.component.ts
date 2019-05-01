@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subtask } from '@app/models';
 
 @Component({
@@ -10,7 +10,13 @@ export class SubtaskViewComponent implements OnInit {
   @Input() subtask: Subtask;
   @Input() canUpdateCards: boolean;
 
+  @Output() toggleSubtaskCompleted = new EventEmitter<Subtask>();
+
   constructor() {}
 
   ngOnInit() {}
+
+  toggleCompleted() {
+    this.toggleSubtaskCompleted.emit({ ...this.subtask });
+  }
 }

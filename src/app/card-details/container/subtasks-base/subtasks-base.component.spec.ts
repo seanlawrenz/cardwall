@@ -75,4 +75,17 @@ describe('SubtasksBaseComponent', () => {
       });
     });
   });
+
+  describe('updateSubtask', () => {
+    beforeEach(() => (store = TestBed.get(Store)));
+
+    it('should dispatch updateSubtask', () => {
+      action = new subtasksActions.UpdateSubtask({ subtask: mockSubtask, card: component.card });
+      spy = jest.spyOn(store, 'dispatch');
+
+      component.updateSubtask(mockSubtask);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
 });

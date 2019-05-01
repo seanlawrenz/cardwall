@@ -28,4 +28,8 @@ export class SubtasksBaseComponent implements OnInit {
     this.loading$ = this.store.pipe(select(selectors.isSubtasksLoading));
     this.error$ = this.store.pipe(select(selectors.getSubtasksError));
   }
+
+  updateSubtask(subtask: Subtask) {
+    this.store.dispatch(new cardDetailActions.UpdateSubtask({ subtask, card: this.card }));
+  }
 }

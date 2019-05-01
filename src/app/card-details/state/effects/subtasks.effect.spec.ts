@@ -56,7 +56,49 @@ describe('CardDetailsSubtasksEffects', () => {
 
       effects = TestBed.get(CardDetailsSubtasksEffects);
 
-      expect(effects.fetchSubtaks$).toBeObservable(expected);
+      expect(effects.fetchSubtasks$).toBeObservable(expected);
+    });
+  });
+
+  describe('updateSubtask', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of UpdateSubtaskSuccess', () => {
+      signalRResult = {
+        isSuccessful: true,
+        item: false,
+      };
+      action = new subtaskActions.UpdateSubtask({ subtask: mockSubtask, card: mockCard });
+      outcome = new subtaskActions.UpdateSubtaskSuccess(mockSubtask);
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.updateSubtask$).toBeObservable(expected);
+    });
+
+    it('should return an observable of UpdateSubtaskError if error', () => {
+      signalRResult = {
+        isSuccessful: false,
+        reason: 'too many secrets',
+        item: false,
+      };
+      action = new subtaskActions.UpdateSubtask({ subtask: mockSubtask, card: mockCard });
+      outcome = new subtaskActions.UpdateSubtaskError('too many secrets');
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.updateSubtask$).toBeObservable(expected);
     });
   });
 });

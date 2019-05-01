@@ -3,6 +3,7 @@
   [subtasks]="subtasks$ | async"
   [errors]="error$ | async"
   [owners]="card.owners"
+  (updateSubtask)="updateSubtask($event)"
 ></td-subtasks-view>
 
 <ng-template #loading>

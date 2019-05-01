@@ -5,6 +5,7 @@ import { SubtasksViewComponent } from './subtasks-view.component';
 import { SortablejsModule } from 'angular-sortablejs';
 import { ConfigService } from '@app/app-services';
 import { mockConfigService } from '@app/test/mocks';
+import { mockSubtask } from '@app/test/data';
 
 describe('SubtasksViewComponent', () => {
   let component: SubtasksViewComponent;
@@ -22,10 +23,33 @@ describe('SubtasksViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SubtasksViewComponent);
     component = fixture.componentInstance;
+    component.subtasks = [];
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('setPercentComplete', () => {
+    const mockSubtaskComplete = { ...mockSubtask, percentCompleteWhole: 100 };
+    const mockSubtaskNotComplete = { ...mockSubtask, percentCompleteWhole: 0 };
+
+    it('should set the percentComplete to 50', () => {
+      component.subtasks = [mockSubtaskNotComplete, mockSubtaskComplete];
+
+      component['setPercentComplete']();
+
+      expect(component.percentComplete).toEqual(50);
+    });
+
+    it('should handle no subtasks', () => {
+      component.subtasks = [];
+
+      expect(() => {
+        component['setPercentComplete']();
+        expect(component.percentComplete).toEqual(0);
+      }).not.toThrowError();
+    });
   });
 });

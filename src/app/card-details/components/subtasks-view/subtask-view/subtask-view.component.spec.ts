@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubtaskViewComponent } from './subtask-view.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { mockSubtask } from '@app/test/data';
 
 describe('SubtaskViewComponent', () => {
   let component: SubtaskViewComponent;
@@ -8,14 +10,15 @@ describe('SubtaskViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubtaskViewComponent ]
-    })
-    .compileComponents();
+      declarations: [SubtaskViewComponent],
+      imports: [SharedModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SubtaskViewComponent);
     component = fixture.componentInstance;
+    component.subtask = mockSubtask;
     fixture.detectChanges();
   });
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ConfigService } from '@app/app-services';
@@ -18,7 +18,9 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   @Input() saving: boolean;
   @Input() owners: Resources[];
 
-  percentComplete = 75;
+  @Output() updateSubtask = new EventEmitter<Subtask>();
+
+  percentComplete = 0;
 
   canAddCards: boolean;
   canEditCards: boolean;
@@ -36,11 +38,36 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.setPermissions();
     this.setUpForm();
+    this.setPercentComplete();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.owners && !changes.owners.firstChange) {
       this.setPermissions();
+    }
+
+    if (changes.subtasks && !changes.subtasks.firstChange) {
+      this.setPercentComplete();
+    }
+  }
+
+  toggleSubtask(subtask: Subtask) {
+    subtask.percentCompleteWhole = subtask.percentCompleteWhole === 0 ? 100 : 0;
+    this.updateSubtask.emit(subtask);
+  }
+
+  private setPercentComplete() {
+    let totalDone = 0;
+    this.subtasks.map(subtask => {
+      if (subtask.percentCompleteWhole === 100) {
+        totalDone++;
+      }
+    });
+
+    if (totalDone !== 0) {
+      this.percentComplete = (totalDone / this.subtasks.length) * 100;
+    } else {
+      this.percentComplete = 0;
     }
   }
 

@@ -1,5 +1,6 @@
 import { CardDetailsSubtasksTypes, CardDetailsSubtasksActions } from '../actions';
 import { Subtask } from '@app/models';
+import { updateDataOnCollection } from '@app/utils';
 
 export interface CardDetailsSubtaskState {
   subtasks: Subtask[];
@@ -34,6 +35,12 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         ...state,
         loading: false,
         error: actions.payload,
+      };
+
+    case CardDetailsSubtasksTypes.UPDATE_SUBTASK_SUCCESS:
+      return {
+        ...state,
+        subtasks: updateDataOnCollection(state.subtasks, actions.payload.ID, actions.payload, 'ID'),
       };
 
     default:
