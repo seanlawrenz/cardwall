@@ -5,7 +5,7 @@ import { withLatestFrom, exhaustMap, map, catchError, switchMap } from 'rxjs/ope
 import { of } from 'rxjs';
 
 import { SignalRService, BoardService } from '@app/app-services';
-import { Plan } from '@app/models';
+import { Plan, List } from '@app/models';
 
 import { fromRoot } from '@app/store';
 import * as planActions from '../actions';
@@ -85,23 +85,13 @@ export class PlanEffects {
   @Effect()
   reorderListsOnPlans$ = this.actions$.pipe(
     ofType(planActions.PlanListActionTypes.REORDER_LISTS),
-    map((action: { payload: { projectId: number; planId: number } }) => action.payload),
-    switchMap(({ projectId, planId }) =>
-      this.store.pipe(
-        select(selectors.getListsByPlan(planId)),
-        map(lists => ({
-          lists,
-          projectId,
-          planId,
-        })),
-      ),
-    ),
-    exhaustMap(({ lists, projectId, planId }) => {
+    switchMap((action: { payload: { lists: List[]; projectId: number; planId: number } }) => {
+      const {
+        payload: { lists, projectId, planId },
+      } = action;
       const listsIds: number[] = lists.map(list => list.id);
 
-      return this.signalR
-        .invoke('ListReorder', listsIds, projectId, planId)
-        .pipe(map(() => new planActions.UpdateListsOrder({ lists, projectId, planId })));
+      return this.signalR.invoke('ListReorder', listsIds, projectId, planId).pipe(map(() => new planActions.ReorderListsOnPlansSuccess()));
     }),
   );
 }

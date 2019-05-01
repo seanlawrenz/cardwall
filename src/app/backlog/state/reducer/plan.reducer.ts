@@ -2,7 +2,6 @@ import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes, Bac
 import { Plan, Card, Resources } from '@app/models';
 
 import {
-  updateDataOnCollection,
   updateCardOrderInListInBacklog,
   updateCardInBacklog,
   createCardInBacklog,
@@ -72,13 +71,6 @@ export function reducer(
       return {
         ...state,
         searchTerm: action.payload,
-      };
-
-    case PlanListActionTypes.UPDATE_LISTS_ORDER:
-      const planOnStateWithUpdatedData = updateDataOnCollection(state.plans, action.payload.planId, action.payload.lists);
-      return {
-        ...state,
-        plans: state.plans.map(plan => (plan.id === planOnStateWithUpdatedData.id ? planOnStateWithUpdatedData : plan)),
       };
 
     case BacklogCardActionTypes.MOVE_CARD:

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BacklogListControllerComponent } from './backlog-list-controller.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { mockBoard } from '@app/test/data';
+import { mockBoard, mockList } from '@app/test/data';
 import { Store } from '@ngrx/store';
 
 import * as backlogActions from '@app/backlog/state/actions';
@@ -35,6 +35,9 @@ describe('BacklogListControllerComponent', () => {
   });
 
   it('should dispatch an action on list reorder if there was reordering of lists', () => {
+    const extraMockList = { ...mockList, id: 1 };
+    const mockPlanWithLists = { ...mockBoard, lists: [mockList, extraMockList] };
+    component.plan = mockPlanWithLists;
     const mockEvent = {
       newIndex: 2,
       oldIndex: 1,
@@ -42,6 +45,7 @@ describe('BacklogListControllerComponent', () => {
     const mockPayload = {
       projectId: mockBoard.projectId,
       planId: mockBoard.id,
+      lists: [mockList, extraMockList],
     };
     action = new backlogActions.ReorderListsOnPlans(mockPayload);
     spy = jest.spyOn(store, 'dispatch');

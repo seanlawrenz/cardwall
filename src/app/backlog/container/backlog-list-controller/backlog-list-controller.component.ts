@@ -42,6 +42,7 @@ export class BacklogListControllerComponent implements OnInit {
       const payload = {
         projectId: this.projectId,
         planId: this.plan.id,
+        lists: this.plan.lists,
       };
       this.store.dispatch(new fromBacklog.ReorderListsOnPlans(payload));
     }
