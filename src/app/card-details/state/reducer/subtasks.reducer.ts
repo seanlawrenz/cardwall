@@ -6,12 +6,14 @@ export interface CardDetailsSubtaskState {
   subtasks: Subtask[];
   loading: boolean;
   error: string;
+  isSaving: boolean;
 }
 
 export const initialState: CardDetailsSubtaskState = {
   subtasks: [],
   loading: false,
   error: '',
+  isSaving: false,
 };
 
 export function reducer(state = initialState, actions: CardDetailsSubtasksActions): CardDetailsSubtaskState {
@@ -41,6 +43,25 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
       return {
         ...state,
         subtasks: updateDataOnCollection(state.subtasks, actions.payload.ID, actions.payload, 'ID'),
+      };
+
+    case CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER:
+      return {
+        ...state,
+        isSaving: true,
+      };
+
+    case CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER_SUCCESS:
+      return {
+        ...state,
+        isSaving: false,
+      };
+
+    case CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        isSaving: false,
       };
 
     default:

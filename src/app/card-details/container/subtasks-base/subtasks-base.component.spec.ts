@@ -74,6 +74,21 @@ describe('SubtasksBaseComponent', () => {
         getTestScheduler().flush();
       });
     });
+
+    describe('saving$', () => {
+      it('should be an observable of a boolean', done => {
+        store.pipe = jest.fn(() => hot('-a', { a: true }));
+
+        fixture.detectChanges();
+
+        component.saving$.subscribe(isSaving => {
+          expect(isSaving).toBeTruthy();
+          done();
+        });
+
+        getTestScheduler().flush();
+      });
+    });
   });
 
   describe('updateSubtask', () => {
@@ -84,6 +99,19 @@ describe('SubtasksBaseComponent', () => {
       spy = jest.spyOn(store, 'dispatch');
 
       component.updateSubtask(mockSubtask);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('updateSubtaskOrder', () => {
+    beforeEach(() => (store = TestBed.get(Store)));
+
+    it('should dispatch setSubtasksOrder', () => {
+      action = new subtasksActions.SetSubtasksOrder({ card: mockCard, subtask: mockSubtask, newIndex: 1 });
+      spy = jest.spyOn(store, 'dispatch');
+
+      component.updateSubtaskOrder({ newIndex: 1, subtask: mockSubtask });
 
       expect(spy).toHaveBeenCalledWith(action);
     });

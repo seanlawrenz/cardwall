@@ -15,3 +15,8 @@ export const getSubtasksError = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.subtasks.error,
 );
+
+export const isSubtasksSaving = createSelector(
+  fromCardDetails.getCardDetailsState,
+  state => state.subtasks.isSaving,
+);

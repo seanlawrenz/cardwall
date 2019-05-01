@@ -8,6 +8,9 @@ export enum CardDetailsSubtasksTypes {
   UPDATE_SUBTASK = '[CARD DETAILS] UPDATE SUBTASK',
   UPDATE_SUBTASK_SUCCESS = '[CARD DETAILS] UPDATE SUBTASK SUCCESS',
   UPDATE_SUBTASK_ERROR = '[CARD DETAILS] UPDATE SUBTASK ERROR',
+  SET_SUBTASKS_ORDER = '[CARD DETAILS] SET SUBTASKS ORDER',
+  SET_SUBTASKS_ORDER_SUCCESS = '[CARD DETAILS] SET SUBTASKS ORDER SUCCESS',
+  SET_SUBTASKS_ORDER_ERROR = '[CARD DETAILS] SET SUBTASKS ORDER SUCCESS ERROR',
 }
 
 export class FetchSubtasks implements Action {
@@ -39,10 +42,27 @@ export class UpdateSubtaskError implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetSubtasksOrder implements Action {
+  readonly type = CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER;
+  constructor(public payload: { card: Card; subtask: Subtask; newIndex: number }) {}
+}
+
+export class SetSubtasksOrderSuccess implements Action {
+  readonly type = CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER_SUCCESS;
+}
+
+export class SetSubtasksOrderError implements Action {
+  readonly type = CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type CardDetailsSubtasksActions =
   | FetchSubtasks
   | FetchSubtasksSuccess
   | FetchSubtasksError
   | UpdateSubtask
   | UpdateSubtaskSuccess
-  | UpdateSubtaskError;
+  | UpdateSubtaskError
+  | SetSubtasksOrder
+  | SetSubtasksOrderSuccess
+  | SetSubtasksOrderError;

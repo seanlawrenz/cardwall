@@ -19,6 +19,7 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   @Input() owners: Resources[];
 
   @Output() updateSubtask = new EventEmitter<Subtask>();
+  @Output() sortSubtasksRequested = new EventEmitter<{ newIndex: number; subtask: Subtask }>();
 
   percentComplete = 0;
 
@@ -31,6 +32,8 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   sortableOptions: SortablejsOptions = {
     group: 'subtasks',
     handle: '.tdNg-grip',
+    onStart: event => (event.clone.subtaskData = this.subtasks[event.oldIndex]),
+    onEnd: event => this.sortSubtasks(event),
   };
 
   constructor(private config: ConfigService) {}
@@ -54,6 +57,14 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   toggleSubtask(subtask: Subtask) {
     subtask.percentCompleteWhole = subtask.percentCompleteWhole === 0 ? 100 : 0;
     this.updateSubtask.emit(subtask);
+  }
+
+  private sortSubtasks(event) {
+    const {
+      newIndex,
+      clone: { subtaskData },
+    } = event;
+    this.sortSubtasksRequested.emit({ newIndex, subtask: subtaskData });
   }
 
   private setPercentComplete() {

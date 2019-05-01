@@ -101,4 +101,28 @@ describe('CardDetailsSubtasksEffects', () => {
       expect(effects.updateSubtask$).toBeObservable(expected);
     });
   });
+
+  describe('reorderSubtask', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of SetSubtaskSuccess if successful', () => {
+      signalRResult = {
+        isSuccessful: true,
+        item: false,
+      };
+      action = new subtaskActions.SetSubtasksOrder({ card: mockCard, subtask: mockSubtask, newIndex: 1 });
+      outcome = new subtaskActions.SetSubtasksOrderSuccess();
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.reorderSubtask$).toBeObservable(expected);
+    });
+  });
 });

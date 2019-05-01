@@ -52,4 +52,24 @@ export class CardDetailsSubtasksEffects {
       );
     }),
   );
+
+  @Effect()
+  reorderSubtask$: Observable<Action> = this.actions$.pipe(
+    ofType(subtasksActions.CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER),
+    switchMap((action: { payload: { card: Card; subtask: Subtask; newIndex: number } }) => {
+      const {
+        payload: { card, subtask, newIndex },
+      } = action;
+      return this.signalR.invoke('SubtaskReorder', card.projectId, card.planId, card.id, subtask.ID, newIndex).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            return new subtasksActions.SetSubtasksOrderSuccess();
+          } else {
+            return new subtasksActions.SetSubtasksOrderError(result.reason);
+          }
+        }),
+        catchError(err => of(new subtasksActions.SetSubtasksOrderError(err))),
+      );
+    }),
+  );
 }

@@ -18,6 +18,7 @@ export class SubtasksBaseComponent implements OnInit {
 
   subtasks$: Observable<Subtask[]>;
   loading$: Observable<boolean>;
+  saving$: Observable<boolean>;
   error$: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {}
@@ -26,10 +27,16 @@ export class SubtasksBaseComponent implements OnInit {
     this.store.dispatch(new cardDetailActions.FetchSubtasks(this.card));
     this.subtasks$ = this.store.pipe(select(selectors.getSubtasks));
     this.loading$ = this.store.pipe(select(selectors.isSubtasksLoading));
+    this.saving$ = this.store.pipe(select(selectors.isSubtasksSaving));
     this.error$ = this.store.pipe(select(selectors.getSubtasksError));
   }
 
   updateSubtask(subtask: Subtask) {
     this.store.dispatch(new cardDetailActions.UpdateSubtask({ subtask, card: this.card }));
+  }
+
+  updateSubtaskOrder(event: { newIndex: number; subtask: Subtask }) {
+    const { newIndex, subtask } = event;
+    this.store.dispatch(new cardDetailActions.SetSubtasksOrder({ card: this.card, subtask, newIndex }));
   }
 }

@@ -2,8 +2,10 @@
   *ngIf="!(loading$ | async); else loading"
   [subtasks]="subtasks$ | async"
   [errors]="error$ | async"
+  [saving]="saving$ | async"
   [owners]="card.owners"
   (updateSubtask)="updateSubtask($event)"
+  (sortSubtasksRequested)="updateSubtaskOrder($event)"
 ></td-subtasks-view>
 
 <ng-template #loading>
