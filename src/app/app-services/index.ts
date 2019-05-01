@@ -5,3 +5,4 @@ export * from './config.service';
 export * from './list.service';
 export * from './notification.service';
 export * from './signal-r.service';
+export * from './subtask.service';
