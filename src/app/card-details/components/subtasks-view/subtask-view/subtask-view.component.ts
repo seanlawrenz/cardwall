@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Subtask } from '@app/models';
@@ -18,13 +18,27 @@ export class SubtaskViewComponent implements OnInit {
   @Output() toggleSubtaskCompleted = new EventEmitter<Subtask>();
   @Output() updateSubtaskRequested = new EventEmitter<Subtask>();
   @Output() promoteSubtaskRequested = new EventEmitter<Subtask>();
+  @Output() deleteSubtaskRequested = new EventEmitter<Subtask>();
+
+  @ViewChild('promotePop') promotePop;
+  @ViewChild('deletePop') deletePop;
 
   editSubtask = false;
   subtaskForm: FormGroup;
-  constructor() {}
+  promoteConfirmMessage: string;
+  deleteConfirmMessage: string;
 
   ngOnInit() {
     this.setUpForm();
+    if (this.canAddCards) {
+      this.promoteConfirmMessage = `Are you sure you want to convert subtask '${
+        this.subtask.title
+      }'? This will delete the subtask and cannot be undone.`;
+    }
+
+    if (this.canDeleteCards) {
+      this.deleteConfirmMessage = `Are you sure you want to delete subtask '${this.subtask.title}'? This cannot be undone.`;
+    }
   }
 
   toggleCompleted() {
@@ -43,6 +57,15 @@ export class SubtaskViewComponent implements OnInit {
   promoteSubtask() {
     const subtask = { ...this.subtask };
     this.promoteSubtaskRequested.emit(subtask);
+  }
+
+  deleteSubtask() {
+    this.deleteSubtaskRequested.emit(this.subtask);
+  }
+
+  closePopover() {
+    this.promotePop.hide();
+    this.deletePop.hide();
   }
 
   private setUpForm() {

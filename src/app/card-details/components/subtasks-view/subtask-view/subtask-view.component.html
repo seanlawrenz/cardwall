@@ -3,11 +3,21 @@
     <td-grip></td-grip>
     <div
       (click)="canUpdateCards && toggleCompleted()"
+      (keyup.space)="canUpdateCards && toggleCompleted()"
+      (keyup.enter)="canUpdateCards && toggleCompleted()"
       class="fa fa-lg"
       [ngClass]="subtask.percentCompleteWhole === 100 ? 'subtasks-completed fa-check-square-o' : 'fa-square-o'"
+      tabindex="1"
     ></div>
   </div>
-  <div *ngIf="!editSubtask; else subtaskFormTemplate" class="flex-grow-1" (click)="canEditCards && toggleEditSubtask()">
+  <div
+    *ngIf="!editSubtask; else subtaskFormTemplate"
+    (click)="canEditCards && toggleEditSubtask()"
+    (keyup.space)="canEditCards && toggleEditSubtask()"
+    (keyup.enter)="canEditCards && toggleEditSubtask()"
+    class="flex-grow-1"
+    tabindex="1"
+  >
     <div class="gutter-left">{{ subtask.title }}</div>
   </div>
 
@@ -15,7 +25,7 @@
     <div class="tdNg-subtask-edit">
       <form [formGroup]="subtaskForm" (submit)="updateSubtask()">
         <label class="sr-only" for="subtaskTitle">Subtask title</label>
-        <textarea id="subtaskTitle" class="form-control" rows="3" maxlength="255" formControlName="title"></textarea>
+        <textarea tabindex="1" id="subtaskTitle" class="form-control" rows="3" maxlength="255" formControlName="title" autofocus></textarea>
         <div *ngIf="subtaskForm.invalid && subtaskForm.touched" class="text-danger">A title is required</div>
         <div class="pt-2 d-flex justify-content-between">
           <div>
@@ -27,20 +37,74 @@
               useWhiteText="true"
               ariaLabel="Save"
               type="submit"
+              tabindex="1"
             >
               Save
             </td-button>
 
-            <td-button icon="times" cssClass="btn-danger" useWhiteText="true" ariaLabel="Cancel" (onClick)="toggleEditSubtask()">
+            <td-button
+              icon="times"
+              cssClass="btn-danger"
+              useWhiteText="true"
+              ariaLabel="Cancel"
+              (onClick)="toggleEditSubtask()"
+              tabindex="1"
+            >
               Cancel
             </td-button>
           </div>
 
           <div>
-            <td-button *ngIf="canAddCards" icon="share-square-o" ariaLabel="Convert to ticket" (onClick)="promoteSubtask()">
+            <td-button
+              *ngIf="canAddCards"
+              icon="share-square-o"
+              ariaLabel="Convert to ticket"
+              [popover]="confirmPromote"
+              [outsideClick]="true"
+              triggers="keypress click"
+              popoverTitle="Confirm"
+              #promotePop="bs-popover"
+              tabindex="1"
+            >
               Convert
             </td-button>
-            <td-button *ngIf="canDeleteCards" icon="trash" ariaLabel="Delete Subtask">Delete</td-button>
+
+            <!-- Convert Confirmation -->
+            <ng-template #confirmPromote>
+              {{ promoteConfirmMessage }}
+              <div class="d-flex justify-content-between mt-2">
+                <button type="button" class="btn btn-primary px-4" aria-label="Yes" (click)="promoteSubtask()" tabindex="1">Yes</button>
+                <button type="button" class="btn btn-default px-4" aria-label="No" (click)="closePopover()" tabindex="1" autofocus>
+                  No
+                </button>
+              </div>
+            </ng-template>
+
+            <td-button
+              *ngIf="canDeleteCards"
+              icon="trash"
+              ariaLabel="Delete Subtask"
+              [popover]="confirmDelete"
+              [outsideClick]="true"
+              container="body"
+              #deletePop="bs-popover"
+              triggers="keypress click"
+              popoverTitle="Confirm"
+              tabindex="1"
+            >
+              Delete
+            </td-button>
+
+            <!-- Delete Confirmation -->
+            <ng-template #confirmDelete>
+              {{ deleteConfirmMessage }}
+              <div class="d-flex justify-content-between mt-2">
+                <button type="button" class="btn btn-primary px-4" aria-label="Yes" (click)="deleteSubtask()" tabindex="1">Yes</button>
+                <button type="button" class="btn btn-default px-4" aria-label="No" (click)="closePopover()" tabindex="1" autofocus>
+                  No
+                </button>
+              </div>
+            </ng-template>
           </div>
         </div>
       </form>

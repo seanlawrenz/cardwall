@@ -10,6 +10,7 @@ import { reducers, effects } from './state';
 
 // 3rd Parties
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SortablejsModule } from 'angular-sortablejs';
 import { UiSwitchModule } from 'ngx-ui-switch';
@@ -70,6 +71,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     ReactiveFormsModule,
     SharedModule,
     SortablejsModule,
+    PopoverModule.forRoot(),
     UiSwitchModule,
     StoreModule.forFeature('card-details', reducers),
     EffectsModule.forFeature(effects),
