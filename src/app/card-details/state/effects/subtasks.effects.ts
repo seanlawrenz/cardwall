@@ -92,4 +92,25 @@ export class CardDetailsSubtasksEffects {
       );
     }),
   );
+
+  @Effect()
+  addSubtask$: Observable<Action> = this.actions$.pipe(
+    ofType(subtasksActions.CardDetailsSubtasksTypes.CREATE_SUBTASK),
+    switchMap((action: { payload: { card: Card; subtask: Subtask } }) => {
+      const {
+        payload: { card, subtask },
+      } = action;
+      return this.signalR.invoke('SubtaskAdd', card.projectId, card.planId, card.id, subtask).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            const newSubtask = { ...subtask, ID: result.item };
+            return new subtasksActions.CreateSubtaskSuccess(newSubtask);
+          } else {
+            return new subtasksActions.CreateSubtaskError(result.reason);
+          }
+        }),
+        catchError(err => of(new subtasksActions.CreateSubtaskError(err))),
+      );
+    }),
+  );
 }

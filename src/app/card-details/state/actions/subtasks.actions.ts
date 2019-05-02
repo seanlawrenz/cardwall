@@ -14,6 +14,9 @@ export enum CardDetailsSubtasksTypes {
   PROMOTE_SUBTASK = '[CARD DETAILS] PROMOTE SUBTASK',
   PROMOTE_SUBTASK_SUCCESS = '[CARD DETAILS] PROMOTE SUBTASK SUCCESS',
   PROMOTE_SUBTASK_ERROR = '[CARD DETAILS] PROMOTE SUBTASK ERROR',
+  CREATE_SUBTASK = '[CARD DETAILS] CREATE SUBTASK',
+  CREATE_SUBTASK_SUCCESS = '[CARD DETAILS] CREATE SUBTASK SUCCESS',
+  CREATE_SUBTASK_ERROR = '[CARD DETAILS] CREATE SUBTASK ERROR',
 }
 
 export class FetchSubtasks implements Action {
@@ -74,6 +77,21 @@ export class PromoteSubtaskError implements Action {
   constructor(public payload: string) {}
 }
 
+export class CreateSubtask implements Action {
+  readonly type = CardDetailsSubtasksTypes.CREATE_SUBTASK;
+  constructor(public payload: { card: Card; subtask: Subtask }) {}
+}
+
+export class CreateSubtaskSuccess implements Action {
+  readonly type = CardDetailsSubtasksTypes.CREATE_SUBTASK_SUCCESS;
+  constructor(public payload: Subtask) {}
+}
+
+export class CreateSubtaskError implements Action {
+  readonly type = CardDetailsSubtasksTypes.CREATE_SUBTASK_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type CardDetailsSubtasksActions =
   | FetchSubtasks
   | FetchSubtasksSuccess
@@ -86,4 +104,7 @@ export type CardDetailsSubtasksActions =
   | SetSubtasksOrderError
   | PromoteSubtask
   | PromoteSubtaskSuccess
-  | PromoteSubtaskError;
+  | PromoteSubtaskError
+  | CreateSubtask
+  | CreateSubtaskSuccess
+  | CreateSubtaskError;

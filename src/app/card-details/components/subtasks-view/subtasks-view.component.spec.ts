@@ -57,13 +57,20 @@ describe('SubtasksViewComponent', () => {
   describe('creatSubtask', () => {
     it('should emit the new subtask title if valid', () => {
       const newTitle = 'I am a new title';
+      const expected = {
+        title: newTitle,
+        ID: 0,
+        percentCompleteWhole: 0,
+        order: 0,
+      };
+
       spy = jest.spyOn(component.createSubtaskRequested, 'emit');
       component.newSubtaskForm.controls['title'].setValue(newTitle);
       component.canAddCards = true;
 
       component.createSubtask();
 
-      expect(spy).toHaveBeenCalledWith(newTitle);
+      expect(spy).toHaveBeenCalledWith(expected);
     });
 
     it('should not emit if not valid', () => {

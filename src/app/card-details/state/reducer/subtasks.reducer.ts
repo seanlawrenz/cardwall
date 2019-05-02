@@ -98,6 +98,26 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         error: actions.payload,
       };
 
+    case CardDetailsSubtasksTypes.CREATE_SUBTASK:
+      return {
+        ...state,
+        isSaving: true,
+      };
+
+    case CardDetailsSubtasksTypes.CREATE_SUBTASK_SUCCESS:
+      return {
+        ...state,
+        isSaving: false,
+        subtasks: [...state.subtasks, actions.payload],
+      };
+
+    case CardDetailsSubtasksTypes.FETCH_SUBTASKS_ERROR:
+      return {
+        ...state,
+        isSaving: false,
+        error: actions.payload,
+      };
+
     default:
       return state;
   }

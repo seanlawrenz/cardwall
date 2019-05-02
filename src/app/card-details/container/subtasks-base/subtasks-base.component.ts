@@ -43,4 +43,8 @@ export class SubtasksBaseComponent implements OnInit {
   promoteSubtask(subtask) {
     this.store.dispatch(new cardDetailActions.PromoteSubtask({ card: this.card, subtask }));
   }
+
+  createSubtask(subtask) {
+    this.store.dispatch(new cardDetailActions.CreateSubtask({ card: this.card, subtask }));
+  }
 }

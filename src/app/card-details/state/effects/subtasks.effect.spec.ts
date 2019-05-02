@@ -167,4 +167,31 @@ describe('CardDetailsSubtasksEffects', () => {
       expect(effects.promoteSubtask$).toBeObservable(expected);
     });
   });
+
+  describe('addSubtask$', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of CreateSubtaskSuccess if successful', () => {
+      const newSubtaskId = 123;
+      const newSubtask = { ...mockSubtask, ID: 0 };
+      const expectedNewSubtask = { ...newSubtask, ID: newSubtaskId };
+      signalRResult = {
+        isSuccessful: true,
+        item: newSubtaskId,
+      };
+      action = new subtaskActions.CreateSubtask({ card: mockCard, subtask: newSubtask });
+      outcome = new subtaskActions.CreateSubtaskSuccess(expectedNewSubtask);
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.addSubtask$).toBeObservable(expected);
+    });
+  });
 });

@@ -6,6 +6,7 @@ import { Subtask, Resources } from '@app/models';
 
 import { isNullOrUndefined } from 'util';
 import { SortablejsOptions } from 'angular-sortablejs';
+import { trim } from 'lodash';
 
 @Component({
   selector: 'td-subtasks-view',
@@ -22,7 +23,7 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   @Output() sortSubtasksRequested = new EventEmitter<{ newIndex: number; subtask: Subtask }>();
   @Output() promoteSubtaskRequested = new EventEmitter<Subtask>();
   @Output() deleteSubtaskRequested = new EventEmitter<Subtask>();
-  @Output() createSubtaskRequested = new EventEmitter<string>();
+  @Output() createSubtaskRequested = new EventEmitter<Subtask>();
 
   percentComplete = 0;
 
@@ -64,6 +65,8 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   }
 
   updateSubtaskRequested(subtask: Subtask) {
+    // The subtask has been built immutable in the lower component so we can trim the title here.
+    subtask.title = this.trimSubtaskTitle(subtask.title);
     this.updateSubtask.emit(subtask);
   }
 
@@ -81,7 +84,14 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
   createSubtask() {
     if (this.canAddCards && this.newSubtaskForm.valid) {
-      this.createSubtaskRequested.emit(this.newSubtaskForm.controls['title'].value);
+      const newSubtask: Subtask = {
+        title: this.trimSubtaskTitle(this.newSubtaskForm.controls['title'].value),
+        ID: 0,
+        percentCompleteWhole: 0,
+        order: this.subtasks.length,
+      };
+      this.createSubtaskRequested.emit(newSubtask);
+      this.newSubtaskForm.reset();
     }
   }
 
@@ -129,5 +139,9 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
     this.newSubtaskForm = new FormGroup({
       title: new FormControl('', Validators.required),
     });
+  }
+
+  private trimSubtaskTitle(title: string): string {
+    return trim(title);
   }
 }
