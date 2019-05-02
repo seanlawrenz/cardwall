@@ -5,14 +5,14 @@ import { updateDataOnCollection, removeDataOnCollection } from '@app/utils';
 export interface CardDetailsSubtaskState {
   subtasks: Subtask[];
   loading: boolean;
-  error: string;
+  error: { message: string; reason: string };
   isSaving: boolean;
 }
 
 export const initialState: CardDetailsSubtaskState = {
   subtasks: [],
   loading: false,
-  error: '',
+  error: null,
   isSaving: false,
 };
 
@@ -29,7 +29,6 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         ...state,
         subtasks: actions.payload,
         loading: false,
-        error: '',
       };
 
     case CardDetailsSubtasksTypes.FETCH_SUBTASKS_ERROR:
@@ -111,7 +110,27 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         subtasks: [...state.subtasks, actions.payload],
       };
 
-    case CardDetailsSubtasksTypes.FETCH_SUBTASKS_ERROR:
+    case CardDetailsSubtasksTypes.CREATE_SUBTASK_ERROR:
+      return {
+        ...state,
+        isSaving: false,
+        error: actions.payload,
+      };
+
+    case CardDetailsSubtasksTypes.DELETE_SUBTASK:
+      return {
+        ...state,
+        isSaving: true,
+      };
+
+    case CardDetailsSubtasksTypes.DELETE_SUBTASK_SUCCESS:
+      return {
+        ...state,
+        isSaving: false,
+        subtasks: removeDataOnCollection(state.subtasks, actions.payload, 'ID'),
+      };
+
+    case CardDetailsSubtasksTypes.DELETE_SUBTASK_ERROR:
       return {
         ...state,
         isSaving: false,

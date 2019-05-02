@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { SubtasksViewComponent } from './subtasks-view.component';
 import { SortablejsModule } from 'angular-sortablejs';
-import { ConfigService } from '@app/app-services';
+import { ConfigService, NotificationService } from '@app/app-services';
 import { mockConfigService } from '@app/test/mocks';
 import { mockSubtask } from '@app/test/data';
 
@@ -15,7 +15,10 @@ describe('SubtasksViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SubtasksViewComponent],
-      providers: [{ provide: ConfigService, useValue: mockConfigService }],
+      providers: [
+        { provide: ConfigService, useValue: mockConfigService },
+        { provide: NotificationService, useValue: { danger: jest.fn() } },
+      ],
       imports: [SortablejsModule],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

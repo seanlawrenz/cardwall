@@ -8,6 +8,7 @@ import * as subtasksActions from '../actions/subtasks.actions';
 
 import { SignalRService } from '@app/app-services';
 import { Card, SignalRResult, Subtask } from '@app/models';
+import { standardErrorLang } from '@app/constants';
 
 @Injectable()
 export class CardDetailsSubtasksEffects {
@@ -25,10 +26,10 @@ export class CardDetailsSubtasksEffects {
           if (result.isSuccessful) {
             return new subtasksActions.FetchSubtasksSuccess(result.item);
           } else {
-            return new subtasksActions.FetchSubtasksError(result.message);
+            return new subtasksActions.FetchSubtasksError({ message: 'Cannot get subtasks', reason: result.reason });
           }
         }),
-        catchError(err => of(new subtasksActions.FetchSubtasksError(err))),
+        catchError(err => of(new subtasksActions.FetchSubtasksError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
   );
@@ -45,10 +46,10 @@ export class CardDetailsSubtasksEffects {
           if (result.isSuccessful) {
             return new subtasksActions.UpdateSubtaskSuccess(subtask);
           } else {
-            return new subtasksActions.UpdateSubtaskError(result.reason ? result.reason : result.message);
+            return new subtasksActions.UpdateSubtaskError({ message: 'Cannot update subtask', reason: result.reason });
           }
         }),
-        catchError(err => of(new subtasksActions.UpdateSubtaskError(err))),
+        catchError(err => of(new subtasksActions.UpdateSubtaskError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
   );
@@ -65,10 +66,10 @@ export class CardDetailsSubtasksEffects {
           if (result.isSuccessful) {
             return new subtasksActions.SetSubtasksOrderSuccess();
           } else {
-            return new subtasksActions.SetSubtasksOrderError(result.reason);
+            return new subtasksActions.SetSubtasksOrderError({ message: 'Cannot reorder Subtasks', reason: result.reason });
           }
         }),
-        catchError(err => of(new subtasksActions.SetSubtasksOrderError(err))),
+        catchError(err => of(new subtasksActions.SetSubtasksOrderError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
   );
@@ -85,10 +86,10 @@ export class CardDetailsSubtasksEffects {
           if (result.isSuccessful) {
             return new subtasksActions.PromoteSubtaskSuccess(subtask);
           } else {
-            return new subtasksActions.PromoteSubtaskError(result.reason);
+            return new subtasksActions.PromoteSubtaskError({ message: 'Cannot Convert Subtask to Task', reason: result.reason });
           }
         }),
-        catchError(err => of(new subtasksActions.PromoteSubtaskError(err))),
+        catchError(err => of(new subtasksActions.PromoteSubtaskError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
   );
@@ -106,10 +107,30 @@ export class CardDetailsSubtasksEffects {
             const newSubtask = { ...subtask, ID: result.item };
             return new subtasksActions.CreateSubtaskSuccess(newSubtask);
           } else {
-            return new subtasksActions.CreateSubtaskError(result.reason);
+            return new subtasksActions.CreateSubtaskError({ message: 'Cannot Add Subtask', reason: result.reason });
           }
         }),
-        catchError(err => of(new subtasksActions.CreateSubtaskError(err))),
+        catchError(err => of(new subtasksActions.CreateSubtaskError({ message: 'Server Error', reason: standardErrorLang }))),
+      );
+    }),
+  );
+
+  @Effect()
+  deleteSubtask$: Observable<Action> = this.actions$.pipe(
+    ofType(subtasksActions.CardDetailsSubtasksTypes.DELETE_SUBTASK),
+    switchMap((action: { payload: { card: Card; subtask: Subtask } }) => {
+      const {
+        payload: { card, subtask },
+      } = action;
+      return this.signalR.invoke('SubtaskDelete', card.projectId, card.planId, card.id, subtask.ID).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            return new subtasksActions.DeleteSubtaskSuccess(subtask.ID);
+          } else {
+            return new subtasksActions.DeleteSubtaskError({ message: 'Cannot Delete Subtask', reason: result.reason });
+          }
+        }),
+        catchError(err => of(new subtasksActions.DeleteSubtaskError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
   );

@@ -90,7 +90,7 @@ describe('CardDetailsSubtasksEffects', () => {
         item: false,
       };
       action = new subtaskActions.UpdateSubtask({ subtask: mockSubtask, card: mockCard });
-      outcome = new subtaskActions.UpdateSubtaskError('too many secrets');
+      outcome = new subtaskActions.UpdateSubtaskError({ message: 'Cannot update subtask', reason: 'too many secrets' });
       actions.stream = hot('-a', { a: action });
       response = cold('-a|', { a: signalRResult });
       expected = cold('--b', { b: outcome });
@@ -156,7 +156,7 @@ describe('CardDetailsSubtasksEffects', () => {
         item: false,
       };
       action = new subtaskActions.PromoteSubtask({ card: mockCard, subtask: mockSubtask });
-      outcome = new subtaskActions.PromoteSubtaskError('too many secrets');
+      outcome = new subtaskActions.PromoteSubtaskError({ message: 'Cannot Convert Subtask to Task', reason: 'too many secrets' });
       actions.stream = hot('-a', { a: action });
       response = cold('-a|', { a: signalRResult });
       expected = cold('--b', { b: outcome });
@@ -192,6 +192,30 @@ describe('CardDetailsSubtasksEffects', () => {
       effects = TestBed.get(CardDetailsSubtasksEffects);
 
       expect(effects.addSubtask$).toBeObservable(expected);
+    });
+  });
+
+  describe('deleteSubtask$', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of CreateSubtaskSuccess if successful', () => {
+      signalRResult = {
+        isSuccessful: true,
+        item: false,
+      };
+      action = new subtaskActions.DeleteSubtask({ card: mockCard, subtask: mockSubtask });
+      outcome = new subtaskActions.DeleteSubtaskSuccess(mockSubtask.ID);
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.deleteSubtask$).toBeObservable(expected);
     });
   });
 });

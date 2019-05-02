@@ -60,7 +60,7 @@ export class SubtaskViewComponent implements OnInit {
   }
 
   deleteSubtask() {
-    this.deleteSubtaskRequested.emit(this.subtask);
+    this.deleteSubtaskRequested.emit({ ...this.subtask });
   }
 
   closePopover() {

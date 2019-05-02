@@ -19,7 +19,7 @@ export class SubtasksBaseComponent implements OnInit {
   subtasks$: Observable<Subtask[]>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
-  error$: Observable<string>;
+  error$: Observable<{ message: string; reason: string }>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -46,5 +46,9 @@ export class SubtasksBaseComponent implements OnInit {
 
   createSubtask(subtask) {
     this.store.dispatch(new cardDetailActions.CreateSubtask({ card: this.card, subtask }));
+  }
+
+  deleteSubtask(subtask) {
+    this.store.dispatch(new cardDetailActions.DeleteSubtask({ card: this.card, subtask }));
   }
 }

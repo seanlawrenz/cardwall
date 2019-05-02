@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { ConfigService } from '@app/app-services';
+import { ConfigService, NotificationService } from '@app/app-services';
 import { Subtask, Resources } from '@app/models';
 
 import { isNullOrUndefined } from 'util';
@@ -15,7 +15,7 @@ import { trim } from 'lodash';
 })
 export class SubtasksViewComponent implements OnInit, OnChanges {
   @Input() subtasks: Subtask[];
-  @Input() errors: string;
+  @Input() errors: { message: string; reason: string };
   @Input() saving: boolean;
   @Input() owners: Resources[];
 
@@ -41,12 +41,13 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
     onEnd: event => this.sortSubtasks(event),
   };
 
-  constructor(private config: ConfigService) {}
+  constructor(private config: ConfigService, private notify: NotificationService) {}
 
   ngOnInit() {
     this.setPermissions();
     this.setUpForm();
     this.setPercentComplete();
+    this.notifyErrors(this.errors);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -56,6 +57,12 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
     if (changes.subtasks && !changes.subtasks.firstChange) {
       this.setPercentComplete();
+    }
+
+    if (changes.errors && !changes.errors.firstChange) {
+      if (!isNullOrUndefined(changes.errors)) {
+        this.notifyErrors(changes.errors.currentValue);
+      }
     }
   }
 
@@ -143,5 +150,11 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
   private trimSubtaskTitle(title: string): string {
     return trim(title);
+  }
+
+  private notifyErrors(error: { message: string; reason: string }) {
+    if (!isNullOrUndefined(error)) {
+      this.notify.danger(error.message, error.reason);
+    }
   }
 }

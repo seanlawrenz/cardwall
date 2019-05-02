@@ -17,6 +17,9 @@ export enum CardDetailsSubtasksTypes {
   CREATE_SUBTASK = '[CARD DETAILS] CREATE SUBTASK',
   CREATE_SUBTASK_SUCCESS = '[CARD DETAILS] CREATE SUBTASK SUCCESS',
   CREATE_SUBTASK_ERROR = '[CARD DETAILS] CREATE SUBTASK ERROR',
+  DELETE_SUBTASK = '[CARD DETAILS] DELETE SUBTASK',
+  DELETE_SUBTASK_SUCCESS = '[CARD DETAILS] DELETE SUBTASK SUCCESS',
+  DELETE_SUBTASK_ERROR = '[CARD DETAILS] DELETE SUBTASK ERROR',
 }
 
 export class FetchSubtasks implements Action {
@@ -30,7 +33,7 @@ export class FetchSubtasksSuccess implements Action {
 }
 export class FetchSubtasksError implements Action {
   readonly type = CardDetailsSubtasksTypes.FETCH_SUBTASKS_ERROR;
-  constructor(public payload: string) {}
+  constructor(public payload: { message: string; reason: string }) {}
 }
 
 export class UpdateSubtask implements Action {
@@ -45,7 +48,7 @@ export class UpdateSubtaskSuccess implements Action {
 
 export class UpdateSubtaskError implements Action {
   readonly type = CardDetailsSubtasksTypes.UPDATE_SUBTASK_ERROR;
-  constructor(public payload: string) {}
+  constructor(public payload: { message: string; reason: string }) {}
 }
 
 export class SetSubtasksOrder implements Action {
@@ -59,7 +62,7 @@ export class SetSubtasksOrderSuccess implements Action {
 
 export class SetSubtasksOrderError implements Action {
   readonly type = CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER_ERROR;
-  constructor(public payload: string) {}
+  constructor(public payload: { message: string; reason: string }) {}
 }
 
 export class PromoteSubtask implements Action {
@@ -74,7 +77,7 @@ export class PromoteSubtaskSuccess implements Action {
 
 export class PromoteSubtaskError implements Action {
   readonly type = CardDetailsSubtasksTypes.PROMOTE_SUBTASK_ERROR;
-  constructor(public payload: string) {}
+  constructor(public payload: { message: string; reason: string }) {}
 }
 
 export class CreateSubtask implements Action {
@@ -89,7 +92,22 @@ export class CreateSubtaskSuccess implements Action {
 
 export class CreateSubtaskError implements Action {
   readonly type = CardDetailsSubtasksTypes.CREATE_SUBTASK_ERROR;
-  constructor(public payload: string) {}
+  constructor(public payload: { message: string; reason: string }) {}
+}
+
+export class DeleteSubtask implements Action {
+  readonly type = CardDetailsSubtasksTypes.DELETE_SUBTASK;
+  constructor(public payload: { card: Card; subtask: Subtask }) {}
+}
+
+export class DeleteSubtaskSuccess implements Action {
+  readonly type = CardDetailsSubtasksTypes.DELETE_SUBTASK_SUCCESS;
+  constructor(public payload: number) {}
+}
+
+export class DeleteSubtaskError implements Action {
+  readonly type = CardDetailsSubtasksTypes.DELETE_SUBTASK_ERROR;
+  constructor(public payload: { message: string; reason: string }) {}
 }
 
 export type CardDetailsSubtasksActions =
@@ -107,4 +125,7 @@ export type CardDetailsSubtasksActions =
   | PromoteSubtaskError
   | CreateSubtask
   | CreateSubtaskSuccess
-  | CreateSubtaskError;
+  | CreateSubtaskError
+  | DeleteSubtask
+  | DeleteSubtaskSuccess
+  | DeleteSubtaskError;
