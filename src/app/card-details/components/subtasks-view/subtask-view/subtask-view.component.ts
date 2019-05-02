@@ -16,6 +16,7 @@ export class SubtaskViewComponent implements OnInit {
   @Input() canDeleteCards: boolean;
 
   @Output() toggleSubtaskCompleted = new EventEmitter<Subtask>();
+  @Output() updateSubtaskRequested = new EventEmitter<Subtask>();
 
   editSubtask = false;
   subtaskForm: FormGroup;
@@ -31,6 +32,11 @@ export class SubtaskViewComponent implements OnInit {
 
   toggleEditSubtask() {
     this.editSubtask = this.editSubtask ? false : true;
+  }
+
+  updateSubtask() {
+    const subtask = { ...this.subtask, title: this.subtaskForm.controls['title'].value };
+    this.updateSubtaskRequested.emit(subtask);
   }
 
   private setUpForm() {

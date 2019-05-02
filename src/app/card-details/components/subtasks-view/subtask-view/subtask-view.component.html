@@ -13,7 +13,7 @@
 
   <ng-template #subtaskFormTemplate>
     <div class="tdNg-subtask-edit">
-      <form [formGroup]="subtaskForm">
+      <form [formGroup]="subtaskForm" (submit)="updateSubtask()">
         <label class="sr-only" for="subtaskTitle">Subtask title</label>
         <textarea id="subtaskTitle" class="form-control" rows="3" maxlength="255" formControlName="title"></textarea>
         <div *ngIf="subtaskForm.invalid && subtaskForm.touched" class="text-danger">A title is required</div>

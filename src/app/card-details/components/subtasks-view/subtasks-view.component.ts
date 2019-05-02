@@ -60,6 +60,10 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
     this.updateSubtask.emit(subtask);
   }
 
+  updateSubtaskRequested(subtask: Subtask) {
+    this.updateSubtask.emit(subtask);
+  }
+
   private sortSubtasks(event) {
     const {
       newIndex,
