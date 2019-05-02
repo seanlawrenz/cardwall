@@ -17,6 +17,7 @@ export class SubtaskViewComponent implements OnInit {
 
   @Output() toggleSubtaskCompleted = new EventEmitter<Subtask>();
   @Output() updateSubtaskRequested = new EventEmitter<Subtask>();
+  @Output() promoteSubtaskRequested = new EventEmitter<Subtask>();
 
   editSubtask = false;
   subtaskForm: FormGroup;
@@ -37,6 +38,11 @@ export class SubtaskViewComponent implements OnInit {
   updateSubtask() {
     const subtask = { ...this.subtask, title: this.subtaskForm.controls['title'].value };
     this.updateSubtaskRequested.emit(subtask);
+  }
+
+  promoteSubtask() {
+    const subtask = { ...this.subtask };
+    this.promoteSubtaskRequested.emit(subtask);
   }
 
   private setUpForm() {

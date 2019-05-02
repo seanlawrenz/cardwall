@@ -72,4 +72,24 @@ export class CardDetailsSubtasksEffects {
       );
     }),
   );
+
+  @Effect()
+  promoteSubtask$: Observable<Action> = this.actions$.pipe(
+    ofType(subtasksActions.CardDetailsSubtasksTypes.PROMOTE_SUBTASK),
+    switchMap((action: { payload: { card: Card; subtask: Subtask } }) => {
+      const {
+        payload: { card, subtask },
+      } = action;
+      return this.signalR.invoke('SubtaskPromote', subtask, card).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            return new subtasksActions.PromoteSubtaskSuccess(subtask);
+          } else {
+            return new subtasksActions.PromoteSubtaskError(result.reason);
+          }
+        }),
+        catchError(err => of(new subtasksActions.PromoteSubtaskError(err))),
+      );
+    }),
+  );
 }

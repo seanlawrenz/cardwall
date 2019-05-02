@@ -125,4 +125,46 @@ describe('CardDetailsSubtasksEffects', () => {
       expect(effects.reorderSubtask$).toBeObservable(expected);
     });
   });
+
+  describe('promoteSubtask', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of PromoteSubtaskSuccess if successful', () => {
+      signalRResult = {
+        isSuccessful: true,
+        item: false,
+      };
+      action = new subtaskActions.PromoteSubtask({ card: mockCard, subtask: mockSubtask });
+      outcome = new subtaskActions.PromoteSubtaskSuccess(mockSubtask);
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.promoteSubtask$).toBeObservable(expected);
+    });
+
+    it('should return an observable of PromoteSubtaskError if not successful', () => {
+      signalRResult = {
+        isSuccessful: false,
+        reason: 'too many secrets',
+        item: false,
+      };
+      action = new subtaskActions.PromoteSubtask({ card: mockCard, subtask: mockSubtask });
+      outcome = new subtaskActions.PromoteSubtaskError('too many secrets');
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardDetailsSubtasksEffects);
+
+      expect(effects.promoteSubtask$).toBeObservable(expected);
+    });
+  });
 });

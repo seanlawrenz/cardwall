@@ -1,6 +1,6 @@
 import { CardDetailsSubtasksTypes, CardDetailsSubtasksActions } from '../actions';
 import { Subtask } from '@app/models';
-import { updateDataOnCollection } from '@app/utils';
+import { updateDataOnCollection, removeDataOnCollection } from '@app/utils';
 
 export interface CardDetailsSubtaskState {
   subtasks: Subtask[];
@@ -39,10 +39,24 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         error: actions.payload,
       };
 
+    case CardDetailsSubtasksTypes.UPDATE_SUBTASK:
+      return {
+        ...state,
+        isSaving: true,
+      };
+
     case CardDetailsSubtasksTypes.UPDATE_SUBTASK_SUCCESS:
       return {
         ...state,
         subtasks: updateDataOnCollection(state.subtasks, actions.payload.ID, actions.payload, 'ID'),
+        isSaving: false,
+      };
+
+    case CardDetailsSubtasksTypes.UPDATE_SUBTASK_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        isSaving: false,
       };
 
     case CardDetailsSubtasksTypes.SET_SUBTASKS_ORDER:
@@ -62,6 +76,26 @@ export function reducer(state = initialState, actions: CardDetailsSubtasksAction
         ...state,
         error: actions.payload,
         isSaving: false,
+      };
+
+    case CardDetailsSubtasksTypes.PROMOTE_SUBTASK:
+      return {
+        ...state,
+        isSaving: true,
+      };
+
+    case CardDetailsSubtasksTypes.PROMOTE_SUBTASK_SUCCESS:
+      return {
+        ...state,
+        subtasks: removeDataOnCollection(state.subtasks, actions.payload.ID, 'ID'),
+        isSaving: false,
+      };
+
+    case CardDetailsSubtasksTypes.PROMOTE_SUBTASK_ERROR:
+      return {
+        ...state,
+        isSaving: false,
+        error: actions.payload,
       };
 
     default:

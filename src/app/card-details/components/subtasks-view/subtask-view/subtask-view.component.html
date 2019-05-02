@@ -37,7 +37,9 @@
           </div>
 
           <div>
-            <td-button *ngIf="canAddCards" icon="share-square-o" ariaLabel="Convert to ticket">Convert</td-button>
+            <td-button *ngIf="canAddCards" icon="share-square-o" ariaLabel="Convert to ticket" (onClick)="promoteSubtask()">
+              Convert
+            </td-button>
             <td-button *ngIf="canDeleteCards" icon="trash" ariaLabel="Delete Subtask">Delete</td-button>
           </div>
         </div>

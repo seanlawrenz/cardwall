@@ -6,6 +6,7 @@
   [owners]="card.owners"
   (updateSubtask)="updateSubtask($event)"
   (sortSubtasksRequested)="updateSubtaskOrder($event)"
+  (promoteSubtaskRequested)="promoteSubtask($event)"
 ></td-subtasks-view>
 
 <ng-template #loading>

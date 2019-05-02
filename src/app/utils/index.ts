@@ -40,6 +40,18 @@ export const updateDataOnCollection = (targetArray: any[], identifier: number, d
 };
 
 /**
+ * Finds an object on array via identifer and removes it
+ */
+export const removeDataOnCollection = (targetArray: any[], identifer: number, id: string): any[] => {
+  const index = findIndex(targetArray, item => item[id] === identifer);
+  if (index !== -1) {
+    return [...targetArray.slice(0, index), ...targetArray.slice(index + 1)];
+  } else {
+    return targetArray;
+  }
+};
+
+/**
  * Sanitize string for string comparison
  * @param {string} text
  */

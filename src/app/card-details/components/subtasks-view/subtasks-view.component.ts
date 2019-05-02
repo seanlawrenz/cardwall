@@ -20,6 +20,7 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
   @Output() updateSubtask = new EventEmitter<Subtask>();
   @Output() sortSubtasksRequested = new EventEmitter<{ newIndex: number; subtask: Subtask }>();
+  @Output() promoteSubtaskRequested = new EventEmitter<Subtask>();
 
   percentComplete = 0;
 
@@ -62,6 +63,12 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
 
   updateSubtaskRequested(subtask: Subtask) {
     this.updateSubtask.emit(subtask);
+  }
+
+  promoteSubtask(subtask: Subtask) {
+    if (this.canAddCards) {
+      this.promoteSubtaskRequested.emit(subtask);
+    }
   }
 
   private sortSubtasks(event) {

@@ -39,4 +39,8 @@ export class SubtasksBaseComponent implements OnInit {
     const { newIndex, subtask } = event;
     this.store.dispatch(new cardDetailActions.SetSubtasksOrder({ card: this.card, subtask, newIndex }));
   }
+
+  promoteSubtask(subtask) {
+    this.store.dispatch(new cardDetailActions.PromoteSubtask({ card: this.card, subtask }));
+  }
 }
