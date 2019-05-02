@@ -21,6 +21,8 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   @Output() updateSubtask = new EventEmitter<Subtask>();
   @Output() sortSubtasksRequested = new EventEmitter<{ newIndex: number; subtask: Subtask }>();
   @Output() promoteSubtaskRequested = new EventEmitter<Subtask>();
+  @Output() deleteSubtaskRequested = new EventEmitter<Subtask>();
+  @Output() createSubtaskRequested = new EventEmitter<string>();
 
   percentComplete = 0;
 
@@ -68,6 +70,18 @@ export class SubtasksViewComponent implements OnInit, OnChanges {
   promoteSubtask(subtask: Subtask) {
     if (this.canAddCards) {
       this.promoteSubtaskRequested.emit(subtask);
+    }
+  }
+
+  deleteSubtask(subtask: Subtask) {
+    if (this.canDeleteCards) {
+      this.deleteSubtaskRequested.emit(subtask);
+    }
+  }
+
+  createSubtask() {
+    if (this.canAddCards && this.newSubtaskForm.valid) {
+      this.createSubtaskRequested.emit(this.newSubtaskForm.controls['title'].value);
     }
   }
 

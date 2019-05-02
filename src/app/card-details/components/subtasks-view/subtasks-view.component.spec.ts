@@ -10,6 +10,7 @@ import { mockSubtask } from '@app/test/data';
 describe('SubtasksViewComponent', () => {
   let component: SubtasksViewComponent;
   let fixture: ComponentFixture<SubtasksViewComponent>;
+  let spy;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -50,6 +51,28 @@ describe('SubtasksViewComponent', () => {
         component['setPercentComplete']();
         expect(component.percentComplete).toEqual(0);
       }).not.toThrowError();
+    });
+  });
+
+  describe('creatSubtask', () => {
+    it('should emit the new subtask title if valid', () => {
+      const newTitle = 'I am a new title';
+      spy = jest.spyOn(component.createSubtaskRequested, 'emit');
+      component.newSubtaskForm.controls['title'].setValue(newTitle);
+      component.canAddCards = true;
+
+      component.createSubtask();
+
+      expect(spy).toHaveBeenCalledWith(newTitle);
+    });
+
+    it('should not emit if not valid', () => {
+      spy = jest.spyOn(component.createSubtaskRequested, 'emit');
+      component.canAddCards = true;
+
+      component.createSubtask();
+
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

@@ -34,7 +34,7 @@
     </ul>
 
     <!-- Add New Subtask -->
-    <form *ngIf="canAddCards" [formGroup]="newSubtaskForm" class="gutter-top">
+    <form *ngIf="canAddCards" [formGroup]="newSubtaskForm" (submit)="createSubtask()" class="gutter-top">
       <div class="row">
         <div class="col">
           <input
