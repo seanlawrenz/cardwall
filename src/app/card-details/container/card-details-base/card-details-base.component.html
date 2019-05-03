@@ -15,7 +15,7 @@
       <td-subtasks-base [card]="card$ | async"></td-subtasks-base>
     </div>
     <div *ngSwitchCase="'WORK'">
-      <td-work></td-work>
+      <td-work [card]="card$ | async"></td-work>
     </div>
     <div *ngSwitchCase="'ATTACHMENTS'">
       <td-attachments-base></td-attachments-base>
