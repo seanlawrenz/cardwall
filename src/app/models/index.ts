@@ -1,3 +1,4 @@
+export * from './attachments.model';
 export * from './board.model';
 export * from './backlog-settings.model';
 export * from './config.model';

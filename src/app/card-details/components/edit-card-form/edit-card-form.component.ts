@@ -63,7 +63,9 @@ export class EditCardFormComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    this.saveCardRequested.emit();
+    if (this.cardForm.valid) {
+      this.saveCardRequested.emit();
+    }
   }
 
   copyMove(type: string) {

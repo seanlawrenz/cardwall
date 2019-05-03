@@ -1,3 +1,4 @@
+export * from './mock.attachments';
 export * from './mock.boards';
 export * from './mock.card';
 export * from './mock.config';

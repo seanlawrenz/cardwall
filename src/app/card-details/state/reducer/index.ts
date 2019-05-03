@@ -1,4 +1,5 @@
 import { fromRoot } from '@app/store';
+import * as fromAttachments from './attachment.reducer';
 import * as fromCard from './card.reducer';
 import * as fromCopyMoveCard from './copy-move.reducer';
 import * as fromSubtasks from './subtasks.reducer';
@@ -9,6 +10,7 @@ export interface CardDetailsState {
   card: fromCard.CardDetailsCardState;
   copyMove: fromCopyMoveCard.CopyMoveCardState;
   subtasks: fromSubtasks.CardDetailsSubtaskState;
+  attachments: fromAttachments.CardDetailsAttachmentState;
   ui: fromUI.CardDetailsUIState;
 }
 
@@ -20,6 +22,7 @@ export const reducers: ActionReducerMap<CardDetailsState> = {
   card: fromCard.reducer,
   copyMove: fromCopyMoveCard.reducer,
   subtasks: fromSubtasks.reducer,
+  attachments: fromAttachments.reducer,
   ui: fromUI.reducer,
 };
 
