@@ -26,7 +26,6 @@ export class WorkComponent implements OnInit {
 
   @HostListener('window:on-new-work-loaded', ['$event'])
   onNewWorkLoad() {
-    console.log('hello');
     // Set timeout so the content on the hosted page has time to resize properly
     setTimeout(() => {
       this.isLoading = false;

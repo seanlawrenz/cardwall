@@ -1,10 +1,10 @@
 <div class="tdNg-iframe-wrapper">
-  <!-- <div *ngIf="isLoading" class="loading-component-container">
+  <div *ngIf="isLoading" class="loading-component-container">
     <span class="td-icon td-loading"></span>
-  </div> -->
+  </div>
   <iframe
     [src]="workUrl"
-    sandbox="allow-same-origin allow-cr allow-scripts allow-popups allow-forms allow-modals"
+    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
     style="height: 100%; width: 100%; border: none;"
   ></iframe>
 </div>
