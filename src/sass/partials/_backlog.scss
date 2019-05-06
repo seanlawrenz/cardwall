@@ -162,5 +162,23 @@
     &-grip {
       border-right: solid 1px $grey;
     }
+
+    &-select-plans {
+      &-header {
+        flex-direction: column;
+        .input-group {
+          margin-top: 1em;
+        }
+
+        @media #{$break-wide-up} {
+          flex-direction: row;
+
+          .input-group {
+            max-width: 300px;
+            margin-top: 0;
+          }
+        }
+      }
+    }
   }
 }

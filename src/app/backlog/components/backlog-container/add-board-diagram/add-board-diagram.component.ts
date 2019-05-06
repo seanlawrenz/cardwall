@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PlanIdentifier } from '@app/models';
 
-import { find } from 'lodash';
+import { find, filter, lowerCase } from 'lodash';
 
 interface DisplayPlanIdentifier {
   plan: PlanIdentifier;
@@ -18,6 +18,7 @@ export class AddBoardDiagramComponent implements OnInit {
   @Output() plansToAdd = new EventEmitter<PlanIdentifier[]>();
   @Output() hideDialog = new EventEmitter<void>();
 
+  filteredPlanIdentifiers: DisplayPlanIdentifier[];
   selectedPlans: PlanIdentifier[] = [];
   plansToDisplay: DisplayPlanIdentifier[] = [];
 
@@ -25,6 +26,8 @@ export class AddBoardDiagramComponent implements OnInit {
     this.planIdentifiers.map((plan: PlanIdentifier) => {
       this.plansToDisplay.push({ plan, isSelected: false });
     });
+
+    this.filteredPlanIdentifiers = [...this.plansToDisplay];
   }
 
   updateSelectedPlans(selectedPlan: DisplayPlanIdentifier) {
@@ -43,6 +46,20 @@ export class AddBoardDiagramComponent implements OnInit {
       this.plansToAdd.emit(this.selectedPlans);
       this.selectedPlans = [];
     });
+  }
+
+  searchPlansIdentifiers(e) {
+    const {
+      target: { value },
+    } = e;
+
+    this.filteredPlanIdentifiers = [...this.plansToDisplay];
+
+    if (value === '') {
+      return;
+    } else {
+      this.filteredPlanIdentifiers = filter(this.filteredPlanIdentifiers, p => lowerCase(p.plan.planName).includes(lowerCase(value)));
+    }
   }
 
   hide() {

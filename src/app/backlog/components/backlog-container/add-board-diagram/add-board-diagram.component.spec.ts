@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddBoardDiagramComponent } from './add-board-diagram.component';
-import { mockPlans } from '@app/test/data';
+import { mockPlans, mockPlan1 } from '@app/test/data';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 describe('AddBoardDiagramComponent', () => {
@@ -30,11 +30,34 @@ describe('AddBoardDiagramComponent', () => {
     expect(component.planIdentifiers).not.toBeUndefined();
   });
 
+  describe('searchPlansIdentifiers', () => {
+    it('should filter case insensitive', () => {
+      component.plansToDisplay[0].plan.planName = 'testing';
+      const e = { target: { value: 'TESTIN ' } };
+
+      component.searchPlansIdentifiers(e);
+
+      const expected = component.filteredPlanIdentifiers.includes(component.plansToDisplay[0]);
+
+      expect(expected).toBeTruthy();
+    });
+
+    it('should reset on blank search', () => {
+      const e = { target: { value: 'TESTIN ' } };
+
+      component.searchPlansIdentifiers(e);
+      e.target.value = '';
+      component.searchPlansIdentifiers(e);
+
+      expect(component.filteredPlanIdentifiers.length).toEqual(component.planIdentifiers.length);
+    });
+  });
+
   describe('adding or removing card walls', () => {
     it('should update isSelected', () => {
-      component.updateSelectedPlans(component.plansToDisplay[0]);
+      component.updateSelectedPlans(component.filteredPlanIdentifiers[0]);
       expect(component.plansToDisplay[0].isSelected).toBeTruthy();
-      component.updateSelectedPlans(component.plansToDisplay[0]);
+      component.updateSelectedPlans(component.filteredPlanIdentifiers[0]);
       expect(component.plansToDisplay[0].isSelected).toBeFalsy();
     });
 
