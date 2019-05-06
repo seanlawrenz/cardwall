@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Resources, Plan, List, Board, Card } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -12,7 +12,11 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
   @Input() resource: Resources;
   @Input() plans: Plan[];
   @Input() selectedCard: Card;
+  @Input() currentSelectedResource: Resources;
   @Input() clearAssignments: boolean;
+  @Input() isSelected: boolean;
+
+  @Output() selectedResource = new EventEmitter<Resources>();
 
   profileUrl: SafeResourceUrl;
   reportUrl: SafeResourceUrl;
@@ -23,7 +27,6 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
   totalEstimatedHours = 0;
 
   canViewReport = false;
-  isSelected = false;
   isHighlighted = false;
 
   constructor(private config: ConfigService, private sanitizer: DomSanitizer) {}
@@ -61,6 +64,10 @@ export class ToolbarResourcesComponent implements OnInit, OnChanges {
     } else {
       this.isHighlighted = false;
     }
+  }
+
+  selectResource() {
+    this.selectedResource.emit(this.resource);
   }
 
   private getTotals() {

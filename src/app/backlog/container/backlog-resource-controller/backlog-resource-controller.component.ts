@@ -3,6 +3,7 @@ import { Plan, Resources, Card } from '@app/models';
 import { Store, select } from '@ngrx/store';
 
 import { fromRoot } from '@app/store';
+import * as resourceActions from '@app/store/actions/resource.actions';
 
 import { flatten } from 'lodash';
 import { uniqueCollectionsInCollection } from '@app/utils';
@@ -18,6 +19,7 @@ export class BacklogResourceControllerComponent implements OnInit, OnChanges {
   @Output() showResourcesRequested = new EventEmitter<void>();
 
   selectedCard$: Observable<Card>;
+  selectedResource$: Observable<Resources>;
   resources: Resources[];
 
   constructor(private store: Store<fromRoot.State>) {}
@@ -25,6 +27,7 @@ export class BacklogResourceControllerComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.getResourcesFromPlans();
     this.selectedCard$ = this.store.pipe(select(fromRoot.getSelectedCard));
+    this.selectedResource$ = this.store.pipe(select(fromRoot.getCurrentResource));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,6 +38,11 @@ export class BacklogResourceControllerComponent implements OnInit, OnChanges {
 
   changeShowResources() {
     this.showResourcesRequested.emit();
+    this.store.dispatch(new resourceActions.SelectedResource(undefined));
+  }
+
+  selectResource(resource: Resources) {
+    this.store.dispatch(new resourceActions.SelectedResource(resource));
   }
 
   private getResourcesFromPlans() {

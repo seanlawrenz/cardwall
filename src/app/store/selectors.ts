@@ -6,6 +6,7 @@ import * as fromLoader from './reducers/loader.reducer';
 import * as fromUI from './reducers/ui.reducer';
 import * as fromNotify from './reducers/notification.reducer';
 import * as fromCard from './reducers/card.reducer';
+import * as fromResource from './reducers/resource.reducer';
 
 // Router selector
 export const getRouterState = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
@@ -65,4 +66,12 @@ export const getCardState = createFeatureSelector<fromCard.CardState>('card');
 export const getSelectedCard = createSelector(
   getCardState,
   state => state.selectedCard,
+);
+
+// Resource
+export const getResourceState = createFeatureSelector<fromResource.ResourceState>('resource');
+
+export const getCurrentResource = createSelector(
+  getResourceState,
+  state => state.selectedResource,
 );

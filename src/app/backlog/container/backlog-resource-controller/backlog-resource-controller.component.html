@@ -2,5 +2,7 @@
   [resources]="resources"
   [plans]="plans"
   [selectedCard]="selectedCard$ | async"
+  [currentSelectedResource]="selectedResource$ | async"
   (closeResourcesRequested)="changeShowResources()"
+  (selectedResource)="selectResource($event)"
 ></td-backlog-resources>

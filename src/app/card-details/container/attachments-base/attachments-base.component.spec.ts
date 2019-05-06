@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { hot, getTestScheduler } from 'jasmine-marbles';
 
@@ -19,6 +20,7 @@ describe('AttachmentsBaseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AttachmentsBaseComponent],
       providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

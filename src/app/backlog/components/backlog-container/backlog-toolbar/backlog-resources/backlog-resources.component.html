@@ -62,7 +62,9 @@
               [resource]="resource"
               [plans]="plans"
               [selectedCard]="selectedCardReduced"
+              [isSelected]="currentSelectedResource ? currentSelectedResource.uid === resource.uid : false"
               [clearAssignments]="formGroup.controls['clearAssignments'].value"
+              (selectedResource)="selectResource($event)"
             ></td-toolbar-resources>
           </div>
         </div>

@@ -4,7 +4,8 @@
   [dropData]="addResourceData"
   ghostDragEnabled="true"
   class="tdNg-toolbar-resources-row"
-  [ngClass]="{ selected: isHighlighted || isSelected }"
+  [ngClass]="{ selected: isHighlighted, selectedResource: isSelected }"
+  (click)="selectResource()"
 >
   <div class="tdNg-toolbar-resources-top-div">
     <div class="tdNg-flex-row-center">
@@ -18,7 +19,12 @@
       <div>{{ resource.name }}</div>
     </div>
 
-    <td-button *ngIf="canViewReport" tooltipText="View {{ resource.name }}'s Schedule" icon="calendar"></td-button>
+    <td-button
+      *ngIf="canViewReport"
+      tooltipText="View {{ resource.name }}'s Schedule"
+      icon="calendar"
+      [useWhiteText]="isSelected"
+    ></td-button>
   </div>
   <div class="tdNg-toolbar-resources-bottom-div">
     <div class="tdNg-flex-row-center">
@@ -33,7 +39,7 @@
     <td-estimated-hours [value]="totalEstimatedHours" [ngClass]="{ whiteText: isSelected }"></td-estimated-hours>
 
     <!-- Story Points -->
-    <div class="tdNg-flex-row-center">
+    <div class="tdNg-flex-row-center mr-2">
       <td-story-point-indicator
         [storyPoints]="totalStoryPoints"
         [isSelected]="isSelected"

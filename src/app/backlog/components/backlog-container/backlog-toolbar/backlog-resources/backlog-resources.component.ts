@@ -13,7 +13,10 @@ export class BacklogResourcesComponent implements OnInit, OnChanges {
   @Input() resources: Resources[];
   @Input() plans: Plan[];
   @Input() selectedCard: Card;
+  @Input() currentSelectedResource: Resources;
+
   @Output() closeResourcesRequested = new EventEmitter<void>();
+  @Output() selectedResource = new EventEmitter<Resources>();
 
   resourcesFiltered: Resources[];
   selectedCardReduced: Card;
@@ -53,6 +56,10 @@ export class BacklogResourcesComponent implements OnInit, OnChanges {
     } else {
       this.resourcesFiltered = filter(this.resourcesFiltered, resource => lowerCase(resource.name).includes(lowerCase(value)));
     }
+  }
+
+  selectResource(resource: Resources) {
+    this.selectedResource.emit(resource);
   }
 
   private updateSelectedCard() {

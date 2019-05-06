@@ -6,6 +6,7 @@ import * as fromLoader from './reducers/loader.reducer';
 import * as fromUI from './reducers/ui.reducer';
 import * as fromNotify from './reducers/notification.reducer';
 import * as fromCard from './reducers/card.reducer';
+import * as fromResource from './reducers/resource.reducer';
 
 // App Root State and reducer
 export interface State {
@@ -14,6 +15,7 @@ export interface State {
   loading: fromLoader.LoadingState;
   notifications: fromNotify.NotifyState;
   card: fromCard.CardState;
+  resource: fromResource.ResourceState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -22,6 +24,7 @@ export const reducers: ActionReducerMap<State> = {
   loading: fromLoader.reducer,
   notifications: fromNotify.reducer,
   card: fromCard.reducer,
+  resource: fromResource.reducer,
 };
 
 // selectors
