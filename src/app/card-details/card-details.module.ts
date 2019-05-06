@@ -26,6 +26,7 @@ import { SubtasksBaseComponent } from './container/subtasks-base/subtasks-base.c
 
 // Components
 import { AddTagsComponent } from './components/edit-card-form/add-tags/add-tags.component';
+import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { CardCssColorsComponent } from './components/edit-card-form/card-css-colors/card-css-colors.component';
 import { CardDetailsDialogComponent } from './components/card-details-dialog/card-details-dialog.component';
 import { CardDetailsViewComponent } from './components/card-details-view/card-details-view.component';
@@ -42,6 +43,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
 
 @NgModule({
   declarations: [
+    AttachmentsComponent,
     CardDetailsBaseComponent,
     CardDetailsDialogComponent,
     CardDetailsViewComponent,
