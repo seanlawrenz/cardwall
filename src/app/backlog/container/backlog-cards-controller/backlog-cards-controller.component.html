@@ -1,6 +1,10 @@
 <ul *ngIf="cards.length > 0; else noCardsAssigned" class="list-group" [sortablejs]="cards" [sortablejsOptions]="sortableOptions">
   <li *ngFor="let card of cards; odd as isOdd" class="list-style-none">
-    <td-backlog-card-controller [card]="card" [plan]="plan$ | async" [isOdd]="isOdd"></td-backlog-card-controller>
+    <td-backlog-card-controller
+      [card]="card"
+      [plan]="plan$ | async"
+      [isOwnerSelected]="cardsWithSelectedResource.length > -1 ? (cardsWithSelectedResource.indexOf(card.id) > -1 ? true : false) : false"
+    ></td-backlog-card-controller>
   </li>
 </ul>
 <ng-template #noCardsAssigned>

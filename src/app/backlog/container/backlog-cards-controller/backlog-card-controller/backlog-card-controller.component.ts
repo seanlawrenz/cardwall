@@ -21,12 +21,14 @@ export class BacklogCardControllerComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan;
   @Input() isOdd: boolean;
+  @Input() isOwnerSelected: boolean;
 
   isCardSelected = false;
 
   // UI Settings
   showEstimateHours$: Observable<boolean>;
   showStoryPoints$: Observable<boolean>;
+
   unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<fromRoot.State>, private cardService: CardService) {}

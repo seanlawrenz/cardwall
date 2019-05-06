@@ -23,6 +23,7 @@ export class BacklogCardComponent implements OnInit {
   @Input() showEstimateHours: boolean;
   @Input() showStoryPoints: boolean;
   @Input() isSelected: boolean;
+  @Input() isOwnerSelected: boolean;
 
   @Output() selectCardRequested = new EventEmitter<void>();
   @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 
 import { CardService } from '@app/app-services/card.service';
-import { Card, List, Plan, SignalRResult } from '@app/models';
+import { Card, List, Plan, SignalRResult, Resources } from '@app/models';
 
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
@@ -15,6 +15,8 @@ import * as uiActions from '@app/store/actions/ui.actions';
 
 import { SignalRService } from '@app/app-services';
 import { getRelativeMoveCardId } from '@app/utils';
+
+import { filter } from 'lodash';
 
 /**
  * Not sure the issue here, but not able to import this enum
@@ -37,7 +39,10 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   @Input() listInfo: { listId: number; projectId: number; planId: number };
 
   plan$: Observable<Plan>;
+
   isCardsFiltered = false;
+  cardsWithSelectedResource: number[] = [];
+
   private unsubscribe$ = new Subject<void>();
 
   // Card Move
@@ -66,6 +71,14 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // This is to pass the plan data down to the card for card details if card is opened
     this.plan$ = this.store.pipe(select(fromBacklog.getPlanById(this.listInfo.planId)));
+
+    this.store
+      .select(fromRoot.getCurrentResource)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(resource => {
+        this.updateSelectedResource(resource);
+      });
+
     this.store
       .select(fromBacklog.getSearch)
       .pipe(takeUntil(this.unsubscribe$))
@@ -166,6 +179,19 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
               this.store.dispatch(new uiActions.HideSaving());
             }
           });
+      });
+    }
+  }
+
+  private updateSelectedResource(resource: Resources) {
+    this.cardsWithSelectedResource = [];
+    if (resource) {
+      this.cards.map(card => {
+        if (card.owners && card.owners.length > 0) {
+          if (filter(card.owners, o => o.uid === resource.uid).length > 0) {
+            this.cardsWithSelectedResource.push(card.id);
+          }
+        }
       });
     }
   }

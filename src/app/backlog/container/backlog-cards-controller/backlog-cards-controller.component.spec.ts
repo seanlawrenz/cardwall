@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SortablejsModule } from 'angular-sortablejs';
 
 import { BacklogCardsControllerComponent, CardMovementTypes } from './backlog-cards-controller.component';
-import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
+import { mockCard, mockList, mockCardBuilder, mockResource, resourceBuilder } from '@app/test/data';
 import { CardService } from '@app/app-services/card.service';
 import { Card } from '@app/models';
 import { Store } from '@ngrx/store';
@@ -190,6 +190,33 @@ describe('BacklogCardControllerComponent', () => {
         expect(moveSpy).not.toHaveBeenCalled();
         expect(signalRSpy).toHaveBeenCalledWith('CardMoveRelativeTo', originatedCard, mockCard.projectId, 0, 0, 0);
       });
+    });
+  });
+
+  describe('updateSelectedResource', () => {
+    beforeEach(() => (store = TestBed.get(Store)));
+
+    it('should have the cards with the selectedResource id', () => {
+      const resourceNotSelected = { ...mockResource, uid: 'not the one selected' };
+      const mockCardWithSelectedResource = { ...mockCard, owners: [mockResource] };
+      const mockCardWithOutSelectedResource = { ...mockCard, owners: [resourceNotSelected] };
+      const mockCardWithoutOwners = { ...mockCard, owners: [] };
+      component.cards = [mockCardWithOutSelectedResource, mockCardWithSelectedResource, mockCardWithoutOwners];
+
+      component['updateSelectedResource'](mockResource);
+
+      expect(component.cardsWithSelectedResource).toEqual([mockCardWithSelectedResource.id]);
+    });
+
+    it('should set cardsWithSelectedResources to empty if resource is undefined', () => {
+      const mockCardWithoutOwners = { ...mockCard, owners: [] };
+      const mockCardWithOwners1 = { ...mockCard, owners: [mockResource] };
+      const mockCardWithOwners2 = { ...mockCard, owners: [resourceBuilder()] };
+      component.cards = [mockCardWithoutOwners, mockCardWithOwners1, mockCardWithOwners2];
+
+      component['updateSelectedResource'](undefined);
+
+      expect(component.cardsWithSelectedResource).toEqual([]);
     });
   });
 });

@@ -3,6 +3,7 @@
   dragOverClass="tdNg-card-drag-over-border"
   (drop)="onResourceDrop($event.dropData)"
   class="container-fluid no-gutters no-padding"
+  [ngClass]="{ 'owner-selected': isOwnerSelected }"
 >
   <div
     class="row no-gutters align-items-center tdNg-backlog-card-row"
