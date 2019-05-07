@@ -27,6 +27,7 @@ import { PriorityComponent } from './components/priority/priority.component';
 import { ProfileImageComponent } from './components/profile-image/profile-image.component';
 import { SavingComponent } from './components/saving/saving.component';
 import { SlideInViewContainerComponent } from './components/slide-in-view-container/slide-in-view-container.component';
+import { SortableColumnComponent } from './components/sortable-column/sortable-column.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { StoryPointIndicatorComponent } from './components/story-point-indicator/story-point-indicator.component';
 import { SubtasksIconComponent } from './components/subtasks-icon/subtasks-icon.component';
@@ -56,6 +57,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     SavingComponent,
     IframeDialogComponent,
     IframeContentComponent,
+    SortableColumnComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -88,6 +90,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     ProfileImageComponent,
     SavingComponent,
     SlideInViewContainerComponent,
+    SortableColumnComponent,
     SpinnerComponent,
     StoryPointIndicatorComponent,
     SubtasksIconComponent,

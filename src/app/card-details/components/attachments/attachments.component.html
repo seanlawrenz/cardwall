@@ -1,3 +1,46 @@
-<p>
-  attachments works!
-</p>
+<div class="tdNg-cd-attachments-container">
+  <div class="TabButtonCell" style="margin-left: 0">
+    <td-button icon="plus" cssClass="btn-primary">Add</td-button>
+    <td-button class="ml-4" icon="refresh" cssClass="btn-primary">Refresh</td-button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-striped" tdSortableTable (sorted)="onSorted($event)">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th class="sortableHeader" sortable-column="name" sort-direction="asc">Name</th>
+            <th class="sortableHeader" sortable-column="description">Description</th>
+            <th class="sortableHeader" sortable-column="size">Size</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let attachment of sortedAttachments">
+            <td></td>
+            <td *ngIf="attachment.isExternal">
+              <a href="{{ attachment.externalUrl }}" target="_blank">
+                <span aria-hidden="true" class="fa fa-download"></span>
+                <span class="sr-only">Download {{ attachment.name }}</span>
+              </a>
+            </td>
+            <td *ngIf="!attachment.isExternal">
+              <a href="{{ getAttachmentDownloadUrl(attachment) }}" target="_self">
+                <span aria-hidden="true" class="fa fa-download"></span>
+                <span class="sr-only">Download {{ attachment.name }}</span>
+              </a>
+            </td>
+
+            <td>
+              <a href="{{ getAttachmentUrl(attachment) }}" target="_blank">{{ attachment.name }}</a>
+            </td>
+
+            <td>{{ attachment.description }}</td>
+            <td>{{ attachment.sizeFriendly }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

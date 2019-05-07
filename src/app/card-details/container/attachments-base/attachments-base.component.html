@@ -1,4 +1,9 @@
-<td-attachments *ngIf="!(loading$ | async); else loading" [attachments]="attachments$ | async" [error]="error$ | async"></td-attachments>
+<td-attachments
+  *ngIf="!(loading$ | async); else loading"
+  [attachments]="attachments$ | async"
+  [card]="card"
+  [error]="error$ | async"
+></td-attachments>
 
 <ng-template #loading>
   <div class="td-icon td-loading" style="min-height: 493px;"></div>

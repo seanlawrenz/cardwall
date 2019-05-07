@@ -41,6 +41,12 @@
         padding: 1em 1em 0;
       }
     }
+
+    &-attachments {
+      &-container {
+        height: 529px;
+      }
+    }
   }
 
   &-iframe-wrapper {
