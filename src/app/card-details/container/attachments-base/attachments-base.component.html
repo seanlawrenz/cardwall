@@ -1,9 +1,12 @@
-<td-attachments
-  *ngIf="!(loading$ | async); else loading"
-  [attachments]="attachments$ | async"
-  [card]="card"
-  [error]="error$ | async"
-></td-attachments>
+<div *ngIf="!(loading$ | async); else loading">
+  <td-attachments
+    [attachments]="attachments$ | async"
+    [card]="card"
+    [error]="error$ | async"
+    (addAttachmentRequested)="showSlideIn()"
+  ></td-attachments>
+  <td-add-attachment-base *ngIf="isSlideInShown" [card]="card" (closeAddAttachment)="hideSlideIn()"></td-add-attachment-base>
+</div>
 
 <ng-template #loading>
   <div class="td-icon td-loading" style="min-height: 493px;"></div>

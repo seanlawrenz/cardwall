@@ -1,6 +1,6 @@
 <div class="modal-header tdNg-cd-header" [ngClass]="cardBackgroundColor">
   <div class="tdNg-cd-header-name-container">
-    <h3 class="tdNg-cd-header-title">{{ card.name }}</h3>
+    <h3 class="tdNg-cd-header-title">{{ card.name | trimTextToLimit: 100 }}</h3>
 
     <button type="button" class="close pull-right" aria-label="Close" (click)="closeDialog()">
       <span aria-hidden="true">&times;</span>

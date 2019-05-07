@@ -12,7 +12,7 @@ describe('SlideInViewContainerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SlideInViewContainerComponent],
       imports: [NoopAnimationsModule],
-      providers: [{ provide: Store, useValue: { select: () => ({ subscribe: jest.fn() }) } }],
+      providers: [{ provide: Store, useValue: { select: () => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) }) } }],
     }).compileComponents();
   }));
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Attachment, ErrorFromSignalR, Card, SortCriteria } from '@app/models';
 import { ConfigService } from '@app/app-services';
 
@@ -11,6 +11,8 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   @Input() attachments: Attachment[];
   @Input() card: Card;
   @Input() error: ErrorFromSignalR;
+
+  @Output() addAttachmentRequested = new EventEmitter<void>();
 
   sortedAttachments: Attachment[];
 
@@ -32,6 +34,10 @@ export class AttachmentsComponent implements OnInit, OnChanges {
 
   getAttachmentDownloadUrl(attachment: Attachment): string {
     return `${this.config.config.TDNextBasePath}Apps/Projects/BriefCase/FileOpen.aspx?D=1&fid=${attachment.ID}&TID=${this.card.projectId}`;
+  }
+
+  addAttachment() {
+    this.addAttachmentRequested.emit();
   }
 
   onSorted($event: SortCriteria) {

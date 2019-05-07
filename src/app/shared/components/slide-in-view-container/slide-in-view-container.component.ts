@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { fromRoot } from '@app/store';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ViewVisibility } from '@app/models';
 import { slideInOutFromBottom } from '@app/animations/slide-in-out.animation';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'td-slide-in-view-container',
@@ -13,17 +14,21 @@ import { slideInOutFromBottom } from '@app/animations/slide-in-out.animation';
   animations: [slideInOutFromBottom],
 })
 export class SlideInViewContainerComponent implements OnInit, OnDestroy {
-  subscription = new Subscription();
+  unsubscribe$ = new Subject<void>();
   sliderState: ViewVisibility;
   showSlider: boolean;
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.store.select(fromRoot.isSliderShowing).subscribe(visible => this.onSlideStateChanged(visible));
+    this.store
+      .select(fromRoot.isSliderShowing)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(visible => this.onSlideStateChanged(visible));
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   onSlideStateChanged(show: boolean) {
