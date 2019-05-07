@@ -59,6 +59,26 @@
       &-name {
         margin-right: 1.5em;
         color: $toolbarBlue;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 115px;
+
+        @media #{$break-wide-to-narrow} {
+          max-width: 250px;
+        }
+
+        @media #{$break-extra-wide-to-extra-wide} {
+          max-width: 325px;
+        }
+
+        @media #{$break-extra-wide-to-huge} {
+          max-width: 400px;
+        }
+
+        @media #{$break-huge} {
+          max-width: 800px;
+        }
       }
 
       &-info-container {
@@ -74,7 +94,6 @@
       &-name-container {
         display: flex;
         align-items: center;
-        justify-content: space-between;
 
         @media #{$break-wide-up} {
           justify-content: flex-start;

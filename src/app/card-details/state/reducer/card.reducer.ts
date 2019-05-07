@@ -1,6 +1,5 @@
 import { CardDetailsCardActions, CardDetailsCardTypes } from '../actions';
 import { Card, Board, Plan, ErrorFromSignalR } from '@app/models';
-import { stat } from 'fs';
 
 export interface CardDetailsCardState {
   card: Card;

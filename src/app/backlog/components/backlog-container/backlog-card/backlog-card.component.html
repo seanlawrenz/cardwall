@@ -10,7 +10,7 @@
     [ngClass]="{ TDAlternatingRow: isOdd, 'bg-white': !isOdd, 'tdNg-card-selected': isSelected }"
     (click)="selectCard()"
   >
-    <div class="col-8 col-md-6 col-lg-4">
+    <div class="col-10 col-md-6 col-lx-6">
       <div class="tdNg-backlog-card-name-container">
         <td-grip [cardColor]="backgroundColor" class="tdNg-backlog-grip"></td-grip>
 
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div class="col-4 col-md-6 col-lg-8">
+    <div class="col-2 col-md-6 col-xl-6">
       <div class="tdNg-backlog-card-info-container align-items-center justify-content-end">
         <!-- Tags -->
         <div class="tdNg-backlog-card-tags" *ngIf="card.tags">
