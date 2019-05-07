@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Card, Plan, Board } from '@app/models';
+import { Card, Plan, Board, ErrorFromSignalR } from '@app/models';
 
 export enum CardDetailsCardTypes {
   CURRENT_CARD = '[CARD DETAILS] CURRENT CARD',
@@ -7,6 +7,9 @@ export enum CardDetailsCardTypes {
   REMOVE_FROM_MY_WORK = '[CARD DETAILS] REMOVE FROM MY WORK',
   MY_WORK_SUCCESS = '[CARD DETAILS] MY WORK SUCCESS',
   MY_WORK_ERROR = '[CARD DETAILS] MY WORK ERROR',
+  SAVE_CARD = '[CARD DETAILS] SAVE CARD',
+  SAVE_CARD_SUCCESS = '[CARD DETAILS] SAVE CARD SUCCESS',
+  SAVE_CARD_ERROR = '[CARD DETAILS] SAVE CARD ERROR',
 }
 
 export class CurrentCard implements Action {
@@ -34,4 +37,26 @@ export class MyWorkError implements Action {
   constructor(public payload: string) {}
 }
 
-export type CardDetailsCardActions = CurrentCard | AddToMyWork | RemoveFromMyWork | MyWorkSuccess | MyWorkError;
+export class SaveCard implements Action {
+  readonly type = CardDetailsCardTypes.SAVE_CARD;
+  constructor(public payload: { card: Card; useRemainingHours: boolean }) {}
+}
+
+export class SaveCardSuccess implements Action {
+  readonly type = CardDetailsCardTypes.SAVE_CARD_SUCCESS;
+  constructor(public payload: Card) {}
+}
+export class SaveCardError implements Action {
+  readonly type = CardDetailsCardTypes.SAVE_CARD_ERROR;
+  constructor(public payload: ErrorFromSignalR) {}
+}
+
+export type CardDetailsCardActions =
+  | CurrentCard
+  | AddToMyWork
+  | RemoveFromMyWork
+  | MyWorkSuccess
+  | MyWorkError
+  | SaveCard
+  | SaveCardSuccess
+  | SaveCardError;

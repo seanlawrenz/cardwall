@@ -8,11 +8,10 @@ import * as uiActions from '@app/store/actions/ui.actions';
 import * as cardDetailsActions from '@app/card-details/state/actions';
 
 import { blankInputValidator } from '@app/utils';
-import { Card, Plan, Board, SignalRResult } from '@app/models';
+import { Card, Plan, Board, ErrorFromSignalR } from '@app/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { SignalRService, NotificationService } from '@app/app-services';
+import { NotificationService } from '@app/app-services';
 
 @Component({
   selector: 'td-edit-form-base',
@@ -22,7 +21,6 @@ import { SignalRService, NotificationService } from '@app/app-services';
 export class EditFormBaseComponent implements OnInit, OnDestroy {
   @Input() card: Card;
   @Input() plan: Plan | Board;
-
   unsubscribe$ = new Subject<void>();
 
   // Form
@@ -35,12 +33,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   isSlideInShown = false;
   copyMoveType: string;
 
-  constructor(
-    private store: Store<fromRoot.State>,
-    private cdr: ChangeDetectorRef,
-    private signalRService: SignalRService,
-    private notificationService: NotificationService,
-  ) {}
+  constructor(private store: Store<fromRoot.State>, private cdr: ChangeDetectorRef, private notify: NotificationService) {}
 
   ngOnInit() {
     this.createForm();
@@ -50,6 +43,15 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       .subscribe(requested => {
         if (requested) {
           this.saveCardOnHideDetails();
+        }
+      });
+
+    this.store
+      .select(fromCardDetails.getCardSaveError)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((error: ErrorFromSignalR) => {
+        if (error) {
+          this.notify.danger(error.message, error.reason);
         }
       });
   }
@@ -106,18 +108,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   saveCard() {
     if (this.cardForm.touched) {
       const card = this.updateThisCard();
-      this.signalRService
-        .invoke('CardUpdate', card, this.plan.useRemainingHours, null)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((response: SignalRResult) => {
-          if (response.isSuccessful) {
-            this.notificationService.success(`Card Updated`, `Card ${card.name} ID: ${this.card.id} has been updated`, 4);
-            this.cardForm.markAsUntouched();
-          } else {
-            this.notificationService.danger('Could not update', response.message);
-          }
-          this.cdr.markForCheck();
-        });
+      this.store.dispatch(new cardDetailsActions.SaveCard({ card, useRemainingHours: this.plan.useRemainingHours }));
     }
   }
 

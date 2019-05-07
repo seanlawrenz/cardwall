@@ -9,6 +9,7 @@ import * as cardDetailActions from '../actions';
 import { Card, Plan, Board, SignalRResult } from '@app/models';
 import { SignalRService, NotificationService } from '@app/app-services';
 import { removeItem, insertItem } from '@app/utils';
+import { standardErrorLang } from '@app/constants';
 
 @Injectable()
 export class CardDetailsCardEffects {
@@ -72,5 +73,23 @@ export class CardDetailsCardEffects {
         catchError(err => of(new cardDetailActions.MyWorkError(err))),
       );
     }),
+  );
+
+  @Effect()
+  saveCard$: Observable<Action> = this.actions$.pipe(
+    ofType(cardDetailActions.CardDetailsCardTypes.SAVE_CARD),
+    switchMap((action: cardDetailActions.SaveCard) =>
+      this.signalR.invoke('CardUpdate', action.payload.card, action.payload.useRemainingHours, null).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            this.notify.success(`Card Updated`, `Card ${action.payload.card.name} ID: ${action.payload.card.id} has been updated`, 5);
+            return new cardDetailActions.SaveCardSuccess(action.payload.card);
+          } else {
+            return new cardDetailActions.SaveCardError({ message: result.message, reason: result.reason });
+          }
+        }),
+        catchError(err => of(new cardDetailActions.SaveCardError({ message: 'Server Error', reason: standardErrorLang }))),
+      ),
+    ),
   );
 }

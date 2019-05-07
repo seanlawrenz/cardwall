@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { Card, CardDetailsPageTypes } from '@app/models';
 import { getCardColor } from '@app/utils';
 
@@ -7,7 +7,7 @@ import { getCardColor } from '@app/utils';
   templateUrl: './card-details-view.component.html',
   styleUrls: ['./card-details-view.component.scss'],
 })
-export class CardDetailsViewComponent implements OnInit {
+export class CardDetailsViewComponent implements OnInit, OnChanges {
   @Input() card: Card;
   @Input() selectedPage: CardDetailsPageTypes;
 
@@ -21,6 +21,12 @@ export class CardDetailsViewComponent implements OnInit {
 
   ngOnInit() {
     this.cardBackgroundColor = getCardColor(this.card);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedCard && !changes.selectedCard.firstChange) {
+      this.card = { ...changes.selectedCard.currentValue };
+    }
   }
 
   closeDialog() {

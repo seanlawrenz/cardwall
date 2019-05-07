@@ -1,14 +1,17 @@
 import { CardDetailsCardActions, CardDetailsCardTypes } from '../actions';
-import { Card, Board, Plan } from '@app/models';
+import { Card, Board, Plan, ErrorFromSignalR } from '@app/models';
+import { stat } from 'fs';
 
 export interface CardDetailsCardState {
   card: Card;
   plan: Plan | Board;
+  error: ErrorFromSignalR;
 }
 
 export const initialState: CardDetailsCardState = {
   card: undefined,
   plan: undefined,
+  error: undefined,
 };
 
 export function reducer(state = initialState, actions: CardDetailsCardActions): CardDetailsCardState {
@@ -24,6 +27,20 @@ export function reducer(state = initialState, actions: CardDetailsCardActions): 
       return {
         ...state,
         plan: actions.payload,
+      };
+
+    case CardDetailsCardTypes.SAVE_CARD_SUCCESS:
+      const card = actions.payload.id === state.card.id ? actions.payload : state.card;
+      return {
+        ...state,
+        card,
+        error: undefined,
+      };
+
+    case CardDetailsCardTypes.SAVE_CARD_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
       };
 
     default:

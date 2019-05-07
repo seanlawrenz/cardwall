@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import * as actions from '../../state/actions';
 import { mockCard, mockBoard } from '@app/test/data';
 import { of } from 'rxjs';
-import { SignalRService } from '@app/app-services';
 
 describe('EditFormBaseComponent', () => {
   let component: EditFormBaseComponent;
@@ -14,7 +13,6 @@ describe('EditFormBaseComponent', () => {
   let store;
   let spy;
   let action;
-  let signalR: SignalRService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,7 +26,6 @@ describe('EditFormBaseComponent', () => {
             pipe: jest.fn(() => ({ subscribe: jest.fn() })),
           },
         },
-        { provide: SignalRService, useValue: { invoke: jest.fn() } },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -75,16 +72,16 @@ describe('EditFormBaseComponent', () => {
 
   describe('saveCard', () => {
     beforeEach(() => {
-      signalR = TestBed.get(SignalRService);
       store = TestBed.get(Store);
       component.plan = mockBoard;
     });
-    it('should call signalR if form is touched and valid', () => {
-      spy = jest.spyOn(signalR, 'invoke').mockImplementationOnce(() => of({ isSuccessful: true }));
+    it('should dispatch SaveCard if form is touched and valid', () => {
+      action = new actions.SaveCard({ card: mockCard, useRemainingHours: mockBoard.useRemainingHours });
+      spy = jest.spyOn(store, 'dispatch');
 
       component.cardForm.markAsTouched();
       component.saveCard();
-      expect(spy).toHaveBeenCalledWith('CardUpdate', mockCard, mockBoard.useRemainingHours, null);
+      expect(spy).toHaveBeenCalledWith(action);
     });
   });
 });
