@@ -8,7 +8,7 @@ import * as uiActions from '@app/store/actions/ui.actions';
 import * as cardDetailsActions from '@app/card-details/state/actions';
 
 import { blankInputValidator } from '@app/utils';
-import { Card, Plan, Board, ErrorFromSignalR } from '@app/models';
+import { Card, Plan, Board, ErrorFromSignalR, CardDetailsPageTypes } from '@app/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationService } from '@app/app-services';
@@ -52,6 +52,17 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       .subscribe((error: ErrorFromSignalR) => {
         if (error) {
           this.notify.danger(error.message, error.reason);
+        }
+      });
+
+    this.store
+      .select(fromCardDetails.getCardDetailsPage)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((page: CardDetailsPageTypes) => {
+        if (page !== CardDetailsPageTypes.FORM) {
+          if (this.cardForm.status === 'VALID' && this.cardForm.dirty) {
+            this.saveCard();
+          }
         }
       });
   }
@@ -98,7 +109,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
 
   saveCardOnHideDetails() {
     if (this.cardForm.status !== 'INVALID') {
-      if (this.cardForm.status === 'VALID' && this.cardForm.touched) {
+      if (this.cardForm.status === 'VALID' && this.cardForm.dirty) {
         this.saveCard();
       }
       this.store.dispatch(new cardDetailsActions.HideDetails());
