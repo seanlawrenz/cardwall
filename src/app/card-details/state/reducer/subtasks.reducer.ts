@@ -1,11 +1,11 @@
 import { CardDetailsSubtasksTypes, CardDetailsSubtasksActions } from '../actions';
-import { Subtask } from '@app/models';
+import { Subtask, ErrorFromSignalR } from '@app/models';
 import { updateDataOnCollection, removeDataOnCollection } from '@app/utils';
 
 export interface CardDetailsSubtaskState {
   subtasks: Subtask[];
   loading: boolean;
-  error: { message: string; reason: string };
+  error: ErrorFromSignalR;
   isSaving: boolean;
 }
 

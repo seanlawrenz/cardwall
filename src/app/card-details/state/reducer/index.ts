@@ -2,6 +2,7 @@ import { fromRoot } from '@app/store';
 import * as fromAttachments from './attachment.reducer';
 import * as fromCard from './card.reducer';
 import * as fromCopyMoveCard from './copy-move.reducer';
+import * as fromIssues from './issues.reducer';
 import * as fromSubtasks from './subtasks.reducer';
 import * as fromUI from './ui.reducer';
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
@@ -11,6 +12,7 @@ export interface CardDetailsState {
   copyMove: fromCopyMoveCard.CopyMoveCardState;
   subtasks: fromSubtasks.CardDetailsSubtaskState;
   attachments: fromAttachments.CardDetailsAttachmentState;
+  issues: fromIssues.CardDetailsIssueState;
   ui: fromUI.CardDetailsUIState;
 }
 
@@ -23,6 +25,7 @@ export const reducers: ActionReducerMap<CardDetailsState> = {
   copyMove: fromCopyMoveCard.reducer,
   subtasks: fromSubtasks.reducer,
   attachments: fromAttachments.reducer,
+  issues: fromIssues.reducer,
   ui: fromUI.reducer,
 };
 
