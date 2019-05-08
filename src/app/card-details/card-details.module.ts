@@ -35,6 +35,7 @@ import { CopyMoveCardViewComponent } from './components/copy-move-card-view/copy
 import { CodeComponent } from './components/code/code.component';
 import { EditCardFormComponent } from './components/edit-card-form/edit-card-form.component';
 import { FeedComponent } from './components/feed/feed.component';
+import { IssueViewComponent } from './components/issue-view/issue-view.component';
 import { ResourcesListComponent } from './components/edit-card-form/resources-list/resources-list.component';
 import { SubtasksViewComponent } from './components/subtasks-view/subtasks-view.component';
 import { SubtaskViewComponent } from './components/subtasks-view/subtask-view/subtask-view.component';
@@ -65,6 +66,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     SubtasksViewComponent,
     SubtaskViewComponent,
     AddAttachmentBaseComponent,
+    IssueViewComponent,
   ],
   imports: [
     CommonModule,

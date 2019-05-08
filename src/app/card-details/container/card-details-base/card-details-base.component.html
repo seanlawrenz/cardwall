@@ -21,7 +21,7 @@
       <td-attachments-base [card]="card$ | async"></td-attachments-base>
     </div>
     <div *ngSwitchCase="'ISSUES'">
-      <td-issues-base></td-issues-base>
+      <td-issues-base [card]="card$ | async"></td-issues-base>
     </div>
     <div *ngSwitchCase="'CODE'">
       <td-code></td-code>

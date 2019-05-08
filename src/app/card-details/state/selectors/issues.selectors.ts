@@ -10,6 +10,7 @@ export const isIssuesLoading = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.issues.loading,
 );
+
 export const getIssuesErrors = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.issues.error,
