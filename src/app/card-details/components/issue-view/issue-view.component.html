@@ -1,27 +1,27 @@
 <div class="tdNg-cd-attachments-container">
   <div class="TabButtonCell" style="margin-left: 0">
-    <td-button *ngIf="canAdd" class="mr-2" icon="plus" cssClass="btn-primary" ariaLabel="Add Issue">Add</td-button>
+    <td-button *ngIf="canAdd" class="mr-2" icon="plus" cssClass="btn-primary" ariaLabel="Add Issue" (onClick)="addIssue()">Add</td-button>
     <td-button icon="refresh" cssClass="btn-primary" ariaLabel="Refresh Issues">Refresh</td-button>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped" tdSortableTable>
+    <table class="table table-striped" tdSortableTable (sorted)="onSorted($event)">
       <thead>
         <tr>
-          <th class="sortableHeader d-none d-md-table-cell" sortable-column="id">ID</th>
-          <th class="sortableHeader" sortable-column="title">Title</th>
-          <th class="sortableHeader d-none d-lg-table-cell" sortable-column="responsible">Responsible</th>
-          <th class="sortableHeader d-none d-lg-table-cell" sortable-column="statusName">Status</th>
-          <th class="sortableHeader d-none d-lg-table-cell" sortable-column="priorityName">Priority</th>
-          <th class="sortableHeader d-none d-lg-table-cell" sortable-column="categoryName">Category</th>
-          <th class="sortableHeader d-none d-lg-table-cell" sortable-column="modifiedDate" sort-direction="asc">Modified</th>
+          <th scope="col" class="sortableHeader d-none d-md-table-cell" sortable-column="id">ID</th>
+          <th scope="col" class="sortableHeader" sortable-column="title">Title</th>
+          <th scope="col" class="sortableHeader d-none d-lg-table-cell" sortable-column="responsible">Responsible</th>
+          <th scope="col" class="sortableHeader d-none d-lg-table-cell" sortable-column="statusName">Status</th>
+          <th scope="col" class="sortableHeader d-none d-lg-table-cell" sortable-column="priorityName">Priority</th>
+          <th scope="col" class="sortableHeader d-none d-lg-table-cell" sortable-column="categoryName">Category</th>
+          <th scope="col" class="sortableHeader d-none d-lg-table-cell" sortable-column="modifiedDate" sort-direction="asc">Modified</th>
           <th></th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let issue of sortedIssues">
-          <td class="d-none d-md-table-cell">{{ issue.ID }}</td>
+          <th scope="row" class="d-none d-md-table-cell">{{ issue.ID }}</th>
           <td>
             <a href="{{ getIssueDetUrl(issue.ID) }}" target="_blank" title="{{ issue.title }}">
               <div class="tdNg-cd-issues-name">{{ issue.title }}</div>

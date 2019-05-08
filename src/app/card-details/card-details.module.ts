@@ -26,6 +26,7 @@ import { SubtasksBaseComponent } from './container/subtasks-base/subtasks-base.c
 
 // Components
 import { AddAttachmentBaseComponent } from './components/attachments/add-attachment-base/add-attachment-base.component';
+import { AddIssueComponent } from './components/issue-view/add-issue/add-issue.component';
 import { AddTagsComponent } from './components/edit-card-form/add-tags/add-tags.component';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { CardCssColorsComponent } from './components/edit-card-form/card-css-colors/card-css-colors.component';
@@ -67,6 +68,7 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     SubtaskViewComponent,
     AddAttachmentBaseComponent,
     IssueViewComponent,
+    AddIssueComponent,
   ],
   imports: [
     CommonModule,

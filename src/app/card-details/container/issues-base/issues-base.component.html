@@ -1,5 +1,6 @@
 <div *ngIf="!(loading$ | async); else loading">
-  <td-issue-view [issues]="issues$ | async" [card]="card"></td-issue-view>
+  <td-issue-view [issues]="issues$ | async" [card]="card" [error]="error$ | async" (addIssueRequested)="showSlideIn()"></td-issue-view>
+  <td-add-issue *ngIf="isSlideInShown" [card]="card" (closeAddIssueRequested)="hideSlideIn()"></td-add-issue>
 </div>
 
 <ng-template #loading>
