@@ -3,7 +3,9 @@
     <span class="td-icon td-loading"></span>
   </div>
   <iframe
+    [style.display]="isLoading ? 'none' : 'block'"
     [src]="workUrl"
+    #iframe
     sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
     style="height: 100%; width: 100%; border: none;"
   ></iframe>

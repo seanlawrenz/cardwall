@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Card } from '@app/models';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { ConfigService } from '@app/app-services';
@@ -11,9 +11,12 @@ import { ConfigService } from '@app/app-services';
 export class FeedComponent implements OnInit {
   @Input() card: Card;
 
-  feedUrl: SafeResourceUrl;
+  @ViewChild('iframe') iframe: ElementRef;
 
-  constructor(private sanitizer: DomSanitizer, private config: ConfigService) {}
+  feedUrl: SafeResourceUrl;
+  loading = true;
+
+  constructor(private sanitizer: DomSanitizer, private config: ConfigService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.feedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -21,5 +24,10 @@ export class FeedComponent implements OnInit {
         this.card.id
       }&HideNavigation=True&CardWall=1`,
     );
+
+    this.iframe.nativeElement.onload = () => {
+      this.loading = false;
+      this.cdr.markForCheck();
+    };
   }
 }
