@@ -24,7 +24,7 @@
       <td-issues-base [card]="card$ | async"></td-issues-base>
     </div>
     <div *ngSwitchCase="'CODE'">
-      <td-code></td-code>
+      <td-code [card]="card$ | async"></td-code>
     </div>
     <div *ngSwitchDefault>
       <td-edit-card-form></td-edit-card-form>

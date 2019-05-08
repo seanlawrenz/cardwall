@@ -1,3 +1,12 @@
-<p>
-  code works!
-</p>
+<div class="tdNg-iframe-wrapper">
+  <div *ngIf="loading" class="loading-component-container">
+    <span aria-hidden="true" class="td-icon td-loading"></span>
+  </div>
+  <iframe
+    [style.display]="loading ? 'none' : 'block'"
+    [src]="codeUrl"
+    #iframe
+    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
+    style="height: 100%; width: 100%; border: none;"
+  ></iframe>
+</div>
