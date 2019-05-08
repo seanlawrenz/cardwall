@@ -41,7 +41,7 @@
             formControlName="startDate"
             [attr.disabled]="canEdit === false ? 'disable' : null"
             bsDatepicker
-            [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+            [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'M/D/YY' }"
             [bsValue]="cardForm.controls['startDate'] || null"
           />
 
@@ -52,7 +52,7 @@
             formControlName="endDate"
             [attr.disabled]="canEdit === false ? 'disable' : null"
             bsDatepicker
-            [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+            [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'M/D/YY' }"
             [bsValue]="cardForm.controls['endDate'] || null"
           />
         </div>
