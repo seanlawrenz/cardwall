@@ -4,3 +4,9 @@
   -o-transition: $type $time;
   transition: $type $time;
 }
+
+@mixin text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

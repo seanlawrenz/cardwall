@@ -47,6 +47,20 @@
         height: 529px;
       }
     }
+
+    &-issues {
+      &-name {
+        @media #{$break-wide-to-narrow} {
+          @include text-ellipsis;
+          max-width: 300px;
+        }
+
+        @media #{$break-wide-up} {
+          @include text-ellipsis;
+          max-width: 200px;
+        }
+      }
+    }
   }
 
   &-iframe-wrapper {

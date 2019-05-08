@@ -37,8 +37,8 @@ $priority-low: #75c68b;
 
 $break-huge: '(min-width: 2000px)';
 $break-extra-wide-to-huge: '(max-width: 2000px) and (min-width: 1140px)';
-$break-extra-wide: '(max-width: 1140px)';
-$break-extra-wide-to-extra-wide: '(max-width: 1141px) and (min-width: 1024px)';
+$break-extra-wide-up: '(min-width: 1140px)';
+$break-extra-wide-to-wide: '(max-width: 1141px) and (min-width: 1024px)';
 $break-wide: '(max-width: 1023px)';
 $break-wide-to-narrow: '(max-width: 1024px) and (min-width: 768px)';
 $break-extra-wide-to-narrow: '(max-width: 1141px) and (min-width: 768px)';

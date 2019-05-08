@@ -5,7 +5,8 @@ import { IssueStatusType, Issue } from '@app/models';
 export const mockIssueBuilder = build('issue').fields({
   ID: fake(f => f.random.number()),
   title: fake(f => f.random.word()),
-  responsible: resourceBuilder(),
+  responsibleUID: fake(f => f.random.uuid()),
+  responsibleFullName: fake(f => f.name.findName()),
   statusName: fake(f => f.random.word()),
   statusTypeID: IssueStatusType.new,
   priorityName: 'High',

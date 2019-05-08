@@ -1,1 +1,7 @@
-<td-issue-view [issues]="issues$ | async"></td-issue-view>
+<div *ngIf="!(loading$ | async); else loading">
+  <td-issue-view [issues]="issues$ | async" [card]="card"></td-issue-view>
+</div>
+
+<ng-template #loading>
+  <div class="td-icon td-loading" style="min-height: 493px;"></div>
+</ng-template>

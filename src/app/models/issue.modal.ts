@@ -1,5 +1,3 @@
-import { Resources } from './resources.model';
-
 export enum IssueStatusType {
   none = 0,
   new = 1,
@@ -13,7 +11,8 @@ export enum IssueStatusType {
 export interface Issue {
   ID: number;
   title: string;
-  responsible: Resources;
+  responsibleUID: string;
+  responsibleFullName: string;
   statusName: string;
   statusTypeID: IssueStatusType;
   priorityName: string;
