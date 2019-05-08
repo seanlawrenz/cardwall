@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 import { CardDetailsViewComponent } from './card-details-view.component';
+import { TrimTextToLimitPipe } from '@app/shared/pipes/trim-text-to-limit.pipe';
 import { mockCard } from '@app/test/data';
 import { CardColors } from '@app/models';
 
@@ -11,7 +12,7 @@ describe('CardDetailsViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CardDetailsViewComponent],
+      declarations: [CardDetailsViewComponent, TrimTextToLimitPipe],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

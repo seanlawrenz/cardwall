@@ -4,6 +4,7 @@ export * from './backlog-settings.model';
 export * from './config.model';
 export * from './connection.model';
 export * from './errors.model';
+export * from './issue.modal';
 export * from './notification.model';
 export * from './plan.model';
 export * from './project.model';
