@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+
+const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always',
+};
 
 export const appRoutes: Routes = [
   { path: 'backlog', loadChildren: './backlog/backlog.module#BacklogModule' },
@@ -16,7 +20,7 @@ export const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes, routingConfiguration)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
