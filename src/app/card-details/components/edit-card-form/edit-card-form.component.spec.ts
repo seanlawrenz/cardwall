@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { EditCardFormComponent } from './edit-card-form.component';
 import { ConfigService } from '@app/app-services';
@@ -36,7 +37,7 @@ describe('EditCardFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditCardFormComponent, ResourcesListComponent],
-      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, UiSwitchModule],
+      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, PopoverModule, UiSwitchModule],
       providers: [{ provide: ConfigService, useValue: mockConfigService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

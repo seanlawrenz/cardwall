@@ -7,7 +7,7 @@ import * as backlogSelector from '../state/selectors';
 import * as backlogActions from '../state/actions';
 import { fromRoot } from '@app/store';
 import * as rootActions from '@app/store/actions/ui.actions';
-import { Plan } from '@app/models';
+import { Plan, ErrorFromSignalR } from '@app/models';
 
 @Component({
   selector: 'app-backlog-base',
@@ -18,7 +18,7 @@ import { Plan } from '@app/models';
 export class BacklogBaseComponent implements OnInit {
   plans$: Observable<Plan[]>;
   boardsLoading$: Observable<boolean>;
-  errorMessage$: Observable<string>;
+  errorMessage$: Observable<ErrorFromSignalR>;
 
   constructor(private store: Store<BacklogState>) {}
 

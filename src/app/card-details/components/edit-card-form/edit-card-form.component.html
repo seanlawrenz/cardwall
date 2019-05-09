@@ -219,9 +219,13 @@
   <div class="modal-footer justify-content-between">
     <div>
       <!-- Save / Cancel actions -->
-      <td-button class="mr-2" cssClass="btn-primary" icon="save" type="submit" [disabled]="!cardForm.valid">Save</td-button>
+      <td-button *ngIf="canEditOrUpdate" class="mr-2" cssClass="btn-primary" icon="save" type="submit" [disabled]="!cardForm.valid">
+        Save
+      </td-button>
 
-      <td-button cssClass="btn-danger" icon="times" ariaLabel="Discard Changes" (onClick)="discardChanges()">Discard Changes</td-button>
+      <td-button *ngIf="canEditOrUpdate" cssClass="btn-danger" icon="times" ariaLabel="Discard Changes" (onClick)="discardChanges()">
+        Discard Changes
+      </td-button>
     </div>
 
     <div class="d-none d-md-flex">
@@ -230,6 +234,29 @@
         <td-button *ngIf="canDeleteCards" cssClass="btn-default border-left-none" icon="clone" (onClick)="copyMove('move')">
           Move
         </td-button>
+        <td-button
+          *ngIf="canUpdate && card.listId !== 0"
+          cssClass="btn-default border-left-none"
+          icon="archive"
+          ariaLabel="Archive Card"
+          [popover]="confirmArchive"
+          [outsideClick]="true"
+          popoverTitle="Confirm"
+          #archivePop="bs-popover"
+        >
+          Archive
+        </td-button>
+
+        <!-- Archive Confirmation -->
+        <ng-template #confirmArchive>
+          Are you sure you want to archive this card?
+          <div class="d-flex justify-content-between mt-2">
+            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1" (click)="archiveCard()">Confirm</button>
+            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" (click)="closePopover()" autofocus>
+              Cancel
+            </button>
+          </div>
+        </ng-template>
       </div>
       <div class="d-none d-md-block ml-2" *ngIf="isAssigned && !isArchived && canUpdate" aria-label="My Work">
         <td-button *ngIf="isInMyWork" cssClass="btn-default" icon="minus" (onClick)="removeFromMyWork()">Remove From My Work</td-button>

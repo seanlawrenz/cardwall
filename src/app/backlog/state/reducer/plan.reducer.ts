@@ -1,5 +1,5 @@
-import { PlanActionTypes, PlanActions, PlanListActions, PlanListActionTypes, BacklogCardActionTypes, BacklogCardActions } from '../actions';
-import { Plan, Card, Resources } from '@app/models';
+import { PlanActionTypes, PlanActions, PlanListActions, BacklogCardActionTypes, BacklogCardActions } from '../actions';
+import { Plan, Card, Resources, ErrorFromSignalR } from '@app/models';
 
 import {
   updateCardOrderInListInBacklog,
@@ -15,7 +15,7 @@ import { updateListOrderInBacklog } from '@app/utils/listOperations';
 
 export interface PlanState {
   plans: Plan[];
-  error: string;
+  error: ErrorFromSignalR;
   plansLoading: boolean;
   selectedCard: Card;
   searchTerm: string | Resources[];
@@ -23,7 +23,7 @@ export interface PlanState {
 
 export const initialState: PlanState = {
   plans: [],
-  error: '',
+  error: undefined,
   plansLoading: false,
   selectedCard: undefined,
   searchTerm: '',
@@ -50,14 +50,14 @@ export function reducer(
       return {
         ...state,
         plans: action.payload,
-        error: '',
+        error: undefined,
         plansLoading: false,
       };
 
     case PlanActionTypes.GET_PLANS_FAIL:
       return {
         ...state,
-        error: action.payload,
+        error: { message: 'Fail', reason: action.payload },
         plansLoading: false,
       };
 
@@ -85,13 +85,13 @@ export function reducer(
         plans: deleteCardInBacklog(state.plans, action.payload),
       };
 
-    case BacklogCardActionTypes.ARCHIVE_CARD_SUCCESS:
+    case CardActionTypes.ARCHIVE_CARD_SUCCESS:
       return {
         ...state,
         plans: archiveCardOnBacklog(state.plans, action.payload),
       };
 
-    case BacklogCardActionTypes.ARCHIVE_CARD_ERROR:
+    case CardActionTypes.ARCHIVE_CARD_ERROR:
       return {
         ...state,
         error: action.payload,
@@ -106,7 +106,7 @@ export function reducer(
     case BacklogCardActionTypes.ADD_CARD_ERROR:
       return {
         ...state,
-        error: action.payload,
+        error: { message: 'Cannot Add Card', reason: action.payload },
       };
 
     case ListActionTypes.LIST_REORDER:

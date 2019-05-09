@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Card, CardDetailsPageTypes, Plan, List, Resources } from '@app/models';
+import { Card, CardDetailsPageTypes, Plan, Resources } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
@@ -8,7 +8,6 @@ import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as cardDetailActions from '@app/card-details/state/actions';
 
-import { find, maxBy } from 'lodash';
 import { CardService } from '@app/app-services';
 import { takeUntil } from 'rxjs/operators';
 
@@ -65,17 +64,8 @@ export class BacklogCardControllerComponent implements OnInit, OnDestroy {
   }
 
   archiveCard() {
-    const archiveList: List = find(this.plan.lists, l => l.id === 0);
-    const cardToArchive = { ...this.card };
-    const maxOrderCard = (cards: Card[]): number => maxBy(cards, card => card.order).order + 1;
-
-    const maxOrder = archiveList.cards.length > 0 ? maxOrderCard(archiveList.cards) : 1;
-    cardToArchive.order = maxOrder;
-    cardToArchive.listId = 0;
-
-    this.store.dispatch(
-      new fromBacklog.ArchiveCard({ card: cardToArchive, useRemainingHours: this.plan.useRemainingHours, originalCard: this.card }),
-    );
+    const card = { ...this.card };
+    this.store.dispatch(new cardActions.ArchiveCard({ card, plan: this.plan }));
   }
 
   addResourceToCard(event: { resource: Resources; clearAssignments: boolean }) {

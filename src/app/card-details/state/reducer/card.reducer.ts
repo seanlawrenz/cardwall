@@ -42,6 +42,12 @@ export function reducer(state = initialState, actions: CardDetailsCardActions): 
         error: actions.payload,
       };
 
+    case CardDetailsCardTypes.ARCHIVE_CARD_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+      };
+
     default:
       return state;
   }

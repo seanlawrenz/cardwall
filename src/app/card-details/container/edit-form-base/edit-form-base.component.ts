@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { fromRoot } from '@app/store';
 import * as fromCardDetails from '@app/card-details/state';
-import * as uiActions from '@app/store/actions/ui.actions';
+import * as rootActions from '@app/store/actions';
 import * as cardDetailsActions from '@app/card-details/state/actions';
 
 import { blankInputValidator } from '@app/utils';
@@ -88,7 +88,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   }
 
   showSlideIn() {
-    this.store.dispatch(new uiActions.ShowSlider());
+    this.store.dispatch(new rootActions.ShowSlider());
     setTimeout(() => {
       this.isSlideInShown = true;
       this.cdr.markForCheck();
@@ -96,7 +96,7 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
   }
 
   hideSlideIn() {
-    this.store.dispatch(new uiActions.HideSlider());
+    this.store.dispatch(new rootActions.HideSlider());
     setTimeout(() => {
       this.isSlideInShown = false;
     }, 500);
@@ -121,6 +121,12 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
       const card = this.updateThisCard();
       this.store.dispatch(new cardDetailsActions.SaveCard({ card, useRemainingHours: this.plan.useRemainingHours }));
     }
+  }
+
+  archiveCard() {
+    const card = { ...this.card };
+    this.store.dispatch(new cardDetailsActions.HideDetails());
+    this.store.dispatch(new rootActions.ArchiveCard({ card, plan: this.plan }));
   }
 
   private createForm() {

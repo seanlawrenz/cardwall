@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ConfigService } from '@app/app-services';
 import { Card, Plan, Board, Priority, PriorityClasses, Resources } from '@app/models';
@@ -17,6 +17,9 @@ export class EditCardFormComponent implements OnInit, OnChanges {
   @Output() copyMoveRequested = new EventEmitter<string>();
   @Output() saveCardRequested = new EventEmitter<void>();
   @Output() addRemoveToWork = new EventEmitter<string>();
+  @Output() archiveCardRequested = new EventEmitter<void>();
+
+  @ViewChild('archivePop') archivePopoverControl;
 
   resources: Resources[];
 
@@ -78,6 +81,17 @@ export class EditCardFormComponent implements OnInit, OnChanges {
 
   removeFromMyWork() {
     this.addRemoveToWork.emit('remove');
+  }
+
+  archiveCard() {
+    if (this.canDeleteCards) {
+      this.archiveCardRequested.emit();
+    }
+    this.archivePopoverControl.hide();
+  }
+
+  closePopover() {
+    this.archivePopoverControl.hide();
   }
 
   private setPermissions() {

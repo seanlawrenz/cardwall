@@ -1,4 +1,4 @@
-import { CardReorder, Card, CardRemovedFromListInfo, CardOperationInfo } from '@app/models';
+import { CardReorder, Card, CardRemovedFromListInfo, CardOperationInfo, Plan, Board, ErrorFromSignalR } from '@app/models';
 import { Action } from '@ngrx/store';
 
 export enum CardActionTypes {
@@ -8,6 +8,12 @@ export enum CardActionTypes {
   CARD_CREATE_FROM_SERVER = '[CARDS] CARD CREATE FROM SERVER',
   CARD_DELETE_FROM_SERVER = '[CARDS] CARD DELETE FROM SERVER',
   CARD_SELECTED = '[CARD] CARD SELECTED',
+  DELETE_CARD = '[CARD] DELETE CARD',
+  DELETE_CARD_SUCCESS = '[CARD] DELETE CARD SUCCESS',
+  DELETE_CARD_ERROR = '[CARD] DELETE CARD ERROR',
+  ARCHIVE_CARD = '[CARD] ARCHIVE CARD',
+  ARCHIVE_CARD_SUCCESS = '[CARD] ARCHIVE CARD SUCCESS',
+  ARCHIVE_CARD_ERROR = '[CARD] ARCHIVE CARD ERROR',
 }
 
 export class CardReorderWithinList implements Action {
@@ -40,10 +46,29 @@ export class CardSelected implements Action {
   constructor(public payload: Card) {}
 }
 
+export class ArchiveCard implements Action {
+  readonly type = CardActionTypes.ARCHIVE_CARD;
+  constructor(public payload: { card: Card; plan: Plan | Board }) {}
+}
+
+export class ArchiveCardSuccess implements Action {
+  readonly type = CardActionTypes.ARCHIVE_CARD_SUCCESS;
+  // Returns the original card unarchived card
+  constructor(public payload: Card) {}
+}
+
+export class ArchiveCardError implements Action {
+  readonly type = CardActionTypes.ARCHIVE_CARD_ERROR;
+  constructor(public payload: ErrorFromSignalR) {}
+}
+
 export type CardActions =
   | CardReorderWithinList
   | CardUpdateReceived
   | CardRemovedFromList
   | CardCreateFromServer
   | CardDeleteFromServer
-  | CardSelected;
+  | CardSelected
+  | ArchiveCard
+  | ArchiveCardSuccess
+  | ArchiveCardError;

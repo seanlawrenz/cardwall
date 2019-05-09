@@ -10,6 +10,9 @@ export enum CardDetailsCardTypes {
   SAVE_CARD = '[CARD DETAILS] SAVE CARD',
   SAVE_CARD_SUCCESS = '[CARD DETAILS] SAVE CARD SUCCESS',
   SAVE_CARD_ERROR = '[CARD DETAILS] SAVE CARD ERROR',
+  ARCHIVE_CARD = '[CARD DETAILS] ARCHIVE CARD',
+  ARCHIVE_CARD_SUCCESS = '[CARD DETAILS] ARCHIVE CARD SUCCESS',
+  ARCHIVE_CARD_ERROR = '[CARD DETAILS] ARCHIVE CARD ERROR',
 }
 
 export class CurrentCard implements Action {
@@ -51,6 +54,20 @@ export class SaveCardError implements Action {
   constructor(public payload: ErrorFromSignalR) {}
 }
 
+export class ArchiveCard implements Action {
+  readonly type = CardDetailsCardTypes.ARCHIVE_CARD;
+  constructor(public payload: { card: Card; plan: Plan | Board }) {}
+}
+
+export class ArchiveCardSuccess implements Action {
+  readonly type = CardDetailsCardTypes.ARCHIVE_CARD_SUCCESS;
+}
+
+export class ArchiveCardError implements Action {
+  readonly type = CardDetailsCardTypes.ARCHIVE_CARD_ERROR;
+  constructor(public payload: ErrorFromSignalR) {}
+}
+
 export type CardDetailsCardActions =
   | CurrentCard
   | AddToMyWork
@@ -59,4 +76,7 @@ export type CardDetailsCardActions =
   | MyWorkError
   | SaveCard
   | SaveCardSuccess
-  | SaveCardError;
+  | SaveCardError
+  | ArchiveCard
+  | ArchiveCardSuccess
+  | ArchiveCardError;
