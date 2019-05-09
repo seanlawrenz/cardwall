@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { split, remove } from 'lodash';
 import { uniqueValuesInArray } from '@app/utils';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,27 @@ export class BoardService {
         observer.complete();
       }
     });
+  }
+
+  fetchBoard(projectId, planId): Observable<SignalRResult> {
+    let board: Board;
+    return this.signalR.invoke('BoardGet', planId, projectId).pipe(
+      mergeMap((x: SignalRResult) => {
+        if (x.isSuccessful) {
+          board = x.item;
+          return this.joinProjectGroup(projectId);
+        } else {
+          return of(x);
+        }
+      }),
+      mergeMap((y: SignalRResult) => {
+        if (y.isSuccessful) {
+          return of({ isSuccessful: true, item: board });
+        } else {
+          return of(y);
+        }
+      }),
+    );
   }
 
   private fetchPlan(planId: number, projectId: number): Observable<Plan> {

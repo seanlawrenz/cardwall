@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardwallBaseComponent } from './cardwall-base.component';
+import { Store } from '@ngrx/store';
 
 describe('CardwallBaseComponent', () => {
   let component: CardwallBaseComponent;
@@ -8,9 +9,9 @@ describe('CardwallBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardwallBaseComponent ]
-    })
-    .compileComponents();
+      declarations: [CardwallBaseComponent],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn() } }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
