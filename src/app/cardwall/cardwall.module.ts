@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { CardwallRoutingModule } from './cardwall.routes';
+import { SharedModule } from '@app/shared/shared.module';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -14,6 +16,7 @@ import { reducers, effects } from './state';
 // Containers
 /* tslint:disable:max-line-length */
 import { CardwallBaseComponent } from './container/cardwall-base.component';
+import { CardBaseComponent } from './container/card-base/card-base.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,9 @@ import { CardwallBaseComponent } from './container/cardwall-base.component';
     CardwallRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
+    SharedModule,
   ],
-  declarations: [CardwallBaseComponent],
+  declarations: [CardwallBaseComponent, CardBaseComponent],
 })
 export class CardwallModule {}
