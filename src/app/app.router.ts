@@ -7,7 +7,10 @@ const routingConfiguration: ExtraOptions = {
 
 export const appRoutes: Routes = [
   { path: 'backlog', loadChildren: './backlog/backlog.module#BacklogModule' },
-  { path: 'cardwall/project/:projectId/board/:boardId', loadChildren: './cardwall/cardwall.module#CardwallModule' },
+  {
+    path: 'cardwall/project/:projectId/board/:boardId',
+    loadChildren: './cardwall/cardwall.module#CardwallModule',
+  },
   {
     path: '',
     redirectTo: '/backlog',

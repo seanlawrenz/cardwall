@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { CardwallRoutingModule } from './cardwall.routes';
+import { CardDetailsModule } from '@app/card-details/card-details.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 // ngrx
@@ -12,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './state';
 
 // Libraries
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Containers
 /* tslint:disable:max-line-length */
@@ -23,8 +25,10 @@ import { CardBaseComponent } from './container/card-base/card-base.component';
     CommonModule,
     StoreModule.forFeature('cardwall', reducers),
     EffectsModule.forFeature(effects),
+    CardDetailsModule,
     CardwallRoutingModule,
     FormsModule,
+    ModalModule.forRoot(),
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
