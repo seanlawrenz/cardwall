@@ -3,7 +3,7 @@ import { Card, CardDetailsPageTypes, Plan, Resources } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as cardDetailActions from '@app/card-details/state/actions';
@@ -36,7 +36,7 @@ export class BacklogCardControllerComponent implements OnInit, OnDestroy {
     this.showEstimateHours$ = this.store.pipe(select(fromBacklog.showEstimateHours));
     this.showStoryPoints$ = this.store.pipe(select(fromBacklog.showStoryPoints));
 
-    this.store.pipe(select(fromRoot.getSelectedCard)).subscribe(card => {
+    this.store.pipe(select(rootSelectors.getSelectedCard)).subscribe(card => {
       if (card === undefined) {
         this.isCardSelected = false;
         return;

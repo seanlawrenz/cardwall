@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { Plan, Resources, Card } from '@app/models';
 import { Store, select } from '@ngrx/store';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as resourceActions from '@app/store/actions/resource.actions';
 
 import { flatten } from 'lodash';
@@ -26,8 +26,8 @@ export class BacklogResourceControllerComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getResourcesFromPlans();
-    this.selectedCard$ = this.store.pipe(select(fromRoot.getSelectedCard));
-    this.selectedResource$ = this.store.pipe(select(fromRoot.getCurrentResource));
+    this.selectedCard$ = this.store.pipe(select(rootSelectors.getSelectedCard));
+    this.selectedResource$ = this.store.pipe(select(rootSelectors.getCurrentResource));
   }
 
   ngOnChanges(changes: SimpleChanges) {

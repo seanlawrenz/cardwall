@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 
 import { List } from '@app/models';
 import { ListService } from '@app/app-services/list.service';
@@ -27,7 +27,7 @@ export class BacklogListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(fromRoot.isListsExpanded)
+      .select(rootSelectors.isListsExpanded)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((expand: boolean) => {
         this.isExpanded = expand;

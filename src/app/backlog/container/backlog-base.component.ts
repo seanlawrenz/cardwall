@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { BacklogState } from '../state';
 import * as backlogSelector from '../state/selectors';
 import * as backlogActions from '../state/actions';
 import { fromRoot } from '@app/store';
@@ -20,7 +19,7 @@ export class BacklogBaseComponent implements OnInit {
   boardsLoading$: Observable<boolean>;
   errorMessage$: Observable<ErrorFromSignalR>;
 
-  constructor(private store: Store<BacklogState>) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.getBoardsInParams();

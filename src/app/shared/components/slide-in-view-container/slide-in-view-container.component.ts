@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import { Subject } from 'rxjs';
 import { ViewVisibility } from '@app/models';
 import { slideInOutFromBottom } from '@app/animations/slide-in-out.animation';
@@ -21,7 +21,7 @@ export class SlideInViewContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(fromRoot.isSliderShowing)
+      .select(rootSelectors.isSliderShowing)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(visible => this.onSlideStateChanged(visible));
   }

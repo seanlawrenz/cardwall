@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,6 +14,6 @@ export class SpinnerComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.showSpinner$ = this.store.pipe(select(fromRoot.isSpinnerShowing));
+    this.showSpinner$ = this.store.pipe(select(rootSelectors.isSpinnerShowing));
   }
 }

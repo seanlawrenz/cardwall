@@ -4,7 +4,7 @@ import { Store, Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { withLatestFrom, map, catchError, mergeMap } from 'rxjs/operators';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as boardActions from '../actions';
 
 import { SignalRService, BoardService } from '@app/app-services';
@@ -23,7 +23,7 @@ export class BoardEffects {
   @Effect()
   loadBoard$: Observable<Action> = this.actions$.pipe(
     ofType(boardActions.BoardActionTypes.GET_BOARD),
-    withLatestFrom(this.store.select(fromRoot.getRouterState), (action, router) => {
+    withLatestFrom(this.store.select(rootSelectors.getRouterState), (action, router) => {
       const {
         state: {
           params: { projectId, boardId },

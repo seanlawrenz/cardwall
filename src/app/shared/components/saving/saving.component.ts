@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,6 +14,6 @@ export class SavingComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.isSaving$ = this.store.select(fromRoot.isSaving);
+    this.isSaving$ = this.store.select(rootSelectors.isSaving);
   }
 }

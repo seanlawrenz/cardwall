@@ -1,4 +1,5 @@
 import { RootStoreModule } from './root-store.module';
-import * as fromRoot from './state';
+import * as fromRoot from './reducers';
+import * as rootSelectors from './selectors';
 
-export { RootStoreModule, fromRoot };
+export { RootStoreModule, fromRoot, rootSelectors };

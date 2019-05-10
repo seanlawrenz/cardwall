@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as notifyActions from '@app/store/actions/notification.actions';
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit() {
     this.notifications$ = this.store.pipe(
-      select(fromRoot.getNotifications),
+      select(rootSelectors.getNotifications),
       map((notifications: Notification[]) => {
         notifications.map((notification: Notification) => {
           if (notification.DismissAfterSeconds) {
