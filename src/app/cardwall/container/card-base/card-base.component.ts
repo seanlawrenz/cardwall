@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { fromRoot } from '@app/store';
 
@@ -7,8 +9,9 @@ import * as cardDetailsActions from '@app/card-details/state/actions';
 import * as cardDetailsSelectors from '@app/card-details/state/selectors';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Board, Card } from '@app/models';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Board, CardDetailsPageTypes } from '@app/models';
+
+import { split } from 'lodash';
 
 @Component({
   selector: 'td-card-base',
@@ -19,7 +22,7 @@ export class CardBaseComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   board: Board;
 
-  constructor(private store: Store<fromRoot.State>, private router: Router, private route: ActivatedRoute) {}
+  constructor(private store: Store<fromRoot.State>, private router: Router, private route: ActivatedRoute, private location: Location) {}
 
   ngOnInit() {
     this.store
@@ -51,8 +54,7 @@ export class CardBaseComponent implements OnInit, OnDestroy {
             this.store.dispatch(new cardDetailsActions.ShowCode());
             break;
         }
-
-        this.setUpDialogClosedListener();
+        this.setUpDialogTabListener();
       });
   }
 
@@ -61,15 +63,53 @@ export class CardBaseComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  private setUpDialogClosedListener() {
+  navOnDetailsHidden() {
+    this.router.navigate([`cardwall/project/${this.board.projectId}/board/${this.board.id}`]);
+  }
+
+  private setUpDialogTabListener() {
     this.store
       .pipe(
-        select(cardDetailsSelectors.detailsHidden),
+        select(cardDetailsSelectors.getCardDetailsPage),
         takeUntil(this.unsubscribe$),
-        filter(hidden => hidden === true),
       )
-      .subscribe(() => {
-        this.router.navigate([`cardwall/project/${this.board.projectId}/board/${this.board.id}`]);
+      .subscribe((type: CardDetailsPageTypes) => {
+        // User may be accessing the app from a bookmarked page that already specifies the page type.
+        // This component's job is to react to the view not define the view
+        // This resets the url to remove queryParams and set the route to the view.
+        const baseUrl: string = split(this.router.url, '?').length > 1 ? split(this.router.url, '?')[0] : this.router.url;
+        switch (type) {
+          case CardDetailsPageTypes.FORM:
+            this.location.go(`${baseUrl}`);
+            break;
+
+          case CardDetailsPageTypes.FEED:
+            this.location.go(`${baseUrl}?tab=feed`);
+            break;
+
+          case CardDetailsPageTypes.SUBTASKS:
+            this.location.go(`${baseUrl}?tab=subtasks`);
+            break;
+
+          case CardDetailsPageTypes.WORK:
+            this.location.go(`${baseUrl}?tab=work`);
+            break;
+
+          case CardDetailsPageTypes.ATTACHMENTS:
+            this.location.go(`${baseUrl}?tab=attachments`);
+            break;
+
+          case CardDetailsPageTypes.ISSUES:
+            this.location.go(`${baseUrl}?tab=issues`);
+            break;
+
+          case CardDetailsPageTypes.CODE:
+            this.location.go(`${baseUrl}?tab=code`);
+            break;
+
+          default:
+            return;
+        }
       });
   }
 }
