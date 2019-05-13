@@ -5,12 +5,14 @@ export interface CardDetailsUIState {
   showDetails: boolean;
   hideDetailsRequested: boolean;
   cardDetailsPage: CardDetailsPageTypes;
+  detailsHidden: boolean;
 }
 
 export const initialState: CardDetailsUIState = {
   showDetails: false,
   hideDetailsRequested: false,
   cardDetailsPage: CardDetailsPageTypes.FORM,
+  detailsHidden: true,
 };
 
 export function reducer(state = initialState, action: CardDetailsUIActions): CardDetailsUIState {
@@ -19,6 +21,7 @@ export function reducer(state = initialState, action: CardDetailsUIActions): Car
       return {
         ...state,
         showDetails: true,
+        detailsHidden: false,
       };
 
     case CardDetailsUITypes.HIDE_DETAILS:
@@ -32,6 +35,12 @@ export function reducer(state = initialState, action: CardDetailsUIActions): Car
       return {
         ...state,
         hideDetailsRequested: true,
+      };
+
+    case CardDetailsUITypes.DETAILS_HIDDEN:
+      return {
+        ...state,
+        detailsHidden: true,
       };
 
     case CardDetailsUITypes.SHOW_FORM:

@@ -6,6 +6,11 @@ export const getShowDetails = createSelector(
   state => state.ui.showDetails,
 );
 
+export const detailsHidden = createSelector(
+  fromCardDetails.getCardDetailsState,
+  state => state.ui.detailsHidden,
+);
+
 export const getCardDetailsPage = createSelector(
   fromCardDetails.getCardDetailsState,
   state => state.ui.cardDetailsPage,

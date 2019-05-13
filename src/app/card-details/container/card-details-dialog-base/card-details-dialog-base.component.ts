@@ -39,4 +39,8 @@ export class CardDetailsDialogBaseComponent implements OnInit, OnDestroy {
       this.store.dispatch(new actions.HideDetails());
     }
   }
+
+  detailsHidden() {
+    this.store.dispatch(new actions.DetailsHidden());
+  }
 }

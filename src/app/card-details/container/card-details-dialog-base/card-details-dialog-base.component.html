@@ -1,1 +1,5 @@
-<td-card-details-dialog [show]="showDetails$ | async" (closeCardDetailsRequested)="closeCardDetails()"></td-card-details-dialog>
+<td-card-details-dialog
+  [show]="showDetails$ | async"
+  (closeCardDetailsRequested)="closeCardDetails()"
+  (detailsHidden)="detailsHidden()"
+></td-card-details-dialog>
