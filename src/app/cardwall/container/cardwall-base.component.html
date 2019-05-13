@@ -1,6 +1,9 @@
-<p>
-  cardwall-base works!
-</p>
-<td-button (onClick)="goToCard(90128723)">ShockTop</td-button>
-<td-button (onClick)="goToCard(90128798)">dddd</td-button>
-<router-outlet></router-outlet>
+<div *ngIf="!(loading$ | async); else loading">
+  <td-cardwall-nav [board]="board$ | async"></td-cardwall-nav>
+
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #loading>
+  <td-app-loading></td-app-loading>
+</ng-template>

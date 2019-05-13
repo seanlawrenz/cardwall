@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
-
 import * as boardActions from '@app/cardwall/state/actions';
-import { Router, ActivatedRoute } from '@angular/router';
+import * as cardwallSelectors from '@app/cardwall/state/selectors';
+
+import { Board } from '@app/models';
 
 @Component({
   selector: 'app-cardwall-base',
@@ -13,13 +16,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardwallBaseComponent implements OnInit {
+  board$: Observable<Board>;
+  loading$: Observable<boolean>;
   constructor(private store: Store<fromRoot.State>, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.store.dispatch(new boardActions.GetBoard());
-  }
-
-  goToCard(id) {
-    this.router.navigate(['card', id], { relativeTo: this.route });
+    this.board$ = this.store.select(cardwallSelectors.getBoard);
+    this.loading$ = this.store.select(cardwallSelectors.isBoardLoading);
   }
 }

@@ -20,6 +20,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
 
+// Components
+import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +36,6 @@ import { CardBaseComponent } from './container/card-base/card-base.component';
     RouterModule,
     SharedModule,
   ],
-  declarations: [CardwallBaseComponent, CardBaseComponent],
+  declarations: [CardwallBaseComponent, CardBaseComponent, CardwallNavComponent],
 })
 export class CardwallModule {}

@@ -1,0 +1,11 @@
+.tdNg {
+  &-cardwall {
+    &-nav {
+      &-title {
+        @include text-ellipsis;
+        max-width: 225px;
+        margin-right: 0;
+      }
+    }
+  }
+}

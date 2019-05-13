@@ -40,3 +40,8 @@ export const getSelectedTab = createSelector(
     }
   },
 );
+
+export const isBoardLoading = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.board.loading,
+);
