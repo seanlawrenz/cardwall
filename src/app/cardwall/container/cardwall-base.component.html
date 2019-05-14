@@ -1,6 +1,7 @@
 <div *ngIf="!(loading$ | async); else loading">
   <td-cardwall-nav [board]="board$ | async" (editBoardRequested)="editBoard($event)"></td-cardwall-nav>
   <td-cardwall-toolbar></td-cardwall-toolbar>
+  <td-cardwall-lists-base></td-cardwall-lists-base>
 
   <td-cardwall-saving *ngIf="saving$ | async"></td-cardwall-saving>
   <router-outlet></router-outlet>

@@ -20,11 +20,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
 import { CardwallCardSearchBaseComponent } from './container/cardwall-card-search-base/cardwall-card-search-base.component';
+import { CardwallListsBaseComponent } from './container/cardwall-lists-base/cardwall-lists-base.component';
 import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
 
 // Components
 import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
 import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall-toolbar.component';
+import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-saving.component';
 
 @NgModule({
@@ -48,6 +50,8 @@ import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-s
     CardwallToolbarContainerComponent,
     CardwallToolbarComponent,
     CardwallSavingComponent,
+    CardwallListsBaseComponent,
+    CardwallListsViewComponent,
   ],
 })
 export class CardwallModule {}
