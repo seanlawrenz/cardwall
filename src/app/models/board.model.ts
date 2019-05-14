@@ -30,4 +30,5 @@ export interface Board {
   resources: Resources[];
   statusTypes: any;
   useRemainingHours: boolean;
+  projectName: string;
 }

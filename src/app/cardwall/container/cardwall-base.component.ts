@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
-import * as boardActions from '@app/cardwall/state/actions';
+import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
 
 import { Board } from '@app/models';
@@ -18,11 +18,16 @@ import { Board } from '@app/models';
 export class CardwallBaseComponent implements OnInit {
   board$: Observable<Board>;
   loading$: Observable<boolean>;
+
   constructor(private store: Store<fromRoot.State>, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.store.dispatch(new boardActions.GetBoard());
+    this.store.dispatch(new cardwallActions.GetBoard());
     this.board$ = this.store.select(cardwallSelectors.getBoard);
     this.loading$ = this.store.select(cardwallSelectors.isBoardLoading);
+  }
+
+  editBoard(board: Board) {
+    this.store.dispatch(new cardwallActions.EditBoardName(board));
   }
 }

@@ -26,8 +26,6 @@ export class CardDetailsDialogComponent implements OnInit, OnChanges, OnDestroy 
   @Output() closeCardDetailsRequested = new EventEmitter<void>();
   @Output() detailsHidden = new EventEmitter<void>();
 
-  @ViewChild('cardDetailsDialog') cardDetailsDialog;
-
   unsubscribe$ = new Subject<void>();
 
   dialogRef: BsModalRef;

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Board } from '@app/models';
 
 @Component({
@@ -6,10 +7,37 @@ import { Board } from '@app/models';
   templateUrl: './cardwall-nav.component.html',
   styleUrls: ['./cardwall-nav.component.scss'],
 })
-export class CardwallNavComponent implements OnInit {
+export class CardwallNavComponent implements OnInit, OnChanges {
   @Input() board: Board;
+
+  @Output() editBoardRequested = new EventEmitter<Board>();
+
+  editBoardForm: FormGroup;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setUpForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.board && !changes.board.firstChange) {
+      this.setUpForm();
+    }
+  }
+
+  submitEditBoardName() {
+    if (this.editBoardForm.valid && this.editBoardForm.dirty) {
+      const { name, description } = this.editBoardForm.value;
+      const updatedBoard = { ...this.board, name, description };
+      this.editBoardRequested.emit(updatedBoard);
+    }
+  }
+
+  private setUpForm() {
+    this.editBoardForm = new FormGroup({
+      name: new FormControl(this.board.name, Validators.required),
+      description: new FormControl(this.board.description),
+    });
+  }
 }
