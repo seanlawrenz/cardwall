@@ -21,6 +21,7 @@ import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
 
 // Components
+import { CardwallCardSearchBaseComponent } from './container/cardwall-card-search-base/cardwall-card-search-base.component';
 import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
 
 @NgModule({
@@ -36,6 +37,6 @@ import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.com
     RouterModule,
     SharedModule,
   ],
-  declarations: [CardwallBaseComponent, CardBaseComponent, CardwallNavComponent],
+  declarations: [CardwallBaseComponent, CardBaseComponent, CardwallNavComponent, CardwallCardSearchBaseComponent],
 })
 export class CardwallModule {}

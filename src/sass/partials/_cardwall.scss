@@ -5,6 +5,18 @@
         @include text-ellipsis;
         max-width: 225px;
         margin-right: 0;
+
+        @media #{$break-wide-to-narrow} {
+          max-width: 500px;
+        }
+
+        @media #{$break-wide-up} {
+          max-width: 525px;
+        }
+
+        @media #{$break-huge} {
+          max-width: 900px;
+        }
       }
     }
   }
