@@ -25,6 +25,7 @@ import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-
 // Components
 import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
 import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall-toolbar.component';
+import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-saving.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall
     CardwallCardSearchBaseComponent,
     CardwallToolbarContainerComponent,
     CardwallToolbarComponent,
+    CardwallSavingComponent,
   ],
 })
 export class CardwallModule {}

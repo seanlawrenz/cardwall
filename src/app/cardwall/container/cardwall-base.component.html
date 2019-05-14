@@ -2,6 +2,7 @@
   <td-cardwall-nav [board]="board$ | async" (editBoardRequested)="editBoard($event)"></td-cardwall-nav>
   <td-cardwall-toolbar></td-cardwall-toolbar>
 
+  <td-cardwall-saving *ngIf="saving$ | async"></td-cardwall-saving>
   <router-outlet></router-outlet>
 </div>
 

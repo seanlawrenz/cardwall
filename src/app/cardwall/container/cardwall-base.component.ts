@@ -18,6 +18,7 @@ import { Board } from '@app/models';
 export class CardwallBaseComponent implements OnInit {
   board$: Observable<Board>;
   loading$: Observable<boolean>;
+  saving$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>, private router: Router, private route: ActivatedRoute) {}
 
@@ -25,6 +26,7 @@ export class CardwallBaseComponent implements OnInit {
     this.store.dispatch(new cardwallActions.GetBoard());
     this.board$ = this.store.select(cardwallSelectors.getBoard);
     this.loading$ = this.store.select(cardwallSelectors.isBoardLoading);
+    this.saving$ = this.store.select(cardwallSelectors.isSaving);
   }
 
   editBoard(board: Board) {
