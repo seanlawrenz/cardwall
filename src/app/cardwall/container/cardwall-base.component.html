@@ -1,5 +1,6 @@
 <div *ngIf="!(loading$ | async); else loading">
   <td-cardwall-nav [board]="board$ | async"></td-cardwall-nav>
+  <td-cardwall-toolbar></td-cardwall-toolbar>
 
   <router-outlet></router-outlet>
 </div>
