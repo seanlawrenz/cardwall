@@ -14,6 +14,7 @@ import { reducers, effects } from './state';
 
 // Libraries
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SortablejsModule } from 'angular-sortablejs';
 
 // Containers
 /* tslint:disable:max-line-length */
@@ -26,6 +27,7 @@ import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-
 // Components
 import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
 import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall-toolbar.component';
+import { CardwallListComponent } from './components/cardwall-lists-view/cardwall-list/cardwall-list.component';
 import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-saving.component';
 
@@ -41,6 +43,7 @@ import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-s
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
+    SortablejsModule,
   ],
   declarations: [
     CardwallBaseComponent,
@@ -52,6 +55,7 @@ import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-s
     CardwallSavingComponent,
     CardwallListsBaseComponent,
     CardwallListsViewComponent,
+    CardwallListComponent,
   ],
 })
 export class CardwallModule {}

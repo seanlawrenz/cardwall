@@ -1,7 +1,5 @@
-<div style="margin-top:10em;">
-  {{ board.name }}
-
+<div class="tdNg-cardwall-lists-container" [sortablejs]="lists" [sortablejsOptions]="sortableOptions">
   <div *ngFor="let list of lists">
-    {{ list.title }}
+    <td-cardwall-list [list]="list"></td-cardwall-list>
   </div>
 </div>
