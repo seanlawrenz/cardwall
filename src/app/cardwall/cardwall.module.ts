@@ -13,7 +13,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './state';
 
 // Libraries
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { SortablejsModule } from 'angular-sortablejs';
 
 // Containers
@@ -44,6 +46,8 @@ import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-s
     RouterModule,
     SharedModule,
     SortablejsModule,
+    BsDropdownModule,
+    PopoverModule,
   ],
   declarations: [
     CardwallBaseComponent,
