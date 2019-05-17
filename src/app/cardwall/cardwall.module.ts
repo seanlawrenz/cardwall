@@ -33,6 +33,7 @@ import { CardwallListComponent } from './components/cardwall-lists-view/cardwall
 import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-saving.component';
 import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.component';
+import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progress-bar.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.
     CardwallListsViewComponent,
     CardwallListComponent,
     WipIndicatorComponent,
+    WipProgressBarComponent,
   ],
 })
 export class CardwallModule {}
