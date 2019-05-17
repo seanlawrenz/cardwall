@@ -32,6 +32,7 @@ import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall
 import { CardwallListComponent } from './components/cardwall-lists-view/cardwall-list/cardwall-list.component';
 import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-saving.component';
+import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { CardwallSavingComponent } from './components/cardwall-saving/cardwall-s
     CardwallListsBaseComponent,
     CardwallListsViewComponent,
     CardwallListComponent,
+    WipIndicatorComponent,
   ],
 })
 export class CardwallModule {}

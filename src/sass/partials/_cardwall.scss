@@ -103,21 +103,43 @@
       }
 
       &-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 6em;
 
         @media #{$break-narrow-up} {
-          align-items: baseline;
+          min-height: 6em;
         }
 
-        // h4 {
+        &-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
 
-        //   @media #{$break-narrow-up} {
-        //     max-width: 250px;
-        //   }
-        // }
+          @media #{$break-narrow-up} {
+            align-items: baseline;
+          }
+        }
+
+        &-action {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          @media #{$break-narrow-up} {
+            align-items: flex-end;
+            flex-direction: column;
+          }
+        }
+      }
+
+      &-card-count {
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      &-wip-container {
+
+        @media #{$break-narrow-up} {
+          margin-top: 0.5em;
+        }
       }
     }
   }

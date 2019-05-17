@@ -1,90 +1,99 @@
 <div class="tdNg-cardwall-list-container">
   <div class="card">
     <div class="card-header tdNg-cardwall-list-header list-drag-handle" [ngClass]="{ 'bg-danger': list.id === 0 }">
-      <h4
-        *ngIf="list.title.length > 60; else listTitleWithinRange"
-        [tdTooltip]="list.title"
-        placement="bottom"
-        class="mb-0"
-        [ngClass]="{ 'white-text': list.id === 0 }"
-      >
-        {{ getListHeaderText(list.title) }}
-      </h4>
-
-      <ng-template #listTitleWithinRange>
-        <h4 class="mb-0" [ngClass]="{ 'white-text': list.id === 0 }">{{ list.title }}</h4>
-      </ng-template>
-
-      <div class="d-flex flex-row justify-content-end" *ngIf="list.id !== 0; else archiveListOptions">
-        <td-button
-          *ngIf="list.id !== 0 && canAddCards"
-          icon="plus fa-lg green"
-          tooltipText="Add Card"
-          tooltipPlacement="left"
-          cssClass="p-0"
-        ></td-button>
-
-        <div
-          class="btn-group d-none d-md-flex"
-          dropdown
-          role="toolbar"
-          container="body"
-          *ngIf="(board.isTaskUpdateEnabled && canAddCards) || board.iAmProjectManager"
+      <div class="tdNg-cardwall-list-header-info">
+        <h4
+          *ngIf="list.title.length > 60; else listTitleWithinRange"
+          [tdTooltip]="list.title"
+          placement="bottom"
+          class="mb-0"
+          [ngClass]="{ 'white-text': list.id === 0 }"
         >
-          <button
-            role="toolbar"
-            aria-haspopup="true"
-            aria-expanded="false"
-            class="btn btn-link p-0"
-            aria-label="Toggle list options"
-            dropdownToggle
-          >
-            <span class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></span>
-          </button>
+          {{ getListHeaderText(list.title) }}
+        </h4>
 
-          <ul *dropdownMenu class="dropdown-menu tdNg-dropdown">
-            <li role="menuitem">
-              <a href="javascript:void(0);" class="dropdown-item" aria-label="Edit List">
-                <span aria-hidden="true" class="fa fa-pencil"></span>
-                Edit List
-              </a>
-            </li>
+        <ng-template #listTitleWithinRange>
+          <h4 class="mb-0" [ngClass]="{ 'white-text': list.id === 0 }">{{ list.title }}</h4>
+        </ng-template>
+        <div class="tdNg-cardwall-list-header-action">
+          <div class="d-flex flex-row justify-content-end" *ngIf="list.id !== 0; else archiveListOptions">
+            <td-button
+              *ngIf="list.id !== 0 && canAddCards"
+              icon="plus fa-lg green"
+              tooltipText="Add Card"
+              tooltipPlacement="left"
+              cssClass="p-0"
+            ></td-button>
 
-            <li role="menuitem">
-              <a href="javascript:void(0);" class="dropdown-item" aria-label="Convert Tickets">
-                <span aria-hidden="true" class="fa fa-tags"></span>
-                Convert Tickets
-              </a>
-            </li>
-          </ul>
+            <div
+              class="btn-group d-none d-md-flex"
+              dropdown
+              role="toolbar"
+              container="body"
+              *ngIf="(board.isTaskUpdateEnabled && canAddCards) || board.iAmProjectManager"
+            >
+              <button
+                role="toolbar"
+                aria-haspopup="true"
+                aria-expanded="false"
+                class="btn btn-link p-0"
+                aria-label="Toggle list options"
+                dropdownToggle
+              >
+                <span class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></span>
+              </button>
+
+              <ul *dropdownMenu class="dropdown-menu tdNg-dropdown">
+                <li role="menuitem">
+                  <a href="javascript:void(0);" class="dropdown-item" aria-label="Edit List">
+                    <span aria-hidden="true" class="fa fa-pencil"></span>
+                    Edit List
+                  </a>
+                </li>
+
+                <li role="menuitem">
+                  <a href="javascript:void(0);" class="dropdown-item" aria-label="Convert Tickets">
+                    <span aria-hidden="true" class="fa fa-tags"></span>
+                    Convert Tickets
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <ng-template #archiveListOptions>
+            <div>
+              <td-button
+                *ngIf="canDeleteCards && list.cards.length > 0"
+                icon="trash-o"
+                cssClass="white-text p-0"
+                ariaLabel="Delete All Cards"
+                [popover]="confirmDelete"
+                [outsideClick]="true"
+                popoverTitle="Confirm"
+                placement="auto"
+                #deletePop="bs-popover"
+              ></td-button>
+
+              <ng-template #confirmDelete>
+                Are you sure you want to delete all archived cards? This cannot be undone.
+                <div class="d-flex justify-content-between mt-2">
+                  <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
+                  <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+                    Cancel
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </ng-template>
+
+          <td-wip-indicator [list]="list"></td-wip-indicator>
         </div>
       </div>
 
-      <ng-template #archiveListOptions>
-        <div>
-          <td-button
-            *ngIf="canDeleteCards && list.cards.length > 0"
-            icon="trash-o"
-            cssClass="white-text p-0"
-            ariaLabel="Delete All Cards"
-            [popover]="confirmDelete"
-            [outsideClick]="true"
-            popoverTitle="Confirm"
-            placement="auto"
-            #deletePop="bs-popover"
-          ></td-button>
-
-          <ng-template #confirmDelete>
-            Are you sure you want to delete all archived cards? This cannot be undone.
-            <div class="d-flex justify-content-between mt-2">
-              <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
-              <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
-                Cancel
-              </button>
-            </div>
-          </ng-template>
-        </div>
-      </ng-template>
+      <div *ngIf="!list.active" class="d-flex flex-row justify-content-end">
+        <span class="text-muted"><em>Inactive</em></span>
+      </div>
     </div>
   </div>
 </div>
