@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <td-cardwall-saving *ngIf="saving$ | async"></td-cardwall-saving>
+  <td-saving [showSaving]="saving$ | async"></td-saving>
   <router-outlet></router-outlet>
 </div>
 

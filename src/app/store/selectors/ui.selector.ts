@@ -27,8 +27,3 @@ export const isSliderShowing = createSelector(
   getUIState,
   state => state.showSlider,
 );
-
-export const isSaving = createSelector(
-  getUIState,
-  state => state.showSaving,
-);
