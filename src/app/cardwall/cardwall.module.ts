@@ -22,6 +22,7 @@ import { SortablejsModule } from 'angular-sortablejs';
 /* tslint:disable:max-line-length */
 import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
+import { CardwallCardsBaseComponent } from './container/cardwall-cards-base/cardwall-cards-base.component';
 import { CardwallCardSearchBaseComponent } from './container/cardwall-card-search-base/cardwall-card-search-base.component';
 import { CardwallListsBaseComponent } from './container/cardwall-lists-base/cardwall-lists-base.component';
 import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
@@ -64,6 +65,7 @@ import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progr
     WipIndicatorComponent,
     WipProgressBarComponent,
     CreateListComponent,
+    CardwallCardsBaseComponent,
   ],
 })
 export class CardwallModule {}
