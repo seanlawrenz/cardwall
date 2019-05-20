@@ -1,5 +1,6 @@
 import { Plan, ListReorderInfo, List } from '@app/models';
-import { sortBy } from 'lodash';
+import { sortBy, findIndex } from 'lodash';
+import { removeItem, insertItem } from './cardMoveOperations';
 
 export const updateListOrderInBacklog = (plans: Plan[], reorder: ListReorderInfo): Plan[] => {
   if (!reorder) {
@@ -19,4 +20,13 @@ export const updateListOrder = (lists, sortedListIDs): List[] => {
   return sortBy(lists, list => {
     return sortedListIDs.indexOf(list.id);
   });
+};
+
+export const updateListInBoard = (lists: List[], updatedList: List): List[] => {
+  const index: number = findIndex(lists, list => list.id === updatedList.id);
+  if (index > -1) {
+    return insertItem(removeItem(lists, index), { index, item: updatedList });
+  } else {
+    return lists;
+  }
 };

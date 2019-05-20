@@ -38,4 +38,22 @@ export class CardwallListEffects {
       );
     }),
   );
+
+  @Effect()
+  updateList$: Observable<Action> = this.actions$.pipe(
+    ofType(cardwallActions.CardwallListActionTypes.EDIT_LIST),
+    switchMap((action: cardwallActions.EditList) =>
+      this.signalR.invoke('ListUpdate', action.payload, action.payload.planId).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            console.log(result);
+            return new cardwallActions.EditListSuccess(action.payload);
+          } else {
+            return new cardwallActions.EditListError({ message: result.message, reason: result.reason });
+          }
+        }),
+        catchError(err => of(new cardwallActions.EditListError({ message: 'Cannot update List', reason: standardErrorLang }))),
+      ),
+    ),
+  );
 }

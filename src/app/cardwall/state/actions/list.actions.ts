@@ -31,10 +31,11 @@ export class EditList implements Action {
 
 export class EditListSuccess implements Action {
   readonly type = CardwallListActionTypes.EDIT_LIST_SUCCESS;
+  constructor(public payload: List) {}
 }
 export class EditListError implements Action {
   readonly type = CardwallListActionTypes.EDIT_LIST_ERROR;
   constructor(public payload: ErrorFromSignalR) {}
 }
 
-export type CardwallListActions = ReorderLists | ReorderListsSuccess | ReorderListsError | EditList | EditListSuccess | EditListSuccess;
+export type CardwallListActions = ReorderLists | ReorderListsSuccess | ReorderListsError | EditList | EditListSuccess | EditListError;

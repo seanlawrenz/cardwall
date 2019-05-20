@@ -1,5 +1,6 @@
 import { BoardActions, BoardActionTypes, CardwallListActionTypes, CardwallListActions } from '../actions';
 import { List, ErrorFromSignalR } from '@app/models';
+import { updateListInBoard } from '@app/utils/listOperations';
 
 export interface ListState {
   lists: List[];
@@ -37,6 +38,27 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
       return {
         ...state,
         saving: false,
+        error: action.payload,
+      };
+
+    case CardwallListActionTypes.EDIT_LIST:
+      return {
+        ...state,
+        saving: true,
+      };
+
+    case CardwallListActionTypes.EDIT_LIST_SUCCESS:
+      return {
+        ...state,
+        lists: updateListInBoard(state.lists, action.payload),
+        saving: false,
+      };
+
+    case CardwallListActionTypes.EDIT_LIST_ERROR:
+      return {
+        ...state,
+        saving: false,
+        error: action.payload,
       };
 
     default:

@@ -51,7 +51,6 @@ export class CardwallListsViewComponent implements OnInit {
   }
 
   editList(list: List) {
-    console.log(list);
     this.editListRequested.emit(list);
   }
 
