@@ -13,6 +13,7 @@ export class CardwallListsViewComponent implements OnInit {
   @Input() lists: List[];
 
   @Output() listReorderRequested = new EventEmitter<{ lists: List[]; resortedList: List }>();
+  @Output() editListRequested = new EventEmitter<List>();
 
   canEditPlans: boolean;
 
@@ -47,6 +48,11 @@ export class CardwallListsViewComponent implements OnInit {
   listDragStart(event) {
     const { oldIndex, clone } = event;
     clone.resortedList = this.lists[oldIndex];
+  }
+
+  editList(list: List) {
+    console.log(list);
+    this.editListRequested.emit(list);
   }
 
   private setPermissions() {

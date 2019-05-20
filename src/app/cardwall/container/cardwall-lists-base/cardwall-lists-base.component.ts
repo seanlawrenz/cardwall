@@ -30,4 +30,8 @@ export class CardwallListsBaseComponent implements OnInit {
   listReorder(info: { lists: List[]; resortedList: List }) {
     this.store.dispatch(new cardwallActions.ReorderLists(info));
   }
+
+  editList(list: List) {
+    this.store.dispatch(new cardwallActions.EditList(list));
+  }
 }

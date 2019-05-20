@@ -2,6 +2,7 @@
   [board]="board$ | async"
   [lists]="lists$ | async"
   (listReorderRequested)="listReorder($event)"
+  (editListRequested)="editList($event)"
 ></td-cardwall-lists-view>
 
 <td-saving [showSaving]="saving$ | async"></td-saving>
