@@ -8,6 +8,9 @@ export enum CardwallListActionTypes {
   EDIT_LIST = '[CARDWALL LISTS] EDIT LIST',
   EDIT_LIST_SUCCESS = '[CARDWALL LISTS] EDIT LIST SUCCESS',
   EDIT_LIST_ERROR = '[CARDWALL LISTS] EDIT LIST ERROR',
+  ADD_LIST = '[CARDWALL LISTS] ADD LIST',
+  ADD_LIST_SUCCESS = '[CARDWALL LISTS] ADD LIST SUCCESS',
+  ADD_LIST_ERROR = '[CARDWALL LISTS] ADD LIST ERROR',
 }
 
 export class ReorderLists implements Action {
@@ -33,9 +36,34 @@ export class EditListSuccess implements Action {
   readonly type = CardwallListActionTypes.EDIT_LIST_SUCCESS;
   constructor(public payload: List) {}
 }
+
 export class EditListError implements Action {
   readonly type = CardwallListActionTypes.EDIT_LIST_ERROR;
   constructor(public payload: ErrorFromSignalR) {}
 }
 
-export type CardwallListActions = ReorderLists | ReorderListsSuccess | ReorderListsError | EditList | EditListSuccess | EditListError;
+export class AddList implements Action {
+  readonly type = CardwallListActionTypes.ADD_LIST;
+  constructor(public payload: List) {}
+}
+
+export class AddListSuccess implements Action {
+  readonly type = CardwallListActionTypes.ADD_LIST_SUCCESS;
+  constructor(public payload: List) {}
+}
+
+export class AddListError implements Action {
+  readonly type = CardwallListActionTypes.ADD_LIST_ERROR;
+  constructor(public payload: ErrorFromSignalR) {}
+}
+
+export type CardwallListActions =
+  | ReorderLists
+  | ReorderListsSuccess
+  | ReorderListsError
+  | EditList
+  | EditListSuccess
+  | EditListError
+  | AddList
+  | AddListSuccess
+  | AddListError;

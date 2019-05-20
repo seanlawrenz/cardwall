@@ -3,6 +3,7 @@
   [lists]="lists$ | async"
   (listReorderRequested)="listReorder($event)"
   (editListRequested)="editList($event)"
+  (addListRequested)="addList($event)"
 ></td-cardwall-lists-view>
 
 <td-saving [showSaving]="saving$ | async"></td-saving>

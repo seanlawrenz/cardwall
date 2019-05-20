@@ -46,13 +46,30 @@ export class CardwallListEffects {
       this.signalR.invoke('ListUpdate', action.payload, action.payload.planId).pipe(
         map((result: SignalRResult) => {
           if (result.isSuccessful) {
-            console.log(result);
             return new cardwallActions.EditListSuccess(action.payload);
           } else {
             return new cardwallActions.EditListError({ message: result.message, reason: result.reason });
           }
         }),
         catchError(err => of(new cardwallActions.EditListError({ message: 'Cannot update List', reason: standardErrorLang }))),
+      ),
+    ),
+  );
+
+  @Effect()
+  addList$: Observable<Action> = this.actions$.pipe(
+    ofType(cardwallActions.CardwallListActionTypes.ADD_LIST),
+    switchMap((action: cardwallActions.AddList) =>
+      this.signalR.invoke('ListCreate', action.payload, action.payload.planId).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            console.log(result.item);
+            return new cardwallActions.AddListSuccess(result.item);
+          } else {
+            return new cardwallActions.AddListError({ message: 'Problem Creating List', reason: result.reason });
+          }
+        }),
+        catchError(err => of(new cardwallActions.AddListError({ message: 'Problem Creating List', reason: standardErrorLang }))),
       ),
     ),
   );

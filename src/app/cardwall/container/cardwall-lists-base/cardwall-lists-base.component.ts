@@ -34,4 +34,8 @@ export class CardwallListsBaseComponent implements OnInit {
   editList(list: List) {
     this.store.dispatch(new cardwallActions.EditList(list));
   }
+
+  addList(list: List) {
+    this.store.dispatch(new cardwallActions.AddList(list));
+  }
 }

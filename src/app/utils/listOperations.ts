@@ -30,3 +30,8 @@ export const updateListInBoard = (lists: List[], updatedList: List): List[] => {
     return lists;
   }
 };
+
+export const addListInBoard = (lists: List[], list): List[] => {
+  const index = lists.length + 1;
+  return insertItem(lists, { index, item: list });
+};
