@@ -1,4 +1,20 @@
-<p>
-  cardwall-base works!
-</p>
-<router-outlet></router-outlet>
+<div class="tdNg-cardwall-wrapper" *ngIf="!(loading$ | async); else loading">
+  <div class="tdNg-cardwall-nav-container">
+    <td-cardwall-nav [board]="board$ | async" (editBoardRequested)="editBoard($event)"></td-cardwall-nav>
+  </div>
+  <div class="tdNg-cardwall-container">
+    <div class="d-none d-md-flex tdNg-cardwall-toolbar-wrapper">
+      <td-cardwall-toolbar></td-cardwall-toolbar>
+    </div>
+    <div class="tdNg-cardwall-lists-wrapper">
+      <td-cardwall-lists-base></td-cardwall-lists-base>
+    </div>
+  </div>
+
+  <td-saving [showSaving]="saving$ | async"></td-saving>
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #loading>
+  <td-app-loading></td-app-loading>
+</ng-template>

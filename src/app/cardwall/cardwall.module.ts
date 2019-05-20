@@ -13,12 +13,28 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './state';
 
 // Libraries
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { SortablejsModule } from 'angular-sortablejs';
 
 // Containers
 /* tslint:disable:max-line-length */
 import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
+import { CardwallCardsBaseComponent } from './container/cardwall-cards-base/cardwall-cards-base.component';
+import { CardwallCardSearchBaseComponent } from './container/cardwall-card-search-base/cardwall-card-search-base.component';
+import { CardwallListsBaseComponent } from './container/cardwall-lists-base/cardwall-lists-base.component';
+import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
+
+// Components
+import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
+import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall-toolbar.component';
+import { CardwallListComponent } from './components/cardwall-lists-view/cardwall-list/cardwall-list.component';
+import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
+import { CreateListComponent } from './components/cardwall-lists-view/cardwall-list/create-list/create-list.component';
+import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.component';
+import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progress-bar.component';
 
 @NgModule({
   imports: [
@@ -32,7 +48,24 @@ import { CardBaseComponent } from './container/card-base/card-base.component';
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
+    SortablejsModule,
+    BsDropdownModule,
+    PopoverModule,
   ],
-  declarations: [CardwallBaseComponent, CardBaseComponent],
+  declarations: [
+    CardwallBaseComponent,
+    CardBaseComponent,
+    CardwallNavComponent,
+    CardwallCardSearchBaseComponent,
+    CardwallToolbarContainerComponent,
+    CardwallToolbarComponent,
+    CardwallListsBaseComponent,
+    CardwallListsViewComponent,
+    CardwallListComponent,
+    WipIndicatorComponent,
+    WipProgressBarComponent,
+    CreateListComponent,
+    CardwallCardsBaseComponent,
+  ],
 })
 export class CardwallModule {}

@@ -1,0 +1,45 @@
+<div *ngIf="isLimit; else noLimit">
+  <div
+    class="btn-group btn-group-sm tdNg-cardwall-list-wip-container"
+    role="group"
+    aria-label="WIP Values"
+    [popover]="buildWipToolTip(list.limits[0])"
+    popoverTitle="WIP Limit"
+    placement="bottom"
+    container="body"
+    triggers="mouseenter:mouseleave"
+  >
+    <div
+      *ngIf="list.limits[0].minValue || list.limits[0].minValue === 0"
+      class="btn"
+      [ngClass]="{ 'btn-danger': isWIPLimitViolated(), 'btn-success': !isWIPLimitViolated() }"
+      style="margin: 0"
+    >
+      <span>{{ list.limits[0].minValue }}</span>
+    </div>
+
+    <div
+      class="tdNg-cardwall-list-card-count btn"
+      [ngClass]="{ 'btn-danger': isWIPLimitViolated(), 'btn-success': !isWIPLimitViolated() }"
+      style="margin: 0"
+    >
+      <span [ngClass]="{ 'white-text': isWIPLimitViolated() }">{{ list.cards.length }}</span>
+    </div>
+
+    <div
+      *ngIf="list.limits[0].maxValue || list.limits[0].maxValue === 0"
+      class="btn"
+      [ngClass]="{ 'btn-danger': isWIPLimitViolated(), 'btn-success': !isWIPLimitViolated() }"
+      style="margin: 0"
+    >
+      <span>{{ list.limits[0].maxValue }}</span>
+    </div>
+  </div>
+</div>
+
+<ng-template #noLimit>
+  <div class="tdNg-cardwall-list-card-count" [ngClass]="{ 'white-text': list.id === 0 }">
+    {{ list.cards.length }}
+    <span class="sr-only">cards currently</span>
+  </div>
+</ng-template>

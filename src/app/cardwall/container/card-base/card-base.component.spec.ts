@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CardBaseComponent } from './card-base.component';
+import { Store } from '@ngrx/store';
 
 describe('CardBaseComponent', () => {
   let component: CardBaseComponent;
@@ -8,9 +11,11 @@ describe('CardBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardBaseComponent ]
-    })
-    .compileComponents();
+      declarations: [CardBaseComponent],
+      imports: [RouterTestingModule],
+      providers: [{ provide: Store, useValue: { pipe: jest.fn(() => ({ subscribe: jest.fn() })) } }],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

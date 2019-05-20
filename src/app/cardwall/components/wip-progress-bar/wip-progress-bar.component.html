@@ -1,0 +1,10 @@
+<div *ngIf="isLimit">
+  <div class="progress" style="height: 3px;" aria-hidden="true">
+    <div
+      class="progress-bar"
+      aria-hidden="true"
+      [ngClass]="isWIPLimitViolated() ? 'bg-danger' : 'bg-success'"
+      [style.width.%]="getProgressValue()"
+    ></div>
+  </div>
+</div>

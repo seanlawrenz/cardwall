@@ -26,12 +26,18 @@ export function reducer(state = initialState, action: CardDetailsUIActions): Car
         ...state,
         showDetails: false,
         hideDetailsRequested: false,
+        cardDetailsPage: CardDetailsPageTypes.FORM,
       };
 
     case CardDetailsUITypes.HIDE_DETAILS_REQUESTED:
       return {
         ...state,
         hideDetailsRequested: true,
+      };
+
+    case CardDetailsUITypes.DETAILS_HIDDEN:
+      return {
+        ...state,
       };
 
     case CardDetailsUITypes.SHOW_FORM:

@@ -20,5 +20,3 @@ export function reducer(state = initialState, action: LoaderActions) {
       return state;
   }
 }
-
-export const isLoading = (state: LoadingState) => state.show;

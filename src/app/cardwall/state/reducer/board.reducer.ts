@@ -36,6 +36,19 @@ export function reducer(state = initialState, action: BoardActions): BoardState 
         error: action.payload,
       };
 
+    case BoardActionTypes.EDIT_BOARD_NAME_SUCCESS:
+      return {
+        ...state,
+        board: { ...state.board, name: action.payload.name, description: action.payload.description },
+        error: undefined,
+      };
+
+    case BoardActionTypes.EDIT_BOARD_NAME_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     default:
       return state;
   }

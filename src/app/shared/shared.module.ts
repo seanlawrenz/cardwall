@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragAndDropModule } from 'angular-draggable-droppable';
 
 // Components
+import { AppLoadingComponent } from './components/app-loading/app-loading.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CardResourceIconsComponent } from './components/card-resource-icons/card-resource-icons.component';
 import { EstimatedHoursComponent } from './components/estimated-hours/estimated-hours.component';
@@ -58,6 +59,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     IframeDialogComponent,
     IframeContentComponent,
     SortableColumnComponent,
+    AppLoadingComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -72,6 +74,7 @@ import { TotalsUiComponent } from './components/totals-ui/totals-ui.component';
     TooltipModule.forRoot(),
   ],
   exports: [
+    AppLoadingComponent,
     DirectiveModule,
     TDXAgilePipesModule,
     ButtonComponent,

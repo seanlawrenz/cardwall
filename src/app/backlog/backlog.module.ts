@@ -37,7 +37,6 @@ import { BacklogCardComponent } from './components/backlog-container/backlog-car
 import { BacklogContainerComponent } from './components/backlog-container/backlog-container.component';
 import { AddBoardDiagramComponent } from './components/backlog-container/add-board-diagram/add-board-diagram.component';
 import { BacklogListComponent } from './components/backlog-container/backlog-list/backlog-list.component';
-import { BacklogLoaderComponent } from './components/backlog-loader/backlog-loader.component';
 import { BacklogNavComponent } from './components/backlog-container/backlog-nav/backlog-nav.component';
 import { BacklogResourcesComponent } from './components/backlog-container/backlog-toolbar/backlog-resources/backlog-resources.component';
 import { BacklogSettingsComponent } from './components/backlog-container/backlog-settings/backlog-settings.component';
@@ -74,7 +73,6 @@ const backlogRoutes: Routes = [
     BacklogContainerComponent,
     BacklogNavComponent,
     BacklogMoveToolbarComponent,
-    BacklogLoaderComponent,
     BacklogBoardHeaderComponent,
     BacklogListComponent,
     BacklogCardComponent,

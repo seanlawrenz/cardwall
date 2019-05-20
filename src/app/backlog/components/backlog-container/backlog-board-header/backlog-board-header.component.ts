@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import { Subscription } from 'rxjs';
 
 import { Card, List, Plan } from '@app/models';
@@ -28,7 +28,7 @@ export class BacklogBoardHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   ngOnInit() {
     this.updateSummaryData();
-    this.expandedSub = this.store.pipe(select(fromRoot.isBoardsExpanded)).subscribe((expand: boolean) => {
+    this.expandedSub = this.store.pipe(select(rootSelectors.isBoardsExpanded)).subscribe((expand: boolean) => {
       this.isExpanded = expand;
     });
   }

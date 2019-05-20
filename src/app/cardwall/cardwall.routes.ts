@@ -7,7 +7,6 @@ export const cardwallRoutes: Routes = [
   {
     path: '',
     component: CardwallBaseComponent,
-    runGuardsAndResolvers: 'always',
     children: [{ path: 'card/:cardId', component: CardBaseComponent }],
   },
 ];

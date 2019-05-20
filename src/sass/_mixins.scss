@@ -10,3 +10,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@mixin transforms($deg) {
+  -webkit-transform: rotate($deg);
+  -ms-transform: rotate($deg); /* IE 9 */
+  transform: rotate($deg);
+}

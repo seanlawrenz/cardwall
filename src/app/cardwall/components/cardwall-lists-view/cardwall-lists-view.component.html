@@ -1,0 +1,6 @@
+<div class="tdNg-cardwall-lists-container" [sortablejs]="lists" [sortablejsOptions]="sortableOptions">
+  <div *ngFor="let list of lists" [class.drag-disabled]="list.id === 0">
+    <td-cardwall-list [list]="list" [board]="board" (editListRequested)="editList($event)"></td-cardwall-list>
+  </div>
+  <td-create-list [board]="board" (createListRequested)="addList($event)"></td-create-list>
+</div>

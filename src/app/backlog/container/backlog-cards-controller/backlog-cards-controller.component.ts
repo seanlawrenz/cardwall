@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as uiActions from '@app/store/actions/ui.actions';
@@ -73,7 +73,7 @@ export class BacklogCardsControllerComponent implements OnInit, OnDestroy {
     this.plan$ = this.store.pipe(select(fromBacklog.getPlanById(this.listInfo.planId)));
 
     this.store
-      .select(fromRoot.getCurrentResource)
+      .select(rootSelectors.getCurrentResource)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(resource => {
         this.updateSelectedResource(resource);

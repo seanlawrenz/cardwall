@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as rootActions from '@app/store/actions/ui.actions';
 import { optionsSidebar } from '@app/animations/option-sidebar.animation';
 
@@ -30,7 +30,7 @@ export class OptionSidebarContainerComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>, private render: Renderer2) {}
 
   ngOnInit() {
-    this.store.select(fromRoot.isOptionsShowing).subscribe(res => this.onSideBarStateChanged(res));
+    this.store.select(rootSelectors.isOptionsShowing).subscribe(res => this.onSideBarStateChanged(res));
   }
 
   hide() {

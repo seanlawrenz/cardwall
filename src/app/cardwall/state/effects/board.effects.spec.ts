@@ -23,6 +23,7 @@ describe('BoardEffects', () => {
   let boardSvc: BoardService;
   let signalRResult: SignalRResult;
   let mockParams;
+  let signalR: SignalRService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,6 +65,29 @@ describe('BoardEffects', () => {
       effects = TestBed.get(BoardEffects);
 
       expect(effects.loadBoard$).toBeObservable(expected);
+    });
+  });
+
+  describe('editBoard$', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of EditBoardSuccess', () => {
+      signalRResult = { isSuccessful: true, item: false };
+
+      action = new cardwallActions.EditBoardName(mockBoard);
+      outcome = new cardwallActions.EditBoardNameSuccess({ name: mockBoard.name, description: mockBoard.description });
+
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: signalRResult });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(BoardEffects);
+
+      expect(effects.editBoard$).toBeObservable(expected);
     });
   });
 });

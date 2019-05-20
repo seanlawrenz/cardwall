@@ -85,5 +85,6 @@ import { CardDetailsRoutingModule } from './card-details-routing.module';
     EffectsModule.forFeature(effects),
   ],
   exports: [CardDetailsDialogBaseComponent],
+  entryComponents: [CardDetailsBaseComponent],
 })
 export class CardDetailsModule {}

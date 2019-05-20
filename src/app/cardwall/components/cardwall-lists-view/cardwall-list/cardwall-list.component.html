@@ -1,0 +1,210 @@
+<div class="tdNg-cardwall-list-container">
+  <div class="card">
+    <div class="card-header tdNg-cardwall-list-header list-drag-handle" [ngClass]="{ 'bg-danger': list.id === 0 }">
+      <div class="tdNg-cardwall-list-header-info">
+        <h4
+          *ngIf="list.title.length > 60; else listTitleWithinRange"
+          [tdTooltip]="list.title"
+          placement="bottom"
+          class="mb-0"
+          [ngClass]="{ 'white-text': list.id === 0 }"
+        >
+          {{ getListHeaderText(list.title) }}
+        </h4>
+
+        <ng-template #listTitleWithinRange>
+          <h4 class="mb-0" [ngClass]="{ 'white-text': list.id === 0 }">{{ list.title }}</h4>
+        </ng-template>
+        <div class="tdNg-cardwall-list-header-action">
+          <div class="d-flex flex-row justify-content-end" *ngIf="list.id !== 0; else archiveListOptions">
+            <td-button
+              *ngIf="list.id !== 0 && canAddCards"
+              icon="plus fa-lg green"
+              tooltipText="Add Card"
+              tooltipPlacement="left"
+              cssClass="p-0"
+            ></td-button>
+
+            <div
+              class="btn-group d-none d-md-flex"
+              dropdown
+              role="toolbar"
+              container="body"
+              *ngIf="(board.isTaskUpdateEnabled && canAddCards) || board.iAmProjectManager"
+            >
+              <button
+                role="toolbar"
+                aria-haspopup="true"
+                aria-expanded="false"
+                class="btn btn-link p-0"
+                aria-label="Toggle list options"
+                dropdownToggle
+              >
+                <span class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></span>
+              </button>
+
+              <ul *dropdownMenu class="dropdown-menu tdNg-dropdown">
+                <li role="menuitem">
+                  <a href="javascript:void(0);" class="dropdown-item" aria-label="Edit List" (click)="editListDialog.show()">
+                    <span aria-hidden="true" class="fa fa-pencil"></span>
+                    Edit List
+                  </a>
+                </li>
+
+                <li role="menuitem">
+                  <a href="javascript:void(0);" class="dropdown-item" aria-label="Convert Tickets">
+                    <span aria-hidden="true" class="fa fa-tags"></span>
+                    Convert Tickets
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <ng-template #archiveListOptions>
+            <div>
+              <td-button
+                *ngIf="canDeleteCards && list.cards.length > 0"
+                icon="trash-o"
+                cssClass="white-text p-0"
+                ariaLabel="Delete All Cards"
+                [popover]="confirmDelete"
+                [outsideClick]="true"
+                popoverTitle="Confirm"
+                placement="auto"
+                #deletePop="bs-popover"
+              ></td-button>
+
+              <ng-template #confirmDelete>
+                Are you sure you want to delete all archived cards? This cannot be undone.
+                <div class="d-flex justify-content-between mt-2">
+                  <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
+                  <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+                    Cancel
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </ng-template>
+
+          <td-wip-indicator [list]="list"></td-wip-indicator>
+        </div>
+      </div>
+
+      <div *ngIf="!list.active" class="d-flex flex-row justify-content-end">
+        <span class="text-muted"><em>Inactive</em></span>
+      </div>
+    </div>
+    <td-wip-progress-bar [list]="list"></td-wip-progress-bar>
+    <div>
+      <td-cardwall-cards-base [board]="board" [list]="list"></td-cardwall-cards-base>
+    </div>
+  </div>
+</div>
+
+<!-- Edit List dialog -->
+<div
+  class="modal fade"
+  bsModal
+  #editListDialog="bs-modal"
+  [config]="{ keyboard: true }"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="dialog-name" class="modal-title">Edit List</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editListDialog.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="editListForm" (submit)="editList()">
+        <div class="modal-body">
+          <div class="form-group required">
+            <label class="control-label" for="listTitle">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="listTitle"
+              maxlength="255"
+              formControlName="title"
+              [ngClass]="{ 'is-invalid': editListForm.controls['title'].invalid && editListForm.controls['title'].touched }"
+            />
+            <div class="text-danger" *ngIf="editListForm.controls['title'].invalid && editListForm.controls['title'].touched">
+              Title is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="listDescription">Description</label>
+            <textarea maxlength="1500" rows="4" class="form-control" id="listDescription" formControlName="description"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="listPercentComplete">Percent Complete</label>
+            <div class="input-group">
+              <input type="number" id="listPercentComplete" formControlName="percentComplete" min="0" max="100" class="form-control" />
+
+              <div class="input-group-append"><span class="input-group-text">%</span></div>
+            </div>
+            <span class="form-text text-muted">
+              When a card is moved into the list, the percent complete will be updated with this value if specified.
+            </span>
+          </div>
+
+          <div class="form-group required">
+            <label class="control-label" for="listStatusId">Status Type</label>
+            <select
+              class="form-control"
+              id="listStatusId"
+              formControlName="statusTypeId"
+              [ngClass]="{ 'is-invalid': editListForm.controls['statusTypeId'].invalid && editListForm.controls['statusTypeId'].touched }"
+            >
+              <option label=""></option>
+              <option value="1" label="New">New</option>
+              <option value="2" label="In Process">In Process</option>
+              <option value="3" label="Completed">Completed</option>
+              <option value="4" label="Cancelled">Cancelled</option>
+              <option value="5" label="On Hold">On Hold</option>
+            </select>
+
+            <div class="text-danger" *ngIf="editListForm.controls['statusTypeId'].invalid && editListForm.controls['statusTypeId'].touched">
+              Status Type is required
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-8">
+              <label class="sr-only" for="wipMinValue">Work In Progress Minimum</label>
+              <div class="input-group">
+                <input type="number" step="1" class="form-control" id="wipMinValue" formControlName="wipMin" placeholder="Minimum" />
+
+                <label class="sr-only" for="wipMaxValue">Work In Progress Maximum</label>
+                <input type="number" step="1" class="form-control" id="wipMaxValue" formControlName="wipMax" placeholder="Maximum" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="listStatus">
+                <input type="checkbox" name="listStatus" id="listStatus" formControlName="active" />
+                Active
+              </label>
+            </div>
+          </div>
+          <div *ngIf="editListForm.hasError('invalidMinMax')" class="text-danger mt-2">Minimum cannot be greater than maximum.</div>
+          <div *ngIf="editListForm.hasError('negativeMinMax')" class="text-danger mt-2">Negative numbers are not allowed.</div>
+          <div *ngIf="editListForm.hasError('invalidMinMaxNumber')" class="text-danger mt-2">Valid values are whole numbers.</div>
+        </div>
+
+        <div class="modal-footer justify-content-start">
+          <td-button icon="save" type="submit" cssClass="btn-primary" (onClick)="editListDialog.hide()" [disabled]="editListForm.invalid">
+            Save
+          </td-button>
+          <td-button icon="times" cssClass="btn-danger" (onClick)="editListDialog.hide()">Cancel</td-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as fromBacklog from '../../state';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -33,7 +33,7 @@ export class AddBoardBaseComponent implements OnInit {
   };
 
   constructor(
-    private store: Store<fromBacklog.BacklogState>,
+    private store: Store<fromRoot.State>,
     private dialogService: BsModalService,
     private notificationService: NotificationService,
     private router: Router,
@@ -51,7 +51,7 @@ export class AddBoardBaseComponent implements OnInit {
     this.store.dispatch(new fromBacklog.GetAvailablePlanIdentifers());
     this.planIdentifiers$ = this.store.pipe(select(fromBacklog.getPlanIdentifiers));
     this.errorMessage$ = this.store.pipe(select(fromBacklog.getPlanIdentifiersError));
-    this.loading$ = this.store.pipe(select(fromRoot.isLoading));
+    this.loading$ = this.store.pipe(select(rootSelectors.isLoading));
   }
 
   addPlansToBacklog(plans: PlanIdentifier[]): string {

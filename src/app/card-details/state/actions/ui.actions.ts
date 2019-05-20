@@ -4,6 +4,7 @@ export enum CardDetailsUITypes {
   SHOW_DETAILS = '[CARD DETAILS UI] SHOW DETAILS',
   HIDE_DETAILS = '[CARD DETAILS UI] HIDE DETAILS',
   HIDE_DETAILS_REQUESTED = '[CARD DETAILS UI]] HIDE DETAILS REQUESTED',
+  DETAILS_HIDDEN = '[CARD DETAILS UI] DETAILS HIDDEN',
   SHOW_FORM = '[CARD DETAILS UI] SHOW FORM',
   SHOW_FEED = '[CARD DETAILS UI] SHOW FEED',
   SHOW_SUBTASKS = '[CARD DETAILS UI] SHOW SUBTASKS',
@@ -23,6 +24,10 @@ export class HideDetails implements Action {
 
 export class HideDetailsRequested implements Action {
   readonly type = CardDetailsUITypes.HIDE_DETAILS_REQUESTED;
+}
+
+export class DetailsHidden implements Action {
+  readonly type = CardDetailsUITypes.DETAILS_HIDDEN;
 }
 
 export class ShowForm implements Action {
@@ -57,6 +62,7 @@ export type CardDetailsUIActions =
   | ShowDetails
   | HideDetails
   | HideDetailsRequested
+  | DetailsHidden
   | ShowForm
   | ShowFeed
   | ShowSubtasks

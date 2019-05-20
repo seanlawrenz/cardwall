@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { SignalRService, BoardService } from '@app/app-services';
 import { Plan, List } from '@app/models';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as planActions from '../actions';
 import * as selectors from '../selectors/plan.selectors';
 
@@ -23,7 +23,7 @@ export class PlanEffects {
   @Effect()
   loadPlansOnParams$ = this.actions$.pipe(
     ofType(planActions.PlanActionTypes.GET_PLANS_IN_PARAMS),
-    withLatestFrom(this.store.select(fromRoot.getRouterState), (action, router) => {
+    withLatestFrom(this.store.select(rootSelectors.getRouterState), (action, router) => {
       const {
         state: {
           queryParams: { boards },

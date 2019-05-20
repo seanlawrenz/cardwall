@@ -1,3 +1,11 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 .tdNg {
   &-flex {
     &-row {
@@ -97,6 +105,10 @@ div.profile-image.initials {
   line-height: 28px;
 }
 
+div.progress-bar {
+  min-width: 5%;
+}
+
 .fa {
   &.fa-times {
     &:hover {
@@ -119,7 +131,7 @@ div.profile-image.initials {
 }
 
 .white-text {
-  color: #fff;
+  color: #fff !important;
 }
 
 // bootstrap accessibility
@@ -199,4 +211,10 @@ div.profile-image.initials {
   font-size: .875rem;
   line-height: 1.5;
   min-height: 0;
+}
+
+.no-btn-style {
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }

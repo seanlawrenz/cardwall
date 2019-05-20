@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 
-import { fromRoot } from '@app/store';
+import { fromRoot, rootSelectors } from '@app/store';
 import * as fromBacklog from '@app/backlog/state';
 import * as cardActions from '@app/store/actions/card.actions';
 import * as fromUI from '@app/store/actions/ui.actions';
@@ -31,7 +31,7 @@ export class BacklogMoveToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(
-      this.store.pipe(select(fromRoot.getSelectedCard)).subscribe(card => {
+      this.store.pipe(select(rootSelectors.getSelectedCard)).subscribe(card => {
         this.onSelectedCard(card);
       }),
     );

@@ -1,17 +1,32 @@
-import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+  ViewChild,
+  HostListener,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { CardDetailsBaseComponent } from '@app/card-details/container/card-details-base/card-details-base.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'td-card-details-dialog',
   templateUrl: './card-details-dialog.component.html',
   styleUrls: ['./card-details-dialog.component.scss'],
 })
-export class CardDetailsDialogComponent implements OnInit, OnChanges {
+export class CardDetailsDialogComponent implements OnInit, OnChanges, OnDestroy {
   @Input() show: boolean;
   @Output() closeCardDetailsRequested = new EventEmitter<void>();
+  @Output() detailsHidden = new EventEmitter<void>();
 
-  @ViewChild('cardDetailsDialog') cardDetailsDialog;
+  unsubscribe$ = new Subject<void>();
 
   dialogRef: BsModalRef;
   dialogConfig: ModalOptions = {
@@ -44,14 +59,16 @@ export class CardDetailsDialogComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.show && !changes.show.firstChange) {
       if (this.show) {
-        // This is a hack for removing Angular's expressionChangedAfterItHasBeenChecked.
-        setTimeout(() => {
-          this.openDialog();
-        }, 1);
+        this.openDialog();
       } else {
         this.closeDialog();
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   closeDialogReq() {
@@ -59,7 +76,9 @@ export class CardDetailsDialogComponent implements OnInit, OnChanges {
   }
 
   private openDialog() {
-    this.dialogRef = this.dialogService.show(this.cardDetailsDialog, this.dialogConfig);
+    this.dialogRef = this.dialogService.show(CardDetailsBaseComponent, this.dialogConfig);
+
+    this.dialogService.onHidden.pipe(takeUntil(this.unsubscribe$)).subscribe(() => this.detailsHidden.emit());
   }
 
   private closeDialog() {

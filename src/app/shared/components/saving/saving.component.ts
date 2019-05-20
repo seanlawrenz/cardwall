@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { fromRoot } from '@app/store';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'td-saving',
@@ -9,11 +6,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./saving.component.scss'],
 })
 export class SavingComponent implements OnInit {
-  isSaving$: Observable<boolean>;
+  @Input() showSaving = false;
 
-  constructor(private store: Store<fromRoot.State>) {}
-
-  ngOnInit() {
-    this.isSaving$ = this.store.select(fromRoot.isSaving);
-  }
+  ngOnInit() {}
 }
