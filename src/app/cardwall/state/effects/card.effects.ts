@@ -20,27 +20,6 @@ export class CardwallCardEffects {
 
   loadCard$: Observable<Action> = this.action$.pipe(
     ofType(cardwallActions.CardwallCardActionTypes.FETCH_CARD),
-    // withLatestFrom(this.store.select(fromRoot.getRouterState), (action: Board, router) => {
-    //   const {
-    //     state: {
-    //       params: { cardId },
-    //     },
-    //   } = router;
-
-    //   let card: Card;
-    //   action.lists.map(list => {
-    //     find(list.cards, c => {
-    //       if (c.id === cardId) {
-    //         card = c;
-    //       }
-    //     });
-    //   });
-
-    //   return {
-    //     board: action,
-    //     card,
-    //   };
-    // }),
     switchMap((action: cardwallActions.FetchCard) =>
       of(new cardDetailActions.CurrentCard({ card: action.payload.lists[0].cards[0], plan: action.payload })),
     ),

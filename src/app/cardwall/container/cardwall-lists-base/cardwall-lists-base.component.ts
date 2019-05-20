@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
+import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
 
 @Component({
@@ -15,6 +16,7 @@ export class CardwallListsBaseComponent implements OnInit {
   board$: Observable<Board>;
   lists$: Observable<List[]>;
   error$: Observable<ErrorFromSignalR>;
+  saving$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -22,5 +24,10 @@ export class CardwallListsBaseComponent implements OnInit {
     this.board$ = this.store.pipe(select(cardwallSelectors.getBoard));
     this.lists$ = this.store.pipe(select(cardwallSelectors.getLists));
     this.error$ = this.store.pipe(select(cardwallSelectors.getListsError));
+    this.saving$ = this.store.pipe(select(cardwallSelectors.isListSaving));
+  }
+
+  listReorder(info: { lists: List[]; resortedList: List }) {
+    this.store.dispatch(new cardwallActions.ReorderLists(info));
   }
 }

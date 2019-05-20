@@ -1,5 +1,5 @@
 <div class="tdNg-cardwall-lists-container" [sortablejs]="lists" [sortablejsOptions]="sortableOptions">
-  <div *ngFor="let list of lists">
+  <div *ngFor="let list of lists" [class.drag-disabled]="list.id === 0">
     <td-cardwall-list [list]="list" [board]="board"></td-cardwall-list>
   </div>
 </div>
