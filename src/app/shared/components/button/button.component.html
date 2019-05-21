@@ -12,6 +12,7 @@
 >
   <span [ngClass]="{ 'white-text': useWhiteText }">
     <span aria-hidden="true" [class]="effectiveIcon"></span>
+    <span *ngIf="srOnly" class="sr-only">{{ srOnly }}</span>
     <ng-content></ng-content>
   </span>
 </button>

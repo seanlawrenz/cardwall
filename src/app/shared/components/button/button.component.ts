@@ -14,6 +14,7 @@ export class ButtonComponent implements OnInit {
   @Input() useWhiteText = false;
   @Input() ariaLabel: string;
   @Input() type = 'button';
+  @Input() srOnly: string;
 
   @Output() onClick = new EventEmitter<any>();
 

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card } from '@app/models';
+import { Card, Board } from '@app/models';
+import { ConfigService } from '@app/app-services';
+import { SortablejsOptions } from 'angular-sortablejs';
 
 @Component({
   selector: 'td-cardwall-cards-view',
@@ -8,8 +10,30 @@ import { Card } from '@app/models';
 })
 export class CardwallCardsViewComponent implements OnInit {
   @Input() cards: Card[];
+  @Input() board: Board;
 
-  constructor() {}
+  canEditCards: boolean;
+  canDeleteCards: boolean;
+  canUpdateCards: boolean;
 
-  ngOnInit() {}
+  sortableOptions: SortablejsOptions = {
+    group: 'cards',
+    ghostClass: 'dragging-overlay',
+    scroll: true,
+    filter: '.card-drag-disabled',
+  };
+
+  constructor(private config: ConfigService) {}
+
+  ngOnInit() {
+    this.setPermissions();
+  }
+
+  private setPermissions() {
+    this.canEditCards = this.config.config.CanEditTasks;
+    this.canDeleteCards = this.config.config.CanDeleteTasks;
+    this.canUpdateCards = this.config.config.CanUpdateTasks;
+
+    this.sortableOptions.disabled = !this.canUpdateCards;
+  }
 }

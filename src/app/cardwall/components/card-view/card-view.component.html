@@ -1,3 +1,199 @@
-<p>
-  card-view works!
-</p>
+<div class="card mb-2 tdNg-cardwall-card-container">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      {{ card.name }}
+      <td-button
+        icon="pencil"
+        cssClass="no-btn-style"
+        ariaLabel="Edit {{ card.name }}"
+        tooltipText="Edit Card"
+        tooltipPlacement="left"
+      ></td-button>
+    </div>
+
+    <div *ngIf="card.startDate || card.endDate !== null">
+      <span *ngIf="card.startDate && !card.endDate">Starts&nbsp;</span>
+      <span *ngIf="card.startDate">{{ card.startDate | utcDate | date: 'MMM dd' }}</span>
+      <span *ngIf="card.startDate && card.endDate">&nbsp;-&nbsp;</span>
+      <span *ngIf="!card.startDate && card.endDate">Ends</span>
+      <span *ngIf="card.endDate">{{ card.endDate | utcDate | date: 'MMM dd' }}</span>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <div>
+        <!-- Add Time -->
+        <td-button
+          *ngIf="board.isTimeEntryEnabled"
+          icon="clock-o"
+          cssClass="no-btn-style"
+          srOnly="Add time to {{ card.name }}"
+          tooltipText="Add Time"
+        ></td-button>
+
+        <!-- My Work -->
+        <td-button
+          *ngIf="isInMyWork"
+          icon="coffee"
+          cssClass="no-btn-style"
+          srOnly="{{ card.name }} is in My Work"
+          tooltipText="This card is in your My Work"
+        ></td-button>
+
+        <!-- Attachments -->
+        <td-button
+          *ngIf="board.isAttachmentsEnabled && card.attachmentsCount > 0"
+          icon="paperclip"
+          cssClass="no-btn-style"
+          srOnly="{{ card.attachmentsCount }} Attachments. Go to attachments"
+          tooltipText="{{ card.attachmentsCount }} Attachment(s)"
+          tooltipPlacement="top"
+        ></td-button>
+
+        <!-- Archive -->
+        <td-button
+          *ngIf="card.listId > 0 && canUpdate"
+          icon="archive"
+          cssClass="no-btn-style"
+          srOnly="Archive {{ card.name }}"
+          tooltipText="Archive"
+          tooltipPlacement="top"
+          [popover]="confirmArchive"
+          [outsideClick]="true"
+          popoverTitle="Confirm"
+          #archivePop="bs-popover"
+          placement="right"
+        ></td-button>
+
+        <ng-template #confirmArchive>
+          Are you sure you want to archive this card?
+          <div class="d-flex justify-content-between mt-2">
+            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
+            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+              Cancel
+            </button>
+          </div>
+        </ng-template>
+
+        <!-- Delete -->
+        <td-button
+          *ngIf="card.listId === 0 && canDeleteCards"
+          icon="trash-o"
+          cssClass="no-btn-style"
+          srOnly="Delete {{ card.name }}"
+          tooltipText="Delete"
+          tooltipPlacement="top"
+          [popover]="confirmDelete"
+          [outsideClick]="true"
+          popoverTitle="Confirm"
+          #deletePop="bs-popover"
+          placement="right"
+        ></td-button>
+
+        <ng-template #confirmDelete>
+          Are you sure you want to delete card {{ card.name }}? This action cannot be undone.
+          <div class="d-flex justify-content-between mt-2">
+            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
+            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+              Cancel
+            </button>
+          </div>
+        </ng-template>
+
+        <!-- Description -->
+        <td-button
+          *ngIf="card.description && card.description.length > 0"
+          icon="bars"
+          cssClass="no-btn-style"
+          srOnly="Go to Description"
+          tooltipText="Has Description"
+        ></td-button>
+
+        <!-- Priority -->
+        <span *ngIf="card.priorityId !== 0">
+          ToDo
+        </span>
+
+        <!-- Ticket -->
+        <td-button
+          *ngIf="card.ticketID > 0"
+          icon="ticket"
+          cssClass="no-btn-style"
+          srOnly="This card has been converted from a ticket. The ticket's status will be updated based on the card's status. Go to linked ticket"
+          tooltipText="This card has been converted from a ticket. The ticket's status will be updated based on the card's status. Go to linked ticket"
+          tooltipPlacement="top"
+        ></td-button>
+
+        <!-- Subtasks -->
+        <td-button
+          *ngIf="card.subtasksCount > 0"
+          icon="tasks"
+          cssClass="no-btn-style"
+          srOnly="subtasks completed. Go to subtasks"
+          tooltipText="View Subtasks"
+          [ngClass]="{
+            'subtasks-open': card.openSubtasksCount > 0,
+            'subtasks-completed': card.openSubtasksCount <= 0
+          }"
+        >
+          <span [ngClass]="{ 'white-text': isSelected }">{{ card.subtasksCount - card.openSubtasksCount }}/{{ card.subtasksCount }}</span>
+        </td-button>
+      </div>
+
+      <div class="tdNg-cardwall-card-percent-container">
+        <!-- Issues Count -->
+        <div
+          *ngIf="board.isIssuesEnabled && card.issuesCount > 0"
+          class="cursor-pointer badge"
+          style="font-size: 100%"
+          [ngClass]="card.openIssuesCount > 0 ? 'badge-danger' : 'badge-default'"
+          tdTooltip="View Issues"
+        >
+          {{ card.issuesCount }} !
+        </div>
+
+        <!-- Story Points -->
+        <td-story-point-indicator
+          *ngIf="card.isStory"
+          [storyPoints]="card.storyPoints"
+          [isSelected]="isSelected"
+        ></td-story-point-indicator>
+
+        <!-- Percent Complete -->
+        <span
+          *ngIf="card.percentComplete > 0"
+          [ngClass]="card.percentComplete >= 100 ? 'green-bg' : 'gray-bg'"
+          tdTooltip="{{ card.remainingHours }} hour(s) remaining"
+          placement="top"
+          class="badge badge-pill badge-primary ml-2"
+        >
+          <span aria-hidden="true">{{ card.percentComplete | number: '1.0-0' }}%</span>
+          <span class="sr-only">{{ card.percentComplete | number: '1.0-0' }}% Complete</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="tdNg-cardwall-card-resources-container">
+      <td-card-resource-icons [card]="card"></td-card-resource-icons>
+    </div>
+
+    <div class="mt-2 d-flex">
+      <!-- Tags -->
+      <div *ngIf="card.tags">
+        <span *ngIf="card.tags.length <= 3; else trimTags">
+          <span *ngFor="let tag of card.tags" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+            {{ tag }}
+          </span>
+        </span>
+
+        <ng-template #trimTags>
+          <div class="d-flex align-items-center">
+            <span *ngFor="let tag of card.tags.slice(0, 3)" class="badge badge-primary gutter-right-xs text-trim tdNg-tags-badge">
+              {{ tag }}
+            </span>
+            <span class="badge badge-primary gutter-right-xs tdNg-tags-badge">+{{ card.tags.length - 3 }} Tags</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
