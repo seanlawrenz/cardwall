@@ -73,6 +73,10 @@
         max-width: 100%;
         height: 100%;
         overflow: auto;
+
+        @media #{$break-narrow-up} {
+          overflow-y: hidden;
+        }
       }
 
       &-container {
@@ -147,6 +151,11 @@
       &-container {
         padding: 1em;
         min-height: 5em;
+
+        @media #{$break-narrow-up} {
+          overflow: auto;
+          max-height: calc(100vh - 179px);
+        }
       }
     }
 
