@@ -25,5 +25,6 @@ export class CardwallCardsBaseComponent implements OnInit {
 
   ngOnInit() {
     this.cards$ = this.store.pipe(select(cardwallSelectors.getListCards(this.list.id)));
+    this.saving$ = this.store.pipe(select(cardwallSelectors.isCardsSaving));
   }
 }

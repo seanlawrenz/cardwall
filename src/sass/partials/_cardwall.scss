@@ -142,5 +142,16 @@
         }
       }
     }
+
+    &-cards {
+      &-container {
+        padding: 1em;
+        min-height: 5em;
+      }
+    }
+
+    &-card {
+
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CardwallCardsBaseComponent } from './cardwall-cards-base.component';
 import { Store } from '@ngrx/store';
@@ -12,6 +13,7 @@ describe('CardwallCardsBaseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CardwallCardsBaseComponent],
       providers: [{ provide: Store, useValue: { pipe: jest.fn() } }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
