@@ -94,7 +94,7 @@ div.profile-image.board {
   background-size: 100% 100%;
   font-size: 11px;
   border-radius: 3px;
-  margin-left: 1em;
+  margin-left: 0.5em;
 }
 
 div.profile-image.picture > img {
@@ -125,6 +125,10 @@ div.progress-bar {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.cursor-move {
+  cursor: move !important;
 }
 
 .bg-white {

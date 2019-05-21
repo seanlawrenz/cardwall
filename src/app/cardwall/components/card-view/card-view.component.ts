@@ -17,11 +17,20 @@ export class CardViewComponent implements OnInit {
   canDeleteCards: boolean;
 
   isSelected = false;
+  isHighlighted = false;
 
   constructor(private config: ConfigService) {}
 
   ngOnInit() {
     this.setPermissions();
+  }
+
+  getCardStyle(): string {
+    if (this.isSelected) {
+      return 'tdNg-card-selected';
+    }
+
+    return `tdNg-card-color-${this.card.cssClass}`;
   }
 
   private setPermissions() {

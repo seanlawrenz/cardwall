@@ -1,5 +1,5 @@
-<div class="card mb-2 tdNg-cardwall-card-container">
-  <div class="card-body">
+<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()">
+  <div class="card-body" [ngClass]="{ 'cursor-move': canUpdate }">
     <div class="d-flex justify-content-between">
       {{ card.name }}
       <td-button
@@ -131,8 +131,7 @@
           srOnly="subtasks completed. Go to subtasks"
           tooltipText="View Subtasks"
           [ngClass]="{
-            'subtasks-open': card.openSubtasksCount > 0,
-            'subtasks-completed': card.openSubtasksCount <= 0
+            'tdNg-subtasks-completed': card.openSubtasksCount <= 0
           }"
         >
           <span [ngClass]="{ 'white-text': isSelected }">{{ card.subtasksCount - card.openSubtasksCount }}/{{ card.subtasksCount }}</span>
