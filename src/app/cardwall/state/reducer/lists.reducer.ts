@@ -1,6 +1,7 @@
 import { BoardActions, BoardActionTypes, CardwallListActionTypes, CardwallListActions } from '../actions';
+import { ListActionTypes, ListActions } from '@app/store/actions';
 import { List, ErrorFromSignalR } from '@app/models';
-import { updateListInBoard, addListInBoard } from '@app/utils/listOperations';
+import { updateListInBoard, addListInBoard, updateListOrder } from '@app/utils/listOperations';
 
 export interface ListState {
   lists: List[];
@@ -14,7 +15,7 @@ export const initialState: ListState = {
   error: undefined,
 };
 
-export function reducer(state = initialState, action: BoardActions | CardwallListActions): ListState {
+export function reducer(state = initialState, action: BoardActions | CardwallListActions | ListActions): ListState {
   switch (action.type) {
     case BoardActionTypes.GET_BOARD_SUCCESS:
       return {
@@ -39,6 +40,12 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
         ...state,
         saving: false,
         error: action.payload,
+      };
+
+    case ListActionTypes.LIST_REORDER:
+      return {
+        ...state,
+        lists: updateListOrder(state.lists, action.payload.sortedListIDs),
       };
 
     case CardwallListActionTypes.EDIT_LIST:
