@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import * as fromCardwall from '../reducer';
 
-import { filter } from 'lodash';
+import { find } from 'lodash';
 
 export const getLists = createSelector(
   fromCardwall.getCardwallState,
@@ -17,3 +17,9 @@ export const getListsError = createSelector(
   fromCardwall.getCardwallState,
   state => state.lists.error,
 );
+
+export const getListCards = id =>
+  createSelector(
+    getLists,
+    lists => find(lists, list => list.id === id).cards,
+  );

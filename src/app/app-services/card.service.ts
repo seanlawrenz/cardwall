@@ -18,7 +18,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class CardService {
   constructor(private signalRService: SignalRService, private notifyService: NotificationService, private config: ConfigService) {}
 
-  moveCardWithInSameList(cards: Card[], newIndex): any {
+  moveCardWithInSameList(cards: Card[], newIndex): Observable<SignalRResult> {
     const { projectId, planId, listId, id } = cards[newIndex];
     const relativeCardId: number = getRelativeMoveCardId(cards, cards[newIndex], newIndex);
     return new Observable(observer => {

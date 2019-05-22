@@ -22,10 +22,16 @@ describe('CardwallCardsBaseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CardwallCardsBaseComponent],
       providers: [
-        { provide: Store, useValue: { pipe: jest.fn(), dispatch: jest.fn() } },
+        {
+          provide: Store,
+          useValue: { pipe: jest.fn(), dispatch: jest.fn(), select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })) },
+        },
         {
           provide: CardService,
-          useValue: { moveCardWithInSameList: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })) },
+          useValue: {
+            moveCardWithInSameList: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })),
+            moveCardToListInSameBoard: jest.fn(),
+          },
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -70,6 +76,21 @@ describe('CardwallCardsBaseComponent', () => {
       component.dragCardEnd(dragEvent);
 
       expect(spy).toHaveBeenCalledWith(component.list.cards, 0);
+    });
+
+    it('should call moveCardToListInSameBoard if moved to new list', () => {
+      const otherList = { ...mockList, id: 123 };
+      const cardThatIsBeingMovedToNewList = { ...mockCard, listId: otherList.id };
+      const otherCardFromOtherList = { ...mockCard, listId: otherList.id };
+      otherList.cards = [otherCardFromOtherList];
+      mockList.cards = [cardThatIsBeingMovedToNewList];
+      dragEvent = { card: cardThatIsBeingMovedToNewList, cards: [], newIndex: 0 };
+      const sameListSpy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
+      spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard');
+
+      component.dragCardEnd(dragEvent);
+
+      expect(sameListSpy).not.toHaveBeenCalled();
     });
   });
 });
