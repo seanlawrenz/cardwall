@@ -17,9 +17,3 @@ export const getListsError = createSelector(
   fromCardwall.getCardwallState,
   state => state.lists.error,
 );
-
-export const getListCards = listId =>
-  createSelector(
-    fromCardwall.getCardwallState,
-    state => filter(state.cards.cards, c => c.listId === listId),
-  );

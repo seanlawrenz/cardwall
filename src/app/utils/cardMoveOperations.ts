@@ -1,4 +1,4 @@
-import { Card, Plan, CardOperationInfo, CardOrderInfo, List } from '@app/models';
+import { Card, Plan, CardOperationInfo, CardOrderInfo, List, CardReorder } from '@app/models';
 import { find, findIndex, sortBy } from 'lodash';
 
 /**
@@ -145,6 +145,17 @@ const findCardInPlanAndRemoveFromOldList = (plan: Plan, cardId: number): Card =>
 
 const addCardAndUpdateOrder = (cards: Card[], info: CardOperationInfo): Card[] => {
   return updateCardOrder([...cards, info.card], info.orders);
+};
+
+export const cardwallListReorder = (lists: List[], info: CardReorder): List[] => {
+  const listToUpdate = find(lists, l => l.id === info.listId);
+  if (listToUpdate) {
+    listToUpdate.cards = updateCardOrderInList(listToUpdate.cards, info.cardId, info.index);
+    const listToUpdateIndex: number = findIndex(lists, l => l.id === listToUpdate.id);
+    return insertItem(removeItem(lists, listToUpdateIndex), { index: listToUpdateIndex, item: listToUpdate });
+  } else {
+    return lists;
+  }
 };
 
 const updateCardOrder = (cards: Card[], orders: CardOrderInfo[]): Card[] =>
