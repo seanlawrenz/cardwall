@@ -1,4 +1,4 @@
-<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()">
+<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()" (dblclick)="routeToEditCard()">
   <div class="card-body" [ngClass]="{ 'cursor-move': canUpdate }">
     <div class="d-flex justify-content-between">
       {{ card.name }}
@@ -8,6 +8,7 @@
         ariaLabel="Edit {{ card.name }}"
         tooltipText="Edit Card"
         tooltipPlacement="left"
+        (onClick)="routeToEditCard()"
       ></td-button>
     </div>
 
@@ -28,6 +29,8 @@
           cssClass="no-btn-style"
           srOnly="Add time to {{ card.name }}"
           tooltipText="Add Time"
+          [routerLink]="['card', card.id]"
+          [queryParams]="{ tab: 'work' }"
         ></td-button>
 
         <!-- My Work -->
@@ -47,6 +50,8 @@
           srOnly="{{ card.attachmentsCount }} Attachments. Go to attachments"
           tooltipText="{{ card.attachmentsCount }} Attachment(s)"
           tooltipPlacement="top"
+          [routerLink]="['card', card.id]"
+          [queryParams]="{ tab: 'attachments' }"
         ></td-button>
 
         <!-- Archive -->
@@ -106,6 +111,7 @@
           cssClass="no-btn-style"
           srOnly="Go to Description"
           tooltipText="Has Description"
+          (onClick)="routeToEditCard()"
         ></td-button>
 
         <!-- Priority -->
@@ -133,6 +139,8 @@
           [ngClass]="{
             'tdNg-subtasks-completed': card.openSubtasksCount <= 0
           }"
+          [routerLink]="['card', card.id]"
+          [queryParams]="{ tab: 'subtasks' }"
         >
           <span [ngClass]="{ 'white-text': isSelected }">{{ card.subtasksCount - card.openSubtasksCount }}/{{ card.subtasksCount }}</span>
         </td-button>
@@ -146,6 +154,8 @@
           style="font-size: 100%"
           [ngClass]="card.openIssuesCount > 0 ? 'badge-danger' : 'badge-default'"
           tdTooltip="View Issues"
+          [routerLink]="['card', card.id]"
+          [queryParams]="{ tab: 'issues' }"
         >
           {{ card.issuesCount }} !
         </div>

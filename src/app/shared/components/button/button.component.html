@@ -6,12 +6,12 @@
   [ngClass]="{ disabled: disabled }"
   [class]="cssClass"
   [delay]="500"
-  style="font-size: inherit; color: inherit; position: relative; margin: 0;"
+  style="font-size: inherit; position: relative; margin: 0;"
   [attr.type]="type"
   attr.aria-label="{{ ariaLabel }}"
 >
   <span [ngClass]="{ 'white-text': useWhiteText }">
-    <span aria-hidden="true" [class]="effectiveIcon"></span>
+    <span aria-hidden="true" style="color: inherit;" [class]="effectiveIcon"></span>
     <span *ngIf="srOnly" class="sr-only">{{ srOnly }}</span>
     <ng-content></ng-content>
   </span>

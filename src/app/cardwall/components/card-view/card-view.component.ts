@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Card, Board, Resources } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { isNullOrUndefined } from 'util';
@@ -19,7 +20,7 @@ export class CardViewComponent implements OnInit {
   isSelected = false;
   isHighlighted = false;
 
-  constructor(private config: ConfigService) {}
+  constructor(private config: ConfigService, private router: Router) {}
 
   ngOnInit() {
     this.setPermissions();
@@ -31,6 +32,11 @@ export class CardViewComponent implements OnInit {
     }
 
     return `tdNg-card-color-${this.card.cssClass}`;
+  }
+
+  routeToEditCard() {
+    const url = `cardwall/project/${this.card.projectId}/board/${this.card.planId}/card/${this.card.id}`;
+    this.router.navigate([url]);
   }
 
   private setPermissions() {
