@@ -1,7 +1,14 @@
-import { updateCardOrderInListInBacklog, updateCardInBacklog, createCardInBacklog, moveItemInArray } from './cardMoveOperations';
+import {
+  updateCardOrderInListInBacklog,
+  updateCardInBacklog,
+  createCardInBacklog,
+  moveItemInArray,
+  updateCardInCardwall,
+  cardwallListReorder,
+} from './cardMoveOperations';
 
 import { List, Plan, Card, CardOperationInfo } from '@app/models';
-import { mockBoardBuilder, mockListBuilder, mockCardBuilder, mockList } from '@app/test/data';
+import { mockBoardBuilder, mockListBuilder, mockCardBuilder, mockList, mockCard } from '@app/test/data';
 
 let plans: Plan[];
 const mockPlan: Plan = mockBoardBuilder();
@@ -105,5 +112,77 @@ describe('moveItemInArray', () => {
     const expected = [1, 2, 4, 5, 3];
     const action = moveItemInArray(input, 2, input.length);
     expect(action).toEqual(expected);
+  });
+});
+
+describe('updateCardInCardwall', () => {
+  let expected;
+  let test;
+  it(`should not update the list's cards if the card has not moved`, () => {
+    const cardToUpdate = { ...mockCard, listId: 1234 };
+    const listThatHasTheCardCurrentlyInState = { ...mockList, id: 1234, cards: [cardToUpdate] };
+    const listThatCardIsNotIn = { ...mockList, id: 123, cards: [] };
+    const lists = [listThatHasTheCardCurrentlyInState, listThatCardIsNotIn];
+
+    expected = [listThatHasTheCardCurrentlyInState, listThatCardIsNotIn];
+    test = updateCardInCardwall(lists, cardToUpdate);
+
+    expect(test).toEqual(expected);
+    // Insure immutability
+    expect(test).not.toBe(expected);
+  });
+
+  it('should update a card that is moving to a new list', () => {
+    const cardToUpdate = { ...mockCard, listId: 123 };
+    const listThatHasTheCardCurrentlyInState = { ...mockList, id: 1234, cards: [{ ...cardToUpdate, listId: 1234 }] };
+    const listThatCardIsMovingTo = { ...mockList, id: 123, cards: [] };
+    const lists = [listThatHasTheCardCurrentlyInState, listThatCardIsMovingTo];
+
+    expected = [{ ...listThatHasTheCardCurrentlyInState, cards: [cardToUpdate] }, { ...listThatCardIsMovingTo, cards: [] }];
+
+    test = updateCardInCardwall(lists, cardToUpdate);
+
+    expect(test).toEqual(expected);
+  });
+});
+
+describe('cardwallListReorder', () => {
+  let expected;
+  let test;
+
+  it('should ignore bad data', () => {
+    const cardToUpdate = { ...mockCard, listId: 12 };
+    const listThatDoesNotMatchInfo = { ...mockList, id: 12, cards: [cardToUpdate] };
+
+    expected = [listThatDoesNotMatchInfo];
+    test = cardwallListReorder([listThatDoesNotMatchInfo], { listId: 0, cardId: cardToUpdate.id, index: 1 });
+
+    expect(test).toEqual(expected);
+  });
+
+  it('should reorder a reorder within a list', () => {
+    const cardToUpdate = { ...mockCard, listId: mockList.id };
+    const cardAheadOfUpdatedCard = { ...mockCard, id: 12, listId: mockList.id };
+    const listToUpdate = { ...mockList, cards: [cardAheadOfUpdatedCard, cardToUpdate] };
+    const otherList = { ...mockList, cards: [], id: 123 };
+    const lists = [otherList, listToUpdate];
+
+    expected = [otherList, { ...listToUpdate, cards: [cardToUpdate, cardAheadOfUpdatedCard] }];
+    test = cardwallListReorder(lists, { listId: listToUpdate.id, cardId: cardToUpdate.id, index: 0 });
+
+    expect(test).toEqual(expected);
+  });
+
+  it('should reorder a card moving to a new list', () => {
+    const cardToUpdate = { ...mockCard, listId: mockList.id };
+    const cardThatWillBeBehindUpdatedCard = { ...mockCard, id: 12, listId: mockList.id };
+    const listToUpdate = { ...mockList, cards: [cardThatWillBeBehindUpdatedCard] };
+    const listCardIsMovingFrom = { ...mockList, cards: [cardToUpdate], id: 123 };
+    const lists = [listCardIsMovingFrom, listToUpdate];
+
+    expected = [{ ...listCardIsMovingFrom, cards: [] }, { ...listToUpdate, cards: [cardToUpdate, cardThatWillBeBehindUpdatedCard] }];
+    test = cardwallListReorder(lists, { listId: listToUpdate.id, cardId: cardToUpdate.id, index: 0 });
+
+    expect(test).toEqual(expected);
   });
 });

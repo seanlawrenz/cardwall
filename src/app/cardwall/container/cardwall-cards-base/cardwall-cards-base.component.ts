@@ -6,9 +6,9 @@ import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
 
-import { Card, Board, List, ErrorFromSignalR, SignalRResult } from '@app/models';
-import { CardService, NotificationService } from '@app/app-services';
-import { takeUntil, mergeMap } from 'rxjs/operators';
+import { Card, Board, List, ErrorFromSignalR } from '@app/models';
+import { CardService } from '@app/app-services';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'td-cardwall-cards-base',
@@ -24,7 +24,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
 
-  constructor(private store: Store<fromRoot.State>, private cardService: CardService, private notify: NotificationService) {}
+  constructor(private store: Store<fromRoot.State>, private cardService: CardService) {}
 
   ngOnInit() {
     this.saving$ = this.store.pipe(select(cardwallSelectors.isCardsSaving));
@@ -41,8 +41,8 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
    */
   dragCardEnd(event: { card: Card; cards: Card[]; newIndex: number }) {
     const { card, cards, newIndex } = event;
-    this.store.dispatch(new cardwallActions.CardMovementSave());
     if (card.listId === this.list.id) {
+      this.store.dispatch(new cardwallActions.CardMovementSave());
       this.cardService
         .moveCardWithInSameList(cards, newIndex)
         .pipe(takeUntil(this.unsubscribe$))
@@ -50,20 +50,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
           this.store.dispatch(new cardwallActions.CardMovementEnd());
         });
     } else {
-      this.store
-        .select(cardwallSelectors.getListCards(card.listId))
-        .pipe(
-          takeUntil(this.unsubscribe$),
-          mergeMap((newListCards: Card[]) => this.cardService.moveCardToListInSameBoard(newListCards, card, this.list.id, newIndex)),
-          mergeMap((result: SignalRResult) => {
-            if (result.isSuccessful) {
-              return of(result);
-            } else {
-              this.notify.danger('Problem moving card', result.reason);
-            }
-          }),
-        )
-        .subscribe(() => this.store.dispatch(new cardwallActions.CardMovementEnd()));
+      this.store.dispatch(new cardwallActions.CardMoveToNewList({ card, listId: this.list.id, newIndex }));
     }
   }
 }

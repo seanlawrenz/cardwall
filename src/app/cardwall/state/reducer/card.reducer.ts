@@ -26,6 +26,18 @@ export function reducer(state = initialState, action: CardwallCardActions | Card
         saving: false,
       };
 
+    case CardwallCardActionTypes.CARD_MOVE_TO_NEW_LIST:
+      return {
+        ...state,
+        saving: true,
+      };
+
+    case CardwallCardActionTypes.CARD_MOVE_TO_NEW_LIST_SUCCESS:
+      return {
+        ...state,
+        saving: false,
+      };
+
     default:
       return state;
   }

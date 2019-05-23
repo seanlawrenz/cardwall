@@ -150,11 +150,48 @@ const addCardAndUpdateOrder = (cards: Card[], info: CardOperationInfo): Card[] =
 export const cardwallListReorder = (lists: List[], info: CardReorder): List[] => {
   const listToUpdate = find(lists, l => l.id === info.listId);
   if (listToUpdate) {
-    listToUpdate.cards = updateCardOrderInList(listToUpdate.cards, info.cardId, info.index);
     const listToUpdateIndex: number = findIndex(lists, l => l.id === listToUpdate.id);
-    return insertItem(removeItem(lists, listToUpdateIndex), { index: listToUpdateIndex, item: listToUpdate });
+    if (listToUpdate.cards.findIndex(card => card.id === info.cardId) > -1) {
+      listToUpdate.cards = updateCardOrderInList(listToUpdate.cards, info.cardId, info.index);
+      return insertItem(removeItem(lists, listToUpdateIndex), { index: listToUpdateIndex, item: listToUpdate });
+    } else {
+      // Card may have been moved to new list
+      let cardToUpdate: Card;
+      for (let i = 0; i < lists.length; i++) {
+        const cardIndex = lists[i].cards.findIndex(card => card.id === info.cardId);
+        if (cardIndex > -1) {
+          cardToUpdate = lists[i].cards[cardIndex];
+          lists[i].cards = removeItem(lists[i].cards, cardIndex);
+          break;
+        }
+      }
+      listToUpdate.cards = insertItem(listToUpdate.cards, { index: info.index, item: cardToUpdate });
+      return insertItem(removeItem(lists, listToUpdateIndex), { index: listToUpdateIndex, item: listToUpdate });
+    }
   } else {
     return lists;
+  }
+};
+
+export const updateCardInCardwall = (lists: List[], cardToUpdate: Card): List[] => {
+  const listToUpdateIndex: number = findIndex(lists, l => l.id === cardToUpdate.listId);
+  // Short cut if not in state
+  if (listToUpdateIndex === -1) {
+    return lists;
+  }
+
+  const index = findIndex(lists[listToUpdateIndex].cards, c => c.id === cardToUpdate.id);
+  if (index > -1) {
+    const listToUpdate = { ...lists[listToUpdateIndex], cards: updateCardInList(lists[listToUpdateIndex].cards, cardToUpdate) };
+    return insertItem(removeItem(lists, listToUpdateIndex), { index: listToUpdateIndex, item: listToUpdate });
+  } else {
+    // May be moved to a new card
+    return lists.map(l => {
+      if (l.cards.findIndex(card => card.id === cardToUpdate.id) > -1) {
+        l.cards = updateCardInList(l.cards, cardToUpdate);
+      }
+      return l;
+    });
   }
 };
 

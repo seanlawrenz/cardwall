@@ -2,7 +2,7 @@ import { BoardActions, BoardActionTypes, CardwallListActionTypes, CardwallListAc
 import { ListActionTypes, ListActions, CardActionTypes, CardActions } from '@app/store/actions';
 import { List, ErrorFromSignalR } from '@app/models';
 import { updateListInBoard, addListInBoard, updateListOrder } from '@app/utils/listOperations';
-import { cardwallListReorder } from '@app/utils';
+import { cardwallListReorder, updateCardInCardwall } from '@app/utils';
 
 export interface ListState {
   lists: List[];
@@ -93,6 +93,12 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
       return {
         ...state,
         lists: cardwallListReorder(state.lists, action.payload),
+      };
+
+    case CardActionTypes.CARD_UPDATE_RECEIVED:
+      return {
+        ...state,
+        lists: updateCardInCardwall(state.lists, action.payload),
       };
 
     default:

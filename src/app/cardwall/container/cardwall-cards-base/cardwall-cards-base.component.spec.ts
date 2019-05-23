@@ -56,29 +56,22 @@ describe('CardwallCardsBaseComponent', () => {
       cardSvc = TestBed.get(CardService);
     });
 
-    it('should dispatch CardMovementSave', () => {
-      action = new cardwallActions.CardMovementSave();
-      spy = jest.spyOn(store, 'dispatch');
-      dragEvent = { card: mockCard, newIndex: 0 };
-
-      component.dragCardEnd(dragEvent);
-
-      expect(spy).toHaveBeenCalledWith(action);
-    });
-
     it('should call moveCardWithInSameList if moved within list', () => {
       const cardWithinThisList = { ...mockCard, listId: mockList.id };
       const otherCardWithinThisList = { ...mockCard, listId: mockList.id };
       mockList.cards = [otherCardWithinThisList, cardWithinThisList];
       dragEvent = { card: cardWithinThisList, cards: [otherCardWithinThisList, cardWithinThisList], newIndex: 0 };
       spy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
+      action = new cardwallActions.CardMovementSave();
+      const dispatchSpy = jest.spyOn(store, 'dispatch');
 
       component.dragCardEnd(dragEvent);
 
       expect(spy).toHaveBeenCalledWith(component.list.cards, 0);
+      expect(dispatchSpy).toHaveBeenCalledWith(action);
     });
 
-    it('should call moveCardToListInSameBoard if moved to new list', () => {
+    it('should call CardMoveToNewList if moved to new list', () => {
       const otherList = { ...mockList, id: 123 };
       const cardThatIsBeingMovedToNewList = { ...mockCard, listId: otherList.id };
       const otherCardFromOtherList = { ...mockCard, listId: otherList.id };
@@ -86,11 +79,13 @@ describe('CardwallCardsBaseComponent', () => {
       mockList.cards = [cardThatIsBeingMovedToNewList];
       dragEvent = { card: cardThatIsBeingMovedToNewList, cards: [], newIndex: 0 };
       const sameListSpy = jest.spyOn(cardSvc, 'moveCardWithInSameList');
-      spy = jest.spyOn(cardSvc, 'moveCardToListInSameBoard');
+      action = new cardwallActions.CardMoveToNewList({ card: cardThatIsBeingMovedToNewList, listId: mockList.id, newIndex: 0 });
+      spy = jest.spyOn(store, 'dispatch');
 
       component.dragCardEnd(dragEvent);
 
       expect(sameListSpy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(action);
     });
   });
 });
