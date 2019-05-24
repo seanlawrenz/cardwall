@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '@app/shared/shared.module';
 import { AddCardComponent } from './add-card.component';
+import { CardService } from '@app/app-services';
 
 describe('AddCardComponent', () => {
   let component: AddCardComponent;
@@ -12,6 +13,7 @@ describe('AddCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AddCardComponent],
       imports: [FormsModule, ReactiveFormsModule, SharedModule],
+      providers: [{ provide: CardService, useValue: { buildNewCard: jest.fn() } }],
     }).compileComponents();
   }));
 

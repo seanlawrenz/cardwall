@@ -92,7 +92,7 @@ export class CardService {
     });
   }
 
-  buildNewCard(list: List): Observable<CardOperationInfo> {
+  buildNewCard(list: List, title?: string): Observable<CardOperationInfo> {
     const card: Card = {
       attachmentsCount: 0,
       cssClass: 'default',
@@ -103,7 +103,7 @@ export class CardService {
       isStory: false,
       issuesCount: 0,
       listId: list.id,
-      name: 'New Card',
+      name: title || 'New Card',
       openIssuesCount: 0,
       openSubtasksCount: 0,
       order: 1,

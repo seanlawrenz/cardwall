@@ -1,6 +1,6 @@
 <div class="card tdNg-cardwall-card-container tdNg-card-color-default tdNg-card-new">
   <div class="card-body">
-    <form [formGroup]="newCardForm">
+    <form [formGroup]="newCardForm" (submit)="onSubmit()">
       <input type="text" class="form-control form-control-sm" formControlName="title" autofocus />
 
       <div class="d-flex justify-content-end mt-2">

@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CardService } from '@app/app-services';
+import { List } from '@app/models';
 
 @Component({
   selector: 'td-add-card',
@@ -7,14 +9,25 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./add-card.component.scss'],
 })
 export class AddCardComponent implements OnInit {
+  @Input() list: List;
+
   @Output() cancelNewCard = new EventEmitter<void>();
 
   newCardForm: FormGroup;
 
-  constructor() {}
+  constructor(private cardService: CardService) {}
 
   ngOnInit() {
     this.setUpForm();
+  }
+
+  onSubmit() {
+    if (this.newCardForm.valid) {
+      const {
+        value: { title },
+      } = this.newCardForm;
+      this.cardService.buildNewCard(this.list, title).subscribe(info => console.log(info));
+    }
   }
 
   cancel() {
