@@ -18,6 +18,8 @@ export class CardwallListComponent implements OnInit, OnChanges {
 
   @Output() editListRequested = new EventEmitter<List>();
 
+  addNewCardFormRequested = false;
+
   canEditPlans: boolean;
   canAddCards: boolean;
   canDeleteCards: boolean;
@@ -66,6 +68,14 @@ export class CardwallListComponent implements OnInit, OnChanges {
       }
       this.editListRequested.emit(list);
     }
+  }
+
+  addNewCard() {
+    this.addNewCardFormRequested = true;
+  }
+
+  closeAddNewCard() {
+    this.addNewCardFormRequested = false;
   }
 
   private setPermissions() {

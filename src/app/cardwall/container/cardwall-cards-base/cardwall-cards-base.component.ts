@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, of } from 'rxjs';
 
@@ -18,6 +18,9 @@ import { takeUntil } from 'rxjs/operators';
 export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
   @Input() board: Board;
   @Input() list: List;
+  @Input() addNewCardFromRequested: boolean;
+
+  @Output() closeAddNewCard = new EventEmitter<void>();
 
   saving$: Observable<boolean>;
   error$: Observable<ErrorFromSignalR>;
@@ -33,6 +36,10 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  cancelNewCard() {
+    this.closeAddNewCard.emit();
   }
 
   /**

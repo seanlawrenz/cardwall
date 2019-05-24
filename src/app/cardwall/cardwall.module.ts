@@ -28,6 +28,7 @@ import { CardwallListsBaseComponent } from './container/cardwall-lists-base/card
 import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
 
 // Components
+import { AddCardComponent } from './container/add-card/add-card.component';
 import { CardViewComponent } from './components/card-view/card-view.component';
 import { CardwallCardsViewComponent } from './components/cardwall-cards-view/cardwall-cards-view.component';
 import { CardwallNavComponent } from './components/cardwall-nav/cardwall-nav.component';
@@ -70,6 +71,7 @@ import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progr
     CardwallCardsBaseComponent,
     CardViewComponent,
     CardwallCardsViewComponent,
+    AddCardComponent,
   ],
 })
 export class CardwallModule {}

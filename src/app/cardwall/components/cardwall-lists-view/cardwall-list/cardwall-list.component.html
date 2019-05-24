@@ -23,6 +23,7 @@
               tooltipText="Add Card"
               tooltipPlacement="left"
               cssClass="p-0"
+              (onClick)="addNewCard()"
             ></td-button>
 
             <div
@@ -97,7 +98,12 @@
     </div>
     <td-wip-progress-bar [list]="list"></td-wip-progress-bar>
     <div>
-      <td-cardwall-cards-base [board]="board" [list]="list"></td-cardwall-cards-base>
+      <td-cardwall-cards-base
+        [board]="board"
+        [list]="list"
+        [addNewCardFromRequested]="addNewCardFormRequested"
+        (closeAddNewCard)="closeAddNewCard()"
+      ></td-cardwall-cards-base>
     </div>
   </div>
 </div>

@@ -1,0 +1,13 @@
+<div class="card tdNg-cardwall-card-container tdNg-card-color-default tdNg-card-new">
+  <div class="card-body">
+    <form [formGroup]="newCardForm">
+      <input type="text" class="form-control form-control-sm" formControlName="title" autofocus />
+
+      <div class="d-flex justify-content-end mt-2">
+        <td-button class="mr-2" icon="save" type="submit" cssClass="btn-primary" srOnly="Save"></td-button>
+
+        <td-button icon="times" cssClass="btn-danger" srOnly="Cancel" (onClick)="cancel()"></td-button>
+      </div>
+    </form>
+  </div>
+</div>

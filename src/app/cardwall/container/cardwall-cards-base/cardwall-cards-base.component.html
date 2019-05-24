@@ -5,4 +5,6 @@
   (cardMoveRequested)="dragCardEnd($event)"
 ></td-cardwall-cards-view>
 
+<td-add-card *ngIf="addNewCardFromRequested" (cancelNewCard)="cancelNewCard()"></td-add-card>
+
 <td-saving [showSaving]="saving$ | async"></td-saving>
