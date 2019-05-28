@@ -6,13 +6,14 @@ import { switchMap } from 'rxjs/operators';
 import { EstimateVisibilityMode } from '@app/models';
 import { isNullOrUndefined } from 'util';
 import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BacklogSettingEffects {
   constructor(private actions$: Actions) {}
 
   @Effect()
-  getSettingsFromLocalStorage$ = this.actions$.pipe(
+  getSettingsFromLocalStorage$: Observable<Action> = this.actions$.pipe(
     ofType(settingActions.BacklogSettingActionTypes.GET_FROM_LOCAL_STORAGE),
     switchMap(action => {
       let estimatesVisibility = <EstimateVisibilityMode>(
