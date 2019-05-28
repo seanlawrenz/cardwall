@@ -1,5 +1,5 @@
 <div #transitionDiv>
-  <div [@optionsSidebar]="optionSidebarState" #sidebarContainer class="sidebar-container">
+  <div [@optionsSidebar]="optionSidebarState" [ngClass]="showOptions ? 'd-block' : 'd-none'" #sidebarContainer class="sidebar-container">
     <div *ngIf="showOptions" class="sidebar-content">
       <ng-content></ng-content>
     </div>

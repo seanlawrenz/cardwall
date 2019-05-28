@@ -1,14 +1,16 @@
-import { BoardActionTypes, BoardActions } from '../actions';
+import { BoardActionTypes, BoardActions, CardwallUIActions, CardwallUIActionTypes } from '../actions';
 
 export interface CardwallUIState {
   saving: boolean;
+  showInactiveLists: boolean;
 }
 
 export const initialState: CardwallUIState = {
   saving: false,
+  showInactiveLists: false,
 };
 
-export function reducer(state = initialState, action: BoardActions): CardwallUIState {
+export function reducer(state = initialState, action: BoardActions | CardwallUIActions): CardwallUIState {
   switch (action.type) {
     case BoardActionTypes.EDIT_BOARD_NAME:
       return {
@@ -26,6 +28,18 @@ export function reducer(state = initialState, action: BoardActions): CardwallUIS
       return {
         ...state,
         saving: false,
+      };
+
+    case CardwallUIActionTypes.SHOW_INACTIVE_LISTS:
+      return {
+        ...state,
+        showInactiveLists: true,
+      };
+
+    case CardwallUIActionTypes.HIDE_INACTIVE_LISTS:
+      return {
+        ...state,
+        showInactiveLists: false,
       };
 
     default:

@@ -11,6 +11,7 @@ export class CardwallNavComponent implements OnInit, OnChanges {
   @Input() board: Board;
 
   @Output() editBoardRequested = new EventEmitter<Board>();
+  @Output() showOptionsRequested = new EventEmitter<void>();
 
   editBoardForm: FormGroup;
 
@@ -32,6 +33,10 @@ export class CardwallNavComponent implements OnInit, OnChanges {
       const updatedBoard = { ...this.board, name, description };
       this.editBoardRequested.emit(updatedBoard);
     }
+  }
+
+  showOptions() {
+    this.showOptionsRequested.emit();
   }
 
   private setUpForm() {

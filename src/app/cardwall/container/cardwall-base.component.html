@@ -1,6 +1,10 @@
 <div class="tdNg-cardwall-wrapper" *ngIf="!(loading$ | async); else loading">
   <div class="tdNg-cardwall-nav-container">
-    <td-cardwall-nav [board]="board$ | async" (editBoardRequested)="editBoard($event)"></td-cardwall-nav>
+    <td-cardwall-nav
+      [board]="board$ | async"
+      (editBoardRequested)="editBoard($event)"
+      (showOptionsRequested)="showOptions()"
+    ></td-cardwall-nav>
   </div>
   <div class="tdNg-cardwall-container">
     <div class="d-none d-md-flex tdNg-cardwall-toolbar-wrapper">
@@ -10,6 +14,7 @@
       <td-cardwall-lists-base></td-cardwall-lists-base>
     </div>
   </div>
+  <td-cardwall-settings-container></td-cardwall-settings-container>
 
   <td-saving [showSaving]="saving$ | async"></td-saving>
   <router-outlet></router-outlet>

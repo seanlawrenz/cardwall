@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
+import * as rootUIActions from '@app/store/actions/ui.actions';
 
 import { Board } from '@app/models';
 
@@ -31,5 +32,9 @@ export class CardwallBaseComponent implements OnInit {
 
   editBoard(board: Board) {
     this.store.dispatch(new cardwallActions.EditBoardName(board));
+  }
+
+  showOptions() {
+    this.store.dispatch(new rootUIActions.ShowOptions());
   }
 }
