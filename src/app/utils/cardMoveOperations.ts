@@ -131,6 +131,16 @@ export const deleteCardInBacklog = (plans: Plan[], cardToDelete: Card): Plan[] =
   });
 };
 
+export const createCardInCardwall = (lists: List[], info: CardOperationInfo): List[] => {
+  const { card } = info;
+  return lists.map(list => {
+    if (list.id === card.listId) {
+      list.cards = addCardAndUpdateOrder(list.cards, info);
+    }
+    return list;
+  });
+};
+
 const findCardInPlanAndRemoveFromOldList = (plan: Plan, cardId: number): Card => {
   let targetCard: Card;
   plan.lists.map(list => {

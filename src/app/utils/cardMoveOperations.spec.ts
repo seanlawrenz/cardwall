@@ -5,6 +5,7 @@ import {
   moveItemInArray,
   updateCardInCardwall,
   cardwallListReorder,
+  createCardInCardwall,
 } from './cardMoveOperations';
 
 import { List, Plan, Card, CardOperationInfo } from '@app/models';
@@ -182,6 +183,38 @@ describe('cardwallListReorder', () => {
 
     expected = [{ ...listCardIsMovingFrom, cards: [] }, { ...listToUpdate, cards: [cardToUpdate, cardThatWillBeBehindUpdatedCard] }];
     test = cardwallListReorder(lists, { listId: listToUpdate.id, cardId: cardToUpdate.id, index: 0 });
+
+    expect(test).toEqual(expected);
+  });
+});
+
+describe('createCardInCardwall', () => {
+  let expected;
+  let test;
+
+  it('should do nothing if list is the same', () => {
+    const mockListWithNoChanges = { ...mockListsFromPlan1, cards: [mockCard1, mockCard2] };
+
+    test = createCardInCardwall([mockListWithNoChanges], {
+      card: mockCard1,
+      orders: [{ cardID: mockCard1.id, order: 1 }, { cardID: mockCard2.id, order: 2 }],
+    });
+    expected = [mockListWithNoChanges];
+
+    expect(test).toEqual(expected);
+  });
+
+  it('should add the card to the correct list', () => {
+    const mockListWithNoChanges = { ...mockListsFromPlan1, cards: [mockCard1, mockCard2] };
+    const cardOnTargetList = { ...mockCard3, listId: 123 };
+    const targetList = { ...mockListsFromPlan1, id: 123, cards: [cardOnTargetList] };
+    const newCardHeadingToNewList = { ...mockCard, listId: 123 };
+
+    test = createCardInCardwall([mockListWithNoChanges, targetList], {
+      card: newCardHeadingToNewList,
+      orders: [{ cardID: cardOnTargetList.id, order: 1 }, { cardID: newCardHeadingToNewList.id, order: 2 }],
+    });
+    expected = [mockListWithNoChanges, { ...targetList, cards: [cardOnTargetList, newCardHeadingToNewList] }];
 
     expect(test).toEqual(expected);
   });

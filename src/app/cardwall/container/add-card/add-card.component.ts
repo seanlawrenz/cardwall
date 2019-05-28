@@ -1,7 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import { fromRoot } from '@app/store';
+import * as cardActions from '@app/store/actions/card.actions';
+
+import { List, CardOperationInfo } from '@app/models';
 import { CardService } from '@app/app-services';
-import { List } from '@app/models';
 
 @Component({
   selector: 'td-add-card',
@@ -15,7 +20,7 @@ export class AddCardComponent implements OnInit {
 
   newCardForm: FormGroup;
 
-  constructor(private cardService: CardService) {}
+  constructor(private cardService: CardService, private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.setUpForm();
@@ -26,7 +31,10 @@ export class AddCardComponent implements OnInit {
       const {
         value: { title },
       } = this.newCardForm;
-      this.cardService.buildNewCard(this.list, title).subscribe(info => console.log(info));
+      this.cardService.buildNewCard(this.list, title).subscribe((info: CardOperationInfo) => {
+        this.store.dispatch(new cardActions.CardCreateFromServer(info));
+        this.setUpForm();
+      });
     }
   }
 
