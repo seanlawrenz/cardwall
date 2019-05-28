@@ -17,5 +17,16 @@
       />
       <label class="cursor-pointer form-check-label" for="showInactiveListsCheckbox">Show Inactive Lists</label>
     </div>
+
+    <div class="form-check mt-2">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="showArchiveCards"
+        id="showArchiveCardsCheckbox"
+        (change)="changeInShowArchiveCards($event.target.checked)"
+      />
+      <label class="cursor-pointer form-check-label" for="showArchiveCardsCheckbox">Show Archived Cards</label>
+    </div>
   </div>
 </div>

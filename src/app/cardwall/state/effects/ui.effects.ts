@@ -15,8 +15,14 @@ export class CardwallUIEffects {
     ofType(cardwallActions.CardwallUIActionTypes.GET_FROM_LOCAL_STORAGE),
     switchMap(action => {
       const storage: Storage = window.localStorage;
+      const cardwallSettings: Action[] = [];
+
       const showInactive: boolean = JSON.parse(storage.getItem('Agile.Settings.CardWall.ShowInactive'));
-      return of(showInactive ? new cardwallActions.ShowInactiveLists() : new cardwallActions.HideInactiveLists());
+      const showArchived: boolean = JSON.parse(storage.getItem('Agile.Settings.CardWall.ShowArchived'));
+
+      cardwallSettings.push(showInactive ? new cardwallActions.ShowInactiveLists() : new cardwallActions.HideInactiveLists());
+      cardwallSettings.push(showArchived ? new cardwallActions.ShowArchivedCards() : new cardwallActions.HideArchivedCards());
+      return cardwallSettings;
     }),
   );
 }

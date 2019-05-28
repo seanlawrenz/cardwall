@@ -10,3 +10,8 @@ export const showInactiveLists = createSelector(
   fromCardwall.getCardwallState,
   state => state.ui.showInactiveLists,
 );
+
+export const showArchivedCards = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.ui.showArchivedCards,
+);

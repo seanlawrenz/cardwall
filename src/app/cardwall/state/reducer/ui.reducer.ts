@@ -3,11 +3,13 @@ import { BoardActionTypes, BoardActions, CardwallUIActions, CardwallUIActionType
 export interface CardwallUIState {
   saving: boolean;
   showInactiveLists: boolean;
+  showArchivedCards: boolean;
 }
 
 export const initialState: CardwallUIState = {
   saving: false,
   showInactiveLists: false,
+  showArchivedCards: false,
 };
 
 export function reducer(state = initialState, action: BoardActions | CardwallUIActions): CardwallUIState {
@@ -43,6 +45,20 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
       return {
         ...state,
         showInactiveLists: false,
+      };
+
+    case CardwallUIActionTypes.SHOW_ARCHIVED_CARDS:
+      storage.setItem('Agile.Settings.CardWall.ShowArchived', JSON.stringify(true));
+      return {
+        ...state,
+        showArchivedCards: true,
+      };
+
+    case CardwallUIActionTypes.HIDE_ARCHIVED_CARDS:
+      storage.setItem('Agile.Settings.CardWall.ShowArchived', JSON.stringify(false));
+      return {
+        ...state,
+        showArchivedCards: false,
       };
 
     default:

@@ -12,6 +12,7 @@ export class CardwallListsViewComponent implements OnInit, OnChanges {
   @Input() board: Board;
   @Input() lists: List[];
   @Input() showInactiveLists: boolean;
+  @Input() showArchivedCards: boolean;
 
   @Output() listReorderRequested = new EventEmitter<{ lists: List[]; resortedList: List }>();
   @Output() editListRequested = new EventEmitter<List>();
@@ -42,6 +43,10 @@ export class CardwallListsViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.showInactiveLists && !changes.showInactiveLists.firstChange) {
+      this.setListsToDisplay(this.lists);
+    }
+
+    if (changes.showArchivedCards && !changes.showArchivedCards.firstChange) {
       this.setListsToDisplay(this.lists);
     }
 
@@ -84,11 +89,15 @@ export class CardwallListsViewComponent implements OnInit, OnChanges {
 
   private setListsToDisplay(lists: List[]) {
     this.listsToDisplay = lists.filter(list => {
-      if (this.showInactiveLists) {
+      if (this.showArchivedCards && list.id === 0) {
         return list;
-      } else {
-        if (list.active) {
+      } else if (list.id !== 0) {
+        if (this.showInactiveLists) {
           return list;
+        } else {
+          if (list.active) {
+            return list;
+          }
         }
       }
     });

@@ -1,7 +1,9 @@
 <td-option-sidebar-container>
   <td-cardwall-settings
     [showInactiveLists]="showInactiveLists$ | async"
+    [showArchiveCards]="showArchivedCards$ | async"
     (showInactiveListsRequested)="toggleShowInactiveLists($event)"
+    (showArchiveCardsRequested)="toggleShowArchiveCards($event)"
     (closeOptionsRequested)="closeOptions()"
   ></td-cardwall-settings>
 </td-option-sidebar-container>

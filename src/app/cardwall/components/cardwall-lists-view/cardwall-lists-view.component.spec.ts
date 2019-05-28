@@ -33,13 +33,27 @@ describe('CardwallListsViewComponent', () => {
 
   describe('lists to display', () => {
     it('should display lists that active if showInactiveLists is false', () => {
+      const archiveList = { ...mockList, id: 0 };
       const activeList = { ...mockList, active: true };
       const inactiveList = { ...mockList, active: false };
-      component.lists = [activeList, inactiveList];
+      component.lists = [archiveList, activeList, inactiveList];
 
       fixture.detectChanges();
 
       expect(component.listsToDisplay).toEqual([activeList]);
+    });
+
+    it('should not display the archive list if showArchive is false', () => {
+      const archiveList = { ...mockList, id: 0 };
+      const activeList = { ...mockList, active: true };
+      const inactiveList = { ...mockList, active: false };
+      component.lists = [archiveList, inactiveList, activeList];
+      component.showInactiveLists = true;
+      component.showArchivedCards = false;
+
+      fixture.detectChanges();
+
+      expect(component.listsToDisplay).toEqual([inactiveList, activeList]);
     });
   });
 });

@@ -2,6 +2,7 @@
   [board]="board$ | async"
   [lists]="lists$ | async"
   [showInactiveLists]="showInactiveLists$ | async"
+  [showArchivedCards]="showArchiveCards$ | async"
   (listReorderRequested)="listReorder($event)"
   (editListRequested)="editList($event)"
   (addListRequested)="addList($event)"

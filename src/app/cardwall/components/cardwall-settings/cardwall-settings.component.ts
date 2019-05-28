@@ -7,8 +7,10 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 })
 export class CardwallSettingsComponent implements OnInit {
   @Input() showInactiveLists: boolean;
+  @Input() showArchiveCards: boolean;
 
   @Output() showInactiveListsRequested: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() showArchiveCardsRequested: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() closeOptionsRequested = new EventEmitter<void>();
 
@@ -22,5 +24,9 @@ export class CardwallSettingsComponent implements OnInit {
 
   changeInShowInactiveLists(checked: boolean) {
     this.showInactiveListsRequested.emit(checked);
+  }
+
+  changeInShowArchiveCards(checked: boolean) {
+    this.showArchiveCardsRequested.emit(checked);
   }
 }
