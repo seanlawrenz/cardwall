@@ -1,7 +1,6 @@
 export * from './attachments.model';
 export * from './board.model';
 export * from './backlog-settings.model';
-export * from './cardwall-settings.model';
 export * from './config.model';
 export * from './connection.model';
 export * from './errors.model';

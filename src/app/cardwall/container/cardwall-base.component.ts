@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
@@ -25,9 +25,9 @@ export class CardwallBaseComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new cardwallActions.GetBoard());
-    this.board$ = this.store.select(cardwallSelectors.getBoard);
-    this.loading$ = this.store.select(cardwallSelectors.isBoardLoading);
-    this.saving$ = this.store.select(cardwallSelectors.isSaving);
+    this.board$ = this.store.pipe(select(cardwallSelectors.getBoard));
+    this.loading$ = this.store.pipe(select(cardwallSelectors.isBoardLoading));
+    this.saving$ = this.store.pipe(select(cardwallSelectors.isSaving));
   }
 
   editBoard(board: Board) {
