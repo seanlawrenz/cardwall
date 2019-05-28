@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { fromRoot } from '@app/store';
 import * as fromRootUI from '@app/store/actions/ui.actions';
@@ -12,13 +13,20 @@ import * as cardwallSelectors from '@app/cardwall/state/selectors';
   styleUrls: ['./cardwall-settings-container.component.scss'],
 })
 export class CardwallSettingsContainerComponent implements OnInit {
+  showInactiveLists$: Observable<boolean>;
+
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.store.dispatch(new cardwallActions.GetFromLocalStorage());
+    this.showInactiveLists$ = this.store.pipe(select(cardwallSelectors.showInactiveLists));
   }
 
   closeOptions() {
     this.store.dispatch(new fromRootUI.HideOptions());
+  }
+
+  toggleShowInactiveLists(show: boolean) {
+    show ? this.store.dispatch(new cardwallActions.ShowInactiveLists()) : this.store.dispatch(new cardwallActions.HideInactiveLists());
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { Board, List } from '@app/models';
 import { ConfigService } from '@app/app-services';
@@ -8,15 +8,17 @@ import { ConfigService } from '@app/app-services';
   templateUrl: './cardwall-lists-view.component.html',
   styleUrls: ['./cardwall-lists-view.component.scss'],
 })
-export class CardwallListsViewComponent implements OnInit {
+export class CardwallListsViewComponent implements OnInit, OnChanges {
   @Input() board: Board;
   @Input() lists: List[];
+  @Input() showInactiveLists: boolean;
 
   @Output() listReorderRequested = new EventEmitter<{ lists: List[]; resortedList: List }>();
   @Output() editListRequested = new EventEmitter<List>();
   @Output() addListRequested = new EventEmitter<List>();
 
   canEditPlans: boolean;
+  listsToDisplay: List[];
 
   sortableOptions: SortablejsOptions = {
     group: {
@@ -35,6 +37,17 @@ export class CardwallListsViewComponent implements OnInit {
 
   ngOnInit() {
     this.setPermissions();
+    this.setListsToDisplay(this.lists);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.showInactiveLists && !changes.showInactiveLists.firstChange) {
+      this.setListsToDisplay(this.lists);
+    }
+
+    if (changes.lists && !changes.lists.firstChange) {
+      this.setListsToDisplay(changes.lists.currentValue);
+    }
   }
 
   listReorder(event) {
@@ -67,5 +80,17 @@ export class CardwallListsViewComponent implements OnInit {
 
   private preventArchiveListFromBeingSorted(event: any): boolean {
     return !event.related.classList.contains('drag-disabled');
+  }
+
+  private setListsToDisplay(lists: List[]) {
+    this.listsToDisplay = lists.filter(list => {
+      if (this.showInactiveLists) {
+        return list;
+      } else {
+        if (list.active) {
+          return list;
+        }
+      }
+    });
   }
 }

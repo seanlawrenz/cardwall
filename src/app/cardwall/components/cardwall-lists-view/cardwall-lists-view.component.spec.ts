@@ -25,10 +25,21 @@ describe('CardwallListsViewComponent', () => {
     component = fixture.componentInstance;
     component.board = mockBoard;
     component.lists = [mockList];
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('lists to display', () => {
+    it('should display lists that active if showInactiveLists is false', () => {
+      const activeList = { ...mockList, active: true };
+      const inactiveList = { ...mockList, active: false };
+      component.lists = [activeList, inactiveList];
+
+      fixture.detectChanges();
+
+      expect(component.listsToDisplay).toEqual([activeList]);
+    });
   });
 });

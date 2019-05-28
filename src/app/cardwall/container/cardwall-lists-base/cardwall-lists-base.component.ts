@@ -17,6 +17,7 @@ export class CardwallListsBaseComponent implements OnInit {
   lists$: Observable<List[]>;
   error$: Observable<ErrorFromSignalR>;
   saving$: Observable<boolean>;
+  showInactiveLists$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -25,6 +26,7 @@ export class CardwallListsBaseComponent implements OnInit {
     this.lists$ = this.store.pipe(select(cardwallSelectors.getLists));
     this.error$ = this.store.pipe(select(cardwallSelectors.getListsError));
     this.saving$ = this.store.pipe(select(cardwallSelectors.isListSaving));
+    this.showInactiveLists$ = this.store.pipe(select(cardwallSelectors.showInactiveLists));
   }
 
   listReorder(info: { lists: List[]; resortedList: List }) {

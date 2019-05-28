@@ -5,4 +5,17 @@
       <span aria-hidden="true">x</span>
     </button>
   </div>
+
+  <div class="tdNg-sidebar-content">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="showInactiveLists"
+        id="showInactiveListsCheckbox"
+        (change)="changeInShowInactiveLists($event.target.checked)"
+      />
+      <label class="cursor-pointer form-check-label" for="showInactiveListsCheckbox">Show Inactive Lists</label>
+    </div>
+  </div>
 </div>

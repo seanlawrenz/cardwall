@@ -1,6 +1,7 @@
 <td-cardwall-lists-view
   [board]="board$ | async"
   [lists]="lists$ | async"
+  [showInactiveLists]="showInactiveLists$ | async"
   (listReorderRequested)="listReorder($event)"
   (editListRequested)="editList($event)"
   (addListRequested)="addList($event)"

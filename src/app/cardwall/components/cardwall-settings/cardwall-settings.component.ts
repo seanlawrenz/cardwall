@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'td-cardwall-settings',
@@ -6,6 +6,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./cardwall-settings.component.scss'],
 })
 export class CardwallSettingsComponent implements OnInit {
+  @Input() showInactiveLists: boolean;
+
+  @Output() showInactiveListsRequested: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Output() closeOptionsRequested = new EventEmitter<void>();
 
   constructor() {}
@@ -14,5 +18,9 @@ export class CardwallSettingsComponent implements OnInit {
 
   closeOptions() {
     this.closeOptionsRequested.emit();
+  }
+
+  changeInShowInactiveLists(checked: boolean) {
+    this.showInactiveListsRequested.emit(checked);
   }
 }

@@ -11,6 +11,7 @@ export const initialState: CardwallUIState = {
 };
 
 export function reducer(state = initialState, action: BoardActions | CardwallUIActions): CardwallUIState {
+  const storage: Storage = window.localStorage;
   switch (action.type) {
     case BoardActionTypes.EDIT_BOARD_NAME:
       return {
@@ -31,12 +32,14 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
       };
 
     case CardwallUIActionTypes.SHOW_INACTIVE_LISTS:
+      storage.setItem('Agile.Settings.CardWall.ShowInactive', JSON.stringify(true));
       return {
         ...state,
         showInactiveLists: true,
       };
 
     case CardwallUIActionTypes.HIDE_INACTIVE_LISTS:
+      storage.setItem('Agile.Settings.CardWall.ShowInactive', JSON.stringify(false));
       return {
         ...state,
         showInactiveLists: false,

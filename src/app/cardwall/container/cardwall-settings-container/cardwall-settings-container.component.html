@@ -1,3 +1,7 @@
 <td-option-sidebar-container>
-  <td-cardwall-settings (closeOptionsRequested)="closeOptions()"></td-cardwall-settings>
+  <td-cardwall-settings
+    [showInactiveLists]="showInactiveLists$ | async"
+    (showInactiveListsRequested)="toggleShowInactiveLists($event)"
+    (closeOptionsRequested)="closeOptions()"
+  ></td-cardwall-settings>
 </td-option-sidebar-container>

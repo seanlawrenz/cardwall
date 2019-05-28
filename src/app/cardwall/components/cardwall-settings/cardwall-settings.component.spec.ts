@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { CardwallSettingsComponent } from './cardwall-settings.component';
 
@@ -8,9 +9,9 @@ describe('CardwallSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardwallSettingsComponent ]
-    })
-    .compileComponents();
+      declarations: [CardwallSettingsComponent],
+      imports: [FormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
