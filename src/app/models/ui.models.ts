@@ -6,6 +6,11 @@ export enum BacklogSettingsChanges {
   SHOW_NONE = 'SHOW NONE',
 }
 
+export enum CardwallSettingChanges {
+  SHOW_INACTIVE_LISTS = 'SHOW INACTIVE LISTS',
+  SHOW_ARCHIVED_CARDS = 'SHOW ARCHIVED CARDS',
+}
+
 // There is a disconnect between the old backlog enum and the newer "better" string type.
 // We'll have to juggle them for some time.
 export enum EstimateVisibilityMode {
