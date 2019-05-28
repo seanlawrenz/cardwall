@@ -5,6 +5,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
+import * as rootCardActions from '@app/store/actions/card.actions';
 
 import { Card, Board, List, ErrorFromSignalR } from '@app/models';
 import { CardService } from '@app/app-services';
@@ -43,7 +44,11 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
   }
 
   archiveOrDeleteCard(card) {
-    console.log(card);
+    if (card.listId === 0) {
+      console.log('delete');
+    } else {
+      this.store.dispatch(new rootCardActions.ArchiveCard({ card, plan: this.board }));
+    }
   }
 
   /**

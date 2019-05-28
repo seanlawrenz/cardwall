@@ -5,6 +5,7 @@ import { CardwallCardsBaseComponent } from './cardwall-cards-base.component';
 import { Store } from '@ngrx/store';
 
 import * as cardwallActions from '@app/cardwall/state/actions';
+import * as rootCardActions from '@app/store/actions/card.actions';
 
 import { mockBoard, mockList, mockCard } from '@app/test/data';
 import { CardService } from '@app/app-services';
@@ -85,6 +86,22 @@ describe('CardwallCardsBaseComponent', () => {
       component.dragCardEnd(dragEvent);
 
       expect(sameListSpy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('archiveOrDeleteCard', () => {
+    beforeEach(() => {
+      store = TestBed.get(Store);
+    });
+
+    it('should dispatch ArchiveCard if card is not in Archive', () => {
+      const cardNotInArchive = { ...mockCard, id: 123 };
+      action = new rootCardActions.ArchiveCard({ card: cardNotInArchive, plan: mockBoard });
+      spy = jest.spyOn(store, 'dispatch');
+
+      component.archiveOrDeleteCard(cardNotInArchive);
+
       expect(spy).toHaveBeenCalledWith(action);
     });
   });
