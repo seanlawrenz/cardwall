@@ -1,5 +1,5 @@
 <div class="tdNg-cardwall-cards-container" [sortablejs]="cards" [sortablejsOptions]="sortableOptions">
   <div *ngFor="let card of cards">
-    <td-card-view [card]="card" [board]="board"></td-card-view>
+    <td-card-view [card]="card" [board]="board" (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"></td-card-view>
   </div>
 </div>

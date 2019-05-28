@@ -42,6 +42,10 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
     this.closeAddNewCard.emit();
   }
 
+  archiveOrDeleteCard(card) {
+    console.log(card);
+  }
+
   /**
    * The end of a drag is called on the component that the drag originated from.
    * This card could be heading to a new list.

@@ -15,6 +15,7 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
   @Input() board: Board;
 
   @Output() cardMoveRequested = new EventEmitter<{ card: Card; cards: Card[]; newIndex: number }>();
+  @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
 
   canEditCards: boolean;
   canDeleteCards: boolean;
@@ -62,6 +63,10 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
         }
         this.cardMoveRequested.emit({ card: cardData, cards: this.cards, newIndex });
     }
+  }
+
+  archiveOrDeleteCard(card: Card) {
+    this.archiveOrDeleteCardRequested.emit(card);
   }
 
   private setPermissions() {

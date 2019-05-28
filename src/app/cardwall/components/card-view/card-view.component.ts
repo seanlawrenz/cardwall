@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Card, Board, Resources } from '@app/models';
 import { ConfigService } from '@app/app-services';
@@ -12,6 +12,11 @@ import { isNullOrUndefined } from 'util';
 export class CardViewComponent implements OnInit {
   @Input() card: Card;
   @Input() board: Board;
+
+  @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
+
+  @ViewChild('archivePop') archivePopoverControl;
+  @ViewChild('deletePop') deletePopoverControl;
 
   isInMyWork = false;
   canUpdate: boolean;
@@ -37,6 +42,30 @@ export class CardViewComponent implements OnInit {
   routeToEditCard() {
     const url = `cardwall/project/${this.card.projectId}/board/${this.card.planId}/card/${this.card.id}`;
     this.router.navigate([url]);
+  }
+
+  archiveCard() {
+    if (this.canUpdate) {
+      this.archiveOrDeleteCardRequested.emit(this.card);
+    }
+
+    this.archivePopoverControl.hide();
+  }
+
+  deleteCard() {
+    if (this.canDeleteCards) {
+      this.archiveOrDeleteCardRequested.emit(this.card);
+    }
+
+    this.deletePopoverControl.hide();
+  }
+
+  closeArchivePopover() {
+    this.archivePopoverControl.hide();
+  }
+
+  closeDeletePopover() {
+    this.deletePopoverControl.hide();
   }
 
   private setPermissions() {

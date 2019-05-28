@@ -66,14 +66,15 @@
           [outsideClick]="true"
           popoverTitle="Confirm"
           #archivePop="bs-popover"
+          container="body"
           placement="right"
         ></td-button>
 
         <ng-template #confirmArchive>
           Are you sure you want to archive this card?
           <div class="d-flex justify-content-between mt-2">
-            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
-            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1" (click)="archiveCard()">Confirm</button>
+            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" (click)="closeArchivePopover()" autofocus>
               Cancel
             </button>
           </div>
@@ -91,14 +92,15 @@
           [outsideClick]="true"
           popoverTitle="Confirm"
           #deletePop="bs-popover"
+          container="body"
           placement="right"
         ></td-button>
 
         <ng-template #confirmDelete>
           Are you sure you want to delete card {{ card.name }}? This action cannot be undone.
           <div class="d-flex justify-content-between mt-2">
-            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1">Confirm</button>
-            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" autofocus>
+            <button type="button" class="btn btn-primary px-4" aria-label="Yes" tabindex="1" (click)="deleteCard()">Confirm</button>
+            <button type="button" class="btn btn-default px-4" aria-label="No" tabindex="1" (click)="closeDeletePopover()" autofocus>
               Cancel
             </button>
           </div>
