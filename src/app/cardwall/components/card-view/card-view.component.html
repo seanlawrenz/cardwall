@@ -1,7 +1,9 @@
 <div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()" (dblclick)="routeToEditCard()">
   <div class="card-body" [ngClass]="{ 'cursor-move': canUpdate }">
     <div class="d-flex justify-content-between">
-      {{ card.name }}
+      <span class="tdNg-cardwall-card-name">
+        {{ card.name }}
+      </span>
       <td-button
         icon="pencil"
         cssClass="no-btn-style"

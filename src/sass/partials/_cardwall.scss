@@ -165,6 +165,10 @@
         border: 1px solid $highlightGrey;
       }
 
+      &-name {
+        overflow: hidden;
+      }
+
       &-percent-container {
         display: flex;
         align-items: center;
