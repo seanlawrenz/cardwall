@@ -35,18 +35,52 @@
   <div class="tdNg-sidebar-content">
     <fieldset>
       <legend class="sr-only">Notification Options</legend>
-      <div class="form-check">
+      <div class="form-check mb-2">
         <input type="radio" class="form-check-input" name="notifications" id="no-notifications" checked />
         <label class="cursor-pointer form-check-label" for="no-notifications">None</label>
       </div>
-      <div class="form-check">
+      <div class="form-check mb-2">
         <input type="radio" class="form-check-input" name="notifications" id="my-notifications" />
         <label class="cursor-pointer form-check-label" for="my-notifications">My Items</label>
       </div>
-      <div class="form-check">
+      <div class="form-check mb-2">
         <input type="radio" class="form-check-input" name="notifications" id="all-notifications" />
         <label class="cursor-pointer form-check-label" for="all-notifications">All Items</label>
       </div>
     </fieldset>
+  </div>
+
+  <div class="sidebar-section">Plan Details</div>
+
+  <div class="tdNg-sidebar-content">
+    <td-iframe-dialog [url]="planDetailsUrl" title="Plan Details" size="modal-xl" class="mb-2">
+      <td-button icon="list-alt" cssClass="btn-link pl-0" (onClick)="closeOptions()">
+        Details View
+      </td-button>
+    </td-iframe-dialog>
+
+    <td-iframe-dialog [url]="customViewUrl" title="Custom View" size="modal-lg" class="mb-2">
+      <td-button icon="filter" cssClass="btn-link pl-0" (onClick)="closeOptions()">
+        Custom View
+      </td-button>
+    </td-iframe-dialog>
+
+    <td-iframe-dialog [url]="priorityViewUrl" title="Plan Details" size="modal-xl" class="mb-2">
+      <td-button icon="sticky-note-o" cssClass="btn-link pl-0" (onClick)="closeOptions()">
+        Priority View
+      </td-button>
+    </td-iframe-dialog>
+
+    <td-iframe-dialog [url]="resourceAllocationUrl" title="Resource Allocation" size="modal-xl" class="mb-2">
+      <td-button icon="users" cssClass="btn-link pl-0" (onClick)="closeOptions()">
+        Resource Allocation View
+      </td-button>
+    </td-iframe-dialog>
+
+    <td-iframe-dialog [url]="burnDownUrl" title="Burndown Chart" size="modal-lg">
+      <td-button icon="area-chart" cssClass="btn-link pl-0" (onClick)="closeOptions()">
+        Burndown Chart
+      </td-button>
+    </td-iframe-dialog>
   </div>
 </div>

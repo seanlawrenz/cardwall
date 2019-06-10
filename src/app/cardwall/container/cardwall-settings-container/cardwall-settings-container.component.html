@@ -2,6 +2,7 @@
   <td-cardwall-settings
     [showInactiveLists]="showInactiveLists$ | async"
     [showArchiveCards]="showArchivedCards$ | async"
+    [board]="board"
     (showInactiveListsRequested)="toggleShowInactiveLists($event)"
     (showArchiveCardsRequested)="toggleShowArchiveCards($event)"
     (closeOptionsRequested)="closeOptions()"

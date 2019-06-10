@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { fromRoot } from '@app/store';
 import * as fromRootUI from '@app/store/actions/ui.actions';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
+import { Board } from '@app/models';
 
 @Component({
   selector: 'td-cardwall-settings-container',
@@ -13,6 +14,8 @@ import * as cardwallSelectors from '@app/cardwall/state/selectors';
   styleUrls: ['./cardwall-settings-container.component.scss'],
 })
 export class CardwallSettingsContainerComponent implements OnInit {
+  @Input() board: Board;
+
   showInactiveLists$: Observable<boolean>;
   showArchivedCards$: Observable<boolean>;
 

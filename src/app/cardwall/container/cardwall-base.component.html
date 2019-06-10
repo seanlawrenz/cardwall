@@ -14,7 +14,7 @@
       <td-cardwall-lists-base></td-cardwall-lists-base>
     </div>
   </div>
-  <td-cardwall-settings-container></td-cardwall-settings-container>
+  <td-cardwall-settings-container [board]="board$ | async"></td-cardwall-settings-container>
 
   <td-saving [showSaving]="saving$ | async"></td-saving>
   <router-outlet></router-outlet>
