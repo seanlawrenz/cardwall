@@ -2,7 +2,7 @@ import { BoardActions, BoardActionTypes, CardwallListActionTypes, CardwallListAc
 import { ListActionTypes, ListActions, CardActionTypes, CardActions } from '@app/store/actions';
 import { List, ErrorFromSignalR } from '@app/models';
 import { updateListInBoard, addListInBoard, updateListOrder } from '@app/utils/listOperations';
-import { cardwallListReorder, updateCardInCardwall, createCardInCardwall } from '@app/utils';
+import { cardwallListReorder, updateCardInCardwall, createCardInCardwall, deleteCardInCardwall } from '@app/utils';
 
 export interface ListState {
   lists: List[];
@@ -105,6 +105,26 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
       return {
         ...state,
         lists: createCardInCardwall(state.lists, action.payload),
+      };
+
+    case CardActionTypes.DELETE_CARD:
+      return {
+        ...state,
+        saving: true,
+      };
+
+    case CardActionTypes.DELETE_CARD_SUCCESS:
+      return {
+        ...state,
+        saving: false,
+        lists: deleteCardInCardwall(state.lists, action.payload),
+      };
+
+    case CardActionTypes.DELETE_CARD_ERROR:
+      return {
+        ...state,
+        saving: false,
+        error: action.payload,
       };
 
     default:

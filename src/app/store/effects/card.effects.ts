@@ -13,10 +13,10 @@ import { standardErrorLang } from '@app/constants';
 
 @Injectable()
 export class CardEffects {
-  constructor(private actives$: Actions, private signalR: SignalRService) {}
+  constructor(private actions$: Actions, private signalR: SignalRService) {}
 
   @Effect()
-  archiveCard$: Observable<Action> = this.actives$.pipe(
+  archiveCard$: Observable<Action> = this.actions$.pipe(
     ofType(actions.CardActionTypes.ARCHIVE_CARD),
     switchMap((action: actions.ArchiveCard) => {
       const {
@@ -45,5 +45,22 @@ export class CardEffects {
         catchError(err => of(new actions.ArchiveCardError({ message: 'Server Error', reason: standardErrorLang }))),
       );
     }),
+  );
+
+  @Effect()
+  deleteCard$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.CardActionTypes.DELETE_CARD),
+    switchMap((action: actions.DeleteCard) =>
+      this.signalR.invoke('CardDelete', action.payload.projectId, action.payload.planId, action.payload.id).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            return new actions.DeleteCardSuccess(action.payload);
+          } else {
+            return new actions.DeleteCardError({ message: result.message, reason: result.reason });
+          }
+        }),
+        catchError(err => of(new actions.DeleteCardError({ message: 'Server Error', reason: standardErrorLang }))),
+      ),
+    ),
   );
 }

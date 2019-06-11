@@ -45,7 +45,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
 
   archiveOrDeleteCard(card) {
     if (card.listId === 0) {
-      console.log('delete');
+      this.store.dispatch(new rootCardActions.DeleteCard(card));
     } else {
       this.store.dispatch(new rootCardActions.ArchiveCard({ card, plan: this.board }));
     }

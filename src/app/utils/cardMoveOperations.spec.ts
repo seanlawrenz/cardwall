@@ -6,6 +6,7 @@ import {
   updateCardInCardwall,
   cardwallListReorder,
   createCardInCardwall,
+  deleteCardInCardwall,
 } from './cardMoveOperations';
 
 import { List, Plan, Card, CardOperationInfo } from '@app/models';
@@ -215,6 +216,25 @@ describe('createCardInCardwall', () => {
       orders: [{ cardID: cardOnTargetList.id, order: 1 }, { cardID: newCardHeadingToNewList.id, order: 2 }],
     });
     expected = [mockListWithNoChanges, { ...targetList, cards: [cardOnTargetList, newCardHeadingToNewList] }];
+
+    expect(test).toEqual(expected);
+  });
+});
+
+describe('deleteCardInCardwall', () => {
+  let expected;
+  let test;
+
+  it('should handle a bad state with no archive list', () => {
+    test = deleteCardInCardwall([], mockCard);
+    expect(test).toEqual([]);
+  });
+
+  it('should remove the deleted card from the list', () => {
+    const archiveList = { ...mockList, id: 0, cards: [mockCard] };
+
+    test = deleteCardInCardwall([archiveList, mockList], mockCard);
+    expected = [{ ...archiveList, cards: [] }, mockList];
 
     expect(test).toEqual(expected);
   });

@@ -205,6 +205,17 @@ export const updateCardInCardwall = (lists: List[], cardToUpdate: Card): List[] 
   }
 };
 
+export const deleteCardInCardwall = (lists: List[], cardToRemove: Card): List[] => {
+  const archiveListIndex: number = findIndex(lists, l => l.id === 0);
+  // Short cut if not in state
+  if (archiveListIndex === -1) {
+    return lists;
+  }
+
+  const listToUpdate = { ...lists[archiveListIndex], cards: removeCardFromList(lists[archiveListIndex].cards, cardToRemove.id) };
+  return insertItem(removeItem(lists, archiveListIndex), { index: archiveListIndex, item: listToUpdate });
+};
+
 const updateCardOrder = (cards: Card[], orders: CardOrderInfo[]): Card[] =>
   sortBy(
     cards.map(card => {

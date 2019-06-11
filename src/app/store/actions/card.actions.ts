@@ -62,6 +62,22 @@ export class ArchiveCardError implements Action {
   constructor(public payload: ErrorFromSignalR) {}
 }
 
+export class DeleteCard implements Action {
+  readonly type = CardActionTypes.DELETE_CARD;
+  constructor(public payload: Card) {}
+}
+
+export class DeleteCardSuccess implements Action {
+  readonly type = CardActionTypes.DELETE_CARD_SUCCESS;
+  // Returns the original deleted card
+  constructor(public payload: Card) {}
+}
+
+export class DeleteCardError implements Action {
+  readonly type = CardActionTypes.DELETE_CARD_ERROR;
+  constructor(public payload: ErrorFromSignalR) {}
+}
+
 export type CardActions =
   | CardReorderWithinList
   | CardUpdateReceived
@@ -71,4 +87,7 @@ export type CardActions =
   | CardSelected
   | ArchiveCard
   | ArchiveCardSuccess
-  | ArchiveCardError;
+  | ArchiveCardError
+  | DeleteCard
+  | DeleteCardSuccess
+  | DeleteCardError;
