@@ -1,1 +1,5 @@
-<td-cardwall-toolbar></td-cardwall-toolbar>
+<td-cardwall-toolbar
+  [board]="board"
+  [showResources]="showResources$ | async"
+  (shouldShowResources)="showResources($event)"
+></td-cardwall-toolbar>

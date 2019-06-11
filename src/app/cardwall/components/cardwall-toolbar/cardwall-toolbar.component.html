@@ -1,5 +1,12 @@
 <div class="tdNg-cardwall-toolbar-container">
-  <button type="button" class="btn btn-link tdNg-cardwall-toolbar-button" tdTooltip="Shows or hides the resources sidebar" placement="left">
+  <button
+    type="button"
+    class="btn btn-link tdNg-cardwall-toolbar-button"
+    [ngClass]="showResources ? 'active' : null"
+    tdTooltip="Shows or hides the resources sidebar"
+    placement="left"
+    (click)="showResourcesRequested()"
+  >
     <span class="fa fa-fw fa-users" aria-hidden="true"></span>
     Resources
   </button>
@@ -25,4 +32,8 @@
     <span class="fa fa-fw fa-feed" aria-hidden="true"></span>
     Feed
   </button>
+</div>
+
+<div *ngIf="showResources">
+  <td-cardwall-resources-view [resources]="resources" (closeResourcesRequested)="showResourcesRequested()"></td-cardwall-resources-view>
 </div>

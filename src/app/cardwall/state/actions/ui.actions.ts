@@ -7,6 +7,10 @@ export enum CardwallUIActionTypes {
   HIDE_INACTIVE_LISTS = '[CARDWALL UI] HIDE INACTIVE LISTS',
   SHOW_ARCHIVED_CARDS = '[CARDWALL UI] SHOW ARCHIVED CARDS',
   HIDE_ARCHIVED_CARDS = '[CARDWALL UI] HIDE ARCHIVED CARDS',
+  SHOW_RESOURCES = '[CARDWALL UI] SHOW RESOURCES',
+  SHOW_TOTALS = '[CARDWALL UI] SHOW TOTALS',
+  SHOW_FEED = '[CARDWALL UI] SHOW FEED',
+  HIDE_TOOLBAR = '[CARDWALL UI] HIDE TOOLBAR',
 }
 
 export class GetFromLocalStorage implements Action {
@@ -34,10 +38,20 @@ export class HideArchivedCards implements Action {
   readonly type = CardwallUIActionTypes.HIDE_ARCHIVED_CARDS;
 }
 
+export class ShowResources implements Action {
+  readonly type = CardwallUIActionTypes.SHOW_RESOURCES;
+}
+
+export class HideToolbar implements Action {
+  readonly type = CardwallUIActionTypes.HIDE_TOOLBAR;
+}
+
 export type CardwallUIActions =
   | GetFromLocalStorage
   | GetFromLocalStorageSuccess
   | ShowInactiveLists
   | HideInactiveLists
   | ShowArchivedCards
-  | HideArchivedCards;
+  | HideArchivedCards
+  | ShowResources
+  | HideToolbar;

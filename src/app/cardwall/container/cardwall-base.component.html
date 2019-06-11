@@ -8,7 +8,7 @@
   </div>
   <div class="tdNg-cardwall-container">
     <div class="d-none d-md-flex tdNg-cardwall-toolbar-wrapper">
-      <td-cardwall-toolbar></td-cardwall-toolbar>
+      <td-cardwall-toolbar-container [board]="board$ | async"></td-cardwall-toolbar-container>
     </div>
     <div class="tdNg-cardwall-lists-wrapper">
       <td-cardwall-lists-base></td-cardwall-lists-base>

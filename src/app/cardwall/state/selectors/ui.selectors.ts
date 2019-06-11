@@ -15,3 +15,8 @@ export const showArchivedCards = createSelector(
   fromCardwall.getCardwallState,
   state => state.ui.showArchivedCards,
 );
+
+export const showResources = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.ui.showResources,
+);

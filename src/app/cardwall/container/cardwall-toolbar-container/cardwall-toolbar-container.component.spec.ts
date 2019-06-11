@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CardwallToolbarContainerComponent } from './cardwall-toolbar-container.component';
+import { mockBoard, mockResource } from '@app/test/data';
+import { Store } from '@ngrx/store';
 
 describe('CardwallToolbarContainerComponent', () => {
   let component: CardwallToolbarContainerComponent;
@@ -10,6 +12,7 @@ describe('CardwallToolbarContainerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CardwallToolbarContainerComponent],
+      providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -17,7 +20,6 @@ describe('CardwallToolbarContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CardwallToolbarContainerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

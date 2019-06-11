@@ -4,12 +4,18 @@ export interface CardwallUIState {
   saving: boolean;
   showInactiveLists: boolean;
   showArchivedCards: boolean;
+  showResources: boolean;
+  showTotals: boolean;
+  showFeed: boolean;
 }
 
 export const initialState: CardwallUIState = {
   saving: false,
   showInactiveLists: false,
   showArchivedCards: false,
+  showResources: false,
+  showTotals: false,
+  showFeed: false,
 };
 
 export function reducer(state = initialState, action: BoardActions | CardwallUIActions): CardwallUIState {
@@ -59,6 +65,22 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
       return {
         ...state,
         showArchivedCards: false,
+      };
+
+    case CardwallUIActionTypes.SHOW_RESOURCES:
+      return {
+        ...state,
+        showResources: true,
+        showTotals: false,
+        showFeed: false,
+      };
+
+    case CardwallUIActionTypes.HIDE_TOOLBAR:
+      return {
+        ...state,
+        showResources: false,
+        showTotals: false,
+        showFeed: false,
       };
 
     default:

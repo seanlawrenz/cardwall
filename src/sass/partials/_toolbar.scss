@@ -78,6 +78,12 @@
         border-right: solid 1px $grey;
       }
 
+      &-name {
+        @include text-ellipsis;
+        max-width: 14em;
+        padding-left: 1em;
+      }
+
       &-row {
         cursor: move;
         cursor: -webkit-grab;
