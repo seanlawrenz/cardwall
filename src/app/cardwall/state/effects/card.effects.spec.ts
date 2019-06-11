@@ -6,7 +6,7 @@ import { CardwallCardEffects } from './card.effects';
 import { CardService, SignalRService } from '@app/app-services';
 
 import * as cardwallActions from '../actions';
-import { mockCard, mockList } from '@app/test/data';
+import { mockCard, mockList, mockCardBuilder } from '@app/test/data';
 import { cold, hot } from 'jasmine-marbles';
 
 describe('CardwallCardEffects', () => {
@@ -18,6 +18,7 @@ describe('CardwallCardEffects', () => {
   let expected;
   let store;
   let cardSvc: CardService;
+  let signalR: SignalRService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +57,31 @@ describe('CardwallCardEffects', () => {
       effects = TestBed.get(CardwallCardEffects);
 
       expect(effects.moveCardToNewList$).toBeObservable(expected);
+    });
+  });
+
+  describe('bulkDeleteCards', () => {
+    beforeEach(() => {
+      actions = TestBed.get(Actions);
+      signalR = TestBed.get(SignalRService);
+    });
+
+    it('should return an observable of DeleteAllCardsSuccess', () => {
+      const mockCardOnArchive1 = { ...mockCard, listId: 0 };
+      const mockCardOnArchive2 = mockCardBuilder();
+      mockCardOnArchive2.listId = 0;
+      const archiveList = { ...mockList, id: 0, cards: [mockCardOnArchive1, mockCardOnArchive2] };
+      action = new cardwallActions.DeleteAllCards(archiveList);
+      outcome = new cardwallActions.DeleteAllCardsSuccess();
+
+      actions.stream = hot('-a', { a: action });
+      response = cold('-a|', { a: { isSuccessful: true } });
+      expected = cold('--b', { b: outcome });
+      signalR.invoke = jest.fn(() => response);
+
+      effects = TestBed.get(CardwallCardEffects);
+
+      expect(effects.bulkDeleteCards$).toBeObservable(expected);
     });
   });
 });

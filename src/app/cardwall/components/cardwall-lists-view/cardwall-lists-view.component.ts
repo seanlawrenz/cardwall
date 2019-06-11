@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
-import { Board, List } from '@app/models';
+import { Board, List, ErrorFromSignalR } from '@app/models';
 import { ConfigService } from '@app/app-services';
 
 @Component({

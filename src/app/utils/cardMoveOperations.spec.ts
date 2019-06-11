@@ -7,6 +7,7 @@ import {
   cardwallListReorder,
   createCardInCardwall,
   deleteCardInCardwall,
+  bulkDeleteCardsInCardwall,
 } from './cardMoveOperations';
 
 import { List, Plan, Card, CardOperationInfo } from '@app/models';
@@ -238,5 +239,27 @@ describe('deleteCardInCardwall', () => {
     expected = [{ ...archiveList, cards: [] }, mockList];
 
     expect(test).toEqual(expected);
+  });
+});
+
+describe('bulkDeleteCardsInCardwall', () => {
+  const mockCardOnArchive1 = { ...mockCard, listId: 0 };
+  const mockCardOnArchive2 = mockCardBuilder();
+  let expected;
+  let test;
+
+  it('should do nothing if no archive list', () => {
+    test = bulkDeleteCardsInCardwall([mockList]);
+
+    expect(test).toEqual([mockList]);
+  });
+
+  it('should remove the cards from the archive list', () => {
+    const archiveList = { ...mockList, id: 0, cards: [mockCardOnArchive1, mockCardOnArchive2] };
+    test = bulkDeleteCardsInCardwall([archiveList, mockList]);
+    expected = [{ ...archiveList, cards: [] }, mockList];
+
+    expect(test).toEqual(expected);
+    expect(test).not.toBe(expected);
   });
 });

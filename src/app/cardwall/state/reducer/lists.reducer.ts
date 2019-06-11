@@ -1,8 +1,21 @@
-import { BoardActions, BoardActionTypes, CardwallListActionTypes, CardwallListActions } from '../actions';
+import {
+  BoardActions,
+  BoardActionTypes,
+  CardwallListActionTypes,
+  CardwallListActions,
+  CardwallCardActionTypes,
+  CardwallCardActions,
+} from '../actions';
 import { ListActionTypes, ListActions, CardActionTypes, CardActions } from '@app/store/actions';
 import { List, ErrorFromSignalR } from '@app/models';
 import { updateListInBoard, addListInBoard, updateListOrder } from '@app/utils/listOperations';
-import { cardwallListReorder, updateCardInCardwall, createCardInCardwall, deleteCardInCardwall } from '@app/utils';
+import {
+  cardwallListReorder,
+  updateCardInCardwall,
+  createCardInCardwall,
+  deleteCardInCardwall,
+  bulkDeleteCardsInCardwall,
+} from '@app/utils';
 
 export interface ListState {
   lists: List[];
@@ -16,7 +29,10 @@ export const initialState: ListState = {
   error: undefined,
 };
 
-export function reducer(state = initialState, action: BoardActions | CardwallListActions | ListActions | CardActions): ListState {
+export function reducer(
+  state = initialState,
+  action: BoardActions | CardwallListActions | ListActions | CardActions | CardwallCardActions,
+): ListState {
   switch (action.type) {
     case BoardActionTypes.GET_BOARD_SUCCESS:
       return {
@@ -127,6 +143,26 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
       };
 
     case CardActionTypes.DELETE_CARD_ERROR:
+      return {
+        ...state,
+        saving: false,
+        error: action.payload,
+      };
+
+    case CardwallCardActionTypes.DELETE_ALL_CARDS:
+      return {
+        ...state,
+        saving: true,
+      };
+
+    case CardwallCardActionTypes.DELETE_ALL_CARDS_SUCCESS:
+      return {
+        ...state,
+        saving: false,
+        lists: bulkDeleteCardsInCardwall(state.lists),
+      };
+
+    case CardwallCardActionTypes.DELETE_ALL_CARDS_ERROR:
       return {
         ...state,
         saving: false,

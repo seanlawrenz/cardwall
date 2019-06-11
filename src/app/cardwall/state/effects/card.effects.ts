@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { withLatestFrom, switchMap, mergeMap, tap, map } from 'rxjs/operators';
+import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
 
 import { fromRoot } from '@app/store';
 import * as cardwallActions from '../actions';
 import * as cardwallSelectors from '../selectors';
 import * as cardDetailActions from '@app/card-details/state/actions/card.actions';
 
+import { standardErrorLang } from '@app/constants';
 import { Board, Card, List, SignalRResult } from '@app/models';
 import { SignalRService, CardService } from '@app/app-services';
 
@@ -47,6 +48,23 @@ export class CardwallCardEffects {
       this.cardService
         .moveCardToListInSameBoard(payload.newListCards, payload.card, payload.oldListId, payload.newIndex)
         .pipe(map((result: SignalRResult) => new cardwallActions.CardMoveToNewListSuccess())),
+    ),
+  );
+
+  @Effect()
+  bulkDeleteCards$: Observable<Action> = this.action$.pipe(
+    ofType(cardwallActions.CardwallCardActionTypes.DELETE_ALL_CARDS),
+    switchMap((action: cardwallActions.DeleteAllCards) =>
+      this.signalR.invoke('DeleteCards', action.payload.projectId, action.payload.planId, action.payload).pipe(
+        map((result: SignalRResult) => {
+          if (result.isSuccessful) {
+            return new cardwallActions.DeleteAllCardsSuccess();
+          } else {
+            return new cardwallActions.DeleteAllCardsError({ message: result.message, reason: result.reason });
+          }
+        }),
+        catchError(err => of(new cardwallActions.DeleteAllCardsError({ message: 'Cannot Delete Cards', reason: standardErrorLang }))),
+      ),
     ),
   );
 }

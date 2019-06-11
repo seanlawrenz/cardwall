@@ -216,6 +216,18 @@ export const deleteCardInCardwall = (lists: List[], cardToRemove: Card): List[] 
   return insertItem(removeItem(lists, archiveListIndex), { index: archiveListIndex, item: listToUpdate });
 };
 
+// For now this will only be on the archive list
+export const bulkDeleteCardsInCardwall = (lists: List[]) => {
+  const archiveListIndex: number = findIndex(lists, l => l.id === 0);
+  // Short cut if not in state
+  if (archiveListIndex === -1) {
+    return lists;
+  }
+
+  const updatedArchivedList = { ...lists[archiveListIndex], cards: [] };
+  return insertItem(removeItem(lists, archiveListIndex), { index: archiveListIndex, item: updatedArchivedList });
+};
+
 const updateCardOrder = (cards: Card[], orders: CardOrderInfo[]): Card[] =>
   sortBy(
     cards.map(card => {
