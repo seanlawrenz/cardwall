@@ -107,6 +107,12 @@ export function reducer(state = initialState, action: BoardActions | CardwallLis
         lists: createCardInCardwall(state.lists, action.payload),
       };
 
+    case CardActionTypes.CARD_DELETE_FROM_SERVER:
+      return {
+        ...state,
+        lists: deleteCardInCardwall(state.lists, action.payload),
+      };
+
     case CardActionTypes.DELETE_CARD:
       return {
         ...state,

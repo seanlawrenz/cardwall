@@ -206,7 +206,7 @@ export const updateCardInCardwall = (lists: List[], cardToUpdate: Card): List[] 
 };
 
 export const deleteCardInCardwall = (lists: List[], cardToRemove: Card): List[] => {
-  const archiveListIndex: number = findIndex(lists, l => l.id === 0);
+  const archiveListIndex: number = findIndex(lists, l => l.id === cardToRemove.listId);
   // Short cut if not in state
   if (archiveListIndex === -1) {
     return lists;

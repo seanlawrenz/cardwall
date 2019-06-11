@@ -231,9 +231,10 @@ describe('deleteCardInCardwall', () => {
   });
 
   it('should remove the deleted card from the list', () => {
-    const archiveList = { ...mockList, id: 0, cards: [mockCard] };
+    const cardToBeDeleted = { ...mockCard, listId: 0 };
+    const archiveList = { ...mockList, id: 0, cards: [cardToBeDeleted] };
 
-    test = deleteCardInCardwall([archiveList, mockList], mockCard);
+    test = deleteCardInCardwall([archiveList, mockList], cardToBeDeleted);
     expected = [{ ...archiveList, cards: [] }, mockList];
 
     expect(test).toEqual(expected);
