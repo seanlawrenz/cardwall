@@ -10,7 +10,7 @@
     <div class="tdNg-toolbar-content">
       <!-- Search -->
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search resources" />
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search resources" (keyup)="searchResources($event)" />
         <div class="input-group-append">
           <div class="input-group-text">
             <span aria-hidden="true" class="fa fa-search fa-nopad"></span>
@@ -57,7 +57,7 @@
 
       <div style="position: relative">
         <div class="tdNg-toolbar-resources">
-          <div *ngFor="let resource of resources">
+          <div *ngFor="let resource of resourcesFiltered">
             <td-toolbar-resources [resource]="resource"></td-toolbar-resources>
           </div>
         </div>
