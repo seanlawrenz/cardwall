@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
-import * as rootUIActions from '@app/store/actions/ui.actions';
+import * as rootActions from '@app/store/actions';
+import * as rootSelectors from '@app/store/selectors';
 
 import { Board } from '@app/models';
 
@@ -35,6 +36,6 @@ export class CardwallBaseComponent implements OnInit {
   }
 
   showOptions() {
-    this.store.dispatch(new rootUIActions.ShowOptions());
+    this.store.dispatch(new rootActions.ShowOptions());
   }
 }

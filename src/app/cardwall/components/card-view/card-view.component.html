@@ -1,7 +1,7 @@
-<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()" (dblclick)="routeToEditCard()">
+<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()" (dblclick)="routeToEditCard()" (click)="cardSelected()">
   <div class="card-body" [ngClass]="{ 'cursor-move': canUpdate }">
     <div class="d-flex justify-content-between">
-      <span class="tdNg-cardwall-card-name">
+      <span class="tdNg-cardwall-card-name" [ngClass]="{ 'white-text': isSelected }">
         {{ card.name }}
       </span>
       <td-button
@@ -33,6 +33,7 @@
           tooltipText="Add Time"
           [routerLink]="['card', card.id]"
           [queryParams]="{ tab: 'work' }"
+          style="color: inherit"
         ></td-button>
 
         <!-- My Work -->

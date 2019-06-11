@@ -12,8 +12,10 @@ import { isNullOrUndefined } from 'util';
 export class CardViewComponent implements OnInit {
   @Input() card: Card;
   @Input() board: Board;
+  @Input() isSelected: boolean;
 
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
+  @Output() cardSelectedRequested = new EventEmitter<Card>();
 
   @ViewChild('archivePop') archivePopoverControl;
   @ViewChild('deletePop') deletePopoverControl;
@@ -22,7 +24,6 @@ export class CardViewComponent implements OnInit {
   canUpdate: boolean;
   canDeleteCards: boolean;
 
-  isSelected = false;
   isHighlighted = false;
 
   constructor(private config: ConfigService, private router: Router) {}
@@ -33,7 +34,7 @@ export class CardViewComponent implements OnInit {
 
   getCardStyle(): string {
     if (this.isSelected) {
-      return 'tdNg-card-selected';
+      return 'tdNg-card-selected white-text';
     }
 
     return `tdNg-card-color-${this.card.cssClass}`;
@@ -66,6 +67,10 @@ export class CardViewComponent implements OnInit {
 
   closeDeletePopover() {
     this.deletePopoverControl.hide();
+  }
+
+  cardSelected() {
+    this.cardSelectedRequested.emit(this.card);
   }
 
   private setPermissions() {

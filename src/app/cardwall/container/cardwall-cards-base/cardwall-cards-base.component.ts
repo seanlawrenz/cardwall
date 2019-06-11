@@ -6,6 +6,7 @@ import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
 import * as rootCardActions from '@app/store/actions/card.actions';
+import * as rootSelectors from '@app/store/selectors';
 
 import { Card, Board, List, ErrorFromSignalR } from '@app/models';
 import { CardService } from '@app/app-services';
@@ -25,6 +26,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
 
   saving$: Observable<boolean>;
   error$: Observable<ErrorFromSignalR>;
+  cardSelected$: Observable<Card>;
 
   unsubscribe$ = new Subject<void>();
 
@@ -32,6 +34,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.saving$ = this.store.pipe(select(cardwallSelectors.isCardsSaving));
+    this.cardSelected$ = this.store.pipe(select(rootSelectors.getSelectedCard));
   }
 
   ngOnDestroy() {
@@ -49,6 +52,10 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new rootCardActions.ArchiveCard({ card, plan: this.board }));
     }
+  }
+
+  cardSelected(card: Card) {
+    this.store.dispatch(new rootCardActions.CardSelected(card));
   }
 
   /**

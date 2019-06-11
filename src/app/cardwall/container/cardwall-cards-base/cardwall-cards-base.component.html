@@ -2,8 +2,10 @@
   [cards]="list.cards"
   [board]="board"
   [list]="list"
+  [selectedCard]="cardSelected$ | async"
   (cardMoveRequested)="dragCardEnd($event)"
   (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"
+  (cardSelectedRequested)="cardSelected($event)"
 ></td-cardwall-cards-view>
 
 <td-add-card *ngIf="addNewCardFromRequested" [list]="list" (cancelNewCard)="cancelNewCard()"></td-add-card>
