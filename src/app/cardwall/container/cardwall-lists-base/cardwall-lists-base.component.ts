@@ -42,4 +42,8 @@ export class CardwallListsBaseComponent implements OnInit {
   addList(list: List) {
     this.store.dispatch(new cardwallActions.AddList(list));
   }
+
+  bulkDeleteCards(list: List) {
+    console.log('bulk delete', list);
+  }
 }

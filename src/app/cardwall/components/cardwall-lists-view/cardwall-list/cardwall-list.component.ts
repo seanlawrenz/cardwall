@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { List, Board, ListLimit } from '@app/models';
 
 import { ConfigService } from '@app/app-services';
@@ -17,6 +17,9 @@ export class CardwallListComponent implements OnInit, OnChanges {
   @Input() board: Board;
 
   @Output() editListRequested = new EventEmitter<List>();
+  @Output() bulkDeleteCardsRequested = new EventEmitter<List>();
+
+  @ViewChild('deletePop') confirmDeleteControl;
 
   addNewCardFormRequested = false;
 
@@ -76,6 +79,15 @@ export class CardwallListComponent implements OnInit, OnChanges {
 
   closeAddNewCard() {
     this.addNewCardFormRequested = false;
+  }
+
+  closeDeleteCards() {
+    this.confirmDeleteControl.hide();
+  }
+
+  bulkDeleteCards() {
+    this.bulkDeleteCardsRequested.emit(this.list);
+    this.confirmDeleteControl.hide();
   }
 
   private setPermissions() {

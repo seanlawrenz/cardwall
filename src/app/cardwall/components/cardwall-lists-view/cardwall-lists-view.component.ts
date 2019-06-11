@@ -17,6 +17,7 @@ export class CardwallListsViewComponent implements OnInit, OnChanges {
   @Output() listReorderRequested = new EventEmitter<{ lists: List[]; resortedList: List }>();
   @Output() editListRequested = new EventEmitter<List>();
   @Output() addListRequested = new EventEmitter<List>();
+  @Output() bulkDeleteCardsRequested = new EventEmitter<List>();
 
   canEditPlans: boolean;
   listsToDisplay: List[];
@@ -75,6 +76,10 @@ export class CardwallListsViewComponent implements OnInit, OnChanges {
 
   addList(list: List) {
     this.addListRequested.emit(list);
+  }
+
+  bulkDeleteCards(list: List) {
+    this.bulkDeleteCardsRequested.emit(list);
   }
 
   private setPermissions() {
