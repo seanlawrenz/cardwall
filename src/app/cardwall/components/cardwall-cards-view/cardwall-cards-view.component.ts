@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
 import { Card, Board, List } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { SortablejsOptions } from 'angular-sortablejs';
@@ -17,7 +17,7 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
 
   @Output() cardMoveRequested = new EventEmitter<{ card: Card; cards: Card[]; newIndex: number }>();
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
-  @Output() cardSelectedRequested = new EventEmitter<Card>();
+  @Output() cardSelectedRequested = new EventEmitter<{ card: Card; element: ElementRef }>();
 
   canEditCards: boolean;
   canDeleteCards: boolean;
@@ -71,8 +71,9 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
     this.archiveOrDeleteCardRequested.emit(card);
   }
 
-  cardSelected(card: Card) {
-    this.cardSelectedRequested.emit(card);
+  cardSelected(e: { card: Card; element: ElementRef }) {
+    const { card, element } = e;
+    this.cardSelectedRequested.emit({ card, element });
   }
 
   isCardSelected(card: Card): boolean {

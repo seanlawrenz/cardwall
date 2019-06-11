@@ -6,7 +6,7 @@
     [isOwnerSelected]="isOwnerSelected"
     [showEstimateHours]="showEstimateHours$ | async"
     [showStoryPoints]="showStoryPoints$ | async"
-    (selectCardRequested)="selectCard()"
+    (selectCardRequested)="selectCard($event)"
     (cardDetailsRequested)="showCardDetails($event)"
     (archiveCardRequested)="archiveCard()"
     (addResourceRequested)="addResourceToCard($event)"

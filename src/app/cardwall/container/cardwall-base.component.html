@@ -4,17 +4,18 @@
       [board]="board$ | async"
       (editBoardRequested)="editBoard($event)"
       (showOptionsRequested)="showOptions()"
+      #nav
     ></td-cardwall-nav>
   </div>
   <div class="tdNg-cardwall-container">
     <div class="d-none d-md-flex tdNg-cardwall-toolbar-wrapper">
-      <td-cardwall-toolbar-container [board]="board$ | async"></td-cardwall-toolbar-container>
+      <td-cardwall-toolbar-container [board]="board$ | async" #sideBar></td-cardwall-toolbar-container>
     </div>
     <div class="tdNg-cardwall-lists-wrapper">
       <td-cardwall-lists-base></td-cardwall-lists-base>
     </div>
   </div>
-  <td-cardwall-settings-container [board]="board$ | async"></td-cardwall-settings-container>
+  <td-cardwall-settings-container [board]="board$ | async" #settings></td-cardwall-settings-container>
 
   <td-saving [showSaving]="saving$ | async"></td-saving>
   <router-outlet></router-outlet>

@@ -1,4 +1,10 @@
-<div class="card mb-2 tdNg-cardwall-card-container" [ngClass]="getCardStyle()" (dblclick)="routeToEditCard()" (click)="cardSelected()">
+<div
+  class="card mb-2 tdNg-cardwall-card-container"
+  [ngClass]="getCardStyle()"
+  (dblclick)="routeToEditCard()"
+  (click)="cardSelected()"
+  #cardElement
+>
   <div class="card-body" [ngClass]="{ 'cursor-move': canUpdate }">
     <div class="d-flex justify-content-between">
       <span class="tdNg-cardwall-card-name" [ngClass]="{ 'white-text': isSelected }">

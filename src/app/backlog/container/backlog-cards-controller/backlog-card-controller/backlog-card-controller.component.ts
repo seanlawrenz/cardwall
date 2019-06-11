@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef } from '@angular/core';
 import { Card, CardDetailsPageTypes, Plan, Resources } from '@app/models';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -50,8 +50,8 @@ export class BacklogCardControllerComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  selectCard() {
-    this.store.dispatch(new cardActions.CardSelected(this.card));
+  selectCard(element: ElementRef) {
+    this.store.dispatch(new cardActions.CardSelected({ card: this.card, element }));
   }
 
   showCardDetails(type: CardDetailsPageTypes) {

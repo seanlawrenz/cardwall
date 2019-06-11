@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { ConfigService } from '@app/app-services';
 import { Card, CardDetailsPageTypes, Resources } from '@app/models';
 import { getCardColor } from '@app/utils';
@@ -25,10 +25,12 @@ export class BacklogCardComponent implements OnInit {
   @Input() isSelected: boolean;
   @Input() isOwnerSelected: boolean;
 
-  @Output() selectCardRequested = new EventEmitter<void>();
+  @Output() selectCardRequested = new EventEmitter<ElementRef>();
   @Output() cardDetailsRequested = new EventEmitter<CardDetailsPageTypes>();
   @Output() archiveCardRequested = new EventEmitter<void>();
   @Output() addResourceRequested = new EventEmitter<{ resource: Resources; clearAssignments: boolean }>();
+
+  @ViewChild('cardElement') cardElement: ElementRef;
 
   canUpdate: boolean;
   backgroundColor: string;
@@ -48,7 +50,7 @@ export class BacklogCardComponent implements OnInit {
   }
 
   selectCard() {
-    this.selectCardRequested.emit();
+    this.selectCardRequested.emit(this.cardElement);
   }
 
   onResourceDrop(event: { resource: Resources; clearAssignments: boolean }) {

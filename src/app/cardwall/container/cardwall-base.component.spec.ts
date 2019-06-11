@@ -19,7 +19,12 @@ describe('CardwallBaseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CardwallBaseComponent],
       imports: [RouterTestingModule],
-      providers: [{ provide: Store, useValue: { dispatch: jest.fn(), pipe: jest.fn() } }],
+      providers: [
+        {
+          provide: Store,
+          useValue: { dispatch: jest.fn(), pipe: jest.fn(), select: jest.fn(() => ({ pipe: jest.fn(() => ({ subscribe: jest.fn() })) })) },
+        },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

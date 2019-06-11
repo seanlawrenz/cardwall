@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Card, Board, Resources } from '@app/models';
 import { ConfigService } from '@app/app-services';
@@ -15,8 +15,9 @@ export class CardViewComponent implements OnInit {
   @Input() isSelected: boolean;
 
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
-  @Output() cardSelectedRequested = new EventEmitter<Card>();
+  @Output() cardSelectedRequested = new EventEmitter<{ card: Card; element: ElementRef }>();
 
+  @ViewChild('cardElement') cardElement: ElementRef;
   @ViewChild('archivePop') archivePopoverControl;
   @ViewChild('deletePop') deletePopoverControl;
 
@@ -70,7 +71,7 @@ export class CardViewComponent implements OnInit {
   }
 
   cardSelected() {
-    this.cardSelectedRequested.emit(this.card);
+    this.cardSelectedRequested.emit({ card: this.card, element: this.cardElement });
   }
 
   private setPermissions() {

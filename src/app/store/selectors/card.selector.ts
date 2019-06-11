@@ -7,3 +7,8 @@ export const getSelectedCard = createSelector(
   getCardState,
   state => state.selectedCard,
 );
+
+export const getSelectedCardElement = createSelector(
+  getCardState,
+  state => state.selectedCardElement,
+);

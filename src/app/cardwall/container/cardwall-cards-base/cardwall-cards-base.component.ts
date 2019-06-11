@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, of } from 'rxjs';
 
@@ -54,8 +54,9 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  cardSelected(card: Card) {
-    this.store.dispatch(new rootCardActions.CardSelected(card));
+  cardSelected(e: { card: Card; element: ElementRef }) {
+    const { card, element } = e;
+    this.store.dispatch(new rootCardActions.CardSelected({ card, element }));
   }
 
   /**

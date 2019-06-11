@@ -1,5 +1,6 @@
 import { CardReorder, Card, CardRemovedFromListInfo, CardOperationInfo, Plan, Board, ErrorFromSignalR } from '@app/models';
 import { Action } from '@ngrx/store';
+import { ElementRef } from '@angular/core';
 
 export enum CardActionTypes {
   CARD_REORDER_WITHIN_LIST = '[CARDS] CARD REORDER WITHIN LIST',
@@ -43,7 +44,7 @@ export class CardDeleteFromServer implements Action {
 
 export class CardSelected implements Action {
   readonly type = CardActionTypes.CARD_SELECTED;
-  constructor(public payload: Card) {}
+  constructor(public payload: { card: Card; element: ElementRef }) {}
 }
 
 export class ArchiveCard implements Action {
