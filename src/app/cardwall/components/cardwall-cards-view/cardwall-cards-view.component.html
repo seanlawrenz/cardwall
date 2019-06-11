@@ -6,6 +6,7 @@
       [isSelected]="selectedCard !== undefined ? (selectedCard.listId === list.id ? isCardSelected(card) : false) : false"
       (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"
       (cardSelectedRequested)="cardSelected($event)"
+      (addResourceRequested)="onResourceDrop($event)"
     ></td-card-view>
   </div>
 </div>

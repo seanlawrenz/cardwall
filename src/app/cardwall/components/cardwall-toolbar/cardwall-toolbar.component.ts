@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Board, Resources } from '@app/models';
+import { Board, Resources, Card } from '@app/models';
 
 @Component({
   selector: 'td-cardwall-toolbar',
@@ -9,10 +9,12 @@ import { Board, Resources } from '@app/models';
 export class CardwallToolbarComponent implements OnInit {
   @Input() showResources: boolean;
   @Input() board: Board;
+  @Input() selectedCard: Card;
 
   @Output() shouldShowResources = new EventEmitter<boolean>();
 
   resources: Resources[];
+  selectedCardReduced: Card;
 
   constructor() {}
 

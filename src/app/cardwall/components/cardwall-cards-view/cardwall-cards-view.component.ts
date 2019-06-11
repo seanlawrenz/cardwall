@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
-import { Card, Board, List } from '@app/models';
+import { Card, Board, List, Resources } from '@app/models';
 import { ConfigService } from '@app/app-services';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { CardMovementTypes } from '@app/backlog/container/backlog-cards-controller/backlog-cards-controller.component';
@@ -18,6 +18,7 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
   @Output() cardMoveRequested = new EventEmitter<{ card: Card; cards: Card[]; newIndex: number }>();
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
   @Output() cardSelectedRequested = new EventEmitter<{ card: Card; element: ElementRef }>();
+  @Output() addResourceRequested = new EventEmitter<{ card: Card; resource: Resources; clearAssignments: boolean }>();
 
   canEditCards: boolean;
   canDeleteCards: boolean;
@@ -78,6 +79,10 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
 
   isCardSelected(card: Card): boolean {
     return this.selectedCard.id === card.id;
+  }
+
+  onResourceDrop(event: { card: Card; resource: Resources; clearAssignments: boolean }) {
+    this.addResourceRequested.emit(event);
   }
 
   private setPermissions() {

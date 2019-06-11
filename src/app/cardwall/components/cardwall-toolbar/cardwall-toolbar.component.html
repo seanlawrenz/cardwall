@@ -34,5 +34,10 @@
 </div>
 
 <div *ngIf="showResources">
-  <td-cardwall-resources-view [resources]="resources" (closeResourcesRequested)="showResourcesRequested()"></td-cardwall-resources-view>
+  <td-cardwall-resources-view
+    [resources]="resources"
+    [selectedCard]="selectedCard"
+    [board]="board"
+    (closeResourcesRequested)="showResourcesRequested()"
+  ></td-cardwall-resources-view>
 </div>

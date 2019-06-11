@@ -58,7 +58,12 @@
       <div style="position: relative">
         <div class="tdNg-toolbar-resources">
           <div *ngFor="let resource of resourcesFiltered">
-            <td-toolbar-resources [resource]="resource"></td-toolbar-resources>
+            <td-toolbar-resources
+              [resource]="resource"
+              [plans]="[board]"
+              [clearAssignments]="formGroup.controls['clearAssignments'].value"
+              [selectedCard]="selectedCardReduced"
+            ></td-toolbar-resources>
           </div>
         </div>
       </div>

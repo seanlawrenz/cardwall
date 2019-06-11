@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Board, Resources } from '@app/models';
+import { Board, Resources, Card } from '@app/models';
 import { Store, select } from '@ngrx/store';
 
 import { fromRoot } from '@app/store';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
+import * as rootSelectors from '@app/store/selectors';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,6 +17,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
   @Input() board: Board;
 
   showResources$: Observable<boolean>;
+  selectedCard$: Observable<Card>;
 
   resources: Resources[];
 
@@ -23,6 +25,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.showResources$ = this.store.pipe(select(cardwallSelectors.showResources));
+    this.selectedCard$ = this.store.pipe(select(rootSelectors.getSelectedCard));
   }
 
   ngOnChanges(changes: SimpleChanges) {

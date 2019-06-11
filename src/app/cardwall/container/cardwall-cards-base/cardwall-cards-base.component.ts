@@ -8,7 +8,7 @@ import * as cardwallSelectors from '@app/cardwall/state/selectors';
 import * as rootCardActions from '@app/store/actions/card.actions';
 import * as rootSelectors from '@app/store/selectors';
 
-import { Card, Board, List, ErrorFromSignalR } from '@app/models';
+import { Card, Board, List, ErrorFromSignalR, Resources } from '@app/models';
 import { CardService } from '@app/app-services';
 import { takeUntil } from 'rxjs/operators';
 
@@ -76,5 +76,19 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new cardwallActions.CardMoveToNewList({ card, listId: this.list.id, newIndex }));
     }
+  }
+
+  addResourceToCard(event: { card: Card; resource: Resources; clearAssignments: boolean }) {
+    // There are 2 drag and drop listeners on this app. So we must squash the cross listener
+    if (!event || !event.resource) {
+      return;
+    }
+
+    const { card, resource, clearAssignments } = event;
+
+    this.cardService
+      .assignResource(card, resource, clearAssignments)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {});
   }
 }

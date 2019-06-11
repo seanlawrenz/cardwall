@@ -1,4 +1,7 @@
 <div
+  mwlDroppable
+  dragOverClass="tdNg-card-drag-over-border"
+  (drop)="onResourceDrop($event.dropData)"
   class="card mb-2 tdNg-cardwall-card-container"
   [ngClass]="getCardStyle()"
   (dblclick)="routeToEditCard()"

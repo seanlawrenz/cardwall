@@ -6,6 +6,7 @@
   (cardMoveRequested)="dragCardEnd($event)"
   (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"
   (cardSelectedRequested)="cardSelected($event)"
+  (addResourceRequested)="addResourceToCard($event)"
 ></td-cardwall-cards-view>
 
 <td-add-card *ngIf="addNewCardFromRequested" [list]="list" (cancelNewCard)="cancelNewCard()"></td-add-card>

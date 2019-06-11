@@ -16,6 +16,7 @@ export class CardViewComponent implements OnInit {
 
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
   @Output() cardSelectedRequested = new EventEmitter<{ card: Card; element: ElementRef }>();
+  @Output() addResourceRequested = new EventEmitter<{ card: Card; resource: Resources; clearAssignments: boolean }>();
 
   @ViewChild('cardElement') cardElement: ElementRef;
   @ViewChild('archivePop') archivePopoverControl;
@@ -72,6 +73,11 @@ export class CardViewComponent implements OnInit {
 
   cardSelected() {
     this.cardSelectedRequested.emit({ card: this.card, element: this.cardElement });
+  }
+
+  onResourceDrop(event: { resource: Resources; clearAssignments: boolean }) {
+    const { resource, clearAssignments } = event;
+    this.addResourceRequested.emit({ card: this.card, resource, clearAssignments });
   }
 
   private setPermissions() {
