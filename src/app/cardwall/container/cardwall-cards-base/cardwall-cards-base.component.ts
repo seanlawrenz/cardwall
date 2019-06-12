@@ -27,6 +27,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
   saving$: Observable<boolean>;
   error$: Observable<ErrorFromSignalR>;
   cardSelected$: Observable<Card>;
+  selectedResource$: Observable<Resources>;
 
   unsubscribe$ = new Subject<void>();
 
@@ -35,6 +36,7 @@ export class CardwallCardsBaseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.saving$ = this.store.pipe(select(cardwallSelectors.isCardsSaving));
     this.cardSelected$ = this.store.pipe(select(rootSelectors.getSelectedCard));
+    this.selectedResource$ = this.store.pipe(select(rootSelectors.getCurrentResource));
   }
 
   ngOnDestroy() {

@@ -6,7 +6,7 @@ import { SortablejsModule } from 'angular-sortablejs';
 
 import { ConfigService } from '@app/app-services';
 import { mockConfigService } from '@app/test/mocks';
-import { mockCard } from '@app/test/data';
+import { mockCard, mockResource, mockCardBuilder } from '@app/test/data';
 
 describe('CardwallCardsViewComponent', () => {
   let component: CardwallCardsViewComponent;
@@ -25,10 +25,22 @@ describe('CardwallCardsViewComponent', () => {
     fixture = TestBed.createComponent(CardwallCardsViewComponent);
     component = fixture.componentInstance;
     component.cards = [mockCard];
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('updateSelectedResource', () => {
+    it('should add the card ids that have their owner selected', () => {
+      const cardWithOwnerSelected = mockCardBuilder();
+      cardWithOwnerSelected.owners = [mockResource];
+      component.cards = [mockCard, cardWithOwnerSelected];
+      component.selectedResource = mockResource;
+
+      fixture.detectChanges();
+
+      expect(component.cardsWithSelectedResource).toEqual([cardWithOwnerSelected.id]);
+    });
   });
 });

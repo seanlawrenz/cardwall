@@ -3,6 +3,7 @@
   [board]="board"
   [list]="list"
   [selectedCard]="cardSelected$ | async"
+  [selectedResource]="selectedResource$ | async"
   (cardMoveRequested)="dragCardEnd($event)"
   (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"
   (cardSelectedRequested)="cardSelected($event)"

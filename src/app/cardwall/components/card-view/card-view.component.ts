@@ -13,6 +13,7 @@ export class CardViewComponent implements OnInit {
   @Input() card: Card;
   @Input() board: Board;
   @Input() isSelected: boolean;
+  @Input() isOwnerSelected: boolean;
 
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
   @Output() cardSelectedRequested = new EventEmitter<{ card: Card; element: ElementRef }>();
@@ -39,7 +40,13 @@ export class CardViewComponent implements OnInit {
       return 'tdNg-card-selected white-text';
     }
 
-    return `tdNg-card-color-${this.card.cssClass}`;
+    const cardStyle = `tdNg-card-color-${this.card.cssClass}`;
+
+    if (this.isOwnerSelected) {
+      return `${cardStyle} owner-selected`;
+    }
+
+    return cardStyle;
   }
 
   routeToEditCard() {

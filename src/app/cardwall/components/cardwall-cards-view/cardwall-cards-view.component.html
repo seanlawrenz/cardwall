@@ -4,6 +4,7 @@
       [card]="card"
       [board]="board"
       [isSelected]="selectedCard !== undefined ? (selectedCard.listId === list.id ? isCardSelected(card) : false) : false"
+      [isOwnerSelected]="cardsWithSelectedResource.length > -1 ? (cardsWithSelectedResource.indexOf(card.id) > -1 ? true : false) : false"
       (archiveOrDeleteCardRequested)="archiveOrDeleteCard($event)"
       (cardSelectedRequested)="cardSelected($event)"
       (addResourceRequested)="onResourceDrop($event)"

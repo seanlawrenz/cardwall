@@ -14,6 +14,8 @@ describe('CardViewComponent', () => {
   let fixture: ComponentFixture<CardViewComponent>;
   let spy;
   let router: Router;
+  let test;
+  let expected;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,5 +46,18 @@ describe('CardViewComponent', () => {
     component.routeToEditCard();
 
     expect(spy).toHaveBeenCalledWith([url]);
+  });
+
+  it('should add the correct class to the card', () => {
+    test = component.getCardStyle();
+    expected = `tdNg-card-color-${mockCard.cssClass}`;
+    expect(test).toEqual(expected);
+  });
+
+  it('should add the correct class to the card if owner is selected', () => {
+    component.isOwnerSelected = true;
+    test = component.getCardStyle();
+    expected = `tdNg-card-color-${mockCard.cssClass} owner-selected`;
+    expect(test).toEqual(expected);
   });
 });

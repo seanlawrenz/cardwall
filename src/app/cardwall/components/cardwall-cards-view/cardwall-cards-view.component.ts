@@ -4,6 +4,8 @@ import { ConfigService } from '@app/app-services';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { CardMovementTypes } from '@app/backlog/container/backlog-cards-controller/backlog-cards-controller.component';
 
+import { filter } from 'lodash';
+
 @Component({
   selector: 'td-cardwall-cards-view',
   templateUrl: './cardwall-cards-view.component.html',
@@ -14,6 +16,7 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
   @Input() list: List;
   @Input() board: Board;
   @Input() selectedCard: Card;
+  @Input() selectedResource: Resources;
 
   @Output() cardMoveRequested = new EventEmitter<{ card: Card; cards: Card[]; newIndex: number }>();
   @Output() archiveOrDeleteCardRequested = new EventEmitter<Card>();
@@ -23,6 +26,8 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
   canEditCards: boolean;
   canDeleteCards: boolean;
   canUpdateCards: boolean;
+
+  cardsWithSelectedResource: number[] = [];
 
   sortableOptions: SortablejsOptions = {
     group: 'cards',
@@ -38,11 +43,12 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.setPermissions();
+    this.updateSelectedResource(this.selectedResource);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.cards && !changes.cards.firstChange && this.list.id === 178857) {
-      console.log('changes', changes.cards.currentValue, this.cards);
+    if (changes.selectedResource && !changes.selectedResource.firstChange) {
+      this.updateSelectedResource(changes.selectedResource.currentValue);
     }
   }
 
@@ -91,5 +97,18 @@ export class CardwallCardsViewComponent implements OnInit, OnChanges {
     this.canUpdateCards = this.config.config.CanUpdateTasks;
 
     this.sortableOptions.disabled = !this.canUpdateCards;
+  }
+
+  private updateSelectedResource(resource: Resources) {
+    this.cardsWithSelectedResource = [];
+    if (resource) {
+      this.cards.map(card => {
+        if (card.owners && card.owners.length > 0) {
+          if (filter(card.owners, o => o.uid === resource.uid).length > 0) {
+            this.cardsWithSelectedResource.push(card.id);
+          }
+        }
+      });
+    }
   }
 }
