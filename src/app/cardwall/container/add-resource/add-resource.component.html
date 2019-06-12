@@ -1,7 +1,6 @@
 <div class="mt-2">
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <ng-select
-      class="select-sm"
       [items]="resources$ | async"
       [multiple]="true"
       [closeOnSelect]="false"

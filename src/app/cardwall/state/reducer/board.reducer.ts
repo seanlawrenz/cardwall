@@ -49,6 +49,12 @@ export function reducer(state = initialState, action: BoardActions): BoardState 
         error: action.payload,
       };
 
+    case BoardActionTypes.ADD_RESOURCES_TO_BOARD:
+      return {
+        ...state,
+        board: { ...state.board, resources: state.board.resources.concat(action.payload) },
+      };
+
     default:
       return state;
   }

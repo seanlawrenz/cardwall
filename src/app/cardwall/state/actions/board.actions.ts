@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Board, ErrorFromSignalR } from '@app/models';
+import { Board, ErrorFromSignalR, Resources } from '@app/models';
 
 export enum BoardActionTypes {
   GET_BOARD = '[CARDWALL] GET BOARD',
@@ -8,6 +8,7 @@ export enum BoardActionTypes {
   EDIT_BOARD_NAME = '[CARDWALL] EDIT BOARD NAME',
   EDIT_BOARD_NAME_SUCCESS = '[CARDWALL] EDIT BOARD NAME SUCCESS',
   EDIT_BOARD_NAME_ERROR = '[CARDWALL] EDIT BOARD NAME ERROR',
+  ADD_RESOURCES_TO_BOARD = '[CARDWALL RESOURCES] ADD RESOURCES TO BOARD',
 }
 
 export class GetBoard implements Action {
@@ -39,4 +40,16 @@ export class EditBoardNameError implements Action {
   constructor(public payload: ErrorFromSignalR) {}
 }
 
-export type BoardActions = GetBoard | GetBoardSuccess | GetBoardError | EditBoardName | EditBoardNameSuccess | EditBoardNameError;
+export class AddResourcesToBoard implements Action {
+  readonly type = BoardActionTypes.ADD_RESOURCES_TO_BOARD;
+  constructor(public payload: Resources[]) {}
+}
+
+export type BoardActions =
+  | GetBoard
+  | GetBoardSuccess
+  | GetBoardError
+  | EditBoardName
+  | EditBoardNameSuccess
+  | EditBoardNameError
+  | AddResourcesToBoard;

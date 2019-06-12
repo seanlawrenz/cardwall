@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Board, Resources, Card } from '@app/models';
 
 @Component({
@@ -6,7 +6,7 @@ import { Board, Resources, Card } from '@app/models';
   templateUrl: './cardwall-toolbar.component.html',
   styleUrls: ['./cardwall-toolbar.component.scss'],
 })
-export class CardwallToolbarComponent implements OnInit {
+export class CardwallToolbarComponent implements OnInit, OnChanges {
   @Input() showResources: boolean;
   @Input() board: Board;
   @Input() selectedCard: Card;
@@ -20,6 +20,12 @@ export class CardwallToolbarComponent implements OnInit {
 
   ngOnInit() {
     this.getResourcesFromBoard();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.board && !changes.board.firstChange) {
+      this.getResourcesFromBoard();
+    }
   }
 
   showResourcesRequested() {
