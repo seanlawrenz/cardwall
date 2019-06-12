@@ -1,12 +1,12 @@
 <div class="tdNg-toolbar-resources-container">
-  <div class="sidebar-section">
-    Resources
-    <button aria-label="Close" class="close" type="button" (click)="closeResources()" title="Close Pane">
-      <span aria-hidden="true">x</span>
-    </button>
-  </div>
+  <div class="tdNg-toolbar-resources-header" *ngIf="resources.length > 0; else noResources">
+    <div class="sidebar-section">
+      Resources
+      <button aria-label="Close" class="close" type="button" (click)="closeResources()" title="Close Pane">
+        <span aria-hidden="true">x</span>
+      </button>
+    </div>
 
-  <div *ngIf="resources.length > 0; else noResources">
     <div class="tdNg-toolbar-content">
       <!-- Search -->
       <div class="input-group">
@@ -15,6 +15,14 @@
           <div class="input-group-text">
             <span aria-hidden="true" class="fa fa-search fa-nopad"></span>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-link" (click)="toggleShowAddResources()">Add Resources to plan</button>
+
+        <div *ngIf="showAddResources">
+          I'm here
         </div>
       </div>
 
@@ -54,23 +62,29 @@
           </label>
         </div>
       </form>
-
-      <div style="position: relative">
-        <div class="tdNg-toolbar-resources">
-          <div *ngFor="let resource of resourcesFiltered">
-            <td-toolbar-resources
-              [resource]="resource"
-              [plans]="[board]"
-              [clearAssignments]="formGroup.controls['clearAssignments'].value"
-              [selectedCard]="selectedCardReduced"
-            ></td-toolbar-resources>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
+  <div class="tdNg-toolbar-resources-content">
+    <div *ngFor="let resource of resourcesFiltered">
+      <td-toolbar-resources
+        [resource]="resource"
+        [plans]="[board]"
+        [clearAssignments]="formGroup.controls['clearAssignments'].value"
+        [selectedCard]="selectedCardReduced"
+      ></td-toolbar-resources>
+    </div>
+  </div>
+
+  <div class="tdNg-toolbar-resources-footer"></div>
+
   <ng-template #noResources>
+    <div class="sidebar-section">
+      Resources
+      <button aria-label="Close" class="close" type="button" (click)="closeResources()" title="Close Pane">
+        <span aria-hidden="true">x</span>
+      </button>
+    </div>
     <div class="tdNg-toolbar-content">
       No resources on board
     </div>

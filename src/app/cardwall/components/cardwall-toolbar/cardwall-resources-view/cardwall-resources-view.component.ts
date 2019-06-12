@@ -19,6 +19,7 @@ export class CardwallResourcesViewComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   selectedCardReduced: Card;
   resourcesFiltered: Resources[];
+  showAddResources = false;
 
   constructor() {}
 
@@ -56,6 +57,10 @@ export class CardwallResourcesViewComponent implements OnInit, OnChanges {
 
   closeResources() {
     this.closeResourcesRequested.emit();
+  }
+
+  toggleShowAddResources() {
+    this.showAddResources = this.showAddResources === true ? false : true;
   }
 
   private updateSelectedCard() {
