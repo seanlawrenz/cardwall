@@ -15,11 +15,13 @@ import { reducers, effects } from './state';
 // Libraries
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { SortablejsModule } from 'angular-sortablejs';
 
 // Containers
 /* tslint:disable:max-line-length */
+import { AddResourceComponent } from './container/add-resource/add-resource.component';
 import { CardwallBaseComponent } from './container/cardwall-base.component';
 import { CardBaseComponent } from './container/card-base/card-base.component';
 import { CardwallCardsBaseComponent } from './container/cardwall-cards-base/cardwall-cards-base.component';
@@ -51,6 +53,7 @@ import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progr
     CardwallRoutingModule,
     FormsModule,
     ModalModule.forRoot(),
+    NgSelectModule,
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
@@ -78,6 +81,7 @@ import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progr
     CardwallSettingsComponent,
     CardwallSettingsContainerComponent,
     CardwallResourcesViewComponent,
+    AddResourceComponent,
   ],
 })
 export class CardwallModule {}

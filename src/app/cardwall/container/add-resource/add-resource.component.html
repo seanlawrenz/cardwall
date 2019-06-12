@@ -1,0 +1,21 @@
+<div class="mt-2">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <ng-select
+      class="select-sm"
+      [items]="resources$ | async"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [clearSearchOnAdd]="true"
+      [loading]="loading"
+      [typeahead]="resourceInput$"
+      bindLabel="name"
+      placeholder="Search for resource"
+      formControlName="resources"
+    ></ng-select>
+
+    <div class="white-text mt-2">
+      <td-button type="submit" class="mr-2" icon="plus" cssClass="btn-primary" ariaLabel="Add resources">Add</td-button>
+      <td-button icon="times" cssClass="btn-danger" ariaLabel="Cancel" (onClick)="cancel()">Cancel</td-button>
+    </div>
+  </form>
+</div>
