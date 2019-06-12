@@ -6,6 +6,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { AddResourceComponent } from './add-resource.component';
 import { SignalRService } from '@app/app-services';
 import { mockBoard } from '@app/test/data';
+import { Store } from '@ngrx/store';
 
 describe('AddResourceComponent', () => {
   let component: AddResourceComponent;
@@ -17,7 +18,10 @@ describe('AddResourceComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AddResourceComponent],
       imports: [FormsModule, NgSelectModule, ReactiveFormsModule, SharedModule],
-      providers: [{ provide: SignalRService, useValue: { invoke: jest.fn(() => ({ pipe: jest.fn() })) } }],
+      providers: [
+        { provide: SignalRService, useValue: { invoke: jest.fn(() => ({ pipe: jest.fn() })) } },
+        { provide: Store, useValue: { dispatch: jest.fn() } },
+      ],
     }).compileComponents();
   }));
 

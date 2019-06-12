@@ -9,7 +9,6 @@ import { Board, Resources, Card } from '@app/models';
 export class CardwallToolbarComponent implements OnInit, OnChanges {
   @Input() showResources: boolean;
   @Input() board: Board;
-  @Input() selectedCard: Card;
 
   @Output() shouldShowResources = new EventEmitter<boolean>();
 

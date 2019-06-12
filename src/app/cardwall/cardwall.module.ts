@@ -28,6 +28,7 @@ import { CardwallCardsBaseComponent } from './container/cardwall-cards-base/card
 import { CardwallCardSearchBaseComponent } from './container/cardwall-card-search-base/cardwall-card-search-base.component';
 import { CardwallListsBaseComponent } from './container/cardwall-lists-base/cardwall-lists-base.component';
 import { CardwallSettingsContainerComponent } from './container/cardwall-settings-container/cardwall-settings-container.component';
+import { CardwallResourcesViewComponent } from './container/cardwall-resources-view/cardwall-resources-view.component';
 import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
 
 // Components
@@ -39,7 +40,6 @@ import { CardwallToolbarComponent } from './components/cardwall-toolbar/cardwall
 import { CardwallListComponent } from './components/cardwall-lists-view/cardwall-list/cardwall-list.component';
 import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CreateListComponent } from './components/cardwall-lists-view/cardwall-list/create-list/create-list.component';
-import { CardwallResourcesViewComponent } from './components/cardwall-toolbar/cardwall-resources-view/cardwall-resources-view.component';
 import { CardwallSettingsComponent } from './components/cardwall-settings/cardwall-settings.component';
 import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.component';
 import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progress-bar.component';
