@@ -8,6 +8,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import * as rootActions from '@app/store/actions/card.actions';
 import { mockCard } from '@app/test/data';
 import { CardService } from '@app/app-services';
+import { ElementRef } from '@angular/core';
 
 describe('BacklogCardControllerComponent', () => {
   let component: BacklogCardControllerComponent;
@@ -48,12 +49,13 @@ describe('BacklogCardControllerComponent', () => {
   });
 
   it('should dispatch that a card has been selected', () => {
-    const action = new rootActions.CardSelected(mockCard);
+    const element: ElementRef = { nativeElement: {} };
+    const action = new rootActions.CardSelected({ card: mockCard, element });
     store.pipe = jest.fn(() => hot('-a', { a: true }));
     spy = jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
-    component.selectCard();
+    component.selectCard(element);
 
     expect(spy).toHaveBeenCalledWith(action);
   });

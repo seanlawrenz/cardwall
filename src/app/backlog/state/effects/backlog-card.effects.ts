@@ -23,7 +23,7 @@ export class BacklogCardEffects {
   addNewCardToBacklog$: Observable<Action> = this.actions$.pipe(
     ofType(actions.BacklogCardActionTypes.ADD_CARD),
     switchMap((action: { payload: List }) => this.cardService.buildNewCard(action.payload)),
-    switchMap((res: CardOperationInfo) => [new actions.AddCardToBacklogSuccess(res), new cardActions.CardSelected(res.card)]),
+    switchMap((res: CardOperationInfo) => of(new actions.AddCardToBacklogSuccess(res))),
     catchError(err => of(new actions.AddCardToBacklogError(err))),
   );
 
