@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { ConfigService } from './config.service';
+import { BrowserNotificationService } from './browser-notification.service';
 import { NotificationService } from './notification.service';
 import { ConnectionState, Notification, Card, CardOperationInfo, CardReorder, CardRemovedFromListInfo } from '@app/models';
 import { environment } from '../../environments/environment.prod';
@@ -32,6 +33,7 @@ export class SignalRService {
     private notifyService: NotificationService,
     private spinnerService: SpinnerService,
     private store: Store<fromRoot.State>,
+    private browserNotifyService: BrowserNotificationService,
   ) {
     this.hubUrl = configService.config.SignalRBasePath;
   }
@@ -173,8 +175,9 @@ export class SignalRService {
       this.store.dispatch(new listActions.ListReorder(reorder));
     });
     // Notification Received
-    proxy.on('NotificationReceive', BrowserNotification => {
+    proxy.on('NotificationReceive', browserNotification => {
       console.log('NotificationReceive');
+      this.browserNotifyService.processNotification(browserNotification);
     });
   }
 
