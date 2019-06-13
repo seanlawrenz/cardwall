@@ -1,5 +1,7 @@
 <td-cardwall-toolbar
   [board]="board"
   [showResources]="showResources$ | async"
+  [showTotals]="showTotals$ | async"
   (shouldShowResources)="showResources($event)"
+  (shouldShowTotals)="showTotals($event)"
 ></td-cardwall-toolbar>

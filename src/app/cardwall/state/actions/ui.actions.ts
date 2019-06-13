@@ -42,6 +42,10 @@ export class ShowResources implements Action {
   readonly type = CardwallUIActionTypes.SHOW_RESOURCES;
 }
 
+export class ShowTotals implements Action {
+  readonly type = CardwallUIActionTypes.SHOW_TOTALS;
+}
+
 export class HideToolbar implements Action {
   readonly type = CardwallUIActionTypes.HIDE_TOOLBAR;
 }
@@ -54,4 +58,5 @@ export type CardwallUIActions =
   | ShowArchivedCards
   | HideArchivedCards
   | ShowResources
+  | ShowTotals
   | HideToolbar;

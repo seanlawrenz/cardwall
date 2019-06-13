@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Board, Resources, Card } from '@app/models';
+import { Board, Resources, Card, List } from '@app/models';
 
 @Component({
   selector: 'td-cardwall-toolbar',
@@ -8,9 +8,11 @@ import { Board, Resources, Card } from '@app/models';
 })
 export class CardwallToolbarComponent implements OnInit, OnChanges {
   @Input() showResources: boolean;
+  @Input() showTotals: boolean;
   @Input() board: Board;
 
   @Output() shouldShowResources = new EventEmitter<boolean>();
+  @Output() shouldShowTotals = new EventEmitter<boolean>();
 
   resources: Resources[];
   selectedCardReduced: Card;
@@ -27,8 +29,12 @@ export class CardwallToolbarComponent implements OnInit, OnChanges {
     }
   }
 
-  showResourcesRequested() {
+  toggleShowResources() {
     this.showResources === true ? this.shouldShowResources.emit(false) : this.shouldShowResources.emit(true);
+  }
+
+  toggleShowTotals() {
+    this.showTotals === true ? this.shouldShowTotals.emit(false) : this.shouldShowTotals.emit(true);
   }
 
   private getResourcesFromBoard() {

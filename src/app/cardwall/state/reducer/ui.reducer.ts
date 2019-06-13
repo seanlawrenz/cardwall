@@ -75,6 +75,14 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
         showFeed: false,
       };
 
+    case CardwallUIActionTypes.SHOW_TOTALS:
+      return {
+        ...state,
+        showResources: false,
+        showTotals: true,
+        showFeed: false,
+      };
+
     case CardwallUIActionTypes.HIDE_TOOLBAR:
       return {
         ...state,

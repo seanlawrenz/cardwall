@@ -20,3 +20,8 @@ export const showResources = createSelector(
   fromCardwall.getCardwallState,
   state => state.ui.showResources,
 );
+
+export const showTotals = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.ui.showTotals,
+);

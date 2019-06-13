@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Board, Resources } from '@app/models';
+import { Board, Resources, List } from '@app/models';
 import { Store, select } from '@ngrx/store';
 
 import { fromRoot } from '@app/store';
@@ -17,6 +17,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
   @Input() board: Board;
 
   showResources$: Observable<boolean>;
+  showTotals$: Observable<boolean>;
 
   resources: Resources[];
 
@@ -24,6 +25,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.showResources$ = this.store.pipe(select(cardwallSelectors.showResources));
+    this.showTotals$ = this.store.pipe(select(cardwallSelectors.showTotals));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -38,6 +40,14 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
     } else {
       this.store.dispatch(new cardwallActions.HideToolbar());
       this.store.dispatch(new rootActions.SelectedResource(undefined));
+    }
+  }
+
+  showTotals(show: boolean) {
+    if (show) {
+      this.store.dispatch(new cardwallActions.ShowTotals());
+    } else {
+      this.store.dispatch(new cardwallActions.HideToolbar());
     }
   }
 }

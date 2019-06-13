@@ -1,0 +1,59 @@
+<div class="tdNg-toolbar-resources-container">
+  <div class="sidebar-section">
+    Totals
+    <button aria-label="Close" class="close" type="button" title="Close Pane" (click)="closePane()">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
+
+  <div *ngIf="lists.length > 0; else noLists">
+    <div class="tdNg-toolbar-content border-bottom">
+      This is the running total of cards, assignments, and story points across all active lists in this Card Wall.
+    </div>
+
+    <div class="tdNg-toolbar-totals-content">
+      <strong>Totals</strong>
+      <div class="d-flex flex-column gutter-top">
+        <div *ngFor="let list of lists">
+          <div *ngIf="list.active && list.id !== 0" class="d-flex flex-column pt-2 pb-2 border-bottom">
+            <div>{{ list.title | trimTextToLimit: 50 }}</div>
+            <div class="d-flex flex-row justify-content-between">
+              <div>
+                {{ list.cards.length }}
+                <span class="text-small">Card(s)</span>
+              </div>
+              <div>
+                <td-estimated-hours [value]="getTotalListHours(list)"></td-estimated-hours>
+              </div>
+              <div class="d-flex align-items-center">
+                <td-story-point-indicator [storyPoints]="getTotalStoryPoints(list)" [isSummary]="true"></td-story-point-indicator>
+                <span class="ml-2 text-small">Points</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column pt-2 pb-2">
+          <div><strong>Totals</strong></div>
+          <div class="d-flex flex-row justify-content-between">
+            <div>
+              {{ totalCards }}
+              <span class="text-small">Card(s)</span>
+            </div>
+            <td-estimated-hours [value]="totalEstHours"></td-estimated-hours>
+            <div class="d-flex align-items-center">
+              <td-story-point-indicator [storyPoints]="totalStoryPoints" [isSummary]="true"></td-story-point-indicator>
+              <span class="ml-2 text-small">Points</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noLists>
+    <div class="tdNg-toolbar-content">
+      There are no lists or cards on this plan
+    </div>
+  </ng-template>
+</div>

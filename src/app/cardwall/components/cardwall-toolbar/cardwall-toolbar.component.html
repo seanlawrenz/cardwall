@@ -4,7 +4,7 @@
     class="btn btn-link tdNg-cardwall-toolbar-button"
     tdTooltip="Shows or hides the resources sidebar"
     placement="left"
-    (click)="showResourcesRequested()"
+    (click)="toggleShowResources()"
   >
     <span class="fa fa-fw fa-users" aria-hidden="true"></span>
     Resources
@@ -16,6 +16,7 @@
     style="margin-top: 89px;"
     tdTooltip="Shows or hides the totals sidebar"
     placement="left"
+    (click)="toggleShowTotals()"
   >
     <span class="fa fa-fw fa-calculator" aria-hidden="true"></span>
     Totals
@@ -37,6 +38,10 @@
   <td-cardwall-resources-view
     [resources]="resources"
     [board]="board"
-    (closeResourcesRequested)="showResourcesRequested()"
+    (closeResourcesRequested)="toggleShowResources()"
   ></td-cardwall-resources-view>
+</div>
+
+<div *ngIf="showTotals">
+  <td-totals-container (closeTotalRequested)="toggleShowTotals()"></td-totals-container>
 </div>

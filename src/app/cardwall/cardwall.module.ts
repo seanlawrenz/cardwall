@@ -30,6 +30,7 @@ import { CardwallListsBaseComponent } from './container/cardwall-lists-base/card
 import { CardwallSettingsContainerComponent } from './container/cardwall-settings-container/cardwall-settings-container.component';
 import { CardwallResourcesViewComponent } from './container/cardwall-resources-view/cardwall-resources-view.component';
 import { CardwallToolbarContainerComponent } from './container/cardwall-toolbar-container/cardwall-toolbar-container.component';
+import { TotalsContainerComponent } from './container/totals-container/totals-container.component';
 
 // Components
 import { AddCardComponent } from './container/add-card/add-card.component';
@@ -41,6 +42,7 @@ import { CardwallListComponent } from './components/cardwall-lists-view/cardwall
 import { CardwallListsViewComponent } from './components/cardwall-lists-view/cardwall-lists-view.component';
 import { CreateListComponent } from './components/cardwall-lists-view/cardwall-list/create-list/create-list.component';
 import { CardwallSettingsComponent } from './components/cardwall-settings/cardwall-settings.component';
+import { TotalsViewComponent } from './components/cardwall-toolbar/totals-view/totals-view.component';
 import { WipIndicatorComponent } from './components/wip-indicator/wip-indicator.component';
 import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progress-bar.component';
 
@@ -82,6 +84,8 @@ import { WipProgressBarComponent } from './components/wip-progress-bar/wip-progr
     CardwallSettingsContainerComponent,
     CardwallResourcesViewComponent,
     AddResourceComponent,
+    TotalsViewComponent,
+    TotalsContainerComponent,
   ],
 })
 export class CardwallModule {}
