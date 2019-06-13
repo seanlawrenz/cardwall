@@ -6,12 +6,17 @@ import { ConnectionState } from '@app/models';
 
 import { mockConfigService } from '@app/test/mocks';
 import { Store } from '@ngrx/store';
+import { BrowserNotificationService } from './browser-notification.service';
 
 describe('SignalRService', () => {
   let service: SignalRService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: ConfigService, useValue: mockConfigService }, { provide: Store, useValue: { dispatch: jest.fn() } }],
+      providers: [
+        { provide: ConfigService, useValue: mockConfigService },
+        { provide: Store, useValue: { dispatch: jest.fn() } },
+        { provide: BrowserNotificationService, useValue: { processNotification: jest.fn() } },
+      ],
     });
   });
 

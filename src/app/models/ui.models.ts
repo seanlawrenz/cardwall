@@ -24,3 +24,9 @@ export enum ViewVisibility {
   VISIBLE = 'visible',
   NOT_VISIBLE = 'not-visible',
 }
+
+export enum BrowserNotificationPreferences {
+  NONE = 'none',
+  MY_ITEMS = 'myItems',
+  ALL = 'allItems',
+}

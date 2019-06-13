@@ -6,7 +6,7 @@ import { fromRoot } from '@app/store';
 import * as fromRootUI from '@app/store/actions/ui.actions';
 import * as cardwallActions from '@app/cardwall/state/actions';
 import * as cardwallSelectors from '@app/cardwall/state/selectors';
-import { Board } from '@app/models';
+import { Board, BrowserNotificationPreferences } from '@app/models';
 
 @Component({
   selector: 'td-cardwall-settings-container',
@@ -18,6 +18,7 @@ export class CardwallSettingsContainerComponent implements OnInit {
 
   showInactiveLists$: Observable<boolean>;
   showArchivedCards$: Observable<boolean>;
+  notificationPreference$: Observable<BrowserNotificationPreferences>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -25,6 +26,7 @@ export class CardwallSettingsContainerComponent implements OnInit {
     this.store.dispatch(new cardwallActions.GetFromLocalStorage());
     this.showInactiveLists$ = this.store.pipe(select(cardwallSelectors.showInactiveLists));
     this.showArchivedCards$ = this.store.pipe(select(cardwallSelectors.showArchivedCards));
+    this.notificationPreference$ = this.store.pipe(select(cardwallSelectors.notificationSetting));
   }
 
   closeOptions() {
@@ -37,5 +39,9 @@ export class CardwallSettingsContainerComponent implements OnInit {
 
   toggleShowArchiveCards(show: boolean) {
     show ? this.store.dispatch(new cardwallActions.ShowArchivedCards()) : this.store.dispatch(new cardwallActions.HideArchivedCards());
+  }
+
+  changeNotify(type: BrowserNotificationPreferences) {
+    this.store.dispatch(new cardwallActions.ChangeNotificationType(type));
   }
 }

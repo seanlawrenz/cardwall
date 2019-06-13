@@ -2,9 +2,11 @@
   <td-cardwall-settings
     [showInactiveLists]="showInactiveLists$ | async"
     [showArchiveCards]="showArchivedCards$ | async"
+    [notificationPreference]="notificationPreference$ | async"
     [board]="board"
     (showInactiveListsRequested)="toggleShowInactiveLists($event)"
     (showArchiveCardsRequested)="toggleShowArchiveCards($event)"
+    (changeInNotifyOptions)="changeNotify($event)"
     (closeOptionsRequested)="closeOptions()"
   ></td-cardwall-settings>
 </td-option-sidebar-container>

@@ -36,15 +36,22 @@
     <fieldset>
       <legend class="sr-only">Notification Options</legend>
       <div class="form-check mb-2">
-        <input type="radio" class="form-check-input" name="notifications" id="no-notifications" checked />
+        <input #none type="radio" class="form-check-input" name="notifications" id="no-notifications" (change)="setNotify('none')" />
         <label class="cursor-pointer form-check-label" for="no-notifications">None</label>
       </div>
       <div class="form-check mb-2">
-        <input type="radio" class="form-check-input" name="notifications" id="my-notifications" />
+        <input #myItems type="radio" class="form-check-input" name="notifications" id="my-notifications" (change)="setNotify('myItems')" />
         <label class="cursor-pointer form-check-label" for="my-notifications">My Items</label>
       </div>
       <div class="form-check mb-2">
-        <input type="radio" class="form-check-input" name="notifications" id="all-notifications" />
+        <input
+          #allItems
+          type="radio"
+          class="form-check-input"
+          name="notifications"
+          id="all-notifications"
+          (change)="setNotify('allItems')"
+        />
         <label class="cursor-pointer form-check-label" for="all-notifications">All Items</label>
       </div>
     </fieldset>

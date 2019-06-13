@@ -21,6 +21,11 @@ export const showResources = createSelector(
   state => state.ui.showResources,
 );
 
+export const notificationSetting = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.ui.notificationPreference,
+);
+
 export const showTotals = createSelector(
   fromCardwall.getCardwallState,
   state => state.ui.showTotals,

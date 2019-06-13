@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import * as cardwallActions from '@app/cardwall/state/actions';
+import { BrowserNotificationPreferences } from '@app/models';
 
 @Injectable()
 export class CardwallUIEffects {
@@ -19,9 +20,29 @@ export class CardwallUIEffects {
 
       const showInactive: boolean = JSON.parse(storage.getItem('Agile.Settings.CardWall.ShowInactive'));
       const showArchived: boolean = JSON.parse(storage.getItem('Agile.Settings.CardWall.ShowArchived'));
+      const notificationOptions: string = JSON.parse(storage.getItem('Agile.Settings.CardWall.Notifications'));
 
       cardwallSettings.push(showInactive ? new cardwallActions.ShowInactiveLists() : new cardwallActions.HideInactiveLists());
       cardwallSettings.push(showArchived ? new cardwallActions.ShowArchivedCards() : new cardwallActions.HideArchivedCards());
+
+      let notificationPreference: BrowserNotificationPreferences;
+      switch (notificationOptions) {
+        case 'none':
+          notificationPreference = BrowserNotificationPreferences.NONE;
+          break;
+
+        case 'myItems':
+          notificationPreference = BrowserNotificationPreferences.MY_ITEMS;
+          break;
+
+        case 'allItems':
+          notificationPreference = BrowserNotificationPreferences.ALL;
+          break;
+
+        default:
+          notificationPreference = BrowserNotificationPreferences.NONE;
+      }
+      cardwallSettings.push(new cardwallActions.ChangeNotificationType(notificationPreference));
       return cardwallSettings;
     }),
   );

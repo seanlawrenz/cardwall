@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { BrowserNotificationPreferences } from '@app/models';
 
 export enum CardwallUIActionTypes {
   GET_FROM_LOCAL_STORAGE = '[CARDWALL UI] GET FROM LOCAL STORAGE',
@@ -7,6 +8,7 @@ export enum CardwallUIActionTypes {
   HIDE_INACTIVE_LISTS = '[CARDWALL UI] HIDE INACTIVE LISTS',
   SHOW_ARCHIVED_CARDS = '[CARDWALL UI] SHOW ARCHIVED CARDS',
   HIDE_ARCHIVED_CARDS = '[CARDWALL UI] HIDE ARCHIVED CARDS',
+  CHANGE_NOTIFICATION_TYPE = '[CARDWALL UI] CHANGE NOTIFICATION TYPE',
   SHOW_RESOURCES = '[CARDWALL UI] SHOW RESOURCES',
   SHOW_TOTALS = '[CARDWALL UI] SHOW TOTALS',
   SHOW_FEED = '[CARDWALL UI] SHOW FEED',
@@ -38,6 +40,11 @@ export class HideArchivedCards implements Action {
   readonly type = CardwallUIActionTypes.HIDE_ARCHIVED_CARDS;
 }
 
+export class ChangeNotificationType implements Action {
+  readonly type = CardwallUIActionTypes.CHANGE_NOTIFICATION_TYPE;
+  constructor(public payload: BrowserNotificationPreferences) {}
+}
+
 export class ShowResources implements Action {
   readonly type = CardwallUIActionTypes.SHOW_RESOURCES;
 }
@@ -61,6 +68,7 @@ export type CardwallUIActions =
   | HideInactiveLists
   | ShowArchivedCards
   | HideArchivedCards
+  | ChangeNotificationType
   | ShowResources
   | ShowTotals
   | ShowFeed

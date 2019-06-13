@@ -1,9 +1,11 @@
 import { BoardActionTypes, BoardActions, CardwallUIActions, CardwallUIActionTypes } from '../actions';
+import { BrowserNotificationPreferences } from '@app/models';
 
 export interface CardwallUIState {
   saving: boolean;
   showInactiveLists: boolean;
   showArchivedCards: boolean;
+  notificationPreference: BrowserNotificationPreferences;
   showResources: boolean;
   showTotals: boolean;
   showFeed: boolean;
@@ -13,6 +15,7 @@ export const initialState: CardwallUIState = {
   saving: false,
   showInactiveLists: false,
   showArchivedCards: false,
+  notificationPreference: undefined,
   showResources: false,
   showTotals: false,
   showFeed: false,
@@ -65,6 +68,13 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
       return {
         ...state,
         showArchivedCards: false,
+      };
+
+    case CardwallUIActionTypes.CHANGE_NOTIFICATION_TYPE:
+      storage.setItem('Agile.Settings.CardWall.Notifications', JSON.stringify(action.payload));
+      return {
+        ...state,
+        notificationPreference: action.payload,
       };
 
     case CardwallUIActionTypes.SHOW_RESOURCES:
