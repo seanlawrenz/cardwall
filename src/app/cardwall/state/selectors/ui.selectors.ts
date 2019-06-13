@@ -25,3 +25,8 @@ export const showTotals = createSelector(
   fromCardwall.getCardwallState,
   state => state.ui.showTotals,
 );
+
+export const showFeed = createSelector(
+  fromCardwall.getCardwallState,
+  state => state.ui.showFeed,
+);

@@ -9,10 +9,12 @@ import { Board, Resources, Card, List } from '@app/models';
 export class CardwallToolbarComponent implements OnInit, OnChanges {
   @Input() showResources: boolean;
   @Input() showTotals: boolean;
+  @Input() showFeed: boolean;
   @Input() board: Board;
 
   @Output() shouldShowResources = new EventEmitter<boolean>();
   @Output() shouldShowTotals = new EventEmitter<boolean>();
+  @Output() shouldShowFeed = new EventEmitter<boolean>();
 
   resources: Resources[];
   selectedCardReduced: Card;
@@ -35,6 +37,10 @@ export class CardwallToolbarComponent implements OnInit, OnChanges {
 
   toggleShowTotals() {
     this.showTotals === true ? this.shouldShowTotals.emit(false) : this.shouldShowTotals.emit(true);
+  }
+
+  toggleShowFeed() {
+    this.showFeed === true ? this.shouldShowFeed.emit(false) : this.shouldShowFeed.emit(true);
   }
 
   private getResourcesFromBoard() {

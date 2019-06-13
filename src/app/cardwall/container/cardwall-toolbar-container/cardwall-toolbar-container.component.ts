@@ -18,6 +18,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
 
   showResources$: Observable<boolean>;
   showTotals$: Observable<boolean>;
+  showFeed$: Observable<boolean>;
 
   resources: Resources[];
 
@@ -26,6 +27,7 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.showResources$ = this.store.pipe(select(cardwallSelectors.showResources));
     this.showTotals$ = this.store.pipe(select(cardwallSelectors.showTotals));
+    this.showFeed$ = this.store.pipe(select(cardwallSelectors.showFeed));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -46,6 +48,14 @@ export class CardwallToolbarContainerComponent implements OnInit, OnChanges {
   showTotals(show: boolean) {
     if (show) {
       this.store.dispatch(new cardwallActions.ShowTotals());
+    } else {
+      this.store.dispatch(new cardwallActions.HideToolbar());
+    }
+  }
+
+  showFeed(show: boolean) {
+    if (show) {
+      this.store.dispatch(new cardwallActions.ShowFeed());
     } else {
       this.store.dispatch(new cardwallActions.HideToolbar());
     }

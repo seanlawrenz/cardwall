@@ -23,11 +23,13 @@
   </button>
 
   <button
+    *ngIf="board.isFeedEnabled"
     type="button"
     style="margin-top: 60px;"
     class="btn btn-link tdNg-cardwall-toolbar-button"
     tdTooltip="Shows or hides the feed for this Card Wall"
     placement="left"
+    (click)="toggleShowFeed()"
   >
     <span class="fa fa-fw fa-feed" aria-hidden="true"></span>
     Feed
@@ -44,4 +46,8 @@
 
 <div *ngIf="showTotals">
   <td-totals-container (closeTotalRequested)="toggleShowTotals()"></td-totals-container>
+</div>
+
+<div *ngIf="showFeed">
+  <td-feed-toolbar [board]="board" (closeFeedRequested)="toggleShowFeed()"></td-feed-toolbar>
 </div>

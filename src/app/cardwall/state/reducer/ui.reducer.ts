@@ -83,6 +83,14 @@ export function reducer(state = initialState, action: BoardActions | CardwallUIA
         showFeed: false,
       };
 
+    case CardwallUIActionTypes.SHOW_FEED:
+      return {
+        ...state,
+        showResources: false,
+        showTotals: false,
+        showFeed: true,
+      };
+
     case CardwallUIActionTypes.HIDE_TOOLBAR:
       return {
         ...state,

@@ -1,0 +1,15 @@
+<div class="tdNg-toolbar-resources-container">
+  <div class="sidebar-section">
+    Feed
+    <button aria-label="Close" class="close" type="button" title="Close Pane" (click)="closePane()">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
+  <iframe
+    #iframe
+    [style.display]="loading ? 'none' : 'block'"
+    [src]="feedUrl"
+    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
+    style="height: 100%; width: 100%; border: none;"
+  ></iframe>
+</div>

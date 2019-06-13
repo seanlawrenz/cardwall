@@ -2,6 +2,8 @@
   [board]="board"
   [showResources]="showResources$ | async"
   [showTotals]="showTotals$ | async"
+  [showFeed]="showFeed$ | async"
   (shouldShowResources)="showResources($event)"
   (shouldShowTotals)="showTotals($event)"
+  (shouldShowFeed)="showFeed($event)"
 ></td-cardwall-toolbar>
