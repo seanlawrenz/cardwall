@@ -8,6 +8,7 @@ import { mockCard, mockBoard } from '@app/test/data';
 import { ConfigService } from '@app/app-services';
 import { mockConfigService, RouterStub } from '@app/test/mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 describe('CardViewComponent', () => {
   let component: CardViewComponent;
@@ -21,7 +22,11 @@ describe('CardViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CardViewComponent],
       imports: [PopoverModule, SharedModule],
-      providers: [{ provide: ConfigService, useValue: mockConfigService }, { provide: Router, useClass: RouterStub }],
+      providers: [
+        { provide: ConfigService, useValue: mockConfigService },
+        { provide: Router, useClass: RouterStub },
+        { provide: Store, useValue: {} },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

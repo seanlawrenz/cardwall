@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { ConfigService } from './config.service';
 
 import {
@@ -12,6 +13,7 @@ import {
 } from '@app/models';
 
 import { isNullOrUndefined } from 'util';
+import { AppService } from './app.service';
 
 declare var Notification: any;
 
@@ -19,7 +21,7 @@ declare var Notification: any;
   providedIn: 'root',
 })
 export class BrowserNotificationService {
-  constructor(private config: ConfigService, private router: Router) {}
+  constructor(private config: ConfigService, private appService: AppService, private router: Router, private location: Location) {}
 
   processNotification(notification: BrowserNotification) {
     const options: IBrowserNotificationOptions = {
@@ -82,15 +84,18 @@ export class BrowserNotificationService {
       return;
     }
 
-    // this.router.navigateByUrl(
-    //   `${this.config.config.TDNextBasePath}/Apps/Projects/Agile/cardwall/project/${card.projectId}/board/${card.planId}/card/${card.id}`,
-    // );
+    const isBacklog: boolean = this.location.path().includes('backlog');
 
-    this.router.navigate([`cardwall/project/${card.projectId}/board/${card.planId}/card/${card.id}`]);
+    if (isBacklog) {
+      this.appService.showCardDetails(card);
+    } else {
+      this.router.navigate([`cardwall/project/${card.projectId}/board/${card.planId}/card/${card.id}`]);
+    }
   }
 
   private canReceiveNotification(item: Card | List): boolean {
     const notifications: BrowserNotificationSettings = BrowserNotificationSettings.allItems;
+    const notificationSetting = JSON.parse(window.localStorage.getItem('Agile.Settings.CardWall.Notifications'));
 
     return true;
   }
