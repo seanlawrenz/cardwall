@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 
 import { BrowserNotificationService } from './browser-notification.service';
 import { ConfigService } from './config.service';
-import { mockConfigService } from '@app/test/mocks';
 import { AppService } from './app.service';
 import { Location } from '@angular/common';
-import { mockBoard, mockCard } from '@app/test/data';
+import { mockBoard, mockCard, mockResource, resourceBuilder } from '@app/test/data';
+import { BrowserNotificationSettings } from '@app/models';
 
 describe('BrowserNotificationService', () => {
   let location: Location;
@@ -15,11 +15,13 @@ describe('BrowserNotificationService', () => {
   let appSvc: AppService;
   let router: Router;
   let spy;
+  let config: ConfigService;
+
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        { provide: ConfigService, useValue: mockConfigService },
+        { provide: ConfigService, useValue: { config: { UID: mockResource.uid } } },
         { provide: AppService, useValue: { showCardDetails: jest.fn() } },
         { provide: Router, useValue: { navigate: jest.fn() } },
       ],
@@ -53,6 +55,49 @@ describe('BrowserNotificationService', () => {
       service.editCard(mockCard);
 
       expect(spy).toHaveBeenCalledWith([`cardwall/project/${mockCard.projectId}/board/${mockCard.planId}/card/${mockCard.id}`]);
+    });
+  });
+
+  describe('canReceiveNotification', () => {
+    let test;
+    beforeEach(() => (config = TestBed.get(ConfigService)));
+
+    it('should return true if there is no localStorage item', () => {
+      test = service['canReceiveNotification'](undefined, mockCard);
+      expect(test).toBeTruthy();
+    });
+
+    describe('myItems', () => {
+      it('should handle no owners', () => {
+        test = service['canReceiveNotification'](BrowserNotificationSettings.myItems, mockCard);
+        expect(test).toBeFalsy();
+      });
+
+      it('should return false if card is not part of the users work', () => {
+        const otherResource = resourceBuilder();
+        const cardThatUserIsNotOwnerOf = { ...mockCard, owners: [otherResource] };
+        test = service['canReceiveNotification'](BrowserNotificationSettings.myItems, cardThatUserIsNotOwnerOf);
+        expect(test).toBeFalsy();
+      });
+
+      it('should return true if card is in the user work', () => {
+        const cardThatUserIsOwnerOf = { ...mockCard, owners: [mockResource] };
+
+        test = service['canReceiveNotification'](BrowserNotificationSettings.myItems, cardThatUserIsOwnerOf);
+        expect(test).toBeTruthy();
+      });
+    });
+
+    describe('allItems', () => {
+      it('should return true', () => {
+        expect(service['canReceiveNotification'](BrowserNotificationSettings.allItems, mockCard)).toBeTruthy();
+      });
+    });
+
+    describe('none', () => {
+      it('should return false', () => {
+        expect(service['canReceiveNotification'](BrowserNotificationSettings.none, mockCard)).toBeFalsy();
+      });
     });
   });
 });

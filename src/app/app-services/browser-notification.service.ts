@@ -15,6 +15,8 @@ import {
 import { isNullOrUndefined } from 'util';
 import { AppService } from './app.service';
 
+import { findIndex } from 'lodash';
+
 declare var Notification: any;
 
 @Injectable({
@@ -49,7 +51,7 @@ export class BrowserNotificationService {
 
     const item: Card | List = JSON.parse(notification.serializedItem, receiver);
 
-    if (!this.canReceiveNotification(item)) {
+    if (!this.canReceiveNotification(JSON.parse(window.localStorage.getItem('Agile.Settings.CardWall.Notifications')), item)) {
       return;
     }
 
@@ -93,11 +95,23 @@ export class BrowserNotificationService {
     }
   }
 
-  private canReceiveNotification(item: Card | List): boolean {
-    const notifications: BrowserNotificationSettings = BrowserNotificationSettings.allItems;
-    const notificationSetting = JSON.parse(window.localStorage.getItem('Agile.Settings.CardWall.Notifications'));
+  private canReceiveNotification(notificationSetting: BrowserNotificationSettings, item: Card | List) {
+    if (isNullOrUndefined(notificationSetting)) {
+      return true;
+    }
 
-    return true;
+    if (notificationSetting === BrowserNotificationSettings.myItems) {
+      let isUserOwner = false;
+      const card: Card = { ...item } as Card;
+      if (card && !isNullOrUndefined(card.owners)) {
+        isUserOwner = findIndex(card.owners, resource => resource.uid === this.config.config.UID) !== -1;
+        return isUserOwner;
+      }
+    } else if (notificationSetting === BrowserNotificationSettings.allItems) {
+      return true;
+    }
+
+    return false;
   }
 
   private showNotification(notification: BrowserNotification, options: IBrowserNotificationOptions, item: Card | List) {
