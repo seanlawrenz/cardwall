@@ -198,10 +198,14 @@ export class EditFormBaseComponent implements OnInit, OnDestroy {
     return (group: FormGroup): { [key: string]: any } => {
       const f = group.controls[startDate];
       const t = group.controls[endDate];
-      if (f.value > t.value) {
-        return {
-          dates: 'Start date cannot be after end date',
-        };
+      if (t.value !== undefined) {
+        if (t.value !== '') {
+          if (f.value > t.value) {
+            return {
+              dates: 'Start date cannot be after end date',
+            };
+          }
+        }
       }
       return {};
     };
